@@ -121,7 +121,7 @@ public class LoginCrypto
 			return algo.digest( saltedPass );
 		}
 		catch (Exception ex) {
-			throw new RuntimeException( ex.toString() ); 
+			throw new RuntimeException( ex ); 
 		}
 	}
 	
@@ -161,7 +161,7 @@ public class LoginCrypto
 			return str.getBytes( STRING_ENCODING );
 		}
 		catch (Exception ex) {
-			throw new RuntimeException( ex.toString() ); 
+			throw new RuntimeException( ex ); 
 		}
 	}
 	
