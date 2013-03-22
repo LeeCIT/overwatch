@@ -15,7 +15,7 @@ import java.security.SecureRandom;
  * Passphrases should never be stored in a database.  Instead a salted hash of the passphrase
  * should be stored along with its salt, for later comparison by the same hashing scheme.
  * This ensures that user passphrases are unreadable even if the database is broken into.  
- * 
+ *  
  * @author  Lee Coakley
  * @since   15/Mar/2013
  * @version 2
