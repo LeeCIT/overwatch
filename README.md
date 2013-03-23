@@ -1,4 +1,5 @@
-overwatch
+Stronghold Solutions OVERWATCH
 =========
 
-Stronghold Solutions Overwatch
+ICS Project at Cork Institute of Technology.
+
