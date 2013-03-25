@@ -17,8 +17,8 @@ import java.security.SecureRandom;
  * This ensures that user passphrases are unreadable even if the database is broken into.  
  *  
  * @author  Lee Coakley
- * @since   15/Mar/2013
  * @version 2
+ * @see     HashSaltPair
  */
 
 
