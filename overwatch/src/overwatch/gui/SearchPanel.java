@@ -39,12 +39,15 @@ public class SearchPanel<T> extends JPanel
 	
 	
 	
-	private SearchPanel()
-	{
+	private SearchPanel() {
 		super(  new MigLayout("fill", "[]", "[][fill,grow][]")  );
 	}
 	
 	
+	
+	public SearchPanel( String labelText ) {
+		this( labelText, new ArrayList<NameRefPair<T>>() );
+	}
 	
 	
 	
@@ -53,6 +56,12 @@ public class SearchPanel<T> extends JPanel
 		this();
 		setup( labelText, searchableItems );
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -73,15 +82,34 @@ public class SearchPanel<T> extends JPanel
 	
 	
 	/**
-	 * Set which strings are considered for searching/display.
+	 * Set object/string pairs to be considered for searching/display.
 	 * Searching does not alter this data.
 	 * If the search field is empty then everything is displayed.
-	 * @param items Array of strings.
 	 */
 	public void setSearchableItems( ArrayList<NameRefPair<T>> items )
 	{		
 		searchableItems = (ArrayList<NameRefPair<T>>) items.clone();
 		resetDisplayedItems();
+	}
+	
+	
+	
+	
+	
+	/**
+	 * As before, except for generic objects.
+	 * This would be an overload and a separate constructor, but 
+	 * Java's shitty type-erasure-based generics make that impossible. 
+	 */
+	public void setSearchableItemsAutoname( ArrayList<T> items )
+	{		
+		ArrayList<NameRefPair<T>> pairs = new ArrayList<NameRefPair<T>>();
+		
+		for (T ref: items) {
+			pairs.add(  new NameRefPair<T>(ref, ref.toString())  );
+		}
+		
+		setDisplayedItems( pairs );
 	}
 	
 	
