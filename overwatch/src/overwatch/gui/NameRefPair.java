@@ -19,16 +19,16 @@ package overwatch.gui;
 
 
 
-public class NameRefPair
+public class NameRefPair<Type>
 {
 	private String name;
-	private Object ref;
+	private Type   ref;
 	
 	
 	
 	
 	
-	public NameRefPair( Object ref, String displayedName )
+	public NameRefPair( Type ref, String displayedName )
 	{
 		this.ref  = ref;
 		this.name = displayedName;
@@ -50,11 +50,11 @@ public class NameRefPair
 	
 	
 	
-	public Object getRef() {
+	public Type getRef() {
 		return ref;
 	}
 
-	public void setRef( Object ref ) {
+	public void setRef( Type ref ) {
 		this.ref = ref;
 	}
 	

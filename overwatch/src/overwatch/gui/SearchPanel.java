@@ -25,27 +25,33 @@ import net.miginfocom.swing.MigLayout;
 
 
 
-public class SearchPanel extends JPanel
+public class SearchPanel<T> extends JPanel
 {
-	private ArrayList<NameRefPair> searchableItems;
+	private ArrayList<NameRefPair<T>> searchableItems;
 	 
-	private JLabel             label;	
-	private JTextField         searchField;
-	private JButton            searchClear;
-	private JList<NameRefPair> searchList;
-	private JScrollPane        scrollPane;
+	private JLabel                label;
+	private JTextField            searchField;
+	private JButton               searchClear;
+	private JList<NameRefPair<T>> searchList;
+	private JScrollPane           scrollPane;
 	
 	
 	
 	
 	
-	public SearchPanel( String labelText, ArrayList<NameRefPair> searchableItems )
+	private SearchPanel()
 	{
 		super(  new MigLayout("fill", "[]", "[][fill,grow][]")  );
-		
-		setupComponents( labelText );
-		setupActions();
-		setSearchableItems( searchableItems );
+	}
+	
+	
+	
+	
+	
+	public SearchPanel( String labelText, ArrayList<NameRefPair<T>> searchableItems )
+	{
+		this();
+		setup( labelText, searchableItems );
 	}
 	
 	
@@ -72,9 +78,9 @@ public class SearchPanel extends JPanel
 	 * If the search field is empty then everything is displayed.
 	 * @param items Array of strings.
 	 */
-	public void setSearchableItems( ArrayList<NameRefPair> items )
+	public void setSearchableItems( ArrayList<NameRefPair<T>> items )
 	{		
-		searchableItems = (ArrayList<NameRefPair>) items.clone();
+		searchableItems = (ArrayList<NameRefPair<T>>) items.clone();
 		resetDisplayedItems();
 	}
 	
@@ -82,7 +88,7 @@ public class SearchPanel extends JPanel
 	
 	
 	
-	public Object getSelectedItem()
+	public T getSelectedItem()
 	{
 		if (this.hasSelectedItem()) {
 			return searchList.getSelectedValue().getRef();
@@ -95,7 +101,7 @@ public class SearchPanel extends JPanel
 	
 	
 	
-	public void setSelectedItem( Object item ) 
+	public void setSelectedItem( T item ) 
 	{
 		doSearchClear();
 		
@@ -163,13 +169,24 @@ public class SearchPanel extends JPanel
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
 	
+	private void setup( String labelText, ArrayList<NameRefPair<T>> searchableItems )
+	{
+		setupComponents( labelText );
+		setupActions();
+		setSearchableItems( searchableItems );
+	}
+	
+	
+	
+	
+	
 	private void setupComponents( String labelText )
 	{		
 		label       = new JLabel( labelText );
 		searchField = new JTextField( 12 );
 		searchClear = new JButton( "Clear" );
 		
-		searchList = new JList<NameRefPair>();
+		searchList = new JList<NameRefPair<T>>();
 		searchList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 		
 		scrollPane = new JScrollPane( searchList );
@@ -215,9 +232,9 @@ public class SearchPanel extends JPanel
 		}
 		else 
 		{
-			ArrayList<NameRefPair> searchResult = new ArrayList<NameRefPair>();
+			ArrayList<NameRefPair<T>> searchResult = new ArrayList<NameRefPair<T>>();
 			
-			for (NameRefPair item: searchableItems) {
+			for (NameRefPair<T> item: searchableItems) {
 				if (searchCompare( item.getName(), userStr )) {
 					searchResult.add( item );
 				}
@@ -256,7 +273,7 @@ public class SearchPanel extends JPanel
 	
 	
 
-	private void setDisplayedItems( ArrayList<NameRefPair> items ) {
+	private void setDisplayedItems( ArrayList<NameRefPair<T>> items ) {
 		searchList.setListData(  items.toArray(  new NameRefPair[items.size()]  )  );
 	}
 	
