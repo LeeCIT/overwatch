@@ -27,10 +27,10 @@ import java.security.SecureRandom;
 
 public class LoginCrypto
 {
-	private static final String HASH_ALGORITHM  = "SHA-256";
-	private static final int    HASH_ITERATIONS = 1 << 18;
-	private static final int    SALT_BYTES 		= 8;
-	private static final String STRING_ENCODING = "UTF-8";
+	private static final String HASH_ALGORITHM  = "SHA-256"; // WARNING: Changing any of these
+	private static final int    HASH_ITERATIONS = 1 << 18;   // will break compatibility with
+	private static final int    SALT_BYTES 		= 8;         // existing passphrases in the DB.
+	private static final String STRING_ENCODING = "UTF-8"; 
 	
 	
 	
