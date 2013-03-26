@@ -195,11 +195,9 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	
 	
 	/**
-	 * Defines iterator so you can use the class in an enhanced for loop:
-	 * 
-	 * 		for (Object[] row: set) {
-	 * 			whatever();
-	 * 		}
+	 * Defines iterator so you can do stuff like:
+	 * 		for (Object[] row: set)
+	 * 			whatever( row );
 	 */
 	public Iterator<Object[]> iterator()
 	{
