@@ -154,9 +154,9 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	{
 		ResultSetMetaData meta = set.getMetaData();
 		
-		this.columnCount = meta.getColumnCount();
-		this.columnNames = new String[ columnCount ];
-		this.columnTypes = new int   [ columnCount ];
+		columnCount = meta.getColumnCount();
+		columnNames = new String[ columnCount ];
+		columnTypes = new int   [ columnCount ];
 		
 		for (int i=0; i<columnCount; i++) {
 			columnNames[i] = meta.getColumnName( sqlIndex(i) );
