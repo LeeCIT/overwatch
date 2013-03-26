@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 
 /**
- * Provides a much nicer interface for reading SQL results.
+ * Provides a nicee interface for reading SQL results.
  * It's not tied to a DB connection, is iterable, has random access, and
  * allows you to access rows and columns as arrays.
  * 
