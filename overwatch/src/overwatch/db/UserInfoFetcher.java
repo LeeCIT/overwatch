@@ -12,34 +12,16 @@ import overwatch.security.HashSaltPair;
 
 public class UserInfoFetcher
 {
-	private PreparedStatement psGetPersonNoFromLoginName;
 	
-	
-	
-	
-	
-	public UserInfoFetcher( Db db )
+	public static int getPersonForLogin( String inputUserName )
 	{
-		setupPreparedStatements( db.getConnection() );
-	}
-	
-	
-	
-	
-	
-	private void setupPreparedStatements( Connection conn )
-	{
+		Connection conn = Database.connectionPool.takeConnection();
 		
-	}
-	
-	
-	
-	
-	
-	public int getPersonForLogin( String inputUser )
-	{
-		// TODO Auto-generated method stub
-		return 0;
+		conn.prepareStatement(
+			select 
+		);
+		
+		
 	}
 	
 	
@@ -48,8 +30,7 @@ public class UserInfoFetcher
 	
 	public HashSaltPair getHashSaltPair( int personNo )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		
 	}
 	
 	
@@ -58,7 +39,6 @@ public class UserInfoFetcher
 	
 	public int getPrivilegeLevel( int currentUser )
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		
 	}
 }

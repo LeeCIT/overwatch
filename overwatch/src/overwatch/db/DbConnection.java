@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 
 
-public class Db
+public class DbConnection
 {
 	private Connection conn;
 	
@@ -32,7 +32,7 @@ public class Db
 	
 	
 	
-	public Db()
+	public DbConnection()
 	{
 		final String socket   = "db.strongholdsolutions.org:3306";
 		final String database = "fortress";

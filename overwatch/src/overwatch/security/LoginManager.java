@@ -3,7 +3,7 @@
 
 package overwatch.security;
 
-import overwatch.db.Db;
+import overwatch.db.DbConnection;
 import overwatch.db.UserInfoFetcher;
 
 
@@ -25,7 +25,7 @@ import overwatch.db.UserInfoFetcher;
 
 public class LoginManager
 {
-	private final int NONE         = -1;
+	private final int NONE = -1;
 	
 	private int currentUser;
 	private int currentLevel;
