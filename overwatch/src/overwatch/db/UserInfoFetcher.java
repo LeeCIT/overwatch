@@ -15,12 +15,12 @@ import overwatch.security.HashSaltPair;
 public class UserInfoFetcher
 {
 	
-	public int getPersonForLogin( String inputUserName )
+	public int mapLoginToPerson( String inputUserName )
 	{
 		EnhancedResultSet ers = null;
 		
 		
-		Connection conn = Database.connectionPool.takeConnection();
+		Connection conn = Database.connectionPool.getConnection();
 		
 			try {
 				PreparedStatement ps = conn.prepareStatement(
@@ -51,12 +51,12 @@ public class UserInfoFetcher
 	
 	
 	
-	public HashSaltPair getHashSaltPairForPerson( int personNo )
+	public HashSaltPair getHashSaltPair( int personNo )
 	{
 		EnhancedResultSet ers = null;
 		
 		
-		Connection conn = Database.connectionPool.takeConnection();
+		Connection conn = Database.connectionPool.getConnection();
 		
 			try {
 				PreparedStatement ps = conn.prepareStatement(

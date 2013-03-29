@@ -16,7 +16,7 @@ import java.util.Vector;
  * This maintains a pool of them in a separate thread.
  * 
  * @author Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -31,8 +31,11 @@ public class ConnectionPool
 	private Vector<Connection> freeConns;
 	private Vector<Connection> usedConns;
 	
-	private int connTargetRef;
-	private int connTargetCount;
+	private int connTargetBasis;
+	private int connTargetNow;
+	private int connTargetReserve;
+	
+	private boolean waitingOnConnect;
 	
 	
 	
@@ -46,8 +49,10 @@ public class ConnectionPool
 		freeConns = new Vector<Connection>();
 		usedConns = new Vector<Connection>();
 		
-		connTargetRef   = 10;
-		connTargetCount = connTargetRef;
+		connTargetBasis   = 10;
+		connTargetNow     = connTargetBasis;
+		connTargetReserve = connTargetBasis / 2; 
+		waitingOnConnect  = false;
 		
 		thread.start();
 	}
@@ -58,21 +63,29 @@ public class ConnectionPool
 	
 	public void shutdown()
 	{
+		System.out.println( "Shutting down" );
 		stopThread();
 		forceReturnAllConnections();
 		closeAllFreeConnections();
+		System.out.println( "Shutdown complete" );
 	}
 	
 	
 	
 	
 	
-	public Connection takeConnection()
+	public Connection getConnection()
 	{
+		System.out.println( "Pool: [CON GET]" );
 		waitForFreeConnection();
 		
 		Connection conn = freeConns.remove( 0 );
 		usedConns.add( conn );
+		
+		if (freeConns.isEmpty()) {
+			System.out.println( "Pool: Growing in anticipation of demand" );
+			connTargetNow += 2;
+		}
 		
 		return conn;
 	}
@@ -83,6 +96,7 @@ public class ConnectionPool
 	
 	public void returnConnection( Connection conn )
 	{
+		System.out.println( "Pool: [CON RETURN]" );
 		if ( ! usedConns.contains( conn )) {
 			throw new RuntimeException( "Tried to return a connection not given by the ConnectionPool." );
 		}
@@ -90,9 +104,11 @@ public class ConnectionPool
 		usedConns.remove( conn );
 		freeConns.add   ( conn );
 		
-		if (connTargetCount > connTargetRef) {
+		if (connTargetNow > connTargetBasis)
+		if (getFreeConnectionCount() > connTargetReserve) {
+			System.out.println( "Pool: shrinking" );
 			deallocateUnusedConnection();
-			connTargetCount--;
+			connTargetNow--;
 		}
 	}
 	
@@ -123,6 +139,14 @@ public class ConnectionPool
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
+	
+	private int getFreeConnectionCount() {
+		return freeConns.size();
+	}
+	
+	
+	
+	
 	
 	private Thread createThread()
 	{
@@ -166,7 +190,7 @@ public class ConnectionPool
 	{
 		System.out.println( "Pool: <managing>" );
 		
-		if (getConnectionCount() < connTargetCount) {
+		if (getConnectionCount() < connTargetNow) {
 			allocateNewConnection();
 		}
 	}
@@ -197,16 +221,24 @@ public class ConnectionPool
 	
 	private synchronized void allocateNewConnection()
 	{
-		try {
-			System.out.println( "Pool: allocating conn #" + getConnectionCount() );
-			Connection conn = Database.createConnection();
-			freeConns.add( conn );
-			System.out.println( "Pool: alloc success" );
+		waitingOnConnect = true;
+		
+		for (;;)
+		{
+			try {
+				System.out.println( "Pool: allocating conn #" + getConnectionCount() );
+				Connection conn = Database.createConnection();
+				freeConns.add( conn );
+				System.out.println( "Pool: alloc success" );
+				break;
+			}
+			catch( Exception ex ) {
+				//ex.printStackTrace();
+				System.out.println( "Pool: Alloc failed, retrying" );
+			}
 		}
-		catch( Exception ex ) {
-			//ex.printStackTrace();
-			System.out.println( "Pool: Alloc failed" );
-		}
+		
+		waitingOnConnect = false;
 	}
 	
 	
@@ -216,8 +248,11 @@ public class ConnectionPool
 	private void waitForFreeConnection()
 	{
 		if ( ! isConnectionAvailable()) {
-			connTargetCount++;
-			System.out.println( "Pool: growing to meet demand: " + connTargetCount );
+			
+			if (!waitingOnConnect) {
+				connTargetNow++;
+				System.out.println( "Pool: No connection available or being established: growing to meet demand" );
+			}
 			
 			while ( ! isConnectionAvailable()) {
 				Thread.yield(); // Wait
@@ -274,33 +309,49 @@ public class ConnectionPool
 	{
 		ConnectionPool pool = new ConnectionPool();
 		
-		while (pool.getConnectionCount() < 10)
-		{
+		while (pool.getConnectionCount() < 10) {
 			// wait
 		}
 		
 		
 		
 		Connection[] conns = new Connection[ 15 ];
-		
 		for (int i=0; i<conns.length; i++) {
-			conns[i] = pool.takeConnection();
+			conns[i] = pool.getConnection();
+		}
+		
+		
+		
+		for (int i=0; i<15; i++) {
+			pool.returnConnection( conns[i] );
 		}
 		
 		
 		
 		for (int i=0; i<10; i++) {
+			conns[i] = pool.getConnection();
 			pool.returnConnection( conns[i] );
-			conns[i] = null;
 		}
 		
 		
 		
 		
+		Connection[] connsAgain = new Connection[ 15 ];
+		for (int i=0; i<connsAgain.length; i++) {
+			connsAgain[i] = pool.getConnection();
+			
+			try {
+				Thread.sleep( (int) Math.rint( 2500.0 ) );
+			}
+			catch (InterruptedException ex) {
+				ex.printStackTrace();
+			}
+			
+		}
 		
+
 		
-		
-		System.out.println( "*** Returned, shutting down ***" );
+		System.out.println( "*** Calling shutdown ***" );
 		pool.shutdown();
 		System.out.println( "*** Complete ***" );
 		
@@ -308,8 +359,7 @@ public class ConnectionPool
 		
 		
 		
-		while (pool.getConnectionCount() > 0)
-		{
+		while (pool.getConnectionCount() > 0) {
 			// wait
 		}
 	}

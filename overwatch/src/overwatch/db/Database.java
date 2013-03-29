@@ -13,9 +13,20 @@ import java.sql.SQLException;
 
 
 
+/**
+ * Exposes basic global database functions.
+ * 
+ * @author Lee Coakley
+ * @version 1
+ */
+
+
+
+
+
 public class Database
 {
-	public static final ConnectionPool connectionPool = new ConnectionPool();
+	public static final ConnectionPool connectionPool = null;//new ConnectionPool();
 	
 	
 	
@@ -31,7 +42,7 @@ public class Database
 		
 		String uri = "jdbc:mysql://" + socket + "/" + database;
 		
-			   DriverManager.setLoginTimeout( 1 );
+			   DriverManager.setLoginTimeout( 5 );
 	    return DriverManager.getConnection( uri, user, pass );
 	}
 	

@@ -76,12 +76,12 @@ public class LoginManager
 	
 	public boolean doLogin( String inputUser, String inputPass )
 	{
-		int     personNo     = db.getPersonForLogin( inputUser );
-		boolean personExists = personNo > 0;
+		int     personNo     = db.mapLoginToPerson( inputUser );
+		boolean personExists = (personNo > 0);
 		
 		if (personExists) {
 			System.out.println( "Good login name" );
-			HashSaltPair hsp = db.getHashSaltPairForPerson( personNo );
+			HashSaltPair hsp = db.getHashSaltPair( personNo );
 			
 			if (LoginCrypto.isPassValid( inputPass, hsp )) {
 				System.out.println( "Good password" );
