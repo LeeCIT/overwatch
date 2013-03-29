@@ -25,8 +25,8 @@ import java.util.Vector;
 
 public class ConnectionPool
 {
-	private Thread			   thread;
-	private boolean            threadLoopController;
+	private Thread	thread;
+	private boolean threadLoopController;
 	
 	private Vector<Connection> freeConns;
 	private Vector<Connection> usedConns;
@@ -116,6 +116,14 @@ public class ConnectionPool
 	
 	
 	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
+	
 	private Thread createThread()
 	{
 		return new Thread() {
@@ -176,7 +184,7 @@ public class ConnectionPool
 		try {
 			Connection conn = freeConns.remove(0);
 			conn.close();
-			System.out.println( "Pool: Deallocated unused conn" );
+			System.out.println( "Pool: Deallocated excess conn" );
 		}
 		catch (SQLException ex) {
 			ex.printStackTrace();
@@ -252,9 +260,15 @@ public class ConnectionPool
 		
 	}
 	
-		
 	
 	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Test
+	/////////////////////////////////////////////////////////////////////////
 	
 	public static void main( String[] args )
 	{

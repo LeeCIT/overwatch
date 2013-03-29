@@ -5,6 +5,7 @@ package overwatch.security;
 
 import overwatch.db.DbConnection;
 import overwatch.db.UserInfoFetcher;
+import overwatch.util.Console;
 
 
 
@@ -75,16 +76,21 @@ public class LoginManager
 	
 	public boolean doLogin( String inputUser, String inputPass )
 	{
-		int          personNo = db.getPersonForLogin( inputUser );
-		HashSaltPair hsp      = db.getHashSaltPair( personNo );
+		int     personNo     = db.getPersonForLogin( inputUser );
+		boolean personExists = personNo > 0;
 		
-		boolean passValid = LoginCrypto.isPassValid( inputPass, hsp );
-		
-		if (passValid) {
-			currentUser  = personNo;
-			currentLevel = db.getPrivilegeLevel( currentUser );
-			return true;
+		if (personExists) {
+			System.out.println( "Good login name" );
+			HashSaltPair hsp = db.getHashSaltPairForPerson( personNo );
+			
+			if (LoginCrypto.isPassValid( inputPass, hsp )) {
+				System.out.println( "Good password" );
+				currentUser  = personNo;
+				currentLevel = db.getPrivilegeLevel( currentUser );
+				return true;
+			}
 		}
+		
 		
 		return false;
 	}
@@ -106,4 +112,71 @@ public class LoginManager
 		}
 	}
 	
+	
+	
+	
+		
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Test
+	/////////////////////////////////////////////////////////////////////////
+	
+	public static void main( String[] args )
+	{
+		LoginManager lm = new LoginManager();
+		
+		
+		lm.doLogin( Console.getString( "Enter login: " ), Console.getString( "Enter pass: " ) );
+		
+		if (lm.hasCurrentUser()) {
+			System.out.println( "logged in as #" + lm.getCurrentUser() );
+		} else {
+			System.out.println( "Invalid login!" );
+		}
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
