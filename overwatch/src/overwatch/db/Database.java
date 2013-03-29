@@ -26,7 +26,7 @@ import java.sql.SQLException;
 
 public class Database
 {
-	public static final ConnectionPool connectionPool = null;//new ConnectionPool();
+	public static final ConnectionPool connectionPool = new ConnectionPool();
 	
 	
 	
