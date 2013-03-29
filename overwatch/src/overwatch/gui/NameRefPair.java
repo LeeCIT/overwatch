@@ -13,6 +13,7 @@ package overwatch.gui;
  * Often you don't want the default toString() to be what is displayed.
  * 
  * @author Lee Coakley
+ * @version 1
  */
 
 

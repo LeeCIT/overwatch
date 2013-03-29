@@ -66,19 +66,27 @@ public class LoginCrypto
 	 * @param storedSalt Hex-encoded salt for given hash.
 	 * @return True if matches, false otherwise.
 	 */
-	public static boolean isPassValid( String inputPass, String storedHash, String storedSalt )
+	public static boolean isPassValid( String inputPass, HashSaltPair storedPair )
 	{	
 		byte[] pass = stringBytes( inputPass );
-		byte[] salt = hexToBytes( storedSalt );
+		byte[] salt = hexToBytes( storedPair.salt );
 		byte[] hash = iterativeHash( pass, salt );
 		
 		String expectedHash = bytesToHex( hash );
-		return expectedHash.equals( storedHash );
+		return expectedHash.equals( storedPair.hash );
 	}
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * Feeds the hash back into itself repeatedly.

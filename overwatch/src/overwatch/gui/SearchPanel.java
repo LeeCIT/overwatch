@@ -116,6 +116,11 @@ public class SearchPanel<T> extends JPanel
 	
 	
 	
+	/**
+	 * Get the selected item.
+	 * Returns null if nothing is selected.
+	 * @return Selected item
+	 */
 	public T getSelectedItem()
 	{
 		if (this.hasSelectedItem()) {
@@ -129,16 +134,22 @@ public class SearchPanel<T> extends JPanel
 	
 	
 	
-	public void setSelectedItem( T item ) 
+	/**
+	 * Sets the selected item.
+	 * @param item Referenced object
+	 */
+	public boolean setSelectedItem( T item ) 
 	{
 		doSearchClear();
 		
 		for (int i=0; i<getSearchableItemCount(); i++) {
 			if (item == searchableItems.get( i ).getRef()) {
 				setSelectedIndex( i );
-				return;
+				return true;
 			}
 		}
+		
+		return false;
 	}
 	
 	

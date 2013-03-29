@@ -11,7 +11,6 @@ package overwatch.security;
  * Immutable storage for LoginCrypto output.
  *  
  * @author  Lee Coakley
- * @since   15/Mar/2013
  * @version 2
  */
 
