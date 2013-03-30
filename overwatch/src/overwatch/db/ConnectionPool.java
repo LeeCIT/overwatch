@@ -46,7 +46,8 @@ public class ConnectionPool
 	/**
 	 * Create a new connection pool and immediately begin making connections.
 	 * Keeps making connections until the amount given is reached.
-	 * The pool automatically expands if there aren't enough, but doesn't shrink.  Be conservative.
+	 * The pool automatically expands if there aren't enough, but doesn't shrink.
+	 * 
 	 * @param initialConns How many connections to make on startup.
 	 */
 	public ConnectionPool( int initialConns )
@@ -97,7 +98,10 @@ public class ConnectionPool
 	{
 		debugOut( "getConnection started" );
 		
-		Connection conn = allocateConnectionToUser();
+		if ( ! threadLoopController)
+			throw new RuntimeException( "Can't allocate connection: pool has been shut down." );
+		
+		Connection conn = allocateConnection();
 		makeGrowDecision();
 		
 		debugOut( "getConnection completed" );
@@ -117,7 +121,10 @@ public class ConnectionPool
 	{
 		debugOut( "returnConnection" );
 		
-		deallocateConnectionFromUser( conn );
+		if ( ! threadLoopController)
+			throw new RuntimeException( "Can't deallocate connection: pool has been shut down." );		
+		
+		deallocateConnection( conn );
 	}
 	
 	
@@ -134,11 +141,8 @@ public class ConnectionPool
 	
 	
 	
-	private Connection allocateConnectionToUser()
+	private Connection allocateConnection()
 	{
-		if ( ! threadLoopController)
-			throw new RuntimeException( "Can't allocate connection: pool has been shut down." );
-		
 		waitForFreeConnection();
 		
 		Connection conn = freeConns.remove( 0 );
@@ -151,14 +155,8 @@ public class ConnectionPool
 	
 	
 	
-	private void deallocateConnectionFromUser( Connection conn )
-	{
-		if ( ! threadLoopController)
-			throw new RuntimeException( "Can't deallocate connection: pool has been shut down." );
-		
-		if ( ! usedConns.contains( conn ))
-			throw new RuntimeException( "Tried to return a connection not given by the ConnectionPool." );
-		
+	private void deallocateConnection( Connection conn )
+	{		
 		usedConns.remove( conn );
 		freeConns.add   ( conn );
 	}
@@ -212,6 +210,14 @@ public class ConnectionPool
 	
 	
 	
+	private int getUsedConnectionCount() {
+		return usedConns.size();
+	}
+	
+	
+	
+	
+	
 	private Thread createThread()
 	{
 		return new Thread() {
@@ -256,7 +262,7 @@ public class ConnectionPool
 	
 	private synchronized void manageConnections()
 	{
-		debugOut( "<managing>" );
+		debugOut( "<managing> [" + connTargetNow + "/" + connTargetBasis + "]  f:"+getFreeConnectionCount() + "  u:"+getUsedConnectionCount() );
 		
 		if (getConnectionCount() < connTargetNow) {
 			createAndPoolNewConnection();
@@ -349,7 +355,7 @@ public class ConnectionPool
 		
 		for (int i=usedConns.size()-1;  i>=0;  i--) {
 			Connection conn = usedConns.get(i);
-			returnConnection( conn );
+			deallocateConnection( conn );
 		}
 	}
 	
