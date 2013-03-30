@@ -32,25 +32,6 @@ public class DbConnection
 	
 	
 	
-	public DbConnection()
-	{
-		final String socket   = "db.strongholdsolutions.org:3306";
-		final String database = "fortress";
-		final String user     = "client";
-		final String pass     = "ZHQOw:=i>Zv,rLLhWG-?qe|/$5JvZ20";
-		
-		try {
-			connect( socket, database, user, pass );
-		}
-		catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-	}
-	
-	
-	
-	
-	
 	private void connect( String socket, String database, String user, String pass ) throws SQLException
 	{
 		String uri = "jdbc:mysql://" + socket + "/" + database;

@@ -16,7 +16,7 @@ import java.util.Vector;
  * This maintains a pool of them in a separate thread.
  * 
  * @author Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -33,10 +33,7 @@ public class ConnectionPool
 	
 	private int connTargetBasis;
 	private int connTargetNow;
-	private int connTargetReserve;
-	
-	private boolean waitingOnConnect;
-	
+		
 	
 	
 	
@@ -49,10 +46,8 @@ public class ConnectionPool
 		freeConns = new Vector<Connection>();
 		usedConns = new Vector<Connection>();
 		
-		connTargetBasis   = 10;
-		connTargetNow     = connTargetBasis;
-		connTargetReserve = connTargetBasis / 2; 
-		waitingOnConnect  = false;
+		connTargetBasis = 10;
+		connTargetNow   = connTargetBasis;
 		
 		thread.start();
 	}
@@ -76,16 +71,15 @@ public class ConnectionPool
 	
 	public Connection getConnection()
 	{
-		System.out.println( "Pool: [CON GET]" );
+		System.out.println( "Pool: [CONN GET]" );
 		waitForFreeConnection();
 		
 		Connection conn = freeConns.remove( 0 );
 		usedConns.add( conn );
 		
-		if (freeConns.isEmpty()) {
-			System.out.println( "Pool: Growing in anticipation of demand" );
-			connTargetNow += 2;
-		}
+		makeGrowDecision();
+		
+		System.out.println( "Pool: [CONN GET COMPLETE]" );
 		
 		return conn;
 	}
@@ -96,7 +90,7 @@ public class ConnectionPool
 	
 	public void returnConnection( Connection conn )
 	{
-		System.out.println( "Pool: [CON RETURN]" );
+		System.out.println( "Pool: [CONN RETURN]" );
 		if ( ! usedConns.contains( conn )) {
 			throw new RuntimeException( "Tried to return a connection not given by the ConnectionPool." );
 		}
@@ -104,12 +98,7 @@ public class ConnectionPool
 		usedConns.remove( conn );
 		freeConns.add   ( conn );
 		
-		if (connTargetNow > connTargetBasis)
-		if (getFreeConnectionCount() > connTargetReserve) {
-			System.out.println( "Pool: shrinking" );
-			deallocateUnusedConnection();
-			connTargetNow--;
-		}
+		System.out.println( "Pool: [CONN RETURN COMPLETE]" );
 	}
 	
 	
@@ -140,6 +129,29 @@ public class ConnectionPool
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
 	
+	
+	
+	private void makeGrowDecision()
+	{		
+		if (freeConns.isEmpty() 
+	    && !areConnectionsBeingAllocated()) {
+			System.out.println( "Pool: Pre-emptive grow" );
+			connTargetNow += 2;
+		}
+	}
+	
+	
+	
+	
+	
+	private boolean areConnectionsBeingAllocated() {
+		return (connTargetNow > getConnectionCount());
+	}
+	
+	
+	
+	
+	
 	private int getFreeConnectionCount() {
 		return freeConns.size();
 	}
@@ -156,9 +168,11 @@ public class ConnectionPool
 				while (threadLoopController) 
 				{
 					manageConnections();
-
-				    try { Thread.sleep(500); }
-				    catch (InterruptedException ex) { this.interrupt();	}
+						
+					if (! areConnectionsBeingAllocated()) { // Take it easy
+						try { Thread.sleep(500); }
+						catch (InterruptedException ex) { this.interrupt();	}
+					}
 				}
 			}
 		};
@@ -221,8 +235,6 @@ public class ConnectionPool
 	
 	private synchronized void allocateNewConnection()
 	{
-		waitingOnConnect = true;
-		
 		for (;;)
 		{
 			try {
@@ -237,8 +249,6 @@ public class ConnectionPool
 				System.out.println( "Pool: Alloc failed, retrying" );
 			}
 		}
-		
-		waitingOnConnect = false;
 	}
 	
 	
@@ -247,13 +257,8 @@ public class ConnectionPool
 	
 	private void waitForFreeConnection()
 	{
-		if ( ! isConnectionAvailable()) {
-			
-			if (!waitingOnConnect) {
-				connTargetNow++;
-				System.out.println( "Pool: No connection available or being established: growing to meet demand" );
-			}
-			
+		if ( ! isConnectionAvailable())
+		{			
 			while ( ! isConnectionAvailable()) {
 				Thread.yield(); // Wait
 			}
@@ -266,6 +271,8 @@ public class ConnectionPool
 	
 	private void forceReturnAllConnections()
 	{
+		System.out.println( "Pool: Forcing conn return" );
+		
 		for (int i=usedConns.size()-1;  i>=0;  i--) {
 			Connection conn = usedConns.get(i);
 			returnConnection( conn );
@@ -341,7 +348,7 @@ public class ConnectionPool
 			connsAgain[i] = pool.getConnection();
 			
 			try {
-				Thread.sleep( (int) Math.rint( 2500.0 ) );
+				Thread.sleep( (int) (Math.random() * 2500.0) );
 			}
 			catch (InterruptedException ex) {
 				ex.printStackTrace();

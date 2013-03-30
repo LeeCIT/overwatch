@@ -132,7 +132,7 @@ public class LoginManager
 		if (lm.hasCurrentUser()) {
 			System.out.println( "logged in as #" + lm.getCurrentUser() );
 		} else {
-			System.out.println( "Invalid login!" );
+			System.out.println( "Invalid login details!" );
 		}
 	}
 	
