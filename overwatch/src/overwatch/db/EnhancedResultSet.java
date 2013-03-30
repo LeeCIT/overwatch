@@ -220,8 +220,8 @@ public class EnhancedResultSet implements Iterable<Object[]>
 		columnTypes = new int   [ columnCount ];
 		
 		for (int i=0; i<columnCount; i++) {
-			columnNames[i] = meta.getColumnName( sqlIndex(i) );
-			columnTypes[i] = meta.getColumnType( sqlIndex(i) );
+			columnNames[i] = meta.getColumnLabel( sqlIndex(i) );
+			columnTypes[i] = meta.getColumnType ( sqlIndex(i) );
 		}
 	}
 	
@@ -262,10 +262,11 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	 */
 	public Iterator<Object[]> iterator()
 	{
-		return new Iterator<Object[]>() {
+		return new Iterator<Object[]>()
+		{
 			private int index = -1;
 			
-			public boolean  hasNext() {	 return (index + 1) < rows.size();  		 }
+			public boolean  hasNext() {	 return (index + 1) < size();		  		 }
 		    public Object[] next()    {  return getRow( ++index );  				 }
 			public void     remove()  {  throw new UnsupportedOperationException();  }
 		};

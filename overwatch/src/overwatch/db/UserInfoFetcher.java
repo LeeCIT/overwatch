@@ -76,4 +76,5 @@ public class UserInfoFetcher
 	private <T> T firstOrElse( T[] array, T ifNone ) {
 		return (array.length != 0)  ?  array[0]  :  ifNone;
 	}
+	
 }

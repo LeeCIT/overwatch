@@ -5,6 +5,7 @@ package overwatch.core;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import overwatch.gui.DialogueAnswer;
 
 
@@ -33,6 +34,23 @@ public class Gui extends JFrame
 	public Gui()
 	{
 		currentInstance = this;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Set native GUI style based on the current platform.
+	 * Must be called FIRST, before any GUI components are created.
+	 */
+	public static void setNativeStyle()
+	{
+		try {
+			UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+		} catch( Exception ex ) {
+			ex.printStackTrace();
+		}	
 	}
 	
 	
