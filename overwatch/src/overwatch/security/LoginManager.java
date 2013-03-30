@@ -3,7 +3,6 @@
 
 package overwatch.security;
 
-import overwatch.db.DbConnection;
 import overwatch.db.UserInfoFetcher;
 import overwatch.util.Console;
 
@@ -127,9 +126,13 @@ public class LoginManager
 		LoginManager lm = new LoginManager();
 		
 		
-		lm.doLogin( Console.getString( "Enter login: " ), Console.getString( "Enter pass: " ) );
+		boolean loginSuccess = lm.doLogin( 
+			Console.getString( "Enter login: " ),
+			Console.getString( "Enter pass:  " )
+		);
 		
-		if (lm.hasCurrentUser()) {
+		
+		if (loginSuccess) {
 			System.out.println( "logged in as #" + lm.getCurrentUser() );
 		} else {
 			System.out.println( "Invalid login details!" );

@@ -4,6 +4,7 @@
 package overwatch.db;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -16,7 +17,7 @@ import java.util.Vector;
  * This maintains a pool of them in a separate thread.
  * 
  * @author Lee Coakley
- * @version 3
+ * @version 4
  */
 
 
@@ -70,18 +71,15 @@ public class ConnectionPool
 	
 	
 	/**
-	 * Get a connection from the pool.
+	 * Get a connection from the pool.  If none are available it creates a new one.
 	 * Make sure you put it back when finished using returnConnection().
 	 * @return Connection
 	 */
 	public Connection getConnection()
 	{
 		System.out.println( "Pool: [CONN GET]" );
-		waitForFreeConnection();
 		
-		Connection conn = freeConns.remove( 0 );
-		usedConns.add( conn );
-		
+		Connection conn = allocateConnectionToUser();
 		makeGrowDecision();
 		
 		System.out.println( "Pool: [CONN GET COMPLETE]" );
@@ -100,12 +98,8 @@ public class ConnectionPool
 	public void returnConnection( Connection conn )
 	{
 		System.out.println( "Pool: [CONN RETURN]" );
-		if ( ! usedConns.contains( conn )) {
-			throw new RuntimeException( "Tried to return a connection not given by the ConnectionPool." );
-		}
 		
-		usedConns.remove( conn );
-		freeConns.add   ( conn );
+		deallocateConnectionFromUser( conn );
 		
 		System.out.println( "Pool: [CONN RETURN COMPLETE]" );
 	}
@@ -121,6 +115,34 @@ public class ConnectionPool
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	private Connection allocateConnectionToUser()
+	{
+		waitForFreeConnection();
+		
+		Connection conn = freeConns.remove( 0 );
+		usedConns.add( conn );	
+		
+		return conn;
+	}
+	
+	
+	
+	
+	
+	private void deallocateConnectionFromUser( Connection conn )
+	{
+		if ( ! usedConns.contains( conn )) {
+			throw new RuntimeException( "Tried to return a connection not given by the ConnectionPool." );
+		}
+		
+		usedConns.remove( conn );
+		freeConns.add   ( conn );
+	}
+	
+	
 	
 	
 	
@@ -143,7 +165,7 @@ public class ConnectionPool
 	private void makeGrowDecision()
 	{		
 		if (freeConns.isEmpty() 
-	    && !areConnectionsBeingAllocated()) {
+	    && !areConnectionsBeingCreated()) {
 			System.out.println( "Pool: Pre-emptive grow" );
 			connTargetNow += 2;
 		}
@@ -153,7 +175,7 @@ public class ConnectionPool
 	
 	
 	
-	private boolean areConnectionsBeingAllocated() {
+	private boolean areConnectionsBeingCreated() {
 		return (connTargetNow > getConnectionCount());
 	}
 	
@@ -178,7 +200,7 @@ public class ConnectionPool
 				{
 					manageConnections();
 						
-					if (! areConnectionsBeingAllocated()) { // Take it easy
+					if (! areConnectionsBeingCreated()) { // Take it easy
 						try { Thread.sleep(500); }
 						catch (InterruptedException ex) { this.interrupt();	}
 					}
@@ -214,7 +236,7 @@ public class ConnectionPool
 		System.out.println( "Pool: <managing>" );
 		
 		if (getConnectionCount() < connTargetNow) {
-			allocateNewConnection();
+			createAndPoolNewConnection();
 		}
 	}
 	
@@ -242,22 +264,42 @@ public class ConnectionPool
 	
 	
 	
-	private synchronized void allocateNewConnection()
+	private synchronized void createAndPoolNewConnection()
 	{
 		for (;;)
 		{
 			try {
-				System.out.println( "Pool: allocating conn #" + getConnectionCount() );
-				Connection conn = Database.createConnection();
+				System.out.println( "Pool: creating conn #" + getConnectionCount() );
+				Connection conn = createNewConnection();
 				freeConns.add( conn );
-				System.out.println( "Pool: alloc success" );
-				break;
+				System.out.println( "Pool: create success" );
+				return;
 			}
 			catch( Exception ex ) {
 				//ex.printStackTrace();
-				System.out.println( "Pool: Alloc failed, retrying" );
+				System.out.println( "Pool: create failed, retrying" );
 			}
 		}
+	}
+	
+	
+	
+	
+	
+	private Connection createNewConnection() throws SQLException
+	{
+		// This information isn't stored in the repo because it's public.
+		// Read the internal docs to get it.
+		
+		String socket   = ConnectionDetails.socket;
+		String database = ConnectionDetails.database;
+		String user     = ConnectionDetails.user;
+		String pass     = ConnectionDetails.pass;
+		
+		String uri = "jdbc:mysql://" + socket + "/" + database;
+		
+			   DriverManager.setLoginTimeout( 5 );
+	    return DriverManager.getConnection( uri, user, pass );
 	}
 	
 	

@@ -4,10 +4,10 @@
 package overwatch.db;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 
 
@@ -17,7 +17,7 @@ import java.sql.SQLException;
  * Exposes basic global database functions.
  * 
  * @author Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -26,24 +26,36 @@ import java.sql.SQLException;
 
 public class Database
 {
-	public static final ConnectionPool connectionPool = new ConnectionPool();
+	private static final ConnectionPool connectionPool = new ConnectionPool();
 	
 	
 	
-	public static Connection createConnection() throws SQLException
+	
+	
+	public static Connection getConnection() {
+		return connectionPool.getConnection();
+	}
+	
+	
+	
+	
+	
+	public static void returnConnection( Connection conn ) {
+		connectionPool.returnConnection( conn );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Run an SQL query that yields a single set of integers.
+	 * @param sql
+	 * @return
+	 */
+	public static Integer[] queryInts( String sql )
 	{
-		// This information isn't stored in the repo because it's public.
-		// Read the internal docs to get it.
-		
-		String socket   = ConnectionDetails.socket;
-		String database = ConnectionDetails.database;
-		String user     = ConnectionDetails.user;
-		String pass     = ConnectionDetails.pass;
-		
-		String uri = "jdbc:mysql://" + socket + "/" + database;
-		
-			   DriverManager.setLoginTimeout( 5 );
-	    return DriverManager.getConnection( uri, user, pass );
+		return (Integer[]) query(sql).getColumn( 0 );
 	}
 	
 	
@@ -52,18 +64,109 @@ public class Database
 	
 	/**
 	 * Run a query, get an EnhancedResultSet.
-	 * Handles cleanup and conversion.
+	 * Handles cleanup and conversion automatically.
 	 * @param ps
 	 * @return EnhancedResultSet
 	 * @throws SQLException
 	 */
-	public static EnhancedResultSet query( PreparedStatement ps ) throws SQLException
+	public static EnhancedResultSet query( PreparedStatement ps )
 	{
-    	ResultSet rs = ps.executeQuery();
-    		EnhancedResultSet ers = new EnhancedResultSet( rs );
-    	rs.close();
+		EnhancedResultSet ers = null;
+		
+		try {
+	    	ResultSet rs = ps.executeQuery();
+	    		ers = new EnhancedResultSet( rs );
+	    	rs.close();
+		}
+		catch( SQLException ex) {
+			throw new RuntimeException( ex );
+		}
     	
     	return ers;
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Run a query, get an EnhancedResultSet.
+	 * Handles cleanup and conversion automatically.
+	 * @param sql
+	 * @return EnhancedResultSet
+	 */
+	public static EnhancedResultSet query( String sql )
+	{
+		Connection conn = getConnection();
+		
+			EnhancedResultSet ers = null;
+		
+			try {
+				Statement st = conn.createStatement();
+				st.executeQuery( sql );
+				st.close();
+			}
+			catch( SQLException ex) {
+				throw new RuntimeException( ex );
+			}
+		
+		returnConnection( conn );
+    	
+    	return ers;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Dump the contents of an entire table into an EnhancedResultSet.
+	 * @param tableName
+	 * @return EnhancedResultSet
+	 */
+	public EnhancedResultSet dumpTable( String tableName )
+	{
+	    return query( "SELECT * FROM " + tableName + ";" );
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

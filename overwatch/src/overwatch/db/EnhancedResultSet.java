@@ -18,7 +18,8 @@ import java.util.Iterator;
  * 
  * Uses zero-based indeces.
  * 
- * @author Lee Coakley
+ * @author  Lee Coakley
+ * @version 2
  */
 
 
@@ -47,10 +48,10 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	
 	
 	/**
-	 * Access as a 2D table.
+	 * Access as a 2D column.
 	 */
-	public Object get( int columnIndex, int rowIndex ) {
-		return getRow( rowIndex )[ columnIndex ];
+	public Object getElem( int row, int col ) {
+		return getRow( row )[ col ];
 	}
 	
 	
@@ -121,10 +122,22 @@ public class EnhancedResultSet implements Iterable<Object[]>
 		Object[] columnArray = new Object[ getRowCount() ];
 		
 		for (int row=0; row<columnArray.length; row++) {
-			columnArray[row] = get( row, column );
+			columnArray[row] = getElem( row, column );
 		}
 		
 		return columnArray;
+	}
+	
+	
+		
+	
+	
+	/**
+	 * Access an entire column as an array.
+	 */
+	public Object[] getColumn( String name ) {
+		int index = getColumnIndex( name );
+		return getColumn( index );
 	}
 	
 	
@@ -137,11 +150,9 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	 */
 	public int getColumnIndex( String name )
 	{
-		for (int col=0; col<columnNames.length; col++) {
-			if (columnNames[col].equals( name )) {
+		for (int col=0; col<columnNames.length; col++) 
+			if (columnNames[col].equals( name )) 
 				return col;
-			}
-		}
 		
 		return -1;
 	}

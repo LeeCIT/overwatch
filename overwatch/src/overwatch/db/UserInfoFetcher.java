@@ -3,48 +3,40 @@
 
 package overwatch.db;
 
-import java.sql.*;
 import overwatch.security.HashSaltPair;
 
 
 
-// This is very nasty.  I'll abstract it further when finished testing.
+
+
+/**
+ * Fetches basic info about a user.
+ * 
+ * @author  Lee Coakley
+ * @version 2
+ */
+
+
 
 
 
 public class UserInfoFetcher
 {
 	
-	public int mapLoginToPerson( String inputUserName )
+	/**
+	 * Find the personNo related to a loginName
+	 * @param loginName
+	 * @return personNo if a valid login, -1 otherwise.
+	 */
+	public int mapLoginToPerson( String loginName )
 	{
-		EnhancedResultSet ers = null;
+		Integer[] numbers = Database.queryInts (
+			"select personNo   " +
+			"from Personnel    " +
+			"where loginName = " + loginName + ";"
+		);
 		
-		
-		Connection conn = Database.connectionPool.getConnection();
-		
-			try {
-				PreparedStatement ps = conn.prepareStatement(
-					"    select personNo         " +
-					"    from Personnel          " +
-					"    where loginName = ?;    " );
-				
-					ps.setString( 1, inputUserName );
-					
-					ers = Database.query( ps );
-				
-				ps.close();
-			}
-			catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-		
-		Database.connectionPool.returnConnection( conn );
-		
-		
-		if (ers.getRowCount() > 0)
-			return (int) ers.get( 0, 0 );
-		else
-			return -1;
+		return firstOrElse( numbers, -1 );
 	}
 	
 	
@@ -53,41 +45,14 @@ public class UserInfoFetcher
 	
 	public HashSaltPair getHashSaltPair( int personNo )
 	{
-		EnhancedResultSet ers = null;
+		String sql = "select loginHash, loginSalt " +
+					 "from Personnel              " +
+					 "where personNo = " + personNo + ";";
 		
-		
-		Connection conn = Database.connectionPool.getConnection();
-		
-			try {
-				PreparedStatement ps = conn.prepareStatement(
-					"    select loginHash, loginSalt    " +
-					"    from Personnel                 " +
-					"    where personNo = ?;            " );
-				
-					ps.setInt( 1, personNo );
-					
-					ers = Database.query( ps );
-				
-				ps.close();
-			}
-			catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-		
-		Database.connectionPool.returnConnection( conn );
-		
-		
-		if (ers.getRowCount() > 0)
-		{
-			String hash = (String) ers.get( ers.getColumnIndex( "loginHash" ), 0 );
-			String salt = (String) ers.get( ers.getColumnIndex( "loginSalt" ), 0 );
+		EnhancedResultSet ers  = Database.query( sql );
+		HashSaltPair[]   pairs = DatabaseTranslator.translateHashSaltPairs( ers );
 			
-			return new HashSaltPair( hash, salt );
-		}
-		else 
-		{
-			return null;
-		}
+		return firstOrElse( pairs, null );
 	}
 	
 	
@@ -97,5 +62,13 @@ public class UserInfoFetcher
 	public int getPrivilegeLevel( int currentUser )
 	{
 		return -1;
+	}
+	
+	
+	
+	
+	
+	private <T> T firstOrElse( T[] array, T ifNone ) {
+		return (array.length != 0)  ?  array[0]  :  ifNone;
 	}
 }

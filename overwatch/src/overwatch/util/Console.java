@@ -11,9 +11,8 @@ import java.util.Scanner;
 
 /**
  * Provides basic console input functions with a variety of constraints.
- * The functions cannot fail: they loop forever until input matching the constraints is provided.
+ * These functions can't fail: they loop forever until input matching the constraints is provided.
  * @author  Lee Coakley
- * @since   20/Feb/2012
  * @version 4
  */
 
