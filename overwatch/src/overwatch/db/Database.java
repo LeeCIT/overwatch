@@ -34,6 +34,20 @@ public class Database
 	
 	
 	/**
+	 * Check if the pool has an unused connection ready.
+	 * Informational - 
+	 * @return status
+	 * @see ConnectionPool
+	 */
+	public static boolean hasConnection() {
+		return connPool.getConnectionCount() > 0;
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Get a database connection from the pool.
 	 * Return it when finished!
 	 * @return Connection
@@ -49,6 +63,7 @@ public class Database
 	
 	/**
 	 * Return a database connection to the pool so it can be reused.
+	 * @param conn
 	 * @see ConnectionPool
 	 */
 	public static void returnConnection( Connection conn ) {
@@ -116,7 +131,7 @@ public class Database
 				ers = new EnhancedResultSet( st.executeQuery(sql) );
 				st.close();
 			}
-			catch( SQLException ex) {
+			catch (SQLException ex) {
 				throw new RuntimeException( ex );
 			}
 		

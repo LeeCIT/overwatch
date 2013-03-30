@@ -90,8 +90,34 @@ public class ConnectionPool
 	
 	
 	/**
+	 * Check whether the pool has a connection ready to use.
+	 * This is purely informational.  You don't need to check before calling getConnection().  
+	 * @return Whether a connection is ready.
+	 */
+	public boolean isConnectionAvailable() {
+		return (freeConns.size() > 0);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Get the total number of active connections.
+	 * @return total
+	 */
+	public int getConnectionCount() {
+		return freeConns.size() + usedConns.size();
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Get a connection from the pool.  If none are available it creates a new one.
 	 * Make sure you put it back when finished using returnConnection().
+	 * Blocks until a connection is available.
 	 * @return Connection
 	 */
 	public Connection getConnection()
@@ -159,22 +185,6 @@ public class ConnectionPool
 	{		
 		usedConns.remove( conn );
 		freeConns.add   ( conn );
-	}
-	
-	
-	
-	
-	
-	private boolean isConnectionAvailable() {
-		return (freeConns.size() > 0);
-	}
-	
-	
-	
-	
-	
-	private int getConnectionCount() {
-		return freeConns.size() + usedConns.size();
 	}
 	
 	
@@ -465,6 +475,7 @@ public class ConnectionPool
 			// wait
 		}
 	}
+	
 }
 
 
