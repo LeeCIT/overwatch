@@ -13,11 +13,13 @@ import java.util.Vector;
 
 
 /**
- * Creating new DB connections is VERY slow.
- * This maintains a pool of them in a separate thread.
+ * Multithreaded database connection pooler.
+ * 
+ * Creating new DB connections can be very slow. This spawns many of
+ * them in the background without holding up the rest of the program.
  * 
  * @author Lee Coakley
- * @version 4
+ * @version 5
  */
 
 
@@ -26,6 +28,8 @@ import java.util.Vector;
 
 public class ConnectionPool
 {
+	private boolean showDebugOutput;
+	
 	private Thread	thread;
 	private boolean threadLoopController;
 	
@@ -41,6 +45,8 @@ public class ConnectionPool
 	
 	public ConnectionPool()
 	{
+		showDebugOutput = false;
+		
 		thread               = createThread();
 		threadLoopController = true;
 		
@@ -59,11 +65,11 @@ public class ConnectionPool
 	
 	public void shutdown()
 	{
-		System.out.println( "Shutting down" );
+		debugOut( "Shutting down" );
 		stopThread();
 		forceReturnAllConnections();
 		closeAllFreeConnections();
-		System.out.println( "Shutdown complete" );
+		debugOut( "Shutdown complete" );
 	}
 	
 	
@@ -77,12 +83,12 @@ public class ConnectionPool
 	 */
 	public Connection getConnection()
 	{
-		System.out.println( "Pool: [CONN GET]" );
+		debugOut( "getConnection started" );
 		
 		Connection conn = allocateConnectionToUser();
 		makeGrowDecision();
 		
-		System.out.println( "Pool: [CONN GET COMPLETE]" );
+		debugOut( "getConnection completed" );
 		
 		return conn;
 	}
@@ -97,11 +103,9 @@ public class ConnectionPool
 	 */
 	public void returnConnection( Connection conn )
 	{
-		System.out.println( "Pool: [CONN RETURN]" );
+		debugOut( "returnConnection" );
 		
 		deallocateConnectionFromUser( conn );
-		
-		System.out.println( "Pool: [CONN RETURN COMPLETE]" );
 	}
 	
 	
@@ -166,7 +170,7 @@ public class ConnectionPool
 	{		
 		if (freeConns.isEmpty() 
 	    && !areConnectionsBeingCreated()) {
-			System.out.println( "Pool: Pre-emptive grow" );
+			debugOut( "Pre-emptive grow + 2" );
 			connTargetNow += 2;
 		}
 	}
@@ -215,6 +219,8 @@ public class ConnectionPool
 	
 	private void stopThread()
 	{
+		debugOut( "Stopping thread" );
+		
 		for(;;) {
 			try {
 				threadLoopController = false;				
@@ -233,7 +239,7 @@ public class ConnectionPool
 	
 	private synchronized void manageConnections()
 	{
-		System.out.println( "Pool: <managing>" );
+		debugOut( "<managing>" );
 		
 		if (getConnectionCount() < connTargetNow) {
 			createAndPoolNewConnection();
@@ -253,7 +259,7 @@ public class ConnectionPool
 		try {
 			Connection conn = freeConns.remove(0);
 			conn.close();
-			System.out.println( "Pool: Deallocated excess conn" );
+			debugOut( "Deallocated excess conn" );
 		}
 		catch (SQLException ex) {
 			ex.printStackTrace();
@@ -269,15 +275,15 @@ public class ConnectionPool
 		for (;;)
 		{
 			try {
-				System.out.println( "Pool: creating conn #" + getConnectionCount() );
+				debugOut( "Creating conn #" + getConnectionCount() );
 				Connection conn = createNewConnection();
 				freeConns.add( conn );
-				System.out.println( "Pool: create success" );
+				debugOut( "Create success" );
 				return;
 			}
 			catch( Exception ex ) {
 				//ex.printStackTrace();
-				System.out.println( "Pool: create failed, retrying" );
+				debugOut( "Create failed, retrying in 100ms..." );
 			}
 		}
 	}
@@ -322,7 +328,7 @@ public class ConnectionPool
 	
 	private void forceReturnAllConnections()
 	{
-		System.out.println( "Pool: Forcing conn return" );
+		debugOut( "forceReturnAllConnections" );
 		
 		for (int i=usedConns.size()-1;  i>=0;  i--) {
 			Connection conn = usedConns.get(i);
@@ -336,6 +342,8 @@ public class ConnectionPool
 	
 	private void closeAllFreeConnections()
 	{
+		debugOut( "closeAllFreeConnections" );
+		
 		while ( ! freeConns.isEmpty())
 		{
 			for (int i=freeConns.size()-1; i>=0; i--) {
@@ -343,7 +351,7 @@ public class ConnectionPool
 				try {
 					conn.close();
 					freeConns.remove( conn );
-					System.out.println( "Pool: freed conn #" + i );
+					debugOut( "  Freed conn #" + i );
 				}
 				catch (SQLException ex) {
 					ex.printStackTrace();
@@ -352,6 +360,19 @@ public class ConnectionPool
 		}
 		
 	}
+	
+	
+	
+	
+	
+	private void debugOut( String str )
+	{
+		if (showDebugOutput) {
+			System.out.println( "Pool: " + str );
+		}
+	}
+	
+	
 	
 	
 	

@@ -14,7 +14,7 @@ import java.sql.Statement;
 
 
 /**
- * Exposes basic global database functions.
+ * Provides basic global database functions.
  * 
  * @author Lee Coakley
  * @version 2
@@ -32,6 +32,12 @@ public class Database
 	
 	
 	
+	/**
+	 * Get a database connection from the pool.
+	 * Return it when finished!
+	 * @return Connection
+	 * @see ConnectionPool
+	 */
 	public static Connection getConnection() {
 		return connectionPool.getConnection();
 	}
@@ -40,6 +46,10 @@ public class Database
 	
 	
 	
+	/**
+	 * Return a database connection to the pool so it can be reused.
+	 * @see ConnectionPool
+	 */
 	public static void returnConnection( Connection conn ) {
 		connectionPool.returnConnection( conn );
 	}
