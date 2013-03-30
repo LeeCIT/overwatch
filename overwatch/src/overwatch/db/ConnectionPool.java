@@ -43,6 +43,12 @@ public class ConnectionPool
 	
 	
 	
+	/**
+	 * Create a new connection pool and immediately begin making connections.
+	 * Keeps making connections until the amount given is reached.
+	 * The pool automatically expands if there aren't enough, but doesn't shrink.  Be conservative.
+	 * @param initialConns How many connections to make on startup.
+	 */
 	public ConnectionPool( int initialConns )
 	{
 		showDebugOutput = true;
@@ -63,6 +69,12 @@ public class ConnectionPool
 	
 	
 	
+	/**
+	 * Shuts down the connection pool.
+	 * This stops the background thread and closes all connections.
+	 * The function blocks until this has been accomplished.
+	 * After shutdown the pool can no longer be used.
+	 */
 	public void shutdown()
 	{
 		debugOut( "Shutting down" );
@@ -124,6 +136,9 @@ public class ConnectionPool
 	
 	private Connection allocateConnectionToUser()
 	{
+		if ( ! threadLoopController)
+			throw new RuntimeException( "Can't allocate connection: pool has been shut down." );
+		
 		waitForFreeConnection();
 		
 		Connection conn = freeConns.remove( 0 );
@@ -138,9 +153,11 @@ public class ConnectionPool
 	
 	private void deallocateConnectionFromUser( Connection conn )
 	{
-		if ( ! usedConns.contains( conn )) {
+		if ( ! threadLoopController)
+			throw new RuntimeException( "Can't deallocate connection: pool has been shut down." );
+		
+		if ( ! usedConns.contains( conn ))
 			throw new RuntimeException( "Tried to return a connection not given by the ConnectionPool." );
-		}
 		
 		usedConns.remove( conn );
 		freeConns.add   ( conn );
