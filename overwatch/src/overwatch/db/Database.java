@@ -17,7 +17,7 @@ import java.sql.Statement;
  * Provides basic global database functions.
  * 
  * @author Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -133,8 +133,7 @@ public class Database
 	 * @param tableName
 	 * @return EnhancedResultSet
 	 */
-	public EnhancedResultSet dumpTable( String tableName )
-	{
+	public EnhancedResultSet dumpTable( String tableName ) {
 	    return query( "SELECT * FROM " + tableName + ";" );
 	}
 	
