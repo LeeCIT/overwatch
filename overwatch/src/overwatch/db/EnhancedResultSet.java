@@ -55,7 +55,6 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	 * @return Object
 	 */
 	public Object getElem( int row, int col ) {
-		System.out.println( "get: " + getRow( row )[ col ] );
 		return getRow( row )[ col ];
 	}
 	
