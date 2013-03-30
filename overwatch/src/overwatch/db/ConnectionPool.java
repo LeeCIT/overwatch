@@ -69,6 +69,11 @@ public class ConnectionPool
 	
 	
 	
+	/**
+	 * Get a connection from the pool.
+	 * Make sure you put it back when finished using returnConnection().
+	 * @return Connection
+	 */
 	public Connection getConnection()
 	{
 		System.out.println( "Pool: [CONN GET]" );
@@ -88,6 +93,10 @@ public class ConnectionPool
 	
 	
 	
+	/**
+	 * Returns a connection back into the pool so it can be reused elsewhere.
+	 * @param conn Connection
+	 */
 	public void returnConnection( Connection conn )
 	{
 		System.out.println( "Pool: [CONN RETURN]" );
@@ -105,22 +114,6 @@ public class ConnectionPool
 	
 	
 	
-	public boolean isConnectionAvailable() {
-		return (freeConns.size() > 0);
-	}
-	
-	
-	
-	
-	
-	public int getConnectionCount() {
-		return freeConns.size() + usedConns.size();
-	}
-	
-	
-	
-	
-	
 	
 	
 	
@@ -128,6 +121,22 @@ public class ConnectionPool
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	private boolean isConnectionAvailable() {
+		return (freeConns.size() > 0);
+	}
+	
+	
+	
+	
+	
+	private int getConnectionCount() {
+		return freeConns.size() + usedConns.size();
+	}
+	
+	
 	
 	
 	
