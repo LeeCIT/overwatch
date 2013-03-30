@@ -12,14 +12,14 @@ import java.util.Iterator;
 
 
 /**
- * Provides a nicee interface for reading SQL results.
+ * Provides a nicer interface for reading SQL results.
  * It's not tied to a DB connection, is iterable, has random access, and
  * allows you to access rows and columns as arrays.
  * 
  * Uses zero-based indeces.
  * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -48,10 +48,24 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	
 	
 	/**
-	 * Access as a 2D array.
+	 * Access an element in the set.
+	 * @param row
+	 * @param col
+	 * @return
 	 */
-	public Object getElem( int row, int col ) {
+	public Object getObj( int row, int col ) {
 		return getRow( row )[ col ];
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Get total number of rows.
+	 */
+	public int size() {
+		return getRowCount();
 	}
 	
 	
@@ -122,7 +136,7 @@ public class EnhancedResultSet implements Iterable<Object[]>
 		Object[] columnArray = new Object[ getRowCount() ];
 		
 		for (int row=0; row<columnArray.length; row++) {
-			columnArray[row] = getElem( row, column );
+			columnArray[row] = getObj( row, column );
 		}
 		
 		return columnArray;

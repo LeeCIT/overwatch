@@ -11,6 +11,7 @@ import overwatch.security.HashSaltPair;
 
 public class DatabaseTranslator
 {
+	
 	public static HashSaltPair[] translateHashSaltPairs( EnhancedResultSet ers )
 	{
 		HashSaltPair[] array = new HashSaltPair[ ers.getRowCount() ];
@@ -24,4 +25,5 @@ public class DatabaseTranslator
 		
 		return array;
 	}
+	
 }
