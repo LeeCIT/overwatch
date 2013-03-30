@@ -43,7 +43,7 @@ public class ConnectionPool
 	
 	
 	
-	public ConnectionPool()
+	public ConnectionPool( int initialConns )
 	{
 		showDebugOutput = true;
 		
@@ -53,7 +53,7 @@ public class ConnectionPool
 		freeConns = new Vector<Connection>();
 		usedConns = new Vector<Connection>();
 		
-		connTargetBasis = 10;
+		connTargetBasis = initialConns;
 		connTargetNow   = connTargetBasis;
 		
 		thread.start();
@@ -386,7 +386,7 @@ public class ConnectionPool
 	
 	public static void main( String[] args )
 	{
-		ConnectionPool pool = new ConnectionPool();
+		ConnectionPool pool = new ConnectionPool(10);
 		
 		while (pool.getConnectionCount() < 10) {
 			// wait

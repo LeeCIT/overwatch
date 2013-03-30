@@ -26,7 +26,8 @@ import java.sql.Statement;
 
 public class Database
 {
-	private static final ConnectionPool connectionPool = new ConnectionPool();
+	private static final int connPoolInitialSize = 4;
+	private static final ConnectionPool connPool = new ConnectionPool( connPoolInitialSize );
 	
 	
 	
@@ -39,7 +40,7 @@ public class Database
 	 * @see ConnectionPool
 	 */
 	public static Connection getConnection() {
-		return connectionPool.getConnection();
+		return connPool.getConnection();
 	}
 	
 	
@@ -51,7 +52,7 @@ public class Database
 	 * @see ConnectionPool
 	 */
 	public static void returnConnection( Connection conn ) {
-		connectionPool.returnConnection( conn );
+		connPool.returnConnection( conn );
 	}
 	
 	
