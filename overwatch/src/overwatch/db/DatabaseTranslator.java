@@ -16,8 +16,8 @@ public class DatabaseTranslator
 	{
 		HashSaltPair[] array = new HashSaltPair[ ers.getRowCount() ];
 		
-		String[] hashes = (String[]) ers.getColumn( "loginHash" );
-		String[] salts  = (String[]) ers.getColumn( "loginSalt" );
+		String[] hashes = ers.getColumnAs( "loginHash", String[].class );
+		String[] salts  = ers.getColumnAs( "loginSalt", String[].class );
 		
 		for (int i=0; i<array.length; i++) {
 			array[i] = new HashSaltPair( hashes[i], salts[i] );

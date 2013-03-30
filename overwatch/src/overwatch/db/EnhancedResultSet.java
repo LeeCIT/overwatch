@@ -5,6 +5,7 @@ package overwatch.db;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 
@@ -19,7 +20,7 @@ import java.util.Iterator;
  * Uses zero-based indeces.
  * 
  * @author  Lee Coakley
- * @version 3
+ * @version 4
  */
 
 
@@ -51,9 +52,10 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	 * Access an element in the set.
 	 * @param row
 	 * @param col
-	 * @return
+	 * @return Object
 	 */
-	public Object getObj( int row, int col ) {
+	public Object getElem( int row, int col ) {
+		System.out.println( "get: " + getRow( row )[ col ] );
 		return getRow( row )[ col ];
 	}
 	
@@ -136,14 +138,14 @@ public class EnhancedResultSet implements Iterable<Object[]>
 		Object[] columnArray = new Object[ getRowCount() ];
 		
 		for (int row=0; row<columnArray.length; row++) {
-			columnArray[row] = getObj( row, column );
+			columnArray[row] = getElem( row, column );
 		}
 		
 		return columnArray;
 	}
 	
 	
-		
+	
 	
 	
 	/**
@@ -152,6 +154,28 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	public Object[] getColumn( String name ) {
 		int index = getColumnIndex( name );
 		return getColumn( index );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Copy column and cast it to a specific type.
+	 */
+	public <T> T[] getColumnAs( int column, Class<? extends T[]> type ) {
+		return Arrays.copyOf( getColumn(column), size(), type );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Copy column and cast it to a specific type.
+	 */
+	public <T> T[] getColumnAs( String name, Class<? extends T[]> type ) {
+		return getColumnAs( getColumnIndex(name), type );
 	}
 	
 	

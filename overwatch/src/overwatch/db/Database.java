@@ -65,7 +65,16 @@ public class Database
 	 */
 	public static Integer[] queryInts( String sql )
 	{
-		return (Integer[]) query(sql).getColumn( 0 );
+		EnhancedResultSet ers = query( sql );
+		
+		Integer[] array = new Integer[ ers.size() ];
+		
+		for (int i=0; i<array.length; i++) {
+			System.out.println( ers.getElem( i, 0 ) );
+			array[i] = (Integer) ers.getElem( i, 0 );
+		}
+		
+		return array;
 	}
 	
 	
@@ -113,7 +122,7 @@ public class Database
 		
 			try {
 				Statement st = conn.createStatement();
-				st.executeQuery( sql );
+				ers = new EnhancedResultSet( st.executeQuery(sql) );
 				st.close();
 			}
 			catch( SQLException ex) {

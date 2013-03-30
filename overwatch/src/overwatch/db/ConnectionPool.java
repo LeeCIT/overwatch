@@ -45,7 +45,7 @@ public class ConnectionPool
 	
 	public ConnectionPool()
 	{
-		showDebugOutput = false;
+		showDebugOutput = true;
 		
 		thread               = createThread();
 		threadLoopController = true;

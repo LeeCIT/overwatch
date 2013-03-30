@@ -33,7 +33,7 @@ public class UserInfoFetcher
 		Integer[] numbers = Database.queryInts (
 			"select personNo   " +
 			"from Personnel    " +
-			"where loginName = " + loginName + ";"
+			"where loginName = '" + loginName + "';"
 		);
 		
 		return firstOrElse( numbers, -1 );
