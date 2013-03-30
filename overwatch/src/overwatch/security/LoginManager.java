@@ -79,17 +79,14 @@ public class LoginManager
 		boolean personExists = (personNo > 0);
 		
 		if (personExists) {
-			System.out.println( "Good login name" );
 			HashSaltPair hsp = db.getHashSaltPair( personNo );
 			
 			if (LoginCrypto.isPassValid( inputPass, hsp )) {
-				System.out.println( "Good password" );
 				currentUser  = personNo;
-				currentLevel = db.getPrivilegeLevel( currentUser );
+				currentLevel = db.getPrivilegeLevel( personNo );
 				return true;
 			}
 		}
-		
 		
 		return false;
 	}

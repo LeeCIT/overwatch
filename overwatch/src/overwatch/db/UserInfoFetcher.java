@@ -50,12 +50,13 @@ public class UserInfoFetcher
 	 */
 	public HashSaltPair getHashSaltPair( int personNo )
 	{
-		String sql = "select loginHash, loginSalt " +
-					 "from Personnel              " +
-					 "where personNo = " + personNo + ";";
-		
-		EnhancedResultSet ers   = Database.query( sql );
-		HashSaltPair[]    pairs = DatabaseTranslator.translateHashSaltPairs( ers );
+		EnhancedResultSet ers = Database.query(
+			"select loginHash, loginSalt " +
+			"from Personnel              " +
+			"where personNo = " + personNo + ";"
+		);
+
+		HashSaltPair[] pairs = DatabaseTranslator.translateHashSaltPairs( ers );
 			
 		return firstOrElse( pairs, null );
 	}
@@ -64,9 +65,21 @@ public class UserInfoFetcher
 	
 	
 	
-	public int getPrivilegeLevel( int currentUser )
+	/**
+	 * Get a person's privilegeLevel.  This is determined by their rank.
+	 * @param personNo
+	 * @return level, or -1 if no such person exists.
+	 */
+	public int getPrivilegeLevel( int personNo )
 	{
-		return -1;
+		Integer[] numbers = Database.queryInts (
+			"select privilegeLevel     " +
+			"from Ranks r, Personnel p " +
+			"where p.rank = r.rank     " +
+			"  and p.personNo = " + personNo + ";"
+		);
+		
+		return firstOrElse( numbers, -1 );
 	}
 	
 	
