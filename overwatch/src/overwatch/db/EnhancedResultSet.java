@@ -162,6 +162,8 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	
 	/**
 	 * Copy column and cast it to a specific type.
+	 * Example:
+	 *     Integer[] array = ers.getColumnAs( 0, Integer[].class );
 	 */
 	public <T> T[] getColumnAs( int column, Class<? extends T[]> type ) {
 		return Arrays.copyOf( getColumn(column), size(), type );
