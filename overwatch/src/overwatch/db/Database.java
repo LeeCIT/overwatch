@@ -61,20 +61,10 @@ public class Database
 	/**
 	 * Run an SQL query that yields a single set of integers.
 	 * @param sql
-	 * @return
+	 * @return Integer[]
 	 */
-	public static Integer[] queryInts( String sql )
-	{
-		EnhancedResultSet ers = query( sql );
-		
-		Integer[] array = new Integer[ ers.size() ];
-		
-		for (int i=0; i<array.length; i++) {
-			System.out.println( ers.getElem( i, 0 ) );
-			array[i] = (Integer) ers.getElem( i, 0 );
-		}
-		
-		return array;
+	public static Integer[] queryInts( String sql ) {
+		return query(sql).getColumnAs( 0, Integer[].class );
 	}
 	
 	

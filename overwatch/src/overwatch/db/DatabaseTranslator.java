@@ -9,6 +9,17 @@ import overwatch.security.HashSaltPair;
 
 
 
+/**
+ * Translates database results into more immediately useful representations.
+ * 
+ * @author  Lee Coakley
+ * @version 2
+ */
+
+
+
+
+
 public class DatabaseTranslator
 {
 	
