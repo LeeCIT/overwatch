@@ -11,6 +11,16 @@ import overwatch.gui.DialogueAnswer;
 
 
 
+/**
+ * Core GUI class.
+ * 
+ * @author  Lee Coakley
+ * @version 1
+ */
+
+
+
+
 public class Gui extends JFrame
 {
 	private static Gui currentInstance;

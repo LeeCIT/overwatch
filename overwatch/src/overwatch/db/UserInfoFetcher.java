@@ -24,7 +24,7 @@ public class UserInfoFetcher
 {
 	
 	/**
-	 * Find the personNo related to a loginName
+	 * Find the personNo related to a loginName, if any.
 	 * @param loginName
 	 * @return personNo if a valid login, -1 otherwise.
 	 */
@@ -43,14 +43,19 @@ public class UserInfoFetcher
 	
 	
 	
+	/**
+	 * Find the login hash and salt for a person, if they exist.
+	 * @param personNo
+	 * @return HashSaltPair, or null if there is no such person.
+	 */
 	public HashSaltPair getHashSaltPair( int personNo )
 	{
 		String sql = "select loginHash, loginSalt " +
 					 "from Personnel              " +
 					 "where personNo = " + personNo + ";";
 		
-		EnhancedResultSet ers  = Database.query( sql );
-		HashSaltPair[]   pairs = DatabaseTranslator.translateHashSaltPairs( ers );
+		EnhancedResultSet ers   = Database.query( sql );
+		HashSaltPair[]    pairs = DatabaseTranslator.translateHashSaltPairs( ers );
 			
 		return firstOrElse( pairs, null );
 	}

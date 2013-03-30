@@ -48,7 +48,7 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	
 	
 	/**
-	 * Access as a 2D column.
+	 * Access as a 2D array.
 	 */
 	public Object getElem( int row, int col ) {
 		return getRow( row )[ col ];
@@ -158,6 +158,16 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	}
 	
 	
+		
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////	
 	
 	
 	
