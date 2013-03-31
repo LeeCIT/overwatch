@@ -1,5 +1,5 @@
 Stronghold Solutions OVERWATCH
 =========
 
-ICS Project at Cork Institute of Technology.
+ICS team project at Cork Institute of Technology.
 
