@@ -81,6 +81,7 @@ public class LoginManager
 		if (personExists) {
 			HashSaltPair hsp = db.getHashSaltPair( personNo );
 			
+			if (hsp != null)
 			if (LoginCrypto.isPassValid( inputPass, hsp )) {
 				currentUser  = personNo;
 				currentLevel = db.getPrivilegeLevel( personNo );
