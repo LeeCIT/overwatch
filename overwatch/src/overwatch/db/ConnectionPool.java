@@ -30,8 +30,8 @@ public class ConnectionPool
 {
 	private boolean showDebugOutput;
 	
-	private Thread	thread;
-	private boolean threadLoopController;
+	private          Thread	 thread;
+	private volatile boolean threadLoopController;
 	
 	private Vector<Connection> freeConns;
 	private Vector<Connection> usedConns;
@@ -223,10 +223,14 @@ public class ConnectionPool
 				while (threadLoopController) 
 				{
 					manageConnections();
-						
-					if (! areConnectionsBeingCreated()) { // Take it easy
-						try { Thread.sleep(500); }
-						catch (InterruptedException ex) { this.interrupt();	}
+					
+					try {
+						if (areConnectionsBeingCreated())
+						     { Thread.sleep( 50); } // Work quickly
+						else { Thread.sleep(500); } // Work slowly
+					}
+					catch (InterruptedException ex) {
+						this.interrupt();	
 					}
 				}
 			}
