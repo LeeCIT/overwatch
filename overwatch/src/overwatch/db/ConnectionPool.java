@@ -44,10 +44,9 @@ public class ConnectionPool
 	
 	
 	/**
-	 * Create a new connection pool and immediately begin making connections.
-	 * Keeps making connections until the amount given is reached.
+	 * Create a new connection pool and [optionally] begin making connections.
+	 * When started the pool will keep making connections until the amount given is reached.
 	 * The pool automatically expands if there aren't enough and shrinks if there are too many unused ones.
-	 * 
 	 * @param initialConns How many connections to make on startup.
 	 */
 	public ConnectionPool( int initialConns, boolean immediateStart )
