@@ -4,6 +4,7 @@
 package overwatch.db;
 
 import overwatch.security.HashSaltPair;
+import overwatch.security.LoginCrypto;
 
 
 
@@ -20,7 +21,7 @@ import overwatch.security.HashSaltPair;
 
 
 
-public class UserInfoFetcher
+public class UserInfo
 {
 	
 	/**
@@ -28,9 +29,9 @@ public class UserInfoFetcher
 	 * @param loginName
 	 * @return personNo if a valid login, -1 otherwise.
 	 */
-	public int mapLoginToPerson( String loginName )
+	public static int mapLoginToPerson( String loginName )
 	{
-		Integer[] numbers = Database.queryInts (
+		Integer[] numbers = Database.queryInts(
 			"select personNo   " +
 			"from Personnel    " +
 			"where loginName = '" + loginName + "';"
@@ -48,7 +49,7 @@ public class UserInfoFetcher
 	 * @param personNo
 	 * @return HashSaltPair, or null if there is no such person.
 	 */
-	public HashSaltPair getHashSaltPair( int personNo )
+	public static HashSaltPair getHashSaltPair( int personNo )
 	{
 		EnhancedResultSet ers = Database.query(
 			"select loginHash, loginSalt " +
@@ -70,9 +71,9 @@ public class UserInfoFetcher
 	 * @param personNo
 	 * @return level, or -1 if no such person exists.
 	 */
-	public int getPrivilegeLevel( int personNo )
+	public static int getPrivilegeLevel( int personNo )
 	{
-		Integer[] numbers = Database.queryInts (
+		Integer[] numbers = Database.queryInts(
 			"select privilegeLevel     " +
 			"from Ranks r, Personnel p " +
 			"where p.rank     = r.rank " +
@@ -86,8 +87,91 @@ public class UserInfoFetcher
 	
 	
 	
-	private <T> T firstOrElse( T[] array, T ifNone ) {
+	/**
+	 * Change a person's login passphrase.
+	 * @param personNo
+	 * @param pass
+	 * @return Whether the change was successful
+	 */
+	public static boolean setUserPass( int personNo, String pass )
+	{
+		HashSaltPair pair = LoginCrypto.generateHashSaltPair( pass );
+		
+		int rowsChanged = Database.update( 
+			"update Personnel   " +
+			"set loginHash  =  '" + pair.hash + "', " +
+			"    loginSalt  =  '" + pair.salt + "'  "  +
+			"where personNo =   " + personNo  + ";"
+		);
+		
+		return (rowsChanged == 1);
+	}
+	
+	
+	
+	
+	
+	private static <T> T firstOrElse( T[] array, T ifNone ) {
 		return (array.length != 0)  ?  array[0]  :  ifNone;
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
