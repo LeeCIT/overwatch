@@ -3,8 +3,7 @@
 
 package overwatch.security;
 
-import overwatch.db.UserInfoFetcher;
-import overwatch.util.Console;
+import overwatch.db.UserInfo;
 
 
 
@@ -13,10 +12,11 @@ import overwatch.util.Console;
 /**
  * Manages the user login process.
  * 
- * TODO: what happens if some berk deletes a user that's logged in?
+ * TODO: What happens if some berk deletes a user that's logged in?
+ *       Need some periodic checking somewhere to keep things valid with multiple users.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -25,29 +25,16 @@ import overwatch.util.Console;
 
 public class LoginManager
 {
-	private final int NONE = -1;
+	private static final int NONE = -1;
 	
-	private int currentUser;
-	private int currentLevel;
-	
-	private UserInfoFetcher db;
+	private static int currentUser;
+	private static int currentLevel;
 	
 	
 	
 	
 	
-	public LoginManager()
-	{
-		currentUser  = NONE;
-		currentLevel = NONE;
-		db           = new UserInfoFetcher();
-	}
-	
-	
-	
-	
-	
-	public boolean hasCurrentUser() {
+	public static boolean hasCurrentUser() {
 		return (currentUser != NONE);
 	}
 	
@@ -55,7 +42,7 @@ public class LoginManager
 	
 	
 	
-	public int getCurrentUser() {
+	public static int getCurrentUser() {
 		checkUser();
 		return currentUser;
 	}
@@ -64,7 +51,7 @@ public class LoginManager
 	
 	
 	
-	public int getCurrentPrivilegeLevel() {
+	public static int getCurrentPrivilegeLevel() {
 		checkUser();		
 		return currentLevel;
 	}
@@ -73,18 +60,18 @@ public class LoginManager
 	
 	
 	
-	public boolean doLogin( String inputUser, String inputPass )
+	public static boolean doLogin( String inputUser, String inputPass )
 	{
-		int     personNo     = db.mapLoginToPerson( inputUser );
+		int     personNo     = UserInfo.mapLoginToPerson( inputUser );
 		boolean personExists = (personNo > 0);
 		
 		if (personExists) {
-			HashSaltPair hsp = db.getHashSaltPair( personNo );
+			HashSaltPair hsp = UserInfo.getHashSaltPair( personNo );
 			
 			if (hsp != null)
 			if (LoginCrypto.isPassValid( inputPass, hsp )) {
 				currentUser  = personNo;
-				currentLevel = db.getPrivilegeLevel( personNo );
+				currentLevel = UserInfo.getPrivilegeLevel( personNo );
 				return true;
 			}
 		}
@@ -98,11 +85,13 @@ public class LoginManager
 	
 	
 	
+	
+	
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
 	
-	private void checkUser()
+	private static void checkUser()
 	{
 		if ( ! hasCurrentUser()) {
 			throw new RuntimeException( "No user logged in!" );
@@ -115,23 +104,29 @@ public class LoginManager
 	
 	
 	
+	
+	
 	///////////////////////////////////////////////////////////////////////////
 	// Test
 	/////////////////////////////////////////////////////////////////////////
 	
 	public static void main( String[] args )
-	{
-		LoginManager lm = new LoginManager();
+	{	
+		
+		int personNo = UserInfo.mapLoginToPerson( "testGuy" );
+		UserInfo.setUserPass( personNo, "1234" );
 		
 		
-		boolean loginSuccess = lm.doLogin( 
-			Console.getString( "Enter login: " ),
-			Console.getString( "Enter pass:  " )
+		
+		boolean loginSuccess = LoginManager.doLogin(
+			overwatch.util.Console.getString( "Enter login: " ),
+			overwatch.util.Console.getString( "Enter pass:  " )
 		);
 		
 		
+		
 		if (loginSuccess) {
-			System.out.println( "logged in as #" + lm.getCurrentUser() );
+			System.out.println( "logged in as #" + LoginManager.getCurrentUser() );
 		} else {
 			System.out.println( "Invalid login details!" );
 		}
