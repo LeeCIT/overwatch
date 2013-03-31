@@ -153,7 +153,60 @@ public class Database
 	    return query( "SELECT * FROM " + tableName + ";" );
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Run update/insert/delete SQL and get back the number of rows modified.
+	 * @param sql
+	 * @return number rows modified
+	 */
+	public static int update( String sql )
+	{
+		int rowsModified = -1;
+		
+		Connection conn = getConnection();
+	
+			try {
+				Statement st = conn.createStatement();
+				rowsModified = st.executeUpdate( sql );
+				st.close();
+			}
+			catch (SQLException ex) {
+				throw new RuntimeException( ex );
+			}
+		
+		returnConnection( conn );
+		
+		return rowsModified; 
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
