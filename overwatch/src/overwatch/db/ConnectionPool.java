@@ -52,7 +52,7 @@ public class ConnectionPool
 	 */
 	public ConnectionPool( int initialConns )
 	{
-		showDebugOutput = true;
+		showDebugOutput = false;
 		
 		thread               = createThread();
 		threadLoopController = true;
@@ -332,7 +332,7 @@ public class ConnectionPool
 			}
 			catch( Exception ex ) {
 				//ex.printStackTrace();
-				debugOut( "Create failed, retrying in 100ms..." );
+				debugOut( "Create failed, retrying..." );
 			}
 		}
 	}
@@ -363,8 +363,7 @@ public class ConnectionPool
 	
 	private void waitForFreeConnection()
 	{
-		if ( ! isConnectionAvailable())
-		{			
+		if ( ! isConnectionAvailable()) {			
 			while ( ! isConnectionAvailable()) {
 				Thread.yield(); // Wait
 			}
