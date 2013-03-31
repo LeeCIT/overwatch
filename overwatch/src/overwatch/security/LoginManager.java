@@ -112,7 +112,7 @@ public class LoginManager
 	
 	public static void main( String[] args )
 	{	
-		
+			
 		int personNo = UserInfo.mapLoginToPerson( "testGuy" );
 		UserInfo.setUserPass( personNo, "1234" );
 		
