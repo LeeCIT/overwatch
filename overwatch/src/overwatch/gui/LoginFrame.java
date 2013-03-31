@@ -15,6 +15,18 @@ import net.miginfocom.swing.MigLayout;
 
 
 
+/**
+ * User login GUI.
+ * 
+ * @author  Lee Coakley
+ * @version 1
+ * @see     LoginListener
+ */
+
+
+
+
+
 public class LoginFrame extends JFrame
 {
 	private JLabel		   nameLabel;
