@@ -26,11 +26,34 @@ import java.sql.Statement;
 
 public class Database
 {
-	private static final int connPoolInitialSize = 4;
-	private static final ConnectionPool connPool = new ConnectionPool( connPoolInitialSize );
+	private static final ConnectionPool connPool = new ConnectionPool( 6, true );
 	
 	
 	
+	
+	
+	/**
+	 * Start making connections to the database.
+	 * For the moment, this is automatic and doesn't need to be used.
+	 */
+	public static void connect() {
+		connPool.start();
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Disconnect from the database.
+	 * Closes all connections and cleans up resources.
+	 */
+	public static void disconnect() {
+		connPool.stop();
+	}
+	
+	
+		
 	
 	
 	/**

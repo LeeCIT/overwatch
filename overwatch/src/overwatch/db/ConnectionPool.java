@@ -28,7 +28,7 @@ import java.util.Vector;
 
 public class ConnectionPool
 {
-	private boolean showDebugOutput;
+	private boolean showDebugOutput = false;
 	
 	private          Thread	 thread;
 	private volatile boolean threadLoopController;
@@ -50,20 +50,35 @@ public class ConnectionPool
 	 * 
 	 * @param initialConns How many connections to make on startup.
 	 */
-	public ConnectionPool( int initialConns )
+	public ConnectionPool( int initialConns, boolean immediateStart )
 	{
-		showDebugOutput = false;
-		
-		thread               = createThread();
-		threadLoopController = true;
-		
 		freeConns = new Vector<Connection>();
 		usedConns = new Vector<Connection>();
 		
 		connTargetBasis = initialConns;
 		connTargetNow   = connTargetBasis;
 		
-		thread.start();
+		if (immediateStart) {
+			start();
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Starts the background thread and begins allocating connections.
+	 */
+	public void start()
+	{
+		if (thread != null)
+		if (thread.isAlive())
+			throw new RuntimeException( "Pool is already started!" );
+		
+		debugOut( "Start" );
+		
+		startThread();
 	}
 	
 	
@@ -74,15 +89,17 @@ public class ConnectionPool
 	 * Shuts down the connection pool.
 	 * This stops the background thread and closes all connections.
 	 * The function blocks until this has been accomplished.
-	 * After shutdown the pool can no longer be used.
 	 */
-	public void shutdown()
+	public void stop()
 	{
-		debugOut( "Shutting down" );
+		if ( ! thread.isAlive())
+			throw new RuntimeException( "Pool is already stopped." );
+		
+		debugOut( "Stopping" );
 		stopThread();
 		forceReturnAllConnections();
 		closeAllFreeConnections();
-		debugOut( "Shutdown complete" );
+		debugOut( "Stopped" );
 	}
 	
 	
@@ -124,10 +141,11 @@ public class ConnectionPool
 	{
 		debugOut( "getConnection started" );
 		
-		if ( ! threadLoopController)
-			throw new RuntimeException( "Can't allocate connection: pool has been shut down." );
+		if ( ! threadLoopController || ! thread.isAlive())
+			throw new RuntimeException( "Can't get connection: pool isn't active." );
 		
 		Connection conn = allocateConnection();
+		
 		makeGrowDecision();
 		
 		debugOut( "getConnection completed" );
@@ -147,8 +165,8 @@ public class ConnectionPool
 	{
 		debugOut( "returnConnection" );
 		
-		if ( ! threadLoopController)
-			throw new RuntimeException( "Can't deallocate connection: pool has been shut down." );		
+		if ( ! threadLoopController || ! thread.isAlive())
+			throw new RuntimeException( "Can't return connection: pool isn't active." );		
 		
 		deallocateConnection( conn );
 	}
@@ -235,6 +253,17 @@ public class ConnectionPool
 				}
 			}
 		};
+	}
+	
+	
+	
+	
+	
+	private void startThread()
+	{
+		thread               = createThread();
+		threadLoopController = true;
+		thread.start();
 	}
 	
 	
@@ -438,7 +467,19 @@ public class ConnectionPool
 	
 	public static void main( String[] args )
 	{
-		ConnectionPool pool = new ConnectionPool(10);
+		ConnectionPool pool = new ConnectionPool(10,true);
+		pool.stop();
+		
+		for (int i=0; i<8; i++) {
+			pool.start();
+			pool.stop();
+		}
+		
+		pool.start();
+		pool.returnConnection( pool.getConnection() );
+		pool.stop();
+		
+		pool.start();
 		
 		while (pool.getConnectionCount() < 10) {
 			// wait
@@ -480,10 +521,24 @@ public class ConnectionPool
 			
 		}
 		
+		
+		
+		
+		for (Connection conn: connsAgain) {
+			pool.returnConnection( conn );
+			
+			try {
+				Thread.sleep( (int) (Math.random() * 2500.0) );
+			}
+			catch (InterruptedException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
 
 		
 		System.out.println( "*** Calling shutdown ***" );
-		pool.shutdown();
+		pool.stop();
 		System.out.println( "*** Complete ***" );
 		
 		
