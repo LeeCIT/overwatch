@@ -44,7 +44,7 @@ public class ConnectionPool
 	
 	
 	/**
-	 * Create a new connection pool and immediately begin making connections.
+	 * Create a new connection pool and [optionally] immediately begin making connections.
 	 * Keeps making connections until the amount given is reached.
 	 * The pool automatically expands if there aren't enough and shrinks if there are too many unused ones.
 	 * 
