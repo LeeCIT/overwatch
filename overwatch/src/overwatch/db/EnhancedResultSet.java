@@ -232,7 +232,7 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	{
 		rows = new ArrayList< Object[] >();
 		
-		while ( set.next() ) {
+		while (set.next()) {
 			Object[] row = new Object[ columnCount ];
 			
 			for (int i=0; i<columnCount; i++) 

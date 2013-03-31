@@ -75,7 +75,7 @@ public class UserInfoFetcher
 		Integer[] numbers = Database.queryInts (
 			"select privilegeLevel     " +
 			"from Ranks r, Personnel p " +
-			"where p.rank = r.rank     " +
+			"where p.rank     = r.rank " +
 			"  and p.personNo = " + personNo + ";"
 		);
 		

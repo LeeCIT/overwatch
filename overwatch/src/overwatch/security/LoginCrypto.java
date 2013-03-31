@@ -17,7 +17,7 @@ import java.security.SecureRandom;
  * This ensures that user passphrases are unreadable even if the database is broken into.  
  *  
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  * @see     HashSaltPair
  */
 
@@ -62,8 +62,7 @@ public class LoginCrypto
 	/**
 	 * Given the stored values, check if a user-input passphrase produces the same result.
 	 * @param inputPass Passphrase string from user input.
-	 * @param storedHash Hex-encoded passphrase hash.
-	 * @param storedSalt Hex-encoded salt for given hash.
+	 * @param storedPair Hex-encoded passphrase hash and salt.
 	 * @return True if matches, false otherwise.
 	 */
 	public static boolean isPassValid( String inputPass, HashSaltPair storedPair )
@@ -112,10 +111,10 @@ public class LoginCrypto
 	
 	
 	/**
-	 * Get SHA-256 message digest for a given passphrase and salt combination.
+	 * Get SHA-256 hash for a given passphrase and salt combination.
 	 * The result is always the same for the same inputs.
 	 * This isn't the optimal choice of algorithm, but will suffice for this project.
-	 * In reality you would use Bcrypt or PCKDF2.
+	 * Ideally you would use Bcrypt or PCKDF2.
 	 * @param pass Byte representation of user-input passphrase.
 	 * @param salt Random bytes for combination with the passphrase.
 	 * @return Byte array 32 bytes in length.
@@ -143,7 +142,7 @@ public class LoginCrypto
 	 * one passphrase at a time.  If not used, each passphrase would have a higher probability of
 	 * being cracked as the same passphrase would produce the same hash - with a salt, this is no
 	 * longer feasible.
-	 * @return random fixed-lenght byte array.
+	 * @return random fixed-length byte array.
 	 */
 	private static byte[] generateSalt()
 	{
