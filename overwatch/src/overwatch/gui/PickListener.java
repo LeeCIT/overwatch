@@ -21,5 +21,5 @@ package overwatch.gui;
 
 public interface PickListener<T>
 {
-	public void onPick( T element );
+	public void onPick( T picked );
 }

@@ -11,6 +11,8 @@ import java.awt.event.WindowListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -18,8 +20,8 @@ import net.miginfocom.swing.MigLayout;
 
 
 /**
- * A modal dialogue for picking stuff from the database.
- * When a selection is made it generates onPick events and provides the object reference.
+ * A modal dialogue for picking stuff in a separate window.
+ * When a selection is made it generates onPick events with the object that was picked.
  * If cancelled or closed, the same happens except the reference is null.
  * 
  * @author  Lee Coakley
@@ -33,11 +35,12 @@ import net.miginfocom.swing.MigLayout;
 
 public class SearchPicker<T> extends JDialog
 {
+	private ArrayList<PickListener<T>> pickListeners;
+	private boolean picked;
+	
 	private SearchPanel<T> searchPanel;
 	private JButton        buttOkay;
 	private JButton        buttCancel;
-	
-	private ArrayList<PickListener<T>> pickListeners;
 	
 	
 	
@@ -48,7 +51,10 @@ public class SearchPicker<T> extends JDialog
 		super( frame, title );
 		
 		setLayout(  new MigLayout( "debug" )  );
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );		
+		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		
+		pickListeners = new ArrayList<PickListener<T>>();
+		picked        = false;
 		
 		searchPanel = new SearchPanel<T>( label, searchables );
 		buttOkay    = new JButton( "OK" );
@@ -56,6 +62,8 @@ public class SearchPicker<T> extends JDialog
 		
 		setupComponents();
 		setupActions();
+		
+		setVisible( true );
 	}
 	
 	
@@ -82,20 +90,24 @@ public class SearchPicker<T> extends JDialog
 	
 	private void setupComponents()
 	{
+		buttOkay.setEnabled( false );
+		
 		add( searchPanel, "wrap" );
 		add( buttOkay, "split 2, alignx right" );
 		add( buttCancel );
 	}
-
-
-
-
-
+	
+	
+	
+	
+	
 	private void setupActions()
 	{
 		buttOkay.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				notifyListeners( searchPanel.getSelectedItem() );				
+				notifyListeners( searchPanel.getSelectedItem() );
+				picked = true;
+				dispose();
 			}
 		});
 		
@@ -103,7 +115,8 @@ public class SearchPicker<T> extends JDialog
 		
 		buttCancel.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				notifyListeners( null );				
+				notifyListeners( null );
+				dispose();
 			}
 		});
 		
@@ -114,26 +127,69 @@ public class SearchPicker<T> extends JDialog
 			public void windowIconified  ( WindowEvent e ) {}
 			public void windowDeiconified( WindowEvent e ) {}
 			public void windowDeactivated( WindowEvent e ) {}
-			public void windowClosing    ( WindowEvent e ) { notifyListeners( null ); }
-			public void windowClosed     ( WindowEvent e ) {}
+			public void windowClosing    ( WindowEvent e ) {}
+			public void windowClosed     ( WindowEvent e ) { onClose(); }
 			public void windowActivated  ( WindowEvent e ) {}
 		});
 		
+		
+		
+		searchPanel.addListSelectionListener( new ListSelectionListener() {
+			public void valueChanged( ListSelectionEvent e ) {
+				buttOkay.setEnabled( searchPanel.hasSelectedItem() );
+			}
+		});		
 	}
 	
 	
 	
-
-
-	private void notifyListeners( T elem )
-	{
-		System.out.println( "event notify" );
-		
+	
+	
+	private void notifyListeners( T elem ) {
 		for (PickListener<T> pl: pickListeners) {
 			pl.onPick( elem );
 		}
 	}
+	
+	
+	
+	
+	
+	private void onClose() {
+		if ( ! picked)
+			notifyListeners( null );
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Test
+	/////////////////////////////////////////////////////////////////////////
+	
+	public static void main( String[] args )
+	{
+		Integer[] nums  = { 1, 2, 3 };
+		String[]  names = { "One", "Two", "Three" };		
 		
+		SearchPicker<Integer> sp = new SearchPicker<Integer>( 
+			new JFrame(),
+			"Test",
+			"label",
+			new NameRefPairList<Integer>( nums, names )
+		);
+		
+		sp.addPickListener( new PickListener<Integer>() {
+			public void onPick( Integer picked ) {
+				System.out.println( "Pick event: " + picked );
+			}
+		});
+	}
 }
 
 
