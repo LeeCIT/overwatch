@@ -8,12 +8,14 @@ import java.util.ArrayList;
 
 
 
+
 /**
  * Nicer version of ArrayList<NameRefPair<T>>.
  * 
  * @author  Lee Coakley
  * @version 1
  */
+
 
 
 

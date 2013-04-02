@@ -3,27 +3,40 @@
 
 package overwatch.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
+import overwatch.db.Database;
+import overwatch.db.EnhancedResultSet;
 import net.miginfocom.swing.MigLayout;
 
+
+
+
+/**
+ * Implements the Personnel tab for the main interface.
+ * The search panel here relates by personNo.
+ * 
+ * @author  John Murphy
+ * @author  Lee Coakley
+ * @version 2
+ *
+ */
 
 
 
 
 public class PersonnelTab extends JPanel
 {
-	private JList namesList;
+	private SearchPanel<Integer> searchPanel;
 	
-	private JLabel personnelListLabel;
 	private JLabel personnelNameLabel;
 	private JLabel detailsForLabel;
 	private JLabel personnelAgeLabel;
 	private JLabel personnelSexLabel;
 	private JLabel personnelRankLabel;
-	private JLabel personnelSalaryLabel;	
+	private JLabel personnelSalaryLabel;
 	
 	private JTextField personnelName;
 	private JTextField personnelAge;
@@ -42,11 +55,72 @@ public class PersonnelTab extends JPanel
 	
 	public PersonnelTab()
 	{
-		//Create panel and components for the panel
 		super( new MigLayout("debug") );
+		setupComponents();
 		
-		namesList				= new JList();
-		personnelListLabel 		= new JLabel("Personnel List");
+		
+		EnhancedResultSet ers = Database.query(
+			"select personNo, name from Personnel;"
+		);
+		populateSearchPanel( ers );
+	};
+	
+	
+	
+	
+	
+	public void populateSearchPanel( EnhancedResultSet ers )
+	{
+		System.out.println( ers );
+		Integer[] nums  = ers.getColumnAs( "personNo", Integer[].class );
+		String[]  names = ers.getColumnAs( "name",     String[].class  );
+		
+		NameRefPairList<Integer> pairs = new NameRefPairList<Integer>( nums, names );
+		
+		searchPanel.setSearchableItems( pairs );
+	}
+	
+	
+	
+	
+	
+	public void addSearchPanelListSelectionListener( ListSelectionListener lis ) {
+		searchPanel.addListSelectionListener( lis );
+	}
+	
+	public void addSaveListener( ActionListener e ) {
+		save.addActionListener(e);
+	}
+	
+	public void addDeleteListener( ActionListener e ) {
+		delete.addActionListener(e);
+	}
+	
+	public void addNewListener( ActionListener e ) {
+		addNew.addActionListener(e);
+	}
+	
+	public void addChangeLoginListener( ActionListener e ) {
+		changeLogIn.addActionListener(e);
+	}	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	private void setupComponents()
+	{
+		searchPanel				= new SearchPanel<Integer>( "Personnel" );
 		personnelName			= new JTextField();
 		personnelNameLabel		= new JLabel("Name:");
 		detailsForLabel			= new JLabel("Details for ");  //A variable with the whatever selected from the list will go here
@@ -63,66 +137,30 @@ public class PersonnelTab extends JPanel
 		save					= new JButton("Save");
 		delete					= new JButton("Delete");
 					
-		//Add stuff to the main panel
-		add( personnelListLabel, "north");
-		add( detailsForLabel, "wrap");
-		add( personnelNameLabel);
-		add( personnelName, "wrap");
-		add( personnelAgeLabel);
-		add( personnelAge, "grow, wrap");
-		add( personnelSexLabel);
-		add( personnelSex, "grow, wrap");
-		add( personnelRankLabel);
-		add( personnelRank, "grow, wrap");
-		add( personnelSalaryLabel);
-		add( personnelSalary, "grow, wrap");
-		add( changeLogIn, "wrap");
+		// Add stuff to the main panel
+		add( searchPanel,          "west" );
+		add( detailsForLabel,      "wrap" );
+		add( personnelNameLabel,   "alignx right" );
+		add( personnelName,        "wrap" );
+		add( personnelAgeLabel,    "alignx right" );
+		add( personnelAge,         "grow, wrap" );
+		add( personnelSexLabel,    "alignx right" );
+		add( personnelSex, 		   "grow, wrap" );
+		add( personnelRankLabel,   "alignx right" );
+		add( personnelRank,        "grow, wrap" );
+		add( personnelSalaryLabel, "alignx right");
+		add( personnelSalary,      "grow, wrap");
+		add( changeLogIn, 		   "wrap");
 		add( addNew );
 		add( save );
-		add( delete );
-		add( namesList, "west" );
-				
-		//Set  the size for the list
-		namesList.setPreferredSize(new Dimension(200,400));
-		personnelName.setPreferredSize(new Dimension(200, 25));
-	};
-	
-	
-	
-	
-	
-	//Add action listeners
-	//Save button
-	public void addSaveListener( ActionListener e ) {
-		save.addActionListener(e);
+		add( delete );		
 	}
 	
 	
 	
 	
 	
-	//DeleteButton
-	public void addDeleteListener( ActionListener e ) {
-		delete.addActionListener(e);
-	}
 	
-	
-	
-	
-	
-	//Add new button
-	public void addNewListener( ActionListener e ) {
-		addNew.addActionListener(e);
-	}
-	
-	
-	
-	
-	
-	//Change login details
-	public void addChangeLoginListener( ActionListener e ) {
-		changeLogIn.addActionListener(e);
-	}	
 
 }
 
