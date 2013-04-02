@@ -55,7 +55,7 @@ public class VehicleTab extends JPanel{
 		
 		//Add components to the supplies tab
 		add(search, "west");
-		add(vehicleDetails, "wrap");
+		add(vehicleDetails, "wrap, cell 1 0");
 		add(number, "alignx right");
 		add(numberTF, "grow, wrap");
 		add(type, "align x right");
