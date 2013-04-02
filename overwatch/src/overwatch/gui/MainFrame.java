@@ -9,10 +9,9 @@ import javax.swing.*;
 
 
 
-public class MainGuiTabbedInterface extends JFrame
+public class MainFrame extends JFrame
 {
 	
-	//Classes where the panels are made for each tab
 	private JTabbedPane  mainTabbedPane;
 	private PersonnelTab personnelTab;
 	
@@ -20,7 +19,7 @@ public class MainGuiTabbedInterface extends JFrame
 	
 	
 	
-	public MainGuiTabbedInterface()
+	public MainFrame()
 	{
 		mainTabbedPane = new JTabbedPane();
 		personnelTab   = new PersonnelTab();
@@ -40,10 +39,17 @@ public class MainGuiTabbedInterface extends JFrame
 	
 	
 	
-	//Test
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Test
+	/////////////////////////////////////////////////////////////////////////
+	
 	public static void main (String[] args)
 	{
-		MainGuiTabbedInterface mainInt = new MainGuiTabbedInterface();
+		MainFrame mainInt = new MainFrame();
 	}
 	
 
