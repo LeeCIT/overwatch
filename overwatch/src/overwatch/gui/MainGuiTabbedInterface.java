@@ -1,41 +1,41 @@
+
+
+
 package overwatch.gui;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
-public class MainGuiTabbedInterface extends JFrame{
+
+
+
+public class MainGuiTabbedInterface extends JFrame
+{
 	
-	private JTabbedPane mainTabbedPane;
-	private JPanel personnelTab;
-	private JPanel ordersTab;
-
+	//Classes where the panels are made for each tab
+	private JTabbedPane  mainTabbedPane;
+	private PersonnelTab personnelTab;
+	
+	
 	
 	
 	
 	public MainGuiTabbedInterface()
 	{
-		personnelTab = new PersonnelTab();
-		ordersTab	 = new OrderTab();
-		
-		PersonnelTab personnelTabReference	 = new PersonnelTab();
-		OrderTab orderTabReference			 = new OrderTab();
-		
 		mainTabbedPane = new JTabbedPane();
-						
-		//Add the tabs to the tabbed pane
-		mainTabbedPane.addTab("Personnel", personnelTab  );
-		mainTabbedPane.addTab("Orders", ordersTab );
+		personnelTab   = new PersonnelTab();
 		
-		//Add stuff to the frame
-		add(mainTabbedPane);
+		// Add the tabs to the tabbed pane
+		mainTabbedPane.addTab( "Personnel", personnelTab );
 		
-		//Set the frame up
+		// Add stuff to the frame
+		add( mainTabbedPane );
+		
+		// Set the frame up
 		pack();
 		setVisible(true);
 	}
+	
 	
 	
 	
