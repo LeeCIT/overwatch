@@ -151,7 +151,9 @@ public class Database
 		
 			try {
 				Statement st = conn.createStatement();
-				ers = new EnhancedResultSet( st.executeQuery(sql) );
+					ResultSet rs = st.executeQuery( sql );
+		    			ers = new EnhancedResultSet( rs );
+		    		rs.close();
 				st.close();
 			}
 			catch (SQLException ex) {
