@@ -9,15 +9,16 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 public class MainGuiTabbedInterface extends JFrame{
 	
 	private JTabbedPane mainTabbedPane;
-	private JPanel personnel;
-	private JPanel orders;
+	private JPanel personnelTab;
+	private JPanel ordersTab;
 
 	
 	
 	
 	public MainGuiTabbedInterface()
 	{
-		personnel = new PersonnelTab();
+		personnelTab = new PersonnelTab();
+		ordersTab	 = new OrderTab();
 		
 		PersonnelTab personnelTabReference	 = new PersonnelTab();
 		OrderTab orderTabReference			 = new OrderTab();
@@ -25,10 +26,12 @@ public class MainGuiTabbedInterface extends JFrame{
 		mainTabbedPane = new JTabbedPane();
 						
 		//Add the tabs to the tabbed pane
-		mainTabbedPane.addTab("Personnel", personnel  );
-		mainTabbedPane.addTab("Orders", new OrderTab() );
+		mainTabbedPane.addTab("Personnel", personnelTab  );
+		mainTabbedPane.addTab("Orders", ordersTab );
 		
+		//Add stuff to the frame
 		add(mainTabbedPane);
+		
 		//Set the frame up
 		pack();
 		setVisible(true);
