@@ -60,6 +60,7 @@ public class SearchPicker<T> extends JDialog
 		setupComponents( label, searchables );
 		setupActions();
 		
+		setSize( 240, 384 ); // Golden ratio
 		setVisible( true );
 	}
 	
