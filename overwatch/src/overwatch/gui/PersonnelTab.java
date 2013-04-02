@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import net.miginfocom.swing.MigLayout;
 
-public class PersonnelTab{
+public class PersonnelTab extends JPanel{
 	
 	private JPanel personnelPanel;
 	private JPanel listHolder;
@@ -36,16 +36,7 @@ public class PersonnelTab{
 	private JButton delete;
 	
 	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	public PersonnelTab() {};
-	
-	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	public JPanel personnelPanelCreate()
+	public PersonnelTab() 
 	{
 		//Create panel and components for the panel
 		personnelPanel 			= new JPanel(new MigLayout("debug"));
@@ -89,11 +80,8 @@ public class PersonnelTab{
 		//Set  the size for the list
 		namesList.setPreferredSize(new Dimension(200,400));
 		personnelName.setPreferredSize(new Dimension(200, 25));
-		
-		
-		//Returns the personnel panel
-		return personnelPanel;
-	}
+	};
+	
 	
 	
 	
