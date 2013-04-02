@@ -1,19 +1,20 @@
+
+
+
 package overwatch.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
-
-
 import net.miginfocom.swing.MigLayout;
 
-public class PersonnelTab extends JPanel{
-	
-	private JPanel personnelPanel;
-	private JPanel listHolder;
-	
+
+
+
+
+public class PersonnelTab extends JPanel
+{
 	private JList namesList;
 	
 	private JLabel personnelListLabel;
@@ -36,10 +37,14 @@ public class PersonnelTab extends JPanel{
 	private JButton delete;
 	
 	
-	public PersonnelTab() 
+	
+	
+	
+	public PersonnelTab()
 	{
 		//Create panel and components for the panel
-		personnelPanel 			= new JPanel(new MigLayout("debug"));
+		super( new MigLayout("debug") );
+		
 		namesList				= new JList();
 		personnelListLabel 		= new JLabel("Personnel List");
 		personnelName			= new JTextField();
@@ -59,31 +64,28 @@ public class PersonnelTab extends JPanel{
 		delete					= new JButton("Delete");
 					
 		//Add stuff to the main panel
-		personnelPanel.add(personnelListLabel, "north");
-		personnelPanel.add(detailsForLabel, "wrap");
-		personnelPanel.add(personnelNameLabel);
-		personnelPanel.add(personnelName, "wrap");
-		personnelPanel.add(personnelAgeLabel);
-		personnelPanel.add(personnelAge, "grow, wrap");
-		personnelPanel.add(personnelSexLabel);
-		personnelPanel.add(personnelSex, "grow, wrap");
-		personnelPanel.add(personnelRankLabel);
-		personnelPanel.add(personnelRank, "grow, wrap");
-		personnelPanel.add(personnelSalaryLabel);
-		personnelPanel.add(personnelSalary, "grow, wrap");
-		personnelPanel.add(changeLogIn, "wrap");
-		personnelPanel.add(addNew);
-		personnelPanel.add(save);
-		personnelPanel.add(delete);
-		personnelPanel.add(namesList, "west");
+		add( personnelListLabel, "north");
+		add( detailsForLabel, "wrap");
+		add( personnelNameLabel);
+		add( personnelName, "wrap");
+		add( personnelAgeLabel);
+		add( personnelAge, "grow, wrap");
+		add( personnelSexLabel);
+		add( personnelSex, "grow, wrap");
+		add( personnelRankLabel);
+		add( personnelRank, "grow, wrap");
+		add( personnelSalaryLabel);
+		add( personnelSalary, "grow, wrap");
+		add( changeLogIn, "wrap");
+		add( addNew );
+		add( save );
+		add( delete );
+		add( namesList, "west" );
 				
 		//Set  the size for the list
 		namesList.setPreferredSize(new Dimension(200,400));
 		personnelName.setPreferredSize(new Dimension(200, 25));
-		
-		add(personnelPanel);
 	};
-	
 	
 	
 	
@@ -91,29 +93,80 @@ public class PersonnelTab extends JPanel{
 	
 	//Add action listeners
 	//Save button
-	public void savePersonnel(ActionListener e)
-	{
+	public void addSaveListener( ActionListener e ) {
 		save.addActionListener(e);
 	}
 	
+	
+	
+	
+	
 	//DeleteButton
-	public void deletePersonnell(ActionListener e)
-	{
+	public void addDeleteListener( ActionListener e ) {
 		delete.addActionListener(e);
 	}
 	
+	
+	
+	
+	
 	//Add new button
-	public void addNewPersonnel(ActionListener e)
-	{
+	public void addNewListener( ActionListener e ) {
 		addNew.addActionListener(e);
 	}
 	
+	
+	
+	
+	
 	//Change login details
-	public void changeLogin(ActionListener e)
-	{
+	public void addChangeLoginListener( ActionListener e ) {
 		changeLogIn.addActionListener(e);
-	}
-	
-	
+	}	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
