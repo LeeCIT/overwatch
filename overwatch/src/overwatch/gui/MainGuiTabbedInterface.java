@@ -17,15 +17,18 @@ public class MainGuiTabbedInterface extends JFrame{
 	
 	public MainGuiTabbedInterface()
 	{
+		personnel = new PersonnelTab();
+		
 		PersonnelTab personnelTabReference	 = new PersonnelTab();
 		OrderTab orderTabReference			 = new OrderTab();
 		
 		mainTabbedPane = new JTabbedPane();
 						
 		//Add the tabs to the tabbed pane
-		mainTabbedPane.addTab("Personnel", new PersonnelTab() );
+		mainTabbedPane.addTab("Personnel", personnel  );
 		mainTabbedPane.addTab("Orders", new OrderTab() );
 		
+		add(mainTabbedPane);
 		//Set the frame up
 		pack();
 		setVisible(true);

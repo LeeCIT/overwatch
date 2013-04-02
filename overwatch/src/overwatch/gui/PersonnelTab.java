@@ -80,6 +80,8 @@ public class PersonnelTab extends JPanel{
 		//Set  the size for the list
 		namesList.setPreferredSize(new Dimension(200,400));
 		personnelName.setPreferredSize(new Dimension(200, 25));
+		
+		add(personnelPanel);
 	};
 	
 	
