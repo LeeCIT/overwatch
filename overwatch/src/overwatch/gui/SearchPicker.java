@@ -19,6 +19,8 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * A modal dialogue for picking stuff from the database.
+ * When a selection is made it generates onPick events and provides the object reference.
+ * If cancelled or closed, the same happens except the reference is null.
  * 
  * @author  Lee Coakley
  * @version 1
@@ -46,7 +48,7 @@ public class SearchPicker<T> extends JDialog
 		super( frame, title );
 		
 		setLayout(  new MigLayout( "debug" )  );
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		setDefaultCloseOperation( DISPOSE_ON_CLOSE );		
 		
 		searchPanel = new SearchPanel<T>( label, searchables );
 		buttOkay    = new JButton( "OK" );
@@ -67,7 +69,7 @@ public class SearchPicker<T> extends JDialog
 	
 	
 	
-		
+	
 	
 	
 	
@@ -94,6 +96,14 @@ public class SearchPicker<T> extends JDialog
 		buttOkay.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				notifyListeners( searchPanel.getSelectedItem() );				
+			}
+		});
+		
+		
+		
+		buttCancel.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				notifyListeners( null );				
 			}
 		});
 		
