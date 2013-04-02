@@ -13,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import overwatch.core.Gui;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -25,7 +26,7 @@ import net.miginfocom.swing.MigLayout;
  * If cancelled or closed, the same happens except the reference is null.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  * @see 	SearchPanel
  */
 
@@ -50,19 +51,16 @@ public class SearchPicker<T> extends JDialog
 	{
 		super( frame, title );
 		
-		setLayout(  new MigLayout( "debug" )  );
+		setLayout(  new MigLayout( "", "[grow]", "[grow,fill][]" )  );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		
 		pickListeners = new ArrayList<PickListener<T>>();
 		picked        = false;
 		
-		searchPanel = new SearchPanel<T>( label, searchables );
-		buttOkay    = new JButton( "OK" );
-		buttCancel  = new JButton( "Cancel" );
-		
-		setupComponents();
+		setupComponents( label, searchables );
 		setupActions();
 		
+		setSize( 240, 384 ); // Golden ratio
 		setVisible( true );
 	}
 	
@@ -88,11 +86,15 @@ public class SearchPicker<T> extends JDialog
 	
 	
 	
-	private void setupComponents()
+	private void setupComponents( String label, ArrayList<NameRefPair<T>> searchables )
 	{
+		searchPanel = new SearchPanel<T>( label, searchables );
+		buttOkay    = new JButton( "OK" );
+		buttCancel  = new JButton( "Cancel" );
+		
 		buttOkay.setEnabled( false );
 		
-		add( searchPanel, "wrap" );
+		add( searchPanel, "wrap, grow" );
 		add( buttOkay, "split 2, alignx right" );
 		add( buttCancel );
 	}
@@ -115,7 +117,6 @@ public class SearchPicker<T> extends JDialog
 		
 		buttCancel.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				notifyListeners( null );
 				dispose();
 			}
 		});
@@ -174,6 +175,8 @@ public class SearchPicker<T> extends JDialog
 	
 	public static void main( String[] args )
 	{
+		Gui.setNativeStyle();
+		
 		Integer[] nums  = { 1, 2, 3 };
 		String[]  names = { "One", "Two", "Three" };		
 		
