@@ -17,7 +17,7 @@ import net.miginfocom.swing.MigLayout;
  * Panel for searching a list of short text items.
  * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  * @see     NameRefPair
  */
 
@@ -39,40 +39,60 @@ public class SearchPanel<T> extends JPanel
 	
 	
 	
-	private SearchPanel() {
+	private SearchPanel()
+	{
 		super(  new MigLayout("fill", "[]", "[][fill,grow][]")  );
 	}
 	
 	
 	
-	public SearchPanel( String labelText ) {
+	
+	
+	public SearchPanel( String labelText )
+	{
 		this(  labelText,  new ArrayList<NameRefPair<T>>()  );
 	}
 	
 	
 	
-	public SearchPanel( String labelText, ArrayList<NameRefPair<T>> searchableItems )
+	
+	
+	public SearchPanel( String labelText, ArrayList<NameRefPair<T>> searchables )
 	{
 		this();
-		setup( labelText, searchableItems );
+		setup( labelText, searchables );
 	}
 	
 	
 	
 	
 	
+	public SearchPanel( String labelText, T[] searchables )
+	{
+		this();
+		setup( labelText, toPairList(searchables) );
+	}
 	
 	
 	
 	
 	
-	
+	/**
+	 * Generates an event when the selected list item changes.
+	 * @param lis
+	 */
 	public void addListSelectionListener( ListSelectionListener lis ) {
 		searchList.addListSelectionListener( lis );
 	}
 	
 	
 	
+	
+	
+	/**
+	 * Generates an event when the clear button is used.
+	 * @param lis
+	 */
 	public void addClearButtonListener( ActionListener lis ) {
 		searchClear.addActionListener( lis );
 	}
@@ -86,10 +106,22 @@ public class SearchPanel<T> extends JPanel
 	 * Searching does not alter this data.
 	 * If the search field is empty then everything is displayed.
 	 */
-	public void setSearchableItems( ArrayList<NameRefPair<T>> items )
-	{		
+	public void setSearchableItems( ArrayList<NameRefPair<T>> items ) {		
 		searchableItems = (ArrayList<NameRefPair<T>>) items.clone();
 		resetDisplayedItems();
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Set object/string pairs to be considered for searching/display.
+	 * Searching does not alter this data.
+	 * If the search field is empty then everything is displayed.
+	 */
+	public void setSearchableItems( T[] array ) {		
+		setSearchableItems( toPairList(array) );
 	}
 	
 	
@@ -101,7 +133,7 @@ public class SearchPanel<T> extends JPanel
 	 * This would be an overload and a separate constructor, but 
 	 * Java's shitty type-erasure-based generics make that impossible. 
 	 */
-	public void setSearchableItemsAutoname( ArrayList<T> items )
+	public void setSearchableItemsByPlainList( ArrayList<T> items )
 	{		
 		ArrayList<NameRefPair<T>> pairs = new ArrayList<NameRefPair<T>>();
 		
@@ -109,7 +141,7 @@ public class SearchPanel<T> extends JPanel
 			pairs.add(  new NameRefPair<T>(ref, ref.toString())  );
 		}
 		
-		setDisplayedItems( pairs );
+		setSearchableItems( pairs );
 	}
 	
 	
@@ -310,14 +342,55 @@ public class SearchPanel<T> extends JPanel
 	
 	
 
+	
+	
 	private void setDisplayedItems( ArrayList<NameRefPair<T>> items ) {
 		searchList.setListData(  items.toArray(  new NameRefPair[items.size()]  )  );
 	}
 	
 	
 	
+	
+	
 	private void resetDisplayedItems() {
 		setDisplayedItems( searchableItems );
+	}
+	
+	
+	
+	
+	
+	private ArrayList<NameRefPair<T>> toPairList( T[] array )
+	{
+		ArrayList<NameRefPair<T>> list = new ArrayList<NameRefPair<T>>();
+		
+		for (T el: array) {
+			list.add( new NameRefPair<T>( el, el.toString() ) );
+		}
+		
+		return list;
+	}
+	
+	
+	
+		
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Test
+	/////////////////////////////////////////////////////////////////////////
+	
+	public static void main( String[] args )
+	{
+		javax.swing.JFrame frame = new javax.swing.JFrame();
+		
+		String[] searchables = { "Test", "Another test", "yes another" };
+		SearchPanel<String> sp = new SearchPanel<String>( "Test", searchables );
+		
+		frame.add( sp );
+		frame.setVisible( true );
 	}
 }
 
