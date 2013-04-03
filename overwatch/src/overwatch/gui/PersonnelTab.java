@@ -25,7 +25,7 @@ import overwatch.db.EnhancedResultSet;
 
 
 
-public class PersonnelTab extends GenericPanel<Integer>
+public class PersonnelTab extends GenericPanelButtoned<Integer>
 {
 	private LabelFieldPair            name;
 	private LabelFieldPair            age;
@@ -33,7 +33,6 @@ public class PersonnelTab extends GenericPanel<Integer>
 	private LabelFieldPair            salary;
 	private LabelFieldEllipsisTriplet rank;
 	private JButton 				  login;
-	private StandardButtonTriplet     buttons;
 	
 	
 	
@@ -75,15 +74,10 @@ public class PersonnelTab extends GenericPanel<Integer>
 	// Buttons
 	public void addChangeLoginListener( ActionListener e ) { login.addActionListener(e); }
 	
-	public void addNewListener   ( ActionListener e ) { buttons.addNew.addActionListener(e); }
-	public void addSaveListener  ( ActionListener e ) { buttons.save  .addActionListener(e); }
-	public void addDeleteListener( ActionListener e ) { buttons.delete.addActionListener(e); }
-	
 	
 
 	
-	
-	
+		
 	
 	
 	
@@ -101,8 +95,7 @@ public class PersonnelTab extends GenericPanel<Integer>
 		sex     = addLabelledField( "Sex:"  );
 		salary  = addLabelledField( "Salary:" );
 		rank    = addLabelledFieldWithEllipsis( "Rank:" );
-		login   = addToMain( new JButton("Login details..."), "skip 1, alignx right" ); 
-		buttons = addNewSaveDeleteButtons();		
+		login   = addToMain( new JButton("Login details..."), "skip 1, alignx right" );	
 	}
 
 }
