@@ -262,7 +262,7 @@ public class ConnectionPool
 			try {
 				threadLoopController = false;				
 				thread.join();
-				break;
+				return;
 			}
 			catch( InterruptedException ex) {
 				thread.interrupt();
