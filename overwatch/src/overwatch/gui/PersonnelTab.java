@@ -6,6 +6,7 @@ package overwatch.gui;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
+import overwatch.db.Database;
 
 
 

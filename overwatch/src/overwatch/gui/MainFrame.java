@@ -5,7 +5,6 @@ package overwatch.gui;
 
 import javax.swing.*;
 import overwatch.core.Gui;
-import overwatch.core.PersonnelLogic;
 
 
 

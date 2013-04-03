@@ -3,14 +3,18 @@
 
 package overwatch.core;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
+import overwatch.db.EnhancedResultSet;
 import overwatch.gui.CheckedFieldValidator;
+import overwatch.gui.NameRefPair;
 import overwatch.gui.PersonnelTab;
 import overwatch.util.Validator;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 
@@ -42,6 +46,26 @@ public class PersonnelLogic
 	
 	
 	
+	private static void populateTabList( PersonnelTab tab )
+	{
+		tab.setSearchableItems(
+			Database.queryKeyNamePairs( "Personnel", "personNo", "name", Integer[].class )
+		);
+	}
+	
+	
+	
+	
+	
+	private static void populateTabFields( PersonnelTab tab )
+	{
+		
+	}
+	
+	
+	
+	
+	
 	private static void setupSelectActions( PersonnelTab tab )
 	{
 		tab.addSearchPanelListSelectionListener( new ListSelectionListener() {
@@ -50,6 +74,7 @@ public class PersonnelLogic
 			}
 		});
 	}
+	
 	
 	
 	
@@ -76,6 +101,7 @@ public class PersonnelLogic
 			}
 		});
 	}
+	
 	
 	
 	
