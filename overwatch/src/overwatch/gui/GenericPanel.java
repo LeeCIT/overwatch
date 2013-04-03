@@ -112,6 +112,12 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	public static void main( String[] args )
 	{
 		Gui.setNativeStyle();
@@ -120,12 +126,26 @@ public class GenericPanel<T> extends JPanel
 		gp.addLabelledField( "Name:" );
 		gp.addLabelledField( "Age:"  );
 		
+		
+		
 		final LabelFieldEllipsisTriplet lft = gp.addLabelledFieldWithEllipsis( "Rank:" );
+		
+		
+		
+		lft.field.addValidator( new CheckedFieldValidator() {
+			public boolean check( String text ) {
+				return text.length() == 4;
+			}
+		});
+		
+		
 		
 		final JFrame jf = new JFrame();
 		jf.add( gp );
 		jf.setSize( new Dimension(640,400) );
 		jf.setVisible( true );
+		
+		
 		
 		lft.button.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
