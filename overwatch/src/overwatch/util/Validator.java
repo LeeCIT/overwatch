@@ -42,6 +42,26 @@ public class Validator
 	
 	
 	/**
+	 * Check if a string can be converted to an integer.
+	 * @param str
+	 * @return boolean
+	 */
+	public static boolean isPositiveInt( String str )
+	{
+		try {
+			int x = Integer.parseInt( str );
+			return x >= 0;
+		}
+		catch (NumberFormatException ex) {
+			return false;
+		}
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Check if a string's size is between two sizes.
 	 * @param str
 	 * @param min
@@ -56,3 +76,30 @@ public class Validator
 			&& len <= max;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
