@@ -140,6 +140,22 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
+	public T getSelectedItem() {
+		return searchPanel.getSelectedItem();
+	}
+	
+	
+	
+	
+	
+	public boolean hasSelectedItem() {
+		return searchPanel.hasSelectedItem();
+	}
+	
+	
+	
+	
+	
 	
 	
 	
