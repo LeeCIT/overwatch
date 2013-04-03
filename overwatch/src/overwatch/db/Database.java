@@ -8,6 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import overwatch.gui.NameRefPair;
+import overwatch.gui.NameRefPairList;
 
 
 
@@ -163,6 +166,32 @@ public class Database
 		returnConnection( conn );
     	
     	return ers;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Get an ArrayList of NameRefPairs from a table, based on two columns.
+	 * Intended for use with the GUI's SearchPanel functions.
+	 * @param table	Table to query.
+	 * @param keyColumn Name of column to key on (e.g. personNo)
+	 * @param nameColumn Name of column with associated names.  Must be a varchar/char type column.
+	 * @param keyType Type of key.  Usually Integer.
+	 * @return ArrayList<NameRefPair<T>>
+	 */
+	public static <T> ArrayList<NameRefPair<T>> queryKeyNamePairs( String table, String keyColumn, String nameColumn, Class<? extends T[]> keyType )
+	{
+		EnhancedResultSet ers = query(
+			"select " + keyColumn + ", " + nameColumn + " " +
+		    "from " + table + ";"
+		);
+		
+		T[]      keys  = ers.getColumnAs( keyColumn,  keyType        );
+		String[] names = ers.getColumnAs( nameColumn, String[].class );
+		
+		return new NameRefPairList<T>( keys, names );
 	}
 	
 	
