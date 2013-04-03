@@ -8,6 +8,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -128,6 +129,14 @@ public class GenericPanel<T> extends JPanel
 		return new StandardButtonTriplet( a,s,d );
 	}
 	
+	
+	
+	
+	
+	public void setSearchableItems( ArrayList<NameRefPair<T>> pairs )
+	{
+		searchPanel.setSearchableItems( pairs );
+	}
 	
 	
 	
