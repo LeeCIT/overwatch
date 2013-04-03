@@ -17,67 +17,26 @@ import net.miginfocom.swing.MigLayout;
  * 
  * @author  John Murphy
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
 
 
 
-public class SuppliesTab extends JPanel
+public class SuppliesTab extends GenericPanelButtoned<Integer>
 {
-	private JLabel labelName;
-	private JLabel labelType;
-	private JLabel labelAmount;
 	
-	private JTextField fieldName;
-	private JTextField fieldType;
-	private JTextField fieldAmount;
-	
-	private JButton buttonNew;
-	private JButton buttonSave;
-	private JButton buttonDelete;
-	
-	private SearchPanel<Integer> searchPanel;
-	
-	
-	
+	private LabelFieldPair name;
+	private LabelFieldPair type;
+	private LabelFieldPair amount;
 	
 	
 	public SuppliesTab()
 	{
-		super( new MigLayout() );
+		super( "Supplies", "Supply" );		
 		setupComponents();
 	}
-
-	
-	
-	
-	
-	//Action listeners for each button
-	public void addNewSupplyListener(ActionListener e) {
-		buttonNew.addActionListener(e);
-	}
-	
-	
-	
-	public void addSaveListener( ActionListener e) {
-		buttonSave.addActionListener(e);
-	}
-	
-	
-	
-	public void addDeleteListener(ActionListener e){
-		buttonDelete.addActionListener(e);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
@@ -85,28 +44,9 @@ public class SuppliesTab extends JPanel
 	
 	private void setupComponents()
 	{
-		labelName 	 = new JLabel( "Supply:" );
-		labelType 	 = new JLabel( "Type:"   );
-		labelAmount  = new JLabel( "Amount:" );
-		fieldName	 = new JTextField();
-		fieldType	 = new JTextField();
-		fieldAmount	 = new JTextField();
-		searchPanel	 = new SearchPanel<Integer>("Supplies"); //Template code to put in.
-		buttonNew	 = new JButton("New");
-		buttonSave	 = new JButton("Save");
-		buttonDelete = new JButton("Delete");
-		
-		
-		add(searchPanel, "west");
-		add(labelName,   "gaptop 25, alignx right, cell 0 2");
-		add(fieldName,   "wrap");
-		add(labelType,   "alignx right");
-		add(fieldType,   "wrap, grow");
-		add(labelAmount, "alignx right");
-		add(fieldAmount, "wrap, grow");
-		add(buttonNew);
-		add(buttonSave);
-		add(buttonDelete);
+		name  	= addLabelledField("Name:");
+		type	= addLabelledField("Type:");
+		amount  = addLabelledField("Amount:");	
 	}
 	
 	
