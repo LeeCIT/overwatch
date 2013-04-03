@@ -33,9 +33,10 @@ public class PersonnelTab extends GenericPanel<Integer>
 	private LabelFieldPair            sex;
 	private LabelFieldPair            salary;
 	private LabelFieldEllipsisTriplet rank;
+	private JButton 				  login;
 	private StandardButtonTriplet     buttons;
 	
-	private JButton changeLoginDetails;
+	
 	
 	
 	
@@ -92,7 +93,7 @@ public class PersonnelTab extends GenericPanel<Integer>
 	
 	
 	public void addChangeLoginListener( ActionListener e ) {
-		changeLoginDetails.addActionListener(e);
+		login.addActionListener(e);
 	}	
 	
 	
@@ -116,6 +117,7 @@ public class PersonnelTab extends GenericPanel<Integer>
 		sex     = addLabelledField( "Sex:"  );
 		salary  = addLabelledField( "Salary:" );
 		rank    = addLabelledFieldWithEllipsis( "Rank:" );
+		login   = addToMain( new JButton("Login details..."), "skip 1, alignx right" ); 
 		buttons = addNewSaveDeleteButtons();		
 	}
 
