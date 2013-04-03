@@ -9,7 +9,7 @@ import javax.swing.*;
  *
  */
 
-public class VehicleTab extends GenericPanel<Integer>
+public class VehicleTab extends GenericPanelButtoned<Integer>
 {
 	private LabelFieldPair            number;
 	private LabelFieldPair            type;
