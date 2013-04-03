@@ -53,6 +53,7 @@ public class SearchPicker<T> extends JDialog
 		
 		setLayout(  new MigLayout( "", "[grow]", "[grow,fill][]" )  );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		setModalityType( ModalityType.APPLICATION_MODAL );
 		
 		pickListeners = new ArrayList<PickListener<T>>();
 		picked        = false;
