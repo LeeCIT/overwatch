@@ -1,15 +1,8 @@
 
-
-
 package overwatch.gui;
 
-import java.awt.event.ActionListener;
 import javax.swing.*;
 import overwatch.core.Gui;
-import net.miginfocom.swing.MigLayout;
-
-
-
 
 
 /**
@@ -19,7 +12,6 @@ import net.miginfocom.swing.MigLayout;
  * @author  Lee Coakley
  * @version 3
  */
-
 
 
 
@@ -48,12 +40,6 @@ public class SuppliesTab extends GenericPanelButtoned<Integer>
 		type	= addLabelledField("Type:");
 		amount  = addLabelledField("Amount:");	
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	
