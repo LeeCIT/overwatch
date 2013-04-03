@@ -178,7 +178,7 @@ public class Database
 	 * @param table	Table to query.
 	 * @param keyColumn Name of column to key on (e.g. personNo)
 	 * @param nameColumn Name of column with associated names.  Must be a varchar/char type column.
-	 * @param keyType Type of key.  Usually Integer.
+	 * @param keyType Type of key.  Usually Integer[].
 	 * @return ArrayList<NameRefPair<T>>
 	 */
 	public static <T> ArrayList<NameRefPair<T>> queryKeyNamePairs( String table, String keyColumn, String nameColumn, Class<? extends T[]> keyType )
