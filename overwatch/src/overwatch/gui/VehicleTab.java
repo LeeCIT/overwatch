@@ -14,7 +14,6 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 	private LabelFieldPair            number;
 	private LabelFieldPair            type;
 	private LabelFieldEllipsisTriplet pilot;
-	private StandardButtonTriplet     buttons;
 	
 	
 	public VehicleTab()
@@ -33,8 +32,7 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 	{
 		number  = addLabelledField( "Number:" );
 		type	= addLabelledField("Type:");
-		pilot   = addLabelledFieldWithEllipsis( "Pilot:" );
-		buttons = addNewSaveDeleteButtons();		
+		pilot   = addLabelledFieldWithEllipsis( "Pilot:" );		
 	}
 	
 	
