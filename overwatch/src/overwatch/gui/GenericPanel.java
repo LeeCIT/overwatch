@@ -123,7 +123,7 @@ public class GenericPanel<T> extends JPanel
 		
 		addToSub( a, "alignx right, split 3" );
 		addToSub( s, "" );
-		addToSub( d, "gap left 8px" );
+		addToSub( d, "gap left 32px" );
 		
 		return new StandardButtonTriplet( a,s,d );
 	}

@@ -91,7 +91,7 @@ public class PersonnelTab extends GenericPanelButtoned<Integer>
 	private void setupComponents()
 	{
 		name    = addLabelledField( "Name:" );
-		age     = addLabelledField( "Age"   );
+		age     = addLabelledField( "Age:"  );
 		sex     = addLabelledField( "Sex:"  );
 		salary  = addLabelledField( "Salary:" );
 		rank    = addLabelledFieldWithEllipsis( "Rank:" );
