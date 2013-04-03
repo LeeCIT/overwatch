@@ -5,6 +5,8 @@ package overwatch.core;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import overwatch.db.DatabaseConstraints;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.PersonnelTab;
@@ -29,12 +31,25 @@ import overwatch.util.Validator;
 public class PersonnelLogic
 {
 	
-	public static void setupTab( PersonnelTab tab )
+	public static void attachEvents( PersonnelTab tab )
 	{
+		setupSelectActions( tab );
 		setupButtonActions( tab );
 		setupValidators   ( tab );
 	}
 	
+	
+	
+	
+	
+	private static void setupSelectActions( PersonnelTab tab )
+	{
+		tab.addSearchPanelListSelectionListener( new ListSelectionListener() {
+			public void valueChanged( ListSelectionEvent e ) {
+				System.out.println( "select" );
+			}
+		});
+	}
 	
 	
 	
@@ -61,7 +76,6 @@ public class PersonnelLogic
 			}
 		});
 	}
-	
 	
 	
 	
