@@ -84,16 +84,6 @@ public class CheckedField extends JTextField
 	
 	
 	
-	private void commonConstructor() {
-		validators   = new ArrayList<CheckedFieldValidator>();
-		initialBgCol = getBackground();
-		
-		setupActions();
-	}
-	
-	
-	
-	
 	
 	
 	
@@ -102,6 +92,15 @@ public class CheckedField extends JTextField
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
+	
+	private void commonConstructor() {
+		validators   = new ArrayList<CheckedFieldValidator>();
+		initialBgCol = getBackground();
+		
+		setupActions();
+	}
+	
+	
 	
 	
 	
