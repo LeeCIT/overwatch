@@ -33,7 +33,7 @@ public class DatabaseConstraints
 	 * Check if a name is valid.
 	 * Applies to names, logins, ranks, subjects, squadnames, etc
 	 * @param str
-	 * @return
+	 * @return validity
 	 */
 	public static boolean isValidName( String str ) {
 		return Validator.isLengthRange( str, 1, maxLengthName );
@@ -43,7 +43,93 @@ public class DatabaseConstraints
 	
 	
 	
+	/**
+	 * Check if sex is valid (just one character)
+	 * @param str
+	 * @return validity
+	 */
 	public static boolean isValidSex( String str ) {
 		return Validator.isLengthRange( str, 1, maxLengthSex );
 	}
+	
+	
+	
+	
+	
+	/**
+	 * Check if a rank exists with the given name.
+	 * Note: Ranks are case sensitive and start with a capital letter.
+	 * @param rankName
+	 * @return exists
+	 */
+	public static boolean rankExists( String rankName )
+	{
+		Integer[] ranks = Database.queryInts(
+			"select rankNo " +
+			"from Ranks " +
+			"where name = '" + rankName + "' " +
+			"limit 1;"
+		);
+		
+		return (ranks.length != 0);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
