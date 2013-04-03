@@ -1,4 +1,5 @@
 package overwatch.gui;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import javax.swing.JFrame;
@@ -13,7 +14,7 @@ import overwatch.db.EnhancedResultSet;
 
 
 /**
- * Rank logic
+ * RankTab logic
  * @author john
  *
  */
@@ -35,11 +36,18 @@ public class RankLogic
 		
 		rankTab.populateSearchPanel(results);
 		rankTab.searchPanel.addListSelectionListener(new RankListChange() );
+		rankTab.buttons.addNew.addActionListener((new AddNewRank() ));
+		rankTab.buttons.delete.addActionListener(new DeleteRank() );
+		rankTab.buttons.save.addActionListener(new SaveRank() );
 	}	
 	
 	
 	
-	
+	/**
+	 * When the list is selected populate the fields
+	 * @author john
+	 *
+	 */
 	public class RankListChange implements ListSelectionListener
 	{
 
@@ -47,6 +55,55 @@ public class RankLogic
 		{
 			Object[] row = results.getRow(rankTab.searchPanel.getSelectedIndex());
 			rankTab.name.field.setText((String) row[1]);
+		}
+		
+	}
+	
+	
+	
+	/**
+	 * Add a new rank
+	 * @author john
+	 *
+	 */
+	public class AddNewRank implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			//TODO		
+		}
+		
+	}
+	
+	
+	
+	/**
+	 * Delete a rank
+	 * @author john
+	 *
+	 */
+	public class DeleteRank implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			// TODO			
+		}
+		
+	}
+	
+	
+	
+	
+	/**
+	 * Save a rank
+	 * @author john
+	 *
+	 */
+	public class SaveRank implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			// TODO			
 		}
 		
 	}
