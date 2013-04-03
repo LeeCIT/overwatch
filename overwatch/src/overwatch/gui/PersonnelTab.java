@@ -65,65 +65,22 @@ public class PersonnelTab extends GenericPanel<Integer>
 	
 	
 	
-	public void addNameValidator( CheckedFieldValidator v ) {
-		name.field.addValidator( v );
-	}
+	// Field validators
+	public void addNameValidator  ( CheckedFieldValidator v ) { name  .field.addValidator( v ); }
+	public void addAgeValidator   ( CheckedFieldValidator v ) { age   .field.addValidator( v ); }
+	public void addSexValidator   ( CheckedFieldValidator v ) { sex   .field.addValidator( v ); }
+	public void addSalaryValidator( CheckedFieldValidator v ) { salary.field.addValidator( v ); }
+	public void addRankValidator  ( CheckedFieldValidator v ) { rank  .field.addValidator( v ); }
+
+	// Buttons
+	public void addChangeLoginListener( ActionListener e ) { login.addActionListener(e); }
+	
+	public void addNewListener   ( ActionListener e ) { buttons.addNew.addActionListener(e); }
+	public void addSaveListener  ( ActionListener e ) { buttons.save  .addActionListener(e); }
+	public void addDeleteListener( ActionListener e ) { buttons.delete.addActionListener(e); }
 	
 	
-	
-	public void addAgeValidator( CheckedFieldValidator v ) {
-		age.field.addValidator( v );
-	}
-	
-	
-	
-	public void addSexValidator( CheckedFieldValidator v ) {
-		sex.field.addValidator( v );
-	}
-	
-	
-	
-	public void addSalaryValidator( CheckedFieldValidator v ) {
-		salary.field.addValidator( v );
-	}
-	
-	
-	
-	public void addRankValidator( CheckedFieldValidator v ) {
-		rank.field.addValidator( v );
-	}
-	
-	
-	
-	public void addSearchPanelListSelectionListener( ListSelectionListener lis ) {
-		searchPanel.addListSelectionListener( lis );
-	}
-	
-	
-	
-	public void addNewListener( ActionListener e ) {
-		buttons.addNew.addActionListener(e);
-	}
-	
-	
-	
-	public void addSaveListener( ActionListener e ) {
-		buttons.save.addActionListener(e);
-	}
-	
-	
-	
-	public void addDeleteListener( ActionListener e ) {
-		buttons.delete.addActionListener(e);
-	}
-	
-	
-	
-	public void addChangeLoginListener( ActionListener e ) {
-		login.addActionListener(e);
-	}	
-	
-	
+
 	
 	
 	
