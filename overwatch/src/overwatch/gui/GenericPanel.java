@@ -8,12 +8,10 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.event.ListSelectionListener;
 import net.miginfocom.swing.MigLayout;
 
@@ -27,7 +25,7 @@ import net.miginfocom.swing.MigLayout;
  * Templated on the SearchPanel type.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -41,6 +39,7 @@ public class GenericPanel<T> extends JPanel
 	protected SearchPanel<T> searchPanel;
 	protected JPanel         mainPanel;
 	protected JLabel         mainLabel;
+	protected JPanel         subPanel;
 	
 	
 	
@@ -53,11 +52,13 @@ public class GenericPanel<T> extends JPanel
 		this.searchPanel = new SearchPanel<T>( searchLabelText );
 		this.mainPanel   = new JPanel( new MigLayout() );
 		this.mainLabel   = new JLabel( mainLabelText );
+		this.subPanel    = new JPanel( new MigLayout() );
 		
 		mainPanel.add( mainLabel, "cell 1 0, wrap" );
 		
-		add( searchPanel, "wmin 72px, wmax 224px" );
-		add( mainPanel,   "alignx left"   );
+		add( searchPanel, "wmin 72px, wmax 224px, spany 2" );
+		add( mainPanel,   "alignx left, wrap"     );
+		add( subPanel,    "alignx right, skip 1"  );
 	}
 	
 	
@@ -66,6 +67,14 @@ public class GenericPanel<T> extends JPanel
 	
 	public void addToMain( Component comp, String layoutParams ) {
 		mainPanel.add( comp, layoutParams );
+	}
+	
+	
+	
+	
+	
+	public void addToSub( Component comp, String layoutParams ) {
+		subPanel.add( comp, layoutParams );
 	}
 	
 	
@@ -104,6 +113,23 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
+	public StandardButtonTriplet addNewSaveDeleteButtons()
+	{
+		JButton a = new JButton( "New"    );
+		JButton s = new JButton( "Save"   );
+		JButton d = new JButton( "Delete" );
+		
+		addToSub( a, "alignx right, split 3" );
+		addToSub( s, "" );
+		addToSub( d, "gap left 8px" );
+		
+		return new StandardButtonTriplet( a,s,d );
+	}
+	
+	
+	
+	
+	
 	public void addSearchPanelListSelectionListener( ListSelectionListener lis ) {
 		searchPanel.addListSelectionListener( lis );
 	}
@@ -127,11 +153,10 @@ public class GenericPanel<T> extends JPanel
 		final GenericPanel<Integer> gp = new GenericPanel<Integer>( "SearchLabel", "MainLabel" );
 		gp.addLabelledField( "Name:" );
 		gp.addLabelledField( "Age:"  );
-		
-		
-		
+
 		final LabelFieldEllipsisTriplet lft = gp.addLabelledFieldWithEllipsis( "Rank:" );
 		
+		final StandardButtonTriplet sbt = gp.addNewSaveDeleteButtons();
 		
 		
 		lft.field.addValidator( new CheckedFieldValidator() {
