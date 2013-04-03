@@ -19,23 +19,20 @@ import overwatch.db.EnhancedResultSet;
  * @author  John Murphy
  * @author  Lee Coakley
  * @version 2
- *
  */
 
 
 
 
 
-public class PersonnelTab extends GenericPanel<Integer>
+public class PersonnelTab extends GenericPanelButtoned<Integer>
 {
 	private LabelFieldPair            name;
 	private LabelFieldPair            age;
 	private LabelFieldPair            sex;
 	private LabelFieldPair            salary;
 	private LabelFieldEllipsisTriplet rank;
-	private StandardButtonTriplet     buttons;
-	
-	private JButton changeLoginDetails;
+	private JButton 				  login;
 	
 	
 	
@@ -67,38 +64,20 @@ public class PersonnelTab extends GenericPanel<Integer>
 	
 	
 	
-	public void addSearchPanelListSelectionListener( ListSelectionListener lis ) {
-		searchPanel.addListSelectionListener( lis );
-	}
+	// Field validators
+	public void addNameValidator  ( CheckedFieldValidator v ) { name  .field.addValidator( v ); }
+	public void addAgeValidator   ( CheckedFieldValidator v ) { age   .field.addValidator( v ); }
+	public void addSexValidator   ( CheckedFieldValidator v ) { sex   .field.addValidator( v ); }
+	public void addSalaryValidator( CheckedFieldValidator v ) { salary.field.addValidator( v ); }
+	public void addRankValidator  ( CheckedFieldValidator v ) { rank  .field.addValidator( v ); }
+
+	// Buttons
+	public void addChangeLoginListener( ActionListener e ) { login.addActionListener(e); }
 	
 	
+
 	
-	public void addNewListener( ActionListener e ) {
-		buttons.addNew.addActionListener(e);
-	}
-	
-	
-	
-	public void addSaveListener( ActionListener e ) {
-		buttons.save.addActionListener(e);
-	}
-	
-	
-	
-	public void addDeleteListener( ActionListener e ) {
-		buttons.delete.addActionListener(e);
-	}
-	
-	
-	
-	public void addChangeLoginListener( ActionListener e ) {
-		changeLoginDetails.addActionListener(e);
-	}	
-	
-	
-	
-	
-	
+		
 	
 	
 	
@@ -116,7 +95,7 @@ public class PersonnelTab extends GenericPanel<Integer>
 		sex     = addLabelledField( "Sex:"  );
 		salary  = addLabelledField( "Salary:" );
 		rank    = addLabelledFieldWithEllipsis( "Rank:" );
-		buttons = addNewSaveDeleteButtons();		
+		login   = addToMain( new JButton("Login details..."), "skip 1, alignx right" );	
 	}
 
 }
