@@ -28,8 +28,6 @@ import java.util.Vector;
 
 public class ConnectionPool
 {
-	private boolean showDebugOutput = false;
-	
 	private          Thread	 thread;
 	private volatile boolean threadLoopController;
 	
@@ -75,8 +73,6 @@ public class ConnectionPool
 		if (thread.isAlive())
 			throw new RuntimeException( "Pool is already started!" );
 		
-		debugOut( "Start" );
-		
 		startThread();
 	}
 	
@@ -94,11 +90,9 @@ public class ConnectionPool
 		if ( ! thread.isAlive())
 			throw new RuntimeException( "Pool is already stopped." );
 		
-		debugOut( "Stopping" );
 		stopThread();
 		forceReturnAllConnections();
 		closeAllFreeConnections();
-		debugOut( "Stopped" );
 	}
 	
 	
@@ -138,17 +132,12 @@ public class ConnectionPool
 	 */
 	public Connection getConnection()
 	{
-		debugOut( "getConnection started" );
-		
 		if ( ! threadLoopController || ! thread.isAlive())
 			throw new RuntimeException( "Can't get connection: pool isn't active." );
 		
 		Connection conn = allocateConnection();
 		
 		makeGrowDecision();
-		
-		debugOut( "getConnection completed" );
-		
 		return conn;
 	}
 	
@@ -162,8 +151,6 @@ public class ConnectionPool
 	 */
 	public void returnConnection( Connection conn )
 	{
-		debugOut( "returnConnection" );
-		
 		if ( ! threadLoopController || ! thread.isAlive())
 			throw new RuntimeException( "Can't return connection: pool isn't active." );		
 		
@@ -271,8 +258,6 @@ public class ConnectionPool
 	
 	private void stopThread()
 	{
-		debugOut( "Stopping thread" );
-		
 		for(;;) {
 			try {
 				threadLoopController = false;				
@@ -291,12 +276,8 @@ public class ConnectionPool
 	
 	private synchronized void manageConnections()
 	{
-		debugOut( "<managing> [" + connTargetNow + "/" + connTargetBasis + "]  f:"+getFreeConnectionCount() + "  u:"+getUsedConnectionCount() );
-		
-		if (getConnectionCount() < connTargetNow) {
+		if (getConnectionCount() < connTargetNow)
 			createAndPoolNewConnection();
-		}
-		
 		
 		makeShrinkDecision();
 	}
@@ -309,7 +290,6 @@ public class ConnectionPool
 	{		
 		if (freeConns.isEmpty() 
 	    && !areConnectionsBeingCreated()) {
-			debugOut( "Pre-emptive grow + 2" );
 			connTargetNow += 2;
 		}
 	}
@@ -340,7 +320,6 @@ public class ConnectionPool
 		try {
 			Connection conn = freeConns.remove(0);
 			conn.close();
-			debugOut( "Deallocated excess conn" );
 		}
 		catch (SQLException ex) {
 			ex.printStackTrace();
@@ -356,15 +335,13 @@ public class ConnectionPool
 		for (;;)
 		{
 			try {
-				debugOut( "Creating conn #" + getConnectionCount() );
 				Connection conn = createNewConnection();
 				freeConns.add( conn );
-				debugOut( "Create success" );
 				return;
 			}
 			catch( Exception ex ) {
 				//ex.printStackTrace();
-				debugOut( "Create failed, retrying..." );
+				// Failed, retry until it completes
 			}
 		}
 	}
@@ -408,8 +385,6 @@ public class ConnectionPool
 	
 	private void forceReturnAllConnections()
 	{
-		debugOut( "forceReturnAllConnections" );
-		
 		for (int i=usedConns.size()-1;  i>=0;  i--) {
 			Connection conn = usedConns.get(i);
 			deallocateConnection( conn );
@@ -422,8 +397,6 @@ public class ConnectionPool
 	
 	private void closeAllFreeConnections()
 	{
-		debugOut( "closeAllFreeConnections" );
-		
 		while ( ! freeConns.isEmpty())
 		{
 			for (int i=freeConns.size()-1; i>=0; i--) {
@@ -431,7 +404,6 @@ public class ConnectionPool
 				try {
 					conn.close();
 					freeConns.remove( conn );
-					debugOut( "  Freed conn #" + i );
 				}
 				catch (SQLException ex) {
 					ex.printStackTrace();
@@ -439,17 +411,6 @@ public class ConnectionPool
 			}
 		}
 		
-	}
-	
-	
-	
-	
-	
-	private void debugOut( String str )
-	{
-		if (showDebugOutput) {
-			System.out.println( "Pool: " + str );
-		}
 	}
 	
 	
