@@ -60,6 +60,73 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	
 	
 	
+	public Object getElem( int col ) {
+		return getRow( 0 )[ col ];
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Same as before, except you access the column by name.
+	 * @param row
+	 * @param col
+	 * @return Object
+	 */
+	public Object getElem( int row, String col ) {
+		return getElem( row, getColumnIndex(col) );
+	}
+	
+	
+	
+	public Object getElem( String col ) {
+		return getElem( 0, getColumnIndex(col) );
+	}
+	
+	
+	
+	
+	/**
+	 * As as before except you can specify the return type.
+	 * @param row
+	 * @param col
+	 * @param type (for example: String.class)
+	 * @return typed element
+	 */
+	public <T> T getElemAs( int row, int col, Class<T> type ) {
+		return (T) getRow( row )[ col ];
+	}
+	
+	
+	
+	public <T> T getElemAs( int col, Class<T> type ) {
+		return (T) getRow( 0 )[ col ];
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Same as before, except you access the column by name.
+	 * @param row
+	 * @param col
+	 * @param type (for example: String.class)
+	 * @return typed element
+	 */
+	public <T> T getElemAs( int row, String col, Class<T> type ) {
+		return (T) getElem( row, col );
+	}
+	
+	
+	
+	public <T> T getElemAs( String col, Class<T> type ) {
+		return (T) getElem( 0, col );
+	}
+	
+	
+	
 	
 	
 	/**
@@ -75,6 +142,7 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	
 	/**
 	 * Access specific row.
+	 * @param row
 	 */
 	public Object[] getRow( int row ) {
 		return rows.get( row );
