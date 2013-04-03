@@ -4,12 +4,9 @@
 package overwatch.gui;
 
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
-import overwatch.db.Database;
 import overwatch.db.EnhancedResultSet;
-import net.miginfocom.swing.MigLayout;
 
 
 
