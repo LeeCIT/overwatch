@@ -19,7 +19,6 @@ import overwatch.db.EnhancedResultSet;
  * @author  John Murphy
  * @author  Lee Coakley
  * @version 2
- *
  */
 
 
@@ -35,8 +34,6 @@ public class PersonnelTab extends GenericPanel<Integer>
 	private LabelFieldEllipsisTriplet rank;
 	private JButton 				  login;
 	private StandardButtonTriplet     buttons;
-	
-	
 	
 	
 	
@@ -65,6 +62,36 @@ public class PersonnelTab extends GenericPanel<Integer>
 	}
 	
 	
+	
+	
+	
+	public void addNameValidator( CheckedFieldValidator v ) {
+		name.field.addValidator( v );
+	}
+	
+	
+	
+	public void addAgeValidator( CheckedFieldValidator v ) {
+		age.field.addValidator( v );
+	}
+	
+	
+	
+	public void addSexValidator( CheckedFieldValidator v ) {
+		sex.field.addValidator( v );
+	}
+	
+	
+	
+	public void addSalaryValidator( CheckedFieldValidator v ) {
+		salary.field.addValidator( v );
+	}
+	
+	
+	
+	public void addRankValidator( CheckedFieldValidator v ) {
+		rank.field.addValidator( v );
+	}
 	
 	
 	
