@@ -27,6 +27,7 @@ import overwatch.db.Database;
 
 public class PersonnelTab extends GenericPanelButtoned<Integer>
 {
+	private LabelFieldPair            number;
 	private LabelFieldPair            name;
 	private LabelFieldPair            age;
 	private LabelFieldPair            sex;
@@ -50,11 +51,11 @@ public class PersonnelTab extends GenericPanelButtoned<Integer>
 	
 	
 	// Field validators
-	public void addNameValidator  ( CheckedFieldValidator v ) { name  .field.addValidator( v ); }
-	public void addAgeValidator   ( CheckedFieldValidator v ) { age   .field.addValidator( v ); }
-	public void addSexValidator   ( CheckedFieldValidator v ) { sex   .field.addValidator( v ); }
-	public void addSalaryValidator( CheckedFieldValidator v ) { salary.field.addValidator( v ); }
-	public void addRankValidator  ( CheckedFieldValidator v ) { rank  .field.addValidator( v ); }
+	public void addNameValidator  ( CheckedFieldValidator v ) {  name  .field.addValidator( v );  }
+	public void addAgeValidator   ( CheckedFieldValidator v ) {  age   .field.addValidator( v );  }
+	public void addSexValidator   ( CheckedFieldValidator v ) {  sex   .field.addValidator( v );  }
+	public void addSalaryValidator( CheckedFieldValidator v ) {  salary.field.addValidator( v );  }
+	public void addRankValidator  ( CheckedFieldValidator v ) {  rank  .field.addValidator( v );  }
 
 	// Buttons
 	public void addChangeLoginListener( ActionListener e ) { login.addActionListener(e); }
@@ -75,12 +76,15 @@ public class PersonnelTab extends GenericPanelButtoned<Integer>
 	
 	private void setupComponents()
 	{
-		name    = addLabelledField( "Name:" );
-		age     = addLabelledField( "Age:"  );
-		sex     = addLabelledField( "Sex:"  );
+		number  = addLabelledField( "Number:" );
+		name    = addLabelledField( "Name:"   );
+		age     = addLabelledField( "Age:"    );
+		sex     = addLabelledField( "Sex:"    );
 		salary  = addLabelledField( "Salary:" );
-		rank    = addLabelledFieldWithEllipsis( "Rank:" );
-		login   = addToMain( new JButton("Login details..."), "skip 1, alignx right" );	
+		rank    = addLabelledFieldWithEllipsis( "Rank:"   );
+		login   = addToMain( new JButton("Login details..."), "skip 1, alignx right" );
+		
+		number.field.setEditable( false );
 	}
 
 }
