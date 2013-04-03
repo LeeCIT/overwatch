@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Nicer version of ArrayList<NameRefPair<T>>.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -22,6 +22,15 @@ import java.util.ArrayList;
 
 public class NameRefPairList<T> extends ArrayList<NameRefPair<T>>
 {
+	
+	public NameRefPairList()
+	{
+		super();
+	}
+	
+	
+	
+	
 	
 	public NameRefPairList( T[] refs, String[] names )
 	{

@@ -6,6 +6,7 @@ package overwatch.gui;
 import overwatch.core.Gui;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -71,7 +72,7 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
-	public JTextField addLabelledField( String label )
+	public LabelFieldPair addLabelledField( String label )
 	{
 		JLabel     l = new JLabel( label );
 		JTextField f = new JTextField( defaultFieldWidth );
@@ -79,14 +80,14 @@ public class GenericPanel<T> extends JPanel
 		addToMain( l, "alignx right" );
 		addToMain( f, "growx, wrap"  );
 		
-		return f;
+		return new LabelFieldPair( l,f );
 	}
 	
 	
 	
 	
 	
-	public JTextField addLabelledFieldWithEllipsis( String label )
+	public LabelFieldEllipsisTriplet addLabelledFieldWithEllipsis( String label )
 	{
 		JLabel     l = new JLabel ( label );
 		JTextField f = new JTextField( 16 );
@@ -96,7 +97,7 @@ public class GenericPanel<T> extends JPanel
 		addToMain( f, "growx, split 2"   );
 		addToMain( b, "wmax 32px, wrap"	 );
 		
-		return f;
+		return new LabelFieldEllipsisTriplet( l,f,b );
 	}
 	
 	
@@ -115,17 +116,32 @@ public class GenericPanel<T> extends JPanel
 	{
 		Gui.setNativeStyle();
 		
-		
-		
-		GenericPanel<Integer> gp = new GenericPanel<Integer>( "SearchLabel", "mainLabel" );
+		final GenericPanel<Integer> gp = new GenericPanel<Integer>( "SearchLabel", "MainLabel" );
 		gp.addLabelledField( "Name:" );
 		gp.addLabelledField( "Age:"  );
-		gp.addLabelledFieldWithEllipsis( "Rank:" );
 		
-		JFrame jf = new JFrame();
+		final LabelFieldEllipsisTriplet lft = gp.addLabelledFieldWithEllipsis( "Rank:" );
+		
+		final JFrame jf = new JFrame();
 		jf.add( gp );
 		jf.setSize( new Dimension(640,400) );
 		jf.setVisible( true );
+		
+		lft.button.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				SearchPicker<Integer> pick = new SearchPicker<Integer>( jf, "Title", "Label", new NameRefPairList<Integer>() );
+				
+				pick.addPickListener( new PickListener<Integer>() {
+					public void onPick( Integer picked ) {
+						System.out.println( "Picked: " + picked );
+						
+						if (picked != null) {
+							lft.field.setText( picked.toString() );
+						}
+					}
+				});
+			}
+		});
 	}
 }
 
