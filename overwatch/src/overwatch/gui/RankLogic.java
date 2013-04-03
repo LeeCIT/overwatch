@@ -53,8 +53,8 @@ public class RankLogic
 
 		public void valueChanged(ListSelectionEvent e)
 		{
-			Object[] row = results.getRow(rankTab.searchPanel.getSelectedIndex());
-			rankTab.name.field.setText((String) row[1]);
+			Object[] row = results.getRow(rankTab.searchPanel.getSelectedIndex());//Gets the row depending on what was selected
+			rankTab.name.field.setText((String) row[1]);//Gets the name of the rank
 		}
 		
 	}
