@@ -23,14 +23,14 @@ import javax.swing.JTextField;
 
 public class LabelFieldPair
 {
-	public final JLabel     label;
-	public final JTextField field;
+	public final JLabel       label;
+	public final CheckedField field;
 	
 	
 	
 	
 	
-	public LabelFieldPair( JLabel label, JTextField field )
+	public LabelFieldPair( JLabel label, CheckedField field )
 	{
 		this.label  = label;
 		this.field  = field;

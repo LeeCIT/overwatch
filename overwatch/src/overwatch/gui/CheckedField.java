@@ -16,7 +16,7 @@ import javax.swing.text.Document;
 
 /**
  * JTextField with automatic input checking based on CheckedFieldValidator.
- * Goes red when there's bad input.  Test with isValid().
+ * Goes red when there's bad input.  Test with isInputValid().
  * 
  * @author  Lee Coakley
  * @version 1
@@ -76,7 +76,7 @@ public class CheckedField extends JTextField
 	
 	
 	
-	public boolean isValid() {
+	public boolean isInputValid() {
 		return areValidationConditionsMet();
 	}
 	

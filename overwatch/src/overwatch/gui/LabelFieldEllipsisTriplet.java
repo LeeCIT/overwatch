@@ -24,15 +24,15 @@ import javax.swing.JTextField;
 
 public class LabelFieldEllipsisTriplet
 {
-	public final JLabel     label;
-	public final JTextField field;
-	public final JButton    button;
+	public final JLabel       label;
+	public final CheckedField field;
+	public final JButton      button;
 	
 	
 	
 	
 	
-	public LabelFieldEllipsisTriplet( JLabel label, JTextField field, JButton button )
+	public LabelFieldEllipsisTriplet( JLabel label, CheckedField field, JButton button )
 	{
 		this.label  = label;
 		this.field  = field;

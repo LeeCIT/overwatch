@@ -74,8 +74,8 @@ public class GenericPanel<T> extends JPanel
 	
 	public LabelFieldPair addLabelledField( String label )
 	{
-		JLabel     l = new JLabel( label );
-		JTextField f = new JTextField( defaultFieldWidth );
+		JLabel       l = new JLabel( label );
+		CheckedField f = new CheckedField( defaultFieldWidth );
 		
 		addToMain( l, "alignx right" );
 		addToMain( f, "growx, wrap"  );
@@ -89,9 +89,9 @@ public class GenericPanel<T> extends JPanel
 	
 	public LabelFieldEllipsisTriplet addLabelledFieldWithEllipsis( String label )
 	{
-		JLabel     l = new JLabel ( label );
-		JTextField f = new JTextField( 16 );
-		JButton    b = new JButton( "..." );
+		JLabel       l = new JLabel ( label );
+		CheckedField f = new CheckedField( 16 );
+		JButton      b = new JButton( "..." );
 		
 		addToMain( l, "alignx right"     );
 		addToMain( f, "growx, split 2"   );
