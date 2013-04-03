@@ -3,8 +3,6 @@
 
 package overwatch.core;
 
-import overwatch.db.Database;
-
 
 
 
@@ -16,9 +14,5 @@ public class Main
 		Gui.setNativeStyle();
 		
 		
-		// Do stuff
-		
-		
-		Database.disconnect();
 	}
 }
