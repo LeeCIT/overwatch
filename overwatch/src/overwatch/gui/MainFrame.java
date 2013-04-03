@@ -5,6 +5,7 @@ package overwatch.gui;
 
 import javax.swing.*;
 import overwatch.core.Gui;
+import overwatch.core.PersonnelLogic;
 
 
 
@@ -13,8 +14,8 @@ import overwatch.core.Gui;
 public class MainFrame extends JFrame
 {
 	
-	private JTabbedPane  mainTabbedPane;
-	private PersonnelTab personnelTab;
+	public final JTabbedPane  tabPane;
+	public final PersonnelTab personnelTab;
 	
 	
 	
@@ -22,23 +23,19 @@ public class MainFrame extends JFrame
 	
 	public MainFrame()
 	{
-		mainTabbedPane = new JTabbedPane();
-		personnelTab   = new PersonnelTab();
+		tabPane      = new JTabbedPane();
+		personnelTab = new PersonnelTab();
 		
 		// Add the tabs to the tabbed pane
-		mainTabbedPane.addTab( "Personnel", personnelTab );
+		tabPane.addTab( "Personnel", personnelTab );
 		
 		// Add stuff to the frame
-		add( mainTabbedPane );
+		add( tabPane );
 		
 		// Set the frame up
 		pack();
 		setVisible(true);
 	}
-	
-	
-	
-	
 	
 	
 	
