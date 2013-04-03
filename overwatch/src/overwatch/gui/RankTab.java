@@ -2,6 +2,8 @@ package overwatch.gui;
 
 import javax.swing.JFrame;
 
+import overwatch.db.EnhancedResultSet;
+
 
 
 
@@ -29,6 +31,20 @@ public class RankTab extends GenericPanelButtoned<Integer>{
 		super( "Rank", "Details" );		
 		setupComponents();
 	}
+	
+	
+	
+	
+	public void populateSearchPanel( EnhancedResultSet ers )
+	{
+		System.out.println( ers );
+		Integer[] nums  = ers.getColumnAs( "rankNo", Integer[].class );
+		String[]  names = ers.getColumnAs( "name",     String[].class  );
+		
+		NameRefPairList<Integer> pairs = new NameRefPairList<Integer>( nums, names );
+		
+		searchPanel.setSearchableItems( pairs );
+	}
 
 	
 
@@ -51,13 +67,18 @@ public class RankTab extends GenericPanelButtoned<Integer>{
 	}
 		
 		
-		//Test
-		public static void main(String[] args)
-		{
-			JFrame frame = new JFrame();
-			frame.add(new RankTab());
-			frame.pack();
-			frame.setVisible(true);		
-		}
+	//Test
+	public static void main(String[] args)
+	{
+		JFrame frame = new JFrame();
+		
+		RankTab rt = new RankTab();
+		
+		frame.add(rt);
+		frame.pack();
+		frame.setVisible(true);	
+		
+		RankLogic rl = new RankLogic(rt);
+	}
 
 }
