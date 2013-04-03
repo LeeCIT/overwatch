@@ -10,6 +10,18 @@ import overwatch.db.Database;
 
 
 
+/**
+ * Create a dialogue for picking a person from the database. 
+ * The PickListener should be pre-created in the relevant tab class.
+ * 
+ * @author  Lee Coakley
+ * @version 1
+ */
+
+
+
+
+
 public class PersonnelPicker extends SearchPicker<Integer>
 {
 	
@@ -24,4 +36,5 @@ public class PersonnelPicker extends SearchPicker<Integer>
 		
 		this.addPickListener( listenerToCall );
 	}
+	
 }
