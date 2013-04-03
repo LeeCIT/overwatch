@@ -65,16 +65,18 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
-	public void addToMain( Component comp, String layoutParams ) {
+	public <C extends Component> C addToMain( C comp, String layoutParams ) {
 		mainPanel.add( comp, layoutParams );
+		return comp;
 	}
 	
 	
 	
 	
 	
-	public void addToSub( Component comp, String layoutParams ) {
+	public <C extends Component> C addToSub( C comp, String layoutParams ) {
 		subPanel.add( comp, layoutParams );
+		return comp;
 	}
 	
 	
