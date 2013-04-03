@@ -2,11 +2,25 @@ package overwatch.gui;
 
 import javax.swing.JFrame;
 
+
+
+
+
+/**
+ * Rank tab
+ * @author john
+ *
+ */
+
+
+
+
+
 public class RankTab extends GenericPanelButtoned<Integer>{
 	
 	LabelFieldPair name;
 	LabelFieldPair privileges;
-	
+
 	
 	
 	
@@ -15,15 +29,25 @@ public class RankTab extends GenericPanelButtoned<Integer>{
 		super( "Rank", "Details" );		
 		setupComponents();
 	}
+
+	
+
+	
+	
+	
+	
+	
 	
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
+
+	
 	
 	private void setupComponents()
 	{
-		name    = addLabelledField( "Name:");
-		privileges = addLabelledField("Privileges:");
+		name    	= addLabelledField( "Name:");
+		privileges  = addLabelledField("Privileges:");
 	}
 		
 		
