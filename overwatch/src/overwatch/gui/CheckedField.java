@@ -109,7 +109,7 @@ public class CheckedField extends JTextField
 		this.addKeyListener( new KeyListener() {
 			public void keyTyped   ( KeyEvent e ) {}
 			public void keyPressed ( KeyEvent e ) {}
-			public void keyReleased( KeyEvent e ) { doValidityCheck(); }
+			public void keyReleased( KeyEvent e ) { doVisualValidityFeedback(); }
 		});
 	}
 	
@@ -117,9 +117,10 @@ public class CheckedField extends JTextField
 	
 	
 	
-	private void doValidityCheck()
+	private void doVisualValidityFeedback()
 	{
-		if ( ! areValidationConditionsMet())
+		if ( isEditable()
+		&&! areValidationConditionsMet())
 			setBackground( Color.RED );
 		else
 			setBackground( initialBgCol );

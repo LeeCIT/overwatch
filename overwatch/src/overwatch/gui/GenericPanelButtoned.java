@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 
 
 /**
- * GenericPanel with new/save/delete buttons pre-integrated.
+ * GenericPanel with new/save/delete buttons and ActionListener functions pre-integrated.
  * 
  * @author  Lee Coakley
  * @version 1
@@ -28,6 +28,11 @@ public class GenericPanelButtoned<T> extends GenericPanel<T>
 	
 	
 	
+	/**
+	 * Create a generic panel with add/save/delete buttons.
+	 * @param searchLabelText
+	 * @param mainLabelText
+	 */
 	public GenericPanelButtoned( String searchLabelText, String mainLabelText )
 	{
 		super( searchLabelText, mainLabelText );

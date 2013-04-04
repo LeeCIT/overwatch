@@ -8,10 +8,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionListener;
 import net.miginfocom.swing.MigLayout;
 
@@ -44,10 +46,14 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
-	
+	/**
+	 * Create a generic panel with a left-side search bar and right-side main area.
+	 * @param searchLabelText
+	 * @param mainLabelText
+	 */
 	public GenericPanel( String searchLabelText, String mainLabelText )
 	{
-		super( new MigLayout( "debug", "[shrink 150][grow,fill]", "[grow,fill][]" ) );
+		super( new MigLayout( "debug", "[shrink 100][grow,fill]", "[grow,fill][]" ) );
 		
 		this.searchPanel = new SearchPanel<T>( searchLabelText );
 		this.mainPanel   = new JPanel( new MigLayout() );
@@ -56,7 +62,7 @@ public class GenericPanel<T> extends JPanel
 		
 		mainPanel.add( mainLabel, "cell 1 0, wrap" );
 		
-		add( searchPanel, "wmin 72px, wmax 224px, spany 2" );
+		add( searchPanel, "wmin 96px, wmax 224px, spany 2" );
 		add( mainPanel,   "alignx left, wrap"     );
 		add( subPanel,    "alignx right, skip 1"  );
 	}
@@ -65,6 +71,12 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
+	/**
+	 * Add a component to the right main panel. 
+	 * @param comp
+	 * @param layoutParams MigLayout parameters
+	 * @return comp
+	 */
 	public <C extends Component> C addToMain( C comp, String layoutParams ) {
 		mainPanel.add( comp, layoutParams );
 		return comp;
@@ -74,6 +86,12 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
+	/**
+	 * Add a component to the sub-panel, under the main panel.
+	 * @param comp
+	 * @param layoutParams MigLayout parameters
+	 * @return comp
+	 */
 	public <C extends Component> C addToSub( C comp, String layoutParams ) {
 		subPanel.add( comp, layoutParams );
 		return comp;
@@ -83,6 +101,11 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
+	/**
+	 * Add a CheckedField and JLabel, then wrap to the next line.
+	 * @param label
+	 * @return LabelFieldPair
+	 */
 	public LabelFieldPair addLabelledField( String label )
 	{
 		JLabel       l = new JLabel( label );
@@ -98,10 +121,15 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
+	/**
+	 * Add a CheckedField, JLabel and ellipsis JButton, then wrap to the next line.
+	 * @param label
+	 * @return LabelFieldEllipsisTriplet
+	 */
 	public LabelFieldEllipsisTriplet addLabelledFieldWithEllipsis( String label )
 	{
 		JLabel       l = new JLabel ( label );
-		CheckedField f = new CheckedField( 16 );
+		CheckedField f = new CheckedField( defaultFieldWidth );
 		JButton      b = new JButton( "..." );
 		
 		addToMain( l, "alignx right"     );
@@ -115,6 +143,11 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
+	/**
+	 * Adds New/Save/Delete to the subPanel under the main panel.
+	 * Generally you should use GenericPanelButtoned instead if you want these.
+	 * @return StandardButtonTriplet
+	 */
 	public StandardButtonTriplet addNewSaveDeleteButtons()
 	{
 		JButton a = new JButton( "New"    );
@@ -132,6 +165,65 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
+	/**
+	 * Enable or disable all the fields and buttons in the main and sub panels.
+	 * To control input normally, you should use setEditable on the components.
+	 * @param enable
+	 */
+	public void setEnableFieldsAndButtons( boolean enable )
+	{
+		for (Component comp: mainPanel.getComponents()) {
+			if (comp instanceof JTextField
+			||  comp instanceof JButton) {
+				comp.setEnabled( enable );
+			}
+		}
+		
+		for (Component comp: subPanel.getComponents()) {
+			if (comp instanceof JTextField
+			||  comp instanceof JButton) {
+				comp.setEnabled( enable );
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Clear all the fields in the main panel.
+	 */
+	public void clearFields()
+	{
+		for (Component comp: mainPanel.getComponents()) {
+			if (comp instanceof JTextField) {
+				((JTextField) comp).setText( "" );
+			}
+		}
+	}
+		
+	
+	
+	
+	
+	/**
+	 * Set the items which will be displayed in the left-hand list.
+	 * @param pairs
+	 * @see Database.queryKeyNamePairs
+	 */
+	public void setSearchableItems( ArrayList<NameRefPair<T>> pairs ) {
+		searchPanel.setSearchableItems( pairs );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Add a listener which fires when the list is selected or deselected.
+	 * @param lis
+	 */
 	public void addSearchPanelListSelectionListener( ListSelectionListener lis ) {
 		searchPanel.addListSelectionListener( lis );
 	}
@@ -140,6 +232,10 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
+	/**
+	 * Get the selected item in the search list.  If nothing is selected, returns null.
+	 * @return T
+	 */
 	public T getSelectedItem() {
 		return searchPanel.getSelectedItem();
 	}
@@ -148,6 +244,10 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
+	/**
+	 * Check if something is selected.
+	 * @return boolean
+	 */
 	public boolean hasSelectedItem() {
 		return searchPanel.hasSelectedItem();
 	}

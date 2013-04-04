@@ -5,8 +5,10 @@ package overwatch.core;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import overwatch.gui.DialogueAnswer;
+import overwatch.gui.PersonnelTab;
 
 
 
@@ -16,7 +18,7 @@ import overwatch.gui.DialogueAnswer;
  * Core GUI class.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -25,7 +27,16 @@ import overwatch.gui.DialogueAnswer;
 
 public class Gui extends JFrame
 {
-	private static Gui currentInstance;
+	// Statics
+	public static Gui currentInstance; // Main JFrame
+	
+	
+	
+	
+	
+	// Instance GUI elements
+	public final JTabbedPane  tabPane;
+	public final PersonnelTab personnelTab;
 	
 	
 	
@@ -33,7 +44,25 @@ public class Gui extends JFrame
 	
 	public Gui()
 	{
+		super( "Overwatch" );
+		
 		currentInstance = this;
+		
+		// Create
+		tabPane      = new JTabbedPane();
+		personnelTab = new PersonnelTab();
+		
+		
+		// Tabs
+		tabPane.addTab( "Personnel", personnelTab );
+		
+		
+		// Layout
+		add( tabPane );
+		
+		setDefaultCloseOperation( EXIT_ON_CLOSE );
+		pack();
+		setVisible(true);
 	}
 	
 	
