@@ -61,17 +61,24 @@ public class PersonnelLogic
 	private static void populateTabFields( PersonnelTab tab, int personNo )
 	{
 		EnhancedResultSet ers = Database.query(
-			"select *       " +
-			"from Personnel " +
-			"where personNo = " + personNo + ";"
+			"select r.name as rankName,   " +
+			"		p.name as personName, " +
+			"		personNo,  " +
+			"		age,       " +
+			"		sex,       " +
+			"		salary     " +
+			"from Ranks     r, " +
+			"	  Personnel p  " +
+			"where personNo =  " + personNo + "   " +
+			"  and p.rankNo = r.rankNo;"
 		);
 		
-		tab.number.field.setText( "" + ers.getElemAs( "personNo", Integer.class ) );
-		tab.name  .field.setText(      ers.getElemAs( "name",     String .class ) );
-		tab.age   .field.setText( "" + ers.getElemAs( "age",      Integer.class ) );
-		tab.sex   .field.setText(      ers.getElemAs( "sex",      String .class ) );
-		tab.salary.field.setText( "" + ers.getElemAs( "salary",   Integer.class ) );
-		//tab.rank  .field.setText(      ers.getElemAs( "rank",     String .class ) ); // TODO: separate query
+		tab.number.field.setText( "" + ers.getElemAs( "personNo",   Integer.class ) );
+		tab.name  .field.setText(      ers.getElemAs( "personName", String .class ) );
+		tab.age   .field.setText( "" + ers.getElemAs( "age",        Integer.class ) );
+		tab.sex   .field.setText(      ers.getElemAs( "sex",        String .class ) );
+		tab.salary.field.setText( "" + ers.getElemAs( "salary",     Integer.class ) );
+		tab.rank  .field.setText(      ers.getElemAs( "rankName",   String .class ) );
 	}
 	
 	
