@@ -76,8 +76,9 @@ public class RankTab extends GenericPanelButtoned<Integer>{
 		frame.add(rt);
 		frame.pack();
 		frame.setVisible(true);	
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		RankLogic rl = new RankLogic(rt);
+		new RankLogic(rt);
 	}
 
 }
