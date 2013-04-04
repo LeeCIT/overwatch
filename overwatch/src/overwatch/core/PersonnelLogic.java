@@ -58,8 +58,16 @@ public class PersonnelLogic
 	
 	
 	
-	private static void populateTabFields( PersonnelTab tab, int personNo )
+	private static void populateTabFields( PersonnelTab tab, Integer personNo )
 	{
+		if (personNo == null) {
+			tab.setEnableFieldsAndButtons( false );
+			tab.clearFields();
+			return;
+		} else {
+			tab.setEnableFieldsAndButtons( true );
+		}
+		
 		EnhancedResultSet ers = Database.query(
 			"select r.name as rankName,   " +
 			"		p.name as personName, " +
