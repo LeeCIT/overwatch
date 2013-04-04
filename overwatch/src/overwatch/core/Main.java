@@ -13,6 +13,8 @@ public class Main
 	{
 		Gui.setNativeStyle();
 		
-		new Gui();
+		Gui gui = new Gui();
+		
+		Controller.attachLogicControllers( gui );
 	}
 }

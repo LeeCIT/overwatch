@@ -7,14 +7,13 @@ import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
 import overwatch.gui.CheckedFieldValidator;
-import overwatch.gui.MainFrame;
-import overwatch.gui.NameRefPair;
 import overwatch.gui.PersonnelTab;
+import overwatch.gui.PickListener;
+import overwatch.gui.RankPicker;
 import overwatch.util.Validator;
+import java.math.BigDecimal;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -27,7 +26,7 @@ import javax.swing.event.ListSelectionListener;
  * Controls saving, loading, security checking etc.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -37,11 +36,26 @@ import javax.swing.event.ListSelectionListener;
 public class PersonnelLogic
 {
 	
+	/**
+	 * Plugs the GUI into the logic controller.
+	 * @param tab
+	 */
 	public static void attachEvents( PersonnelTab tab )
 	{
 		setupSelectActions( tab );
 		setupButtonActions( tab );
+		setupPickActions  ( tab );
 		setupValidators   ( tab );
+	}
+	
+	
+	
+	
+	
+	private static void respondToRankPicker( Integer rankNo )
+	{
+		System.out.println( "respondToRankPicker: got " + rankNo );
+		// TODO
 	}
 	
 	
@@ -94,11 +108,36 @@ public class PersonnelLogic
 	
 	
 	
+	private static void setupPickActions( PersonnelTab tab )
+	{
+		final PickListener<Integer> rankPickListener = new PickListener<Integer>() {
+			public void onPick( Integer picked ) {
+				System.out.println( ">> respondToRankPicker" );
+				respondToRankPicker( picked );
+				System.out.println( "<< respondToRankPicker" );
+			}
+		};
+		
+		
+		System.out.println( rankPickListener );
+		
+		tab.rank.button.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				System.out.println( "pick create" );
+				new RankPicker( Gui.currentInstance, rankPickListener );
+				System.out.println( "pick created" );
+			}
+		});
+	}
+	
+	
+	
+	
+	
 	private static void setupSelectActions( final PersonnelTab tab )
 	{
 		tab.addSearchPanelListSelectionListener( new ListSelectionListener() {
 			public void valueChanged( ListSelectionEvent e ) {
-				System.out.println( "select" );
 				populateTabFields( tab, tab.getSelectedItem() );
 			}
 		});
@@ -186,10 +225,10 @@ public class PersonnelLogic
 	{
 		Gui.setNativeStyle();
 		
-		MainFrame mf = new MainFrame();
+		Gui gui = new Gui();
 		
-		PersonnelLogic.attachEvents   ( mf.personnelTab );
-		PersonnelLogic.populateTabList( mf.personnelTab );
+		PersonnelLogic.attachEvents   ( gui.personnelTab );
+		PersonnelLogic.populateTabList( gui.personnelTab );
 	}
 }
 
