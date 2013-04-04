@@ -119,7 +119,8 @@ public class CheckedField extends JTextField
 	
 	private void doValidityCheck()
 	{
-		if ( ! areValidationConditionsMet())
+		if ( isEditable()
+		&&! areValidationConditionsMet())
 			setBackground( Color.RED );
 		else
 			setBackground( initialBgCol );
