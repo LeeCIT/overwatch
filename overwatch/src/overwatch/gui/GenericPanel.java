@@ -142,15 +142,23 @@ public class GenericPanel<T> extends JPanel
 				comp.setEnabled( enable );
 			}
 		}
-			
+		
+		for (Component comp: subPanel.getComponents()) {
+			if (comp instanceof JTextField
+			||  comp instanceof JButton) {
+				comp.setEnabled( enable );
+			}
+		}
 	}
 		
+	
 	
 	
 	
 	public void setSearchableItems( ArrayList<NameRefPair<T>> pairs ) {
 		searchPanel.setSearchableItems( pairs );
 	}
+	
 	
 	
 	
