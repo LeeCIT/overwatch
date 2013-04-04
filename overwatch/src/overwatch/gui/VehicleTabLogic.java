@@ -3,6 +3,9 @@ package overwatch.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import overwatch.db.Database;
 
 
@@ -30,6 +33,7 @@ public class VehicleTabLogic {
 		deleteVehicle(vt);
 		saveVehicle(vt);
 		populateTabList(vt);
+		vehicleListChange(vt);
 	}
 	
 	
@@ -40,6 +44,18 @@ public class VehicleTabLogic {
 		vt.setSearchableItems(
 			Database.queryKeyNamePairs( "Vehicles", "vehicleNo", "type", Integer[].class )
 		);
+	}
+	
+	
+	
+	
+	public void vehicleListChange(final VehicleTab vt)
+	{
+		vt.searchPanel.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+			System.out.println(vt.searchPanel.getSelectedItem());	
+			}
+		});
 	}
 	
 	

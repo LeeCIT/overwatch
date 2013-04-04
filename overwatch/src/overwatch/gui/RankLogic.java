@@ -58,7 +58,6 @@ public class RankLogic
 	
 	
 	
-	
 	public void rankListChange(final RankTab rt)
 	{
 		//TODO populate the fields here

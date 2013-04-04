@@ -3,6 +3,11 @@ package overwatch.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import overwatch.db.Database;
+
 
 /**
  * Supply tab logic
@@ -23,7 +28,31 @@ public class SupplyTabLogic {
 	{
 		newSupply(st);
 		deleteSupply(st);
-		saveSupply(st);		
+		saveSupply(st);	
+		populateTabList(st);
+		supplyListChange(st);
+	}
+	
+	
+	
+	
+	private static void populateTabList(SuppliesTab st)
+	{
+		st.setSearchableItems(
+			Database.queryKeyNamePairs( "Supplies", "supplyNo", "type", Integer[].class )
+		);
+	}
+	
+	
+	
+	
+	public void supplyListChange(final SuppliesTab st)
+	{
+		st.searchPanel.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+			System.out.println(st.searchPanel.getSelectedItem());	
+			}
+		});
 	}
 	
 	
