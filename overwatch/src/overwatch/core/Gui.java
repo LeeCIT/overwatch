@@ -5,8 +5,10 @@ package overwatch.core;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import overwatch.gui.DialogueAnswer;
+import overwatch.gui.PersonnelTab;
 
 
 
@@ -25,7 +27,12 @@ import overwatch.gui.DialogueAnswer;
 
 public class Gui extends JFrame
 {
+	// Internal
 	private static Gui currentInstance;
+	
+	// Gui elements
+	public final JTabbedPane  tabPane;
+	public final PersonnelTab personnelTab;
 	
 	
 	
@@ -33,7 +40,18 @@ public class Gui extends JFrame
 	
 	public Gui()
 	{
-		currentInstance = this;
+		tabPane      = new JTabbedPane();
+		personnelTab = new PersonnelTab();
+		
+		// Add the tabs to the tabbed pane
+		tabPane.addTab( "Personnel", personnelTab );
+		
+		// Add stuff to the frame
+		add( tabPane );
+		
+		// Set the frame up
+		pack();
+		setVisible(true);
 	}
 	
 	
