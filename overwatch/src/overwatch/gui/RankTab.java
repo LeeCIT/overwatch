@@ -2,6 +2,7 @@ package overwatch.gui;
 
 import javax.swing.JFrame;
 
+import overwatch.core.Gui;
 import overwatch.db.EnhancedResultSet;
 
 
@@ -11,7 +12,7 @@ import overwatch.db.EnhancedResultSet;
 /**
  * Rank tab
  * @author john
- *
+ * Version 4
  */
 
 
@@ -66,10 +67,18 @@ public class RankTab extends GenericPanelButtoned<Integer>{
 		privileges  = addLabelledField("Privileges:");
 	}
 		
-		
+	
+	
+	
+	
+	
+	
+	
 	//Test
 	public static void main(String[] args)
 	{
+		Gui.setNativeStyle();
+		
 		JFrame frame = new JFrame();		
 		RankTab rt 	 = new RankTab();
 		
