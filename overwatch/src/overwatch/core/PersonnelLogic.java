@@ -13,6 +13,7 @@ import overwatch.gui.PersonnelTab;
 import overwatch.util.Validator;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -81,12 +82,12 @@ public class PersonnelLogic
 			"  and p.rankNo = r.rankNo;"
 		);
 		
-		tab.number.field.setText( "" + ers.getElemAs( "personNo",   Integer.class ) );
-		tab.name  .field.setText(      ers.getElemAs( "personName", String .class ) );
-		tab.age   .field.setText( "" + ers.getElemAs( "age",        Integer.class ) );
-		tab.sex   .field.setText(      ers.getElemAs( "sex",        String .class ) );
-		tab.salary.field.setText( "" + ers.getElemAs( "salary",     Integer.class ) );
-		tab.rank  .field.setText(      ers.getElemAs( "rankName",   String .class ) );
+		tab.number.field.setText( "" + ers.getElemAs( "personNo",   Integer   .class ) );
+		tab.name  .field.setText(      ers.getElemAs( "personName", String    .class ) );
+		tab.age   .field.setText( "" + ers.getElemAs( "age",        Integer   .class ) );
+		tab.sex   .field.setText(      ers.getElemAs( "sex",        String    .class ) );
+		tab.salary.field.setText( "" + ers.getElemAs( "salary",     BigDecimal.class ) );
+		tab.rank  .field.setText(      ers.getElemAs( "rankName",   String    .class ) );
 	}
 	
 	
@@ -159,7 +160,7 @@ public class PersonnelLogic
 		
 		tab.addSalaryValidator( new CheckedFieldValidator() {
 			public boolean check( String text ) {
-				return Validator.isPositiveInt( text );
+				return Validator.isPositiveBigDecimal( text );
 			}
 		});
 		
