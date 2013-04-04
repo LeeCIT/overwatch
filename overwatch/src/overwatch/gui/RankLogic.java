@@ -40,8 +40,8 @@ public class RankLogic
 		addNewRank(rt);
 		deleteRank(rt);
 		saveRank(rt);
-		rankListChange(rt);
 		populateTabList(rt);
+		rankListChange(rt);
 	}
 	
 	
