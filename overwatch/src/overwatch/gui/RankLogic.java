@@ -16,7 +16,7 @@ import overwatch.db.EnhancedResultSet;
 /**
  * RankTab logic
  * @author john
- *
+ * Version 3
  */
 
 
@@ -25,65 +25,63 @@ import overwatch.db.EnhancedResultSet;
 
 public class RankLogic 
 {
-	RankTab rankTab;
 	EnhancedResultSet results;
+	
 	
 	public RankLogic(RankTab rt)
 	{
-		rankTab = rt;
-		
-		results  = Database.query("SELECT * FROM Ranks");
-		
-		rankTab.populateSearchPanel(results);
-		rankTab.searchPanel.addListSelectionListener(new RankListChange() );
-		rankTab.buttons.addNew.addActionListener((new AddNewRank() ));
-		rankTab.buttons.delete.addActionListener(new DeleteRank() );
-		rankTab.buttons.save.addActionListener(new SaveRank() );
-	}	
-	
-	
-	
-	public class RankListChange implements ListSelectionListener
-	{
-
-		public void valueChanged(ListSelectionEvent e)
-		{
-			Object[] row = results.getRow(rankTab.searchPanel.getSelectedIndex());//Gets the row depending on what was selected
-			rankTab.name.field.setText((String) row[1]);//Gets the name of the rank
-		}
-		
+		results  = Database.query("SELECT * FROM Ranks");		
+		rt.populateSearchPanel(results);		
+		attatchEvents(rt);
 	}
 	
 	
 	
-	public class AddNewRank implements ActionListener
+	public void attatchEvents(RankTab rt)
 	{
-		public void actionPerformed(ActionEvent e) 
-		{
-			//TODO		
-		}
-		
+		addNewRank(rt);
+		deleteRank(rt);
+		saveRank(rt);
+		rankListChange(rt);
 	}
 	
 	
 	
-	public class DeleteRank implements ActionListener
+	public void rankListChange(RankTab rt)
 	{
-		public void actionPerformed(ActionEvent e)
-		{
-			// TODO			
-		}
-		
+		//TODO populate the fields here
 	}
 	
 	
 	
-	public class SaveRank implements ActionListener
+	public void addNewRank(RankTab rt)
 	{
-		public void actionPerformed(ActionEvent e) 
-		{
-			// TODO			
-		}
-		
+		rt.buttons.addNew.addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Clicked addnew");				
+			}
+		});	
+	}
+	
+	
+	
+	public void deleteRank(RankTab rt) 
+	{
+		rt.buttons.delete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Clicked delete");
+			}
+		});		
+	}
+	
+	
+	
+	public void saveRank(RankTab rt)
+	{
+		rt.buttons.save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Clicked save");		
+			}
+		});
 	}
 }
