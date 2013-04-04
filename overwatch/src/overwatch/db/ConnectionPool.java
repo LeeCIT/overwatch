@@ -271,8 +271,6 @@ public class ConnectionPool
 			createAndPoolNewConnection();
 		
 		makeShrinkDecision();
-		
-		System.out.println( getConnectionCount() );
 	}
 	
 	
