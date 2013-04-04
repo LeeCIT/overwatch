@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionListener;
 import net.miginfocom.swing.MigLayout;
 
@@ -133,8 +134,21 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
-	public void setSearchableItems( ArrayList<NameRefPair<T>> pairs )
+	public void setEnableFieldsAndButtons( boolean enable )
 	{
+		for (Component comp: mainPanel.getComponents()) {
+			if (comp instanceof JTextField
+			||  comp instanceof JButton) {
+				comp.setEnabled( enable );
+			}
+		}
+			
+	}
+		
+	
+	
+	
+	public void setSearchableItems( ArrayList<NameRefPair<T>> pairs ) {
 		searchPanel.setSearchableItems( pairs );
 	}
 	
