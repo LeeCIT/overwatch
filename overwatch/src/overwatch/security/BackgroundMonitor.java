@@ -38,6 +38,7 @@ public class BackgroundMonitor
 	 */
 	public BackgroundMonitor()
 	{
+		checks = new Vector<BackgroundCheck>();
 		thread = createThread();
 		thread.start();
 	}
