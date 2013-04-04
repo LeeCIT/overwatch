@@ -2,6 +2,7 @@
 package overwatch.gui;
 
 import javax.swing.*;
+
 import overwatch.core.Gui;
 
 
@@ -50,12 +51,15 @@ public class SuppliesTab extends GenericPanelButtoned<Integer>
 	public static void main(String[] args)
 	{
 		Gui.setNativeStyle();
+		SuppliesTab st = new SuppliesTab();
 		
 		JFrame frame = new JFrame();
-		frame.add(new SuppliesTab());
+		frame.add(st);
 		frame.pack();
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
+		new SupplyTabLogic(st);
 	}
 
 }
