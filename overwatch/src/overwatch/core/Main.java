@@ -13,6 +13,6 @@ public class Main
 	{
 		Gui.setNativeStyle();
 		
-		
+		new Gui();
 	}
 }

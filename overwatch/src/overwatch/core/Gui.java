@@ -18,7 +18,7 @@ import overwatch.gui.PersonnelTab;
  * Core GUI class.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -27,10 +27,14 @@ import overwatch.gui.PersonnelTab;
 
 public class Gui extends JFrame
 {
-	// Internal
-	private static Gui currentInstance;
+	// Statics
+	public static Gui currentInstance; // Main JFrame
 	
-	// Gui elements
+	
+	
+	
+	
+	// Instance GUI elements
 	public final JTabbedPane  tabPane;
 	public final PersonnelTab personnelTab;
 	
@@ -40,16 +44,23 @@ public class Gui extends JFrame
 	
 	public Gui()
 	{
+		super( "Overwatch" );
+		
+		currentInstance = this;
+		
+		// Create
 		tabPane      = new JTabbedPane();
 		personnelTab = new PersonnelTab();
 		
-		// Add the tabs to the tabbed pane
+		
+		// Tabs
 		tabPane.addTab( "Personnel", personnelTab );
 		
-		// Add stuff to the frame
+		
+		// Layout
 		add( tabPane );
 		
-		// Set the frame up
+		setDefaultCloseOperation( EXIT_ON_CLOSE );
 		pack();
 		setVisible(true);
 	}
