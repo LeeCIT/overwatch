@@ -48,7 +48,7 @@ public class GenericPanel<T> extends JPanel
 	
 	public GenericPanel( String searchLabelText, String mainLabelText )
 	{
-		super( new MigLayout( "debug", "[shrink 150][grow,fill]", "[grow,fill][]" ) );
+		super( new MigLayout( "debug", "[shrink 100][grow,fill]", "[grow,fill][]" ) );
 		
 		this.searchPanel = new SearchPanel<T>( searchLabelText );
 		this.mainPanel   = new JPanel( new MigLayout() );
@@ -57,7 +57,7 @@ public class GenericPanel<T> extends JPanel
 		
 		mainPanel.add( mainLabel, "cell 1 0, wrap" );
 		
-		add( searchPanel, "wmin 72px, wmax 224px, spany 2" );
+		add( searchPanel, "wmin 96px, wmax 224px, spany 2" );
 		add( mainPanel,   "alignx left, wrap"     );
 		add( subPanel,    "alignx right, skip 1"  );
 	}
@@ -102,7 +102,7 @@ public class GenericPanel<T> extends JPanel
 	public LabelFieldEllipsisTriplet addLabelledFieldWithEllipsis( String label )
 	{
 		JLabel       l = new JLabel ( label );
-		CheckedField f = new CheckedField( 16 );
+		CheckedField f = new CheckedField( defaultFieldWidth );
 		JButton      b = new JButton( "..." );
 		
 		addToMain( l, "alignx right"     );
