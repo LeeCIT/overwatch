@@ -70,9 +70,8 @@ public class RankTab extends GenericPanelButtoned<Integer>{
 	//Test
 	public static void main(String[] args)
 	{
-		JFrame frame = new JFrame();
-		
-		RankTab rt = new RankTab();
+		JFrame frame = new JFrame();		
+		RankTab rt 	 = new RankTab();
 		
 		frame.add(rt);
 		frame.pack();
