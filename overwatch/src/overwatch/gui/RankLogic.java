@@ -47,9 +47,15 @@ public class RankLogic
 	
 	
 	
-	public void rankListChange(RankTab rt)
+	public void rankListChange(final RankTab rt)
 	{
 		//TODO populate the fields here
+		rt.searchPanel.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+			System.out.println(rt.searchPanel.getSelectedItem());	
+			}
+		});
+		
 	}
 	
 	
