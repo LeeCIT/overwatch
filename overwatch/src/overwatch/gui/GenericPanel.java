@@ -26,6 +26,8 @@ import net.miginfocom.swing.MigLayout;
  * All tabs based on basic editing of attributes should extend this one. 
  * Templated on the SearchPanel type.
  * 
+ * TODO: comment this
+ * 
  * @author  Lee Coakley
  * @version 2
  */
@@ -147,6 +149,19 @@ public class GenericPanel<T> extends JPanel
 			if (comp instanceof JTextField
 			||  comp instanceof JButton) {
 				comp.setEnabled( enable );
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	public void clearFields()
+	{
+		for (Component comp: mainPanel.getComponents()) {
+			if (comp instanceof JTextField) {
+				((JTextField) comp).setText( "" );
 			}
 		}
 	}
