@@ -108,7 +108,6 @@ public class SearchPicker<T> extends JDialog
 	{
 		buttOkay.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				notifyListeners( searchPanel.getSelectedItem() );
 				picked = true;
 				dispose();
 			}
@@ -128,9 +127,9 @@ public class SearchPicker<T> extends JDialog
 			public void windowOpened     ( WindowEvent e ) {}
 			public void windowIconified  ( WindowEvent e ) {}
 			public void windowDeiconified( WindowEvent e ) {}
-			public void windowDeactivated( WindowEvent e ) {}
+			public void windowDeactivated( WindowEvent e ) { onClose(); }
 			public void windowClosing    ( WindowEvent e ) {}
-			public void windowClosed     ( WindowEvent e ) { onClose(); }
+			public void windowClosed     ( WindowEvent e ) {}
 			public void windowActivated  ( WindowEvent e ) {}
 		});
 		
@@ -148,8 +147,10 @@ public class SearchPicker<T> extends JDialog
 	
 	
 	private void notifyListeners( T elem ) {
+		System.out.println( "picker: notify" );
 		for (PickListener<T> pl: pickListeners) {
 			pl.onPick( elem );
+			System.out.println( "notify from " + pl + " -> " + elem );
 		}
 	}
 	
@@ -157,8 +158,11 @@ public class SearchPicker<T> extends JDialog
 	
 	
 	
-	private void onClose() {
-		if ( ! picked)
+	private void onClose()
+	{
+		if (picked)
+			notifyListeners( searchPanel.getSelectedItem() );
+		else 
 			notifyListeners( null );
 	}
 	
