@@ -6,7 +6,7 @@ package overwatch.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Vector;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 
@@ -28,11 +28,11 @@ import java.util.Vector;
 
 public class ConnectionPool
 {
-	private          Thread	 thread;
-	private volatile boolean threadLoopController;
+	private Thread	thread;
+	private boolean threadLoopController;
 	
-	private Vector<Connection> freeConns;
-	private Vector<Connection> usedConns;
+	private LinkedBlockingQueue<Connection> freeConns;
+	private LinkedBlockingQueue<Connection> usedConns;
 	
 	private int connTargetBasis;
 	private int connTargetNow;
@@ -49,8 +49,8 @@ public class ConnectionPool
 	 */
 	public ConnectionPool( int initialConns, boolean immediateStart )
 	{
-		freeConns = new Vector<Connection>();
-		usedConns = new Vector<Connection>();
+		freeConns = new LinkedBlockingQueue<Connection>();
+		usedConns = new LinkedBlockingQueue<Connection>();
 		
 		connTargetBasis = initialConns;
 		connTargetNow   = connTargetBasis;
@@ -100,19 +100,6 @@ public class ConnectionPool
 	
 	
 	/**
-	 * Check whether the pool has a connection ready to use.
-	 * This is purely informational.  You don't need to check before calling getConnection().  
-	 * @return Whether a connection is ready.
-	 */
-	public boolean isConnectionAvailable() {
-		return (freeConns.size() > 0);
-	}
-	
-	
-	
-	
-	
-	/**
 	 * Get the total number of active connections.
 	 * @return total
 	 */
@@ -132,11 +119,10 @@ public class ConnectionPool
 	 */
 	public Connection getConnection()
 	{
-		if ( ! threadLoopController || ! thread.isAlive())
+		if ( ! threadLoopController  ||  ! thread.isAlive())
 			throw new RuntimeException( "Can't get connection: pool isn't active." );
 		
 		Connection conn = allocateConnection();
-		
 		makeGrowDecision();
 		return conn;
 	}
@@ -151,7 +137,7 @@ public class ConnectionPool
 	 */
 	public void returnConnection( Connection conn )
 	{
-		if ( ! threadLoopController || ! thread.isAlive())
+		if ( ! threadLoopController  ||  ! thread.isAlive())
 			throw new RuntimeException( "Can't return connection: pool isn't active." );		
 		
 		deallocateConnection( conn );
@@ -173,10 +159,15 @@ public class ConnectionPool
 	
 	private Connection allocateConnection()
 	{
-		waitForFreeConnection();
+		Connection conn = null;
 		
-		Connection conn = freeConns.remove( 0 );
-		usedConns.add( conn );	
+		try {
+			conn = freeConns.take();
+			usedConns.put( conn );
+		}
+		catch ( InterruptedException e )
+		{ e.printStackTrace(); }
+		
 		
 		return conn;
 	}
@@ -186,7 +177,7 @@ public class ConnectionPool
 	
 	
 	private void deallocateConnection( Connection conn )
-	{		
+	{
 		usedConns.remove( conn );
 		freeConns.add   ( conn );
 	}
@@ -280,6 +271,8 @@ public class ConnectionPool
 			createAndPoolNewConnection();
 		
 		makeShrinkDecision();
+		
+		System.out.println( getConnectionCount() );
 	}
 	
 	
@@ -318,11 +311,14 @@ public class ConnectionPool
 		}
 		
 		try {
-			Connection conn = freeConns.remove(0);
+			Connection conn = freeConns.take();
 			conn.close();
 		}
 		catch (SQLException ex) {
 			ex.printStackTrace();
+		}
+		catch ( InterruptedException e ) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -370,24 +366,17 @@ public class ConnectionPool
 	
 	
 	
-	private void waitForFreeConnection()
-	{
-		if ( ! isConnectionAvailable()) {			
-			while ( ! isConnectionAvailable()) {
-				Thread.yield(); // Wait
-			}
-		}
-	}
-	
-	
-	
-	
-	
 	private void forceReturnAllConnections()
 	{
-		for (int i=usedConns.size()-1;  i>=0;  i--) {
-			Connection conn = usedConns.get(i);
-			deallocateConnection( conn );
+		while ( ! usedConns.isEmpty()) 
+		{
+			try {
+				Connection conn = usedConns.take();
+				deallocateConnection( conn );
+			}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -397,20 +386,17 @@ public class ConnectionPool
 	
 	private void closeAllFreeConnections()
 	{
-		while ( ! freeConns.isEmpty())
+		while ( ! freeConns.isEmpty()) 
 		{
-			for (int i=freeConns.size()-1; i>=0; i--) {
-				Connection conn = freeConns.get(i);
-				try {
-					conn.close();
-					freeConns.remove( conn );
-				}
-				catch (SQLException ex) {
-					ex.printStackTrace();
-				}
-			}
-		}
-		
+			try { Connection conn = freeConns.take();
+				try { conn.close();
+					  freeConns.remove( conn );
+				} 
+				catch (SQLException ex)
+				{ ex.printStackTrace();	}
+			} catch (InterruptedException e)
+			{ e.printStackTrace(); }
+		}		
 	}
 	
 	
@@ -508,6 +494,8 @@ public class ConnectionPool
 		while (pool.getConnectionCount() > 0) {
 			// wait
 		}
+		
+		System.out.println( "Pool emptied successfully" );
 	}
 	
 }
