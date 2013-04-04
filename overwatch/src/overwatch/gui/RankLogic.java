@@ -43,11 +43,6 @@ public class RankLogic
 	
 	
 	
-	/**
-	 * When the list is selected populate the fields
-	 * @author john
-	 *
-	 */
 	public class RankListChange implements ListSelectionListener
 	{
 
@@ -61,11 +56,6 @@ public class RankLogic
 	
 	
 	
-	/**
-	 * Add a new rank
-	 * @author john
-	 *
-	 */
 	public class AddNewRank implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) 
@@ -77,11 +67,6 @@ public class RankLogic
 	
 	
 	
-	/**
-	 * Delete a rank
-	 * @author john
-	 *
-	 */
 	public class DeleteRank implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -93,12 +78,6 @@ public class RankLogic
 	
 	
 	
-	
-	/**
-	 * Save a rank
-	 * @author john
-	 *
-	 */
 	public class SaveRank implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) 
