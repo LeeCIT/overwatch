@@ -87,6 +87,7 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	
 	
 	
+	
 	/**
 	 * As as before except you can specify the return type.
 	 * @param row
