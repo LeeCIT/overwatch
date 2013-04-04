@@ -202,7 +202,26 @@ public class GenericPanel<T> extends JPanel
 			}
 		}
 	}
+	
+	
+	
+	
+	
+	/**
+	 * Check if all the fields are valid.
+	 * Fields with no validators set up count as valid.
+	 */
+	public boolean areAllFieldsValid()
+	{
+		for (Component comp: mainPanel.getComponents()) {
+			if (comp instanceof CheckedField)
+			if ( ! ((CheckedField) comp).isInputValid()) {
+				return false;
+			}
+		}
 		
+		return true;
+	}
 	
 	
 	
@@ -238,6 +257,19 @@ public class GenericPanel<T> extends JPanel
 	 */
 	public T getSelectedItem() {
 		return searchPanel.getSelectedItem();
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Set the selected item in the search list.
+	 * Generates events.
+	 * @return T
+	 */
+	public void setSelectedItem( T item ) {
+		searchPanel.setSelectedItem( item );
 	}
 	
 	
