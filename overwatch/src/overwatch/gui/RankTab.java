@@ -36,24 +36,6 @@ public class RankTab extends GenericPanelButtoned<Integer>{
 	
 	
 	
-	public void populateSearchPanel( EnhancedResultSet ers )
-	{
-		System.out.println( ers );
-		Integer[] nums  = ers.getColumnAs( "rankNo", Integer[].class );
-		String[]  names = ers.getColumnAs( "name",     String[].class  );
-		
-		NameRefPairList<Integer> pairs = new NameRefPairList<Integer>( nums, names );
-		
-		searchPanel.setSearchableItems( pairs );
-	}
-
-	
-
-	
-	
-	
-	
-	
 	
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
