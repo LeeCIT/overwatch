@@ -27,13 +27,13 @@ import overwatch.db.Database;
 
 public class PersonnelTab extends GenericPanelButtoned<Integer>
 {
-	private LabelFieldPair            number;
-	private LabelFieldPair            name;
-	private LabelFieldPair            age;
-	private LabelFieldPair            sex;
-	private LabelFieldPair            salary;
-	private LabelFieldEllipsisTriplet rank;
-	private JButton 				  login;
+	public final LabelFieldPair            number;
+	public final LabelFieldPair            name;
+	public final LabelFieldPair            age;
+	public final LabelFieldPair            sex;
+	public final LabelFieldPair            salary;
+	public final LabelFieldEllipsisTriplet rank;
+	public final JButton 				   login;
 	
 	
 	
@@ -43,7 +43,15 @@ public class PersonnelTab extends GenericPanelButtoned<Integer>
 	{
 		super( "Personnel", "Details" );
 		
-		setupComponents();
+		number  = addLabelledField( "Number:" );
+		name    = addLabelledField( "Name:"   );
+		age     = addLabelledField( "Age:"    );
+		sex     = addLabelledField( "Sex:"    );
+		salary  = addLabelledField( "Salary:" );
+		rank    = addLabelledFieldWithEllipsis( "Rank:"   );
+		login   = addToMain( new JButton("Login details..."), "skip 1, alignx right" );
+		
+		number.field.setEditable( false );
 	};
 	
 	
@@ -59,33 +67,6 @@ public class PersonnelTab extends GenericPanelButtoned<Integer>
 
 	// Buttons
 	public void addChangeLoginListener( ActionListener e ) { login.addActionListener(e); }
-	
-	
-
-	
-		
-	
-	
-	
-	
-	///////////////////////////////////////////////////////////////////////////
-	// Internals
-	/////////////////////////////////////////////////////////////////////////
-	
-	
-	
-	private void setupComponents()
-	{
-		number  = addLabelledField( "Number:" );
-		name    = addLabelledField( "Name:"   );
-		age     = addLabelledField( "Age:"    );
-		sex     = addLabelledField( "Sex:"    );
-		salary  = addLabelledField( "Salary:" );
-		rank    = addLabelledFieldWithEllipsis( "Rank:"   );
-		login   = addToMain( new JButton("Login details..."), "skip 1, alignx right" );
-		
-		number.field.setEditable( false );
-	}
 
 }
 

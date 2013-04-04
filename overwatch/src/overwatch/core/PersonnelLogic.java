@@ -7,6 +7,7 @@ import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
 import overwatch.gui.CheckedFieldValidator;
+import overwatch.gui.MainFrame;
 import overwatch.gui.NameRefPair;
 import overwatch.gui.PersonnelTab;
 import overwatch.util.Validator;
@@ -57,20 +58,32 @@ public class PersonnelLogic
 	
 	
 	
-	private static void populateTabFields( PersonnelTab tab )
+	private static void populateTabFields( PersonnelTab tab, int personNo )
 	{
+		EnhancedResultSet ers = Database.query(
+			"select *       " +
+			"from Personnel " +
+			"where personNo = " + personNo + ";"
+		);
 		
+		tab.number.field.setText( "" + ers.getElemAs( "personNo", Integer.class ) );
+		tab.name  .field.setText(      ers.getElemAs( "name",     String .class ) );
+		tab.age   .field.setText( "" + ers.getElemAs( "age",      Integer.class ) );
+		tab.sex   .field.setText(      ers.getElemAs( "sex",      String .class ) );
+		tab.salary.field.setText( "" + ers.getElemAs( "salary",   Integer.class ) );
+		//tab.rank  .field.setText(      ers.getElemAs( "rank",     String .class ) ); // TODO: separate query
 	}
 	
 	
 	
 	
 	
-	private static void setupSelectActions( PersonnelTab tab )
+	private static void setupSelectActions( final PersonnelTab tab )
 	{
 		tab.addSearchPanelListSelectionListener( new ListSelectionListener() {
 			public void valueChanged( ListSelectionEvent e ) {
 				System.out.println( "select" );
+				populateTabFields( tab, tab.getSelectedItem() );
 			}
 		});
 	}
@@ -143,6 +156,25 @@ public class PersonnelLogic
 		});
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public static void main( String[] args )
+	{
+		Gui.setNativeStyle();
+		
+		MainFrame mf = new MainFrame();
+		
+		PersonnelLogic.attachEvents   ( mf.personnelTab );
+		PersonnelLogic.populateTabList( mf.personnelTab );
+	}
 }
 
 
