@@ -147,10 +147,8 @@ public class SearchPicker<T> extends JDialog
 	
 	
 	private void notifyListeners( T elem ) {
-		System.out.println( "picker: notify" );
 		for (PickListener<T> pl: pickListeners) {
 			pl.onPick( elem );
-			System.out.println( "notify from " + pl + " -> " + elem );
 		}
 	}
 	

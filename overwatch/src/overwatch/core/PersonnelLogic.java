@@ -112,20 +112,14 @@ public class PersonnelLogic
 	{
 		final PickListener<Integer> rankPickListener = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
-				System.out.println( ">> respondToRankPicker" );
 				respondToRankPicker( picked );
-				System.out.println( "<< respondToRankPicker" );
 			}
 		};
 		
 		
-		System.out.println( rankPickListener );
-		
 		tab.rank.button.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				System.out.println( "pick create" );
 				new RankPicker( Gui.currentInstance, rankPickListener );
-				System.out.println( "pick created" );
 			}
 		});
 	}
