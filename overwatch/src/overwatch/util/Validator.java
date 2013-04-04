@@ -3,6 +3,8 @@
 
 package overwatch.util;
 
+import java.math.BigDecimal;
+
 
 
 
@@ -51,6 +53,27 @@ public class Validator
 		try {
 			int x = Integer.parseInt( str );
 			return x >= 0;
+		}
+		catch (NumberFormatException ex) {
+			return false;
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Check if a string can be converted to a BigDecimal.
+	 * @param str
+	 * @return
+	 */
+	public static boolean isPositiveBigDecimal( String str )
+	{
+		try {
+			BigDecimal bd = new BigDecimal( str );
+			
+			return (bd.signum() != -1);
 		}
 		catch (NumberFormatException ex) {
 			return false;
