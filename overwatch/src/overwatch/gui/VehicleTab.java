@@ -22,11 +22,18 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 		setupComponents();
 	}
 	
-				
+
 	
+	
+	
+	
+	
+		
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
+
+	
 	
 	private void setupComponents()
 	{
@@ -36,6 +43,7 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 	}
 	
 	
+		
 	//Test
 	public static void main(String[] args)
 	{
