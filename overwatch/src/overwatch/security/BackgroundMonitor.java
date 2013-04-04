@@ -4,6 +4,8 @@
 package overwatch.security;
 
 import java.util.Vector;
+import overwatch.core.Gui;
+import overwatch.db.Database;
 
 
 
@@ -66,7 +68,7 @@ public class BackgroundMonitor
 	
 	
 	
-	public void addBackgroundCheck( BackgroundCheck bc ) {
+	public synchronized void addBackgroundCheck( BackgroundCheck bc ) {
 		checks.add( bc );
 	}
 	
@@ -105,6 +107,56 @@ public class BackgroundMonitor
 			try { Thread.sleep( 1000 );
 			} catch (InterruptedException ex) {
 				ex.printStackTrace();
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Test
+	/////////////////////////////////////////////////////////////////////////
+	
+	public static void main( String[] args )
+	{
+		BackgroundCheck userLoggedin = new BackgroundCheck() {
+			public void onCheck() {
+				if (LoginManager.hasCurrentUser()) {
+					int user = 1;//LoginManager.getCurrentUser();
+					
+					java.sql.Connection conn = Database.getConnection();
+					
+					System.out.println( "checking that " + user + " is still logged in..." );
+					
+					if (Database.queryInts( "select personNo from Personnel where personNo = " + user + ";").length == 0)
+					{
+						Gui.showErrorDialogue(
+							"Forced Logout",
+							"Your account has been deleted."
+						);
+						System.exit(0);
+					}
+					
+					Database.returnConnection( conn );
+				}
+			}
+		};
+		
+		
+		
+		for (int i=0; i<64; i++) {
+			BackgroundMonitor bgm = new BackgroundMonitor();
+			bgm.addBackgroundCheck( userLoggedin );
+			
+			try { Thread.sleep( (int) (Math.random()*1000.0) ); }
+			catch ( InterruptedException e ) {
+				e.printStackTrace();
 			}
 		}
 	}
