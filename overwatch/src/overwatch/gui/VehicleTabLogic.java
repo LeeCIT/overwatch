@@ -3,6 +3,8 @@ package overwatch.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import overwatch.db.Database;
+
 
 /**
  * Set up the vehicle tab logic
@@ -27,6 +29,17 @@ public class VehicleTabLogic {
 		addNew(vt);
 		deleteVehicle(vt);
 		saveVehicle(vt);
+		populateTabList(vt);
+	}
+	
+	
+	
+	
+	private static void populateTabList(VehicleTab vt)
+	{
+		vt.setSearchableItems(
+			Database.queryKeyNamePairs( "Vehicles", "vehicleNo", "type", Integer[].class )
+		);
 	}
 	
 	
