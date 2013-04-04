@@ -25,14 +25,12 @@ import overwatch.db.EnhancedResultSet;
 
 public class RankLogic 
 {
-	EnhancedResultSet results;
-	
+		
 	
 	public RankLogic(RankTab rt)
 	{
-		results  = Database.query("SELECT * FROM Ranks");		
-		rt.populateSearchPanel(results);		
 		attatchButtonEvents(rt);
+		
 	}
 	
 	
@@ -43,7 +41,21 @@ public class RankLogic
 		deleteRank(rt);
 		saveRank(rt);
 		rankListChange(rt);
+		populateTabList(rt);
 	}
+	
+	
+	
+	
+	private static void populateTabList(RankTab rt)
+	{
+		rt.setSearchableItems(
+			Database.queryKeyNamePairs( "Ranks", "rankNo", "name", Integer[].class )
+		);
+	}
+	
+	
+	
 	
 	
 	
