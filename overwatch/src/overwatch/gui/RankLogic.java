@@ -32,12 +32,12 @@ public class RankLogic
 	{
 		results  = Database.query("SELECT * FROM Ranks");		
 		rt.populateSearchPanel(results);		
-		attatchEvents(rt);
+		attatchButtonEvents(rt);
 	}
 	
 	
 	
-	public void attatchEvents(RankTab rt)
+	public void attatchButtonEvents(RankTab rt)
 	{
 		addNewRank(rt);
 		deleteRank(rt);
