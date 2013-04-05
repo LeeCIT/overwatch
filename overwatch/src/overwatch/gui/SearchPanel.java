@@ -175,7 +175,7 @@ public class SearchPanel<T> extends JPanel
 		doSearchClear();
 		
 		for (int i=0; i<getSearchableItemCount(); i++) {
-			if (item == searchableItems.get( i ).getRef()) {
+			if (item.equals(searchableItems.get( i ).getRef())) {
 				setSelectedIndex( i );
 				return true;
 			}
@@ -373,7 +373,10 @@ public class SearchPanel<T> extends JPanel
 	
 	
 	
-		
+	
+	
+	
+	
 	
 	
 	
