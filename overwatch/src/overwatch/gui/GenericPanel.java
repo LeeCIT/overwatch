@@ -46,6 +46,7 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
+	
 	/**
 	 * Create a generic panel with a left-side search bar and right-side main area.
 	 * @param searchLabelText
@@ -53,7 +54,7 @@ public class GenericPanel<T> extends JPanel
 	 */
 	public GenericPanel( String searchLabelText, String mainLabelText )
 	{
-		super( new MigLayout( "debug", "[shrink 100][grow,fill]", "[grow,fill][]" ) );
+		super( new MigLayout( "", "[shrink 100][grow,fill]", "[grow,fill][]" ) );
 		
 		this.searchPanel = new SearchPanel<T>( searchLabelText );
 		this.mainPanel   = new JPanel( new MigLayout() );
