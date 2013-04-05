@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import overwatch.controllers.VehicleLogic;
 import overwatch.core.Gui;
+import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.GenericPanelButtoned;
 import overwatch.gui.LabelFieldEllipsisTriplet;
 import overwatch.gui.LabelFieldPair;
@@ -12,7 +13,7 @@ import overwatch.gui.LabelFieldPair;
 /**
  * Creates the vehicle tab
  * @author john
- * Version 2
+ * @version 3
  */
 
 public class VehicleTab extends GenericPanelButtoned<Integer>
@@ -25,12 +26,17 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 	public VehicleTab()
 	{
 		super( "Vehicles", "Details" );		
-		setupComponents();
+		
+		number  = addLabelledField( "Number:" );
+		type	= addLabelledField("Type:");
+		pilot   = addLabelledFieldWithEllipsis( "Pilot:" );	
 	}
 	
-
 	
 	
+	
+		// Validate
+		public void addNameValidator(CheckedFieldValidator v){type.field.addValidator(v); }
 	
 	
 	
@@ -40,13 +46,6 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 	/////////////////////////////////////////////////////////////////////////
 
 	
-	
-	private void setupComponents()
-	{
-		number  = addLabelledField( "Number:" );
-		type	= addLabelledField("Type:");
-		pilot   = addLabelledFieldWithEllipsis( "Pilot:" );	
-	}
 	
 	
 		

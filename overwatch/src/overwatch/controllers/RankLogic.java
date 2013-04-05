@@ -98,13 +98,6 @@ public class RankLogic
 				return DatabaseConstraints.isValidName(text);
 			}
 		});
-		
-		//Not sure if this needs to be checked
-		rankTab.addPrivilegesValidator(new CheckedFieldValidator() {
-			public boolean check(String text) {
-				return false;
-			}
-		});
 	}
 	
 	
