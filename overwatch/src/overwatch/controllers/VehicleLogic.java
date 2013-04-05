@@ -18,7 +18,7 @@ import overwatch.gui.tabs.VehicleTab;
 
 public class VehicleLogic {
 	
-	
+	VehicleTab vehicleTab;
 	
 	
 	public VehicleLogic(VehicleTab vt)
@@ -61,35 +61,39 @@ public class VehicleLogic {
 	
 	
 	
-	public void addNew(VehicleTab vt)
+	
+	
+	public void setupButtonActions()
 	{
 		vt.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked add new");
 			}
 		});
-	}
 	
 	
 	
-	public void deleteVehicle(VehicleTab vt)
-	{
+	
+	
 		vt.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked delete");				
 			}
 		});
-	}
 	
 	
 	
-	public void saveVehicle(VehicleTab vt)
-	{
+	
+	
 		vt.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked save");				
 			}
 		});
+	
 	}
+	
+	
+	
 
 }

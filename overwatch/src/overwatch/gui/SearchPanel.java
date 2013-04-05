@@ -166,6 +166,19 @@ public class SearchPanel<T> extends JPanel
 	
 	
 	
+	public String getSelectedItemName()
+	{
+		if (this.hasSelectedItem()) {
+			return searchList.getSelectedValue().getName();
+		} else {
+			return null;
+		}
+	}
+	
+	
+	
+	
+	
 	/**
 	 * Sets the selected item.
 	 * @param item Referenced object

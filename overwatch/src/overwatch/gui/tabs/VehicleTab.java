@@ -25,7 +25,7 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 	
 	public VehicleTab()
 	{
-		super( "Vehicles", "Details" );		
+		super( "Vehicles" );		
 		
 		number  = addLabelledField( "Number:" );
 		type	= addLabelledField("Type:");

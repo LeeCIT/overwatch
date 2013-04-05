@@ -72,6 +72,7 @@ public class RankLogic
 		{
 			rankTab.setEnableFieldsAndButtons(false);
 			rankTab.clearFields();
+			return;
 		}
 		else
 		{

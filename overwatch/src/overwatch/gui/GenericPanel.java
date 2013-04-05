@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import net.miginfocom.swing.MigLayout;
 
@@ -38,10 +39,10 @@ public class GenericPanel<T> extends JPanel
 {
 	public static final int defaultFieldWidth = 24;
 	
-	protected SearchPanel<T> searchPanel;
-	protected JPanel         mainPanel;
-	protected JLabel         mainLabel;
-	protected JPanel         subPanel;
+	protected final SearchPanel<T> searchPanel;
+	protected final JPanel         mainPanel;
+	protected final JLabel         mainLabel;
+	protected final JPanel         subPanel;
 	
 	
 	
@@ -52,13 +53,13 @@ public class GenericPanel<T> extends JPanel
 	 * @param searchLabelText
 	 * @param mainLabelText
 	 */
-	public GenericPanel( String searchLabelText, String mainLabelText )
+	public GenericPanel( String searchLabelText )
 	{
 		super( new MigLayout( "", "[shrink 100][grow,fill]", "[grow,fill][]" ) );
 		
 		this.searchPanel = new SearchPanel<T>( searchLabelText );
-		this.mainPanel   = new JPanel( new MigLayout() );
-		this.mainLabel   = new JLabel( mainLabelText );
+		this.mainPanel   = new JPanel( new MigLayout("","[][256]") );
+		this.mainLabel   = new JLabel( "" );
 		this.subPanel    = new JPanel( new MigLayout() );
 		
 		mainPanel.add( mainLabel, "cell 1 0, wrap" );
@@ -66,6 +67,9 @@ public class GenericPanel<T> extends JPanel
 		add( searchPanel, "wmin 96px, wmax 224px, spany 2" );
 		add( mainPanel,   "alignx left, wrap"     );
 		add( subPanel,    "alignx right, skip 1"  );
+		
+		setupAutoLabel();
+		autoUpdateMainLabel();
 	}
 	
 	
@@ -289,6 +293,47 @@ public class GenericPanel<T> extends JPanel
 	
 	
 	
+		
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
+	
+	
+	private void setupAutoLabel()
+	{
+		addSearchPanelListSelectionListener( new ListSelectionListener() {
+			public void valueChanged( ListSelectionEvent e ) {
+				autoUpdateMainLabel();		
+			}
+		});		
+	}
+	
+	
+	
+	
+	
+	protected void autoUpdateMainLabel()
+	{
+		String sel     = searchPanel.getSelectedItemName();
+		String pretext = "Details for: ";
+		String text    = "[None selected]";
+		
+		if (null != sel)
+			text = sel;
+		
+		mainLabel.setText( pretext + text );
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -301,7 +346,7 @@ public class GenericPanel<T> extends JPanel
 	{
 		Gui.setNativeStyle();
 		
-		final GenericPanel<Integer> gp = new GenericPanel<Integer>( "SearchLabel", "MainLabel" );
+		final GenericPanel<Integer> gp = new GenericPanel<Integer>( "SearchLabel" );
 		gp.addLabelledField( "Name:" );
 		gp.addLabelledField( "Age:"  );
 

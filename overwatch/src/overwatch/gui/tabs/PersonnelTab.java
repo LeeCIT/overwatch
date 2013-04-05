@@ -45,7 +45,7 @@ public class PersonnelTab extends GenericPanelButtoned<Integer>
 	
 	public PersonnelTab()
 	{
-		super( "Personnel", "Details" );
+		super( "Personnel" );
 		
 		number  = addLabelledField( "Number:" );
 		name    = addLabelledField( "Name:"   );

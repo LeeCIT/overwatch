@@ -32,7 +32,7 @@ public class SupplyTab extends GenericPanelButtoned<Integer>
 	
 	public SupplyTab()
 	{
-		super( "Supplies", "Supply" );		
+		super( "Supplies" );		
 		setupComponents();
 	}
 	
