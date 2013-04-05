@@ -168,11 +168,20 @@ public class AssignPanel<T> extends JPanel
 	
 	
 	
-	/**
-	 * Get the selected item.
-	 * Returns null if nothing is selected.
-	 * @return Selected item
-	 */
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
+	
 	private T getSelectedItem()
 	{
 		if (this.hasSelectedItem()) {
@@ -192,21 +201,7 @@ public class AssignPanel<T> extends JPanel
 	
 	
 	
-	public int getDisplayedItemCount() {
-		return list.getModel().getSize();
-	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	///////////////////////////////////////////////////////////////////////////
-	// Internals
-	/////////////////////////////////////////////////////////////////////////
 	
 	private void setup( String labelText, ArrayList<NameRefPair<T>> items )
 	{
@@ -234,7 +229,7 @@ public class AssignPanel<T> extends JPanel
 		
 		add( label,       "wrap, growy 0" );
 		add( scrollPane,  "wrap, grow, hmin 72px" );
-		add( buttAdd, 	  "alignx left"  );
+		add( buttAdd, 	  "split 2, alignx left"  );
 		add( buttRemove,  "alignx right" );
 	}
 	
@@ -244,6 +239,16 @@ public class AssignPanel<T> extends JPanel
 	
 	private void setupActions()
 	{
+		list.addKeyListener( new KeyAdapter() {
+			public void keyReleased( KeyEvent e ) {}
+			public void keyPressed ( KeyEvent e ) {}
+			public void keyTyped   ( KeyEvent e ) {
+				if (e.getKeyCode() == KeyEvent.VK_DELETE)
+					removeItem( getSelectedItem() );
+			}
+		});
+		
+		
 		addRemoveButtonListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				removeItem( getSelectedItem() );
