@@ -51,7 +51,7 @@ public class PersonnelLogic
 		this.tab = tab;
 		
 		attachEvents();
-		populateTabList();
+		populateTabList(); // TODO this should be generated from an event as well
 	}
 	
 	

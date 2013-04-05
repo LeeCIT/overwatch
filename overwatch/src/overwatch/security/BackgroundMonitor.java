@@ -3,7 +3,9 @@
 
 package overwatch.security;
 
+import java.util.Date;
 import java.util.Vector;
+import com.sun.jmx.snmp.Timestamp;
 import overwatch.core.Gui;
 import overwatch.db.Database;
 
@@ -85,11 +87,15 @@ public class BackgroundMonitor
 	
 	private Thread createThread()
 	{
-		return new Thread( new Runnable() {
+		Thread t = new Thread( new Runnable() {
 			public void run() {
 				doChecks();				
 			}
 		});
+		
+		t.setName( "BackgroundMonitor" );
+		
+		return t;
 	}
 	
 	
@@ -130,9 +136,11 @@ public class BackgroundMonitor
 				if (LoginManager.hasCurrentUser()) {
 					int user = 1;//LoginManager.getCurrentUser();
 					
+					System.out.println( "Get conn @ " + new Date().getTime() );
 					java.sql.Connection conn = Database.getConnection();
+					System.out.println( conn );
 					
-					System.out.println( "checking that " + user + " is still logged in..." );
+					System.out.println( Thread.currentThread().getName() + " -> Checking that " + user + " still exists..." );
 					
 					if (Database.queryInts( "select personNo from Personnel where personNo = " + user + ";").length == 0)
 					{
@@ -143,6 +151,7 @@ public class BackgroundMonitor
 						System.exit(0);
 					}
 					
+					System.out.println( "Return conn @ " + new Date().getTime() );
 					Database.returnConnection( conn );
 				}
 			}
@@ -150,7 +159,7 @@ public class BackgroundMonitor
 		
 		
 		
-		for (int i=0; i<64; i++) {
+		for (int i=0; i<16; i++) {
 			BackgroundMonitor bgm = new BackgroundMonitor();
 			bgm.addBackgroundCheck( userLoggedin );
 			

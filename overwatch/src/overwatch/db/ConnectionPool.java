@@ -212,7 +212,7 @@ public class ConnectionPool
 	
 	private Thread createThread()
 	{
-		return new Thread() {
+		Thread t = new Thread( new Runnable() {
 			public void run() 
 			{
 				while (threadLoopController) 
@@ -222,14 +222,18 @@ public class ConnectionPool
 					try {
 						if (areConnectionsBeingCreated())
 						     { Thread.sleep( 50); } // Work quickly
-						else { Thread.sleep(500); } // Work slowly
+						else { Thread.sleep(300); } // Work slowly
 					}
 					catch (InterruptedException ex) {
-						this.interrupt();	
+						ex.printStackTrace();	
 					}
 				}
 			}
-		};
+		});
+		
+		t.setName( "ConnectionPool" );
+		
+		return t;
 	}
 	
 	
