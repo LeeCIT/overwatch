@@ -18,9 +18,9 @@ import overwatch.gui.LabelFieldPair;
 
 public class VehicleTab extends GenericPanelButtoned<Integer>
 {
-	private LabelFieldPair            number;
-	private LabelFieldPair            type;
-	private LabelFieldEllipsisTriplet pilot;
+	public final LabelFieldPair            number;
+	public final LabelFieldPair            type;
+	public final LabelFieldEllipsisTriplet pilot;
 	
 	
 	public VehicleTab()
