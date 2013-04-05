@@ -8,6 +8,11 @@ import overwatch.controllers.PersonnelLogic;
 
 
 
+// TODO: use tabPane.addChangeListener() in conjunction with tabPane.getSelectedComponent
+//       to reload panels on change
+
+
+
 
 public class Controller
 {
