@@ -58,6 +58,15 @@ public class PersonnelLogic
 	
 	
 	
+	public void onTabChange()
+	{	
+		populateList();
+	}
+	
+	
+	
+	
+	
 	
 	
 	
