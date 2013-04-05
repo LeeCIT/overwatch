@@ -43,8 +43,8 @@ public class LoginFrame extends JFrame
 	
 	public LoginFrame()
 	{
-		super( "Overwatch - Login" );		
-		setLayout( new MigLayout( "debug", "[][]", "[][][]" ) );
+		super( "Overwatch - Login" );	
+		setLayout( new MigLayout( "", "[][]", "[][][]" ) );
 		
 		loginListeners = new ArrayList<LoginListener>();
 		

@@ -3,7 +3,7 @@
 
 package overwatch.security;
 
-import overwatch.db.UserInfo;
+import overwatch.db.Personnel;
 
 
 
@@ -62,16 +62,16 @@ public class LoginManager
 	
 	public static boolean doLogin( String inputUser, String inputPass )
 	{
-		int     personNo     = UserInfo.mapLoginToPerson( inputUser );
+		int     personNo     = Personnel.mapLoginToPerson( inputUser );
 		boolean personExists = (personNo > 0);
 		
 		if (personExists) {
-			HashSaltPair hsp = UserInfo.getHashSaltPair( personNo );
+			HashSaltPair hsp = Personnel.getHashSaltPair( personNo );
 			
 			if (hsp != null)
 			if (LoginCrypto.isPassValid( inputPass, hsp )) {
 				currentUser  = personNo;
-				currentLevel = UserInfo.getPrivilegeLevel( personNo );
+				currentLevel = Personnel.getPrivilegeLevel( personNo );
 				return true;
 			}
 		}
@@ -113,8 +113,8 @@ public class LoginManager
 	public static void main( String[] args )
 	{	
 			
-		int personNo = UserInfo.mapLoginToPerson( "testGuy" );
-		UserInfo.setUserPass( personNo, "1234" );
+		int personNo = Personnel.mapLoginToPerson( "testGuy" );
+		Personnel.setUserPass( personNo, "1234" );
 		
 		
 		
