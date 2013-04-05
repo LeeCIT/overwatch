@@ -83,6 +83,7 @@ public class RankLogic
 											   "FROM Ranks " +
 											   "WHERE rankNo = " + rankNo);
 		
+		rankTab.number.field.setText("" + ers.getElemAs("rankNo", Integer.class));
 		rankTab.name.field.setText(ers.getElemAs( "name", String.class ));
 		rankTab.privileges.field.setText("" + ers.getElemAs("privilegeLevel", Integer.class));		
 	}
