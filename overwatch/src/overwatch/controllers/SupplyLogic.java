@@ -7,7 +7,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import overwatch.db.Database;
-import overwatch.gui.tabs.SuppliesTab;
+import overwatch.gui.tabs.SupplyTab;
 
 
 /**
@@ -18,14 +18,14 @@ import overwatch.gui.tabs.SuppliesTab;
 
 public class SupplyLogic {
 	
-	public SupplyLogic(SuppliesTab st)
+	public SupplyLogic(SupplyTab st)
 	{
 		attachButtonEvents(st);
 	}
 	
 	
 	
-	public void attachButtonEvents(SuppliesTab st)
+	public void attachButtonEvents(SupplyTab st)
 	{
 		newSupply(st);
 		deleteSupply(st);
@@ -37,7 +37,7 @@ public class SupplyLogic {
 	
 	
 	
-	private static void populateTabList(SuppliesTab st)
+	private static void populateTabList(SupplyTab st)
 	{
 		st.setSearchableItems(
 			Database.queryKeyNamePairs( "Supplies", "supplyNo", "type", Integer[].class )
@@ -47,7 +47,7 @@ public class SupplyLogic {
 	
 	
 	
-	public void supplyListChange(final SuppliesTab st)
+	public void supplyListChange(final SupplyTab st)
 	{
 		st.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
@@ -59,7 +59,7 @@ public class SupplyLogic {
 	
 	
 	
-	public void newSupply(SuppliesTab st)
+	public void newSupply(SupplyTab st)
 	{
 		st.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -71,7 +71,7 @@ public class SupplyLogic {
 	
 	
 	
-	public void deleteSupply(SuppliesTab st)
+	public void deleteSupply(SupplyTab st)
 	{
 		st.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -83,7 +83,7 @@ public class SupplyLogic {
 	
 	
 	
-	public void saveSupply(SuppliesTab st)
+	public void saveSupply(SupplyTab st)
 	{
 		st.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

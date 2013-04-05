@@ -3,12 +3,11 @@
 
 package overwatch.core;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
-import javax.swing.UIManager;
+import java.awt.Component;
 import overwatch.gui.DialogueAnswer;
-import overwatch.gui.tabs.PersonnelTab;
+import overwatch.gui.tabs.*;
+import javax.swing.*;
+import javax.swing.event.*;
 
 
 
@@ -18,7 +17,7 @@ import overwatch.gui.tabs.PersonnelTab;
  * Core GUI class.
  * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -30,13 +29,14 @@ public class Gui extends JFrame
 	// Statics
 	public static Gui currentInstance; // Main JFrame
 	
-	
-	
-	
+
 	
 	// Instance GUI elements
 	public final JTabbedPane  tabPane;
 	public final PersonnelTab personnelTab;
+	public final RankTab      rankTab;
+	public final SupplyTab    supplyTab;
+	public final VehicleTab   vehicleTab;
 	
 	
 	
@@ -49,15 +49,12 @@ public class Gui extends JFrame
 		currentInstance = this;
 		
 		// Create
-		tabPane      = new JTabbedPane();
-		personnelTab = new PersonnelTab();
-		
-		
-		// Tabs
-		tabPane.addTab( "Personnel", personnelTab );
-		
-		
-		// Layout
+		tabPane = new JTabbedPane();
+		personnelTab = addTab( "Personnel", new PersonnelTab() ); 
+		rankTab      = addTab( "Ranks",     new RankTab     () );      
+		vehicleTab   = addTab( "Vehicles",  new VehicleTab  () );   
+		supplyTab    = addTab( "Supplies",  new SupplyTab   () );    
+
 		add( tabPane );
 		
 		setDefaultCloseOperation( EXIT_ON_CLOSE );
@@ -66,6 +63,43 @@ public class Gui extends JFrame
 	}
 	
 	
+	
+	
+	
+	/**
+	 * Add a change listener to the tabPane component.
+	 * @param cl
+	 */
+	public void addTabChangeListener( ChangeListener cl ) {
+		tabPane.addChangeListener( cl );
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
+	
+	private <T extends Component> T addTab( String name, T tab ) {
+		tabPane.addTab( name, tab );
+		return tab;
+	}
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Statics
+	/////////////////////////////////////////////////////////////////////////
 	
 	
 	
@@ -149,3 +183,49 @@ public class Gui extends JFrame
 		JOptionPane.showMessageDialog( Gui.currentInstance, message, title, JOptionPane.ERROR_MESSAGE );
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

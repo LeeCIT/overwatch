@@ -3,8 +3,13 @@
 
 package overwatch.core;
 
-import overwatch.controllers.PersonnelLogic;
+import overwatch.controllers.*;
 
+
+
+
+// TODO: use tabPane.addChangeListener() in conjunction with tabPane.getSelectedComponent
+//       to reload panels on change
 
 
 
@@ -19,6 +24,9 @@ public class Controller
 	public static void attachLogicControllers( Gui gui )
 	{
 		new PersonnelLogic( gui.personnelTab );
+		new RankLogic     ( gui.rankTab      );
+		new VehicleLogic  ( gui.vehicleTab   );
+		new SupplyLogic   ( gui.supplyTab    );
 		// TODO: insert other controllers here
 	}
 	

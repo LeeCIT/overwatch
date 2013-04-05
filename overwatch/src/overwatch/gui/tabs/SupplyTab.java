@@ -15,12 +15,14 @@ import overwatch.gui.LabelFieldPair;
  * @author  John Murphy
  * @author  Lee Coakley
  * @version 3
+ * 
+ * TODO: Add uneditable number field
  */
 
 
 
 
-public class SuppliesTab extends GenericPanelButtoned<Integer>
+public class SupplyTab extends GenericPanelButtoned<Integer>
 {
 	
 	private LabelFieldPair name;
@@ -28,7 +30,7 @@ public class SuppliesTab extends GenericPanelButtoned<Integer>
 	private LabelFieldPair amount;
 	
 	
-	public SuppliesTab()
+	public SupplyTab()
 	{
 		super( "Supplies", "Supply" );		
 		setupComponents();
@@ -54,7 +56,7 @@ public class SuppliesTab extends GenericPanelButtoned<Integer>
 	public static void main(String[] args)
 	{
 		Gui.setNativeStyle();
-		SuppliesTab st = new SuppliesTab();
+		SupplyTab st = new SupplyTab();
 		
 		JFrame frame = new JFrame();
 		frame.add(st);

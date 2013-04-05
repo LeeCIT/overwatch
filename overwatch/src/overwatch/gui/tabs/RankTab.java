@@ -1,6 +1,9 @@
 package overwatch.gui.tabs;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
+
 import overwatch.controllers.RankLogic;
 import overwatch.core.Gui;
 import overwatch.gui.CheckedFieldValidator;
@@ -13,9 +16,10 @@ import overwatch.gui.LabelFieldPair;
 
 /**
  * Rank tab
+ * 
  * @author john
  * @Version 5
- */
+*/
 
 
 
@@ -25,14 +29,14 @@ public class RankTab extends GenericPanelButtoned<Integer>{
 	
 	public final LabelFieldPair name;
 	public final LabelFieldPair privileges;
-
 	
-	
+//	private 
+//	private JTextField numberField;
 	
 	public RankTab()
 	{
 		super( "Rank", "Details" );		
-	
+		
 		name    	= addLabelledField("Name:");
 		privileges  = addLabelledField("Privileges:");
 	}

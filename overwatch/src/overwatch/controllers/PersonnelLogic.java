@@ -51,7 +51,7 @@ public class PersonnelLogic
 		this.tab = tab;
 		
 		attachEvents();
-		populateTabList(); // TODO this should be generated from an event as well
+		populateList(); // TODO this should be generated from an event as well
 	}
 	
 	
@@ -88,7 +88,7 @@ public class PersonnelLogic
 	
 	
 	
-	private void populateTabList()
+	private void populateList()
 	{
 		tab.setSearchableItems(
 			Database.queryKeyNamePairs( "Personnel", "personNo", "name", Integer[].class )

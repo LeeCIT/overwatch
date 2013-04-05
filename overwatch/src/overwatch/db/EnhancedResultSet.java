@@ -140,6 +140,17 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	
 	
 	
+	/**
+	 * Check if empty.
+	 * @return boolean
+	 */
+	public boolean isEmpty() {
+		return size() == 0;
+	}
+	
+	
+	
+	
 	
 	/**
 	 * Access specific row.
