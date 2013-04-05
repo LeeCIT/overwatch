@@ -7,6 +7,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import overwatch.db.Database;
+import overwatch.db.EnhancedResultSet;
 import overwatch.gui.tabs.SupplyTab;
 
 
@@ -79,9 +80,36 @@ public class SupplyLogic {
 	{
 		supplyTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-			System.out.println(supplyTab.getSelectedItem());	
+			populateSupplyFields(supplyTab.getSelectedItem());
 			}
 		});
+	}
+	
+	
+	
+	
+	public void populateSupplyFields(Integer supplyNo)
+	{
+		if(supplyNo == null)
+		{
+			supplyTab.setEnableFieldsAndButtons(false);
+			supplyTab.clearFields();
+			return;
+		}
+		else
+		{
+			supplyTab.setEnableFieldsAndButtons(true);
+		}
+		
+		
+		EnhancedResultSet ers = Database.query("SELECT *" +
+											   "FROM Supplies " +
+											   "WHERE supplyNo = " + supplyNo);
+		
+		supplyTab.number.field.setText("" + ers.getElemAs("supplyNo", Integer.class));
+		supplyTab.type.field.setText(ers.getElemAs( "type", String.class ));
+		supplyTab.amount.field.setText("" + ers.getElemAs("count", Integer.class));
+		
 	}
 	
 }
