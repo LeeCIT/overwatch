@@ -23,12 +23,12 @@ public class VehicleTabLogic {
 	
 	public VehicleTabLogic(VehicleTab vt)
 	{
-		attatchButtonEvents(vt);
+		attachButtonEvents(vt);
 	}
 	
 	
 	
-	public void attatchButtonEvents(VehicleTab vt)
+	public void attachButtonEvents(VehicleTab vt)
 	{
 		addNew(vt);
 		deleteVehicle(vt);

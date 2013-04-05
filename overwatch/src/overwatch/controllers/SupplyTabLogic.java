@@ -20,12 +20,12 @@ public class SupplyTabLogic {
 	
 	public SupplyTabLogic(SuppliesTab st)
 	{
-		attatchButtonEvents(st);
+		attachButtonEvents(st);
 	}
 	
 	
 	
-	public void attatchButtonEvents(SuppliesTab st)
+	public void attachButtonEvents(SuppliesTab st)
 	{
 		newSupply(st);
 		deleteSupply(st);
