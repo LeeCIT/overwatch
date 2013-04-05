@@ -2,6 +2,7 @@ package overwatch.controllers;
 import java.awt.event.*;
 import javax.swing.event.*;
 import overwatch.db.Database;
+import overwatch.db.EnhancedResultSet;
 import overwatch.gui.tabs.RankTab;
 
 
@@ -20,11 +21,13 @@ import overwatch.gui.tabs.RankTab;
 
 public class RankLogic 
 {
+	RankTab rankTab;
 		
 	
 	public RankLogic(RankTab rt)
 	{
-		attachButtonEvents(rt);		
+		this.rankTab = rt;
+		attachButtonEvents();		
 	}
 	
 	
@@ -39,11 +42,11 @@ public class RankLogic
 	/////////////////////////////////////////////////////////////////////////
 	
 	
-	public void attachButtonEvents(RankTab rt)
+	public void attachButtonEvents()
 	{
-		setupButtonActions(rt);
-		populateTabList(rt);
-		rankListChange(rt);
+		setupButtonActions(rankTab);
+		populateTabList(rankTab);
+		rankListChange(rankTab);
 	}
 	
 	
@@ -54,6 +57,47 @@ public class RankLogic
 		rt.setSearchableItems(
 			Database.queryKeyNamePairs( "Ranks", "rankNo", "name", Integer[].class )
 		);
+	}
+	
+	
+	
+	
+	
+	public void populateRankFields(Integer rankNo)
+	{
+		if(rankNo == null)
+		{
+			rankTab.setEnableFieldsAndButtons(false);
+			rankTab.clearFields();
+		}
+		else
+		{
+			rankTab.setEnableFieldsAndButtons(true);
+		}
+		
+		
+		EnhancedResultSet ers = Database.query("SELECT *" +
+											   "FROM Ranks " +
+											   "WHERE rankNo = " + rankNo);
+		
+		rankTab.name.field.setText(ers.getElemAs( "name", String.class ));
+		
+	}
+	
+	
+	
+	
+	
+	public void rankListChange(final RankTab rt)
+	{
+		//TODO populate the fields here
+		rt.addSearchPanelListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				System.out.println(rt.getSelectedItem());	
+				populateRankFields(rt.getSelectedItem());
+			}
+		});
+		
 	}
 	
 	
@@ -80,27 +124,6 @@ public class RankLogic
 			}
 		});
 	}
-	
-	
-	
-	
-	
-	
-	public void rankListChange(final RankTab rt)
-	{
-		//TODO populate the fields here
-		rt.addSearchPanelListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				System.out.println(rt.getSelectedItem());	
-			}
-		});
-		
-	}
-	
-	
-	
-	
-	
 	
 	
 }
