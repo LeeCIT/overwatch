@@ -92,14 +92,16 @@ public class VehicleLogic {
 		}
 		
 		
-		EnhancedResultSet ers = Database.query("SELECT vehicleNo, type, v.personNo, p.name AS personName " +
-											   "FROM Vehicles v, Personnel p " +
-											   "WHERE vehicleNo = " + vehicleNo + 
-											   " AND v.personNo = p.personNo;");
+		EnhancedResultSet ers = Database.query(
+			"SELECT v.vehicleNo, v.type, v.personNo, p.name AS personName " +
+		    "FROM Vehicles v, Personnel p " +
+		    "WHERE v.vehicleNo = " + vehicleNo + 
+		    "  AND v.personNo  = p.personNo;"
+		);
 		
-		vehicleTab.number.field.setText("" + ers.getElemAs("vehicleNo", Integer.class));
-		vehicleTab.type.field.setText(ers.getElemAs( "type", String.class ));
-		vehicleTab.pilot.field.setText(ers.getElemAs("personName", String.class));		
+		vehicleTab.number.field.setText("" + ers.getElemAs( "vehicleNo",  Integer.class ));
+		vehicleTab.type  .field.setText(	 ers.getElemAs( "type",       String.class  ));
+		vehicleTab.pilot .field.setText(	 ers.getElemAs( "personName", String.class  ));		
 	}
 	
 	
