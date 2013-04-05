@@ -4,12 +4,24 @@
 package overwatch.gui;
 
 import overwatch.core.Gui;
+import overwatch.db.UserInfo;
 import java.util.ArrayList;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import net.miginfocom.swing.MigLayout;
 
+
+
+
+
+/**
+ * Generic panel which allows users to assemble a list of items.
+ * See main() in this file for a usage example. 
+ * 
+ * @author  Lee Coakley
+ * @version 1
+ */
 
 
 
@@ -355,17 +367,30 @@ public class AssignPanel<T> extends JPanel
 	public static void main(String[] args)
 	{
 		Gui.setNativeStyle();
+		final JFrame frame = new JFrame();
+		
+		
+		final AssignPanel<Integer> ap = new AssignPanel<Integer>("label");
 		
 		
 		
-		AssignPanel<Integer> ap = new AssignPanel<Integer>("label");
-		ap.addItem( 1, "One" );
-		ap.addItem( 2, "Two" );
-		ap.addItem( 3, "Three" );
+		final PickListener<Integer> pickListener = new PickListener<Integer>() {
+			public void onPick( Integer picked ) {
+				ap.addItem( picked, UserInfo.getName(picked) );		
+			}
+		};
+		
+		
+		
+		ap.addAddButtonListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				new PersonnelPicker( frame, pickListener );
+			}
+		});
 	
 		
 		
-		JFrame frame = new JFrame();
+		
 		frame.add( ap );
 		frame.pack();
 		frame.setVisible(true);
