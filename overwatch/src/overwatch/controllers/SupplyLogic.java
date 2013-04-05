@@ -34,6 +34,7 @@ public class SupplyLogic {
 		setupButtonActions();
 		populateTabList();
 		supplyListChange();
+		setupFieldValidators();
 	}
 	
 	
@@ -110,6 +111,14 @@ public class SupplyLogic {
 		supplyTab.type.field.setText(ers.getElemAs( "type", String.class ));
 		supplyTab.amount.field.setText("" + ers.getElemAs("count", Integer.class));
 		
+	}
+	
+	
+	
+	
+	public void setupFieldValidators()
+	{
+		//TODO Validators will go in here
 	}
 	
 }

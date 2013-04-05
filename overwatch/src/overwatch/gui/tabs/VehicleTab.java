@@ -36,7 +36,7 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 	
 	
 		// Validate
-		public void addNameValidator(CheckedFieldValidator v){type.field.addValidator(v); }
+		public void addTypeValidator(CheckedFieldValidator v){type.field.addValidator(v); }
 	
 	
 	

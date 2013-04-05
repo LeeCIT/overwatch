@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import overwatch.controllers.SupplyLogic;
 import overwatch.core.Gui;
+import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.GenericPanelButtoned;
 import overwatch.gui.LabelFieldPair;
 
@@ -43,10 +44,10 @@ public class SupplyTab extends GenericPanelButtoned<Integer>
 		number.field.setEditable(false);
 	}
 	
-	///////////////////////////////////////////////////////////////////////////
-	// Internals
-	/////////////////////////////////////////////////////////////////////////
 	
+	
+	
+	public void addTypeValidator(CheckedFieldValidator v){type.field.addValidator(v); }
 	
 	
 	
