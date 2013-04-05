@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import net.miginfocom.swing.MigLayout;
 
@@ -38,10 +39,10 @@ public class GenericPanel<T> extends JPanel
 {
 	public static final int defaultFieldWidth = 24;
 	
-	protected SearchPanel<T> searchPanel;
-	protected JPanel         mainPanel;
-	protected JLabel         mainLabel;
-	protected JPanel         subPanel;
+	protected final SearchPanel<T> searchPanel;
+	protected final JPanel         mainPanel;
+	protected final JLabel         mainLabel;
+	protected final JPanel         subPanel;
 	
 	
 	
@@ -66,6 +67,8 @@ public class GenericPanel<T> extends JPanel
 		add( searchPanel, "wmin 96px, wmax 224px, spany 2" );
 		add( mainPanel,   "alignx left, wrap"     );
 		add( subPanel,    "alignx right, skip 1"  );
+		
+		setupAutoLabel();
 	}
 	
 	
@@ -284,6 +287,47 @@ public class GenericPanel<T> extends JPanel
 	public boolean hasSelectedItem() {
 		return searchPanel.hasSelectedItem();
 	}
+	
+	
+	
+	
+	
+		
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
+	
+	
+	private void setupAutoLabel()
+	{
+		addSearchPanelListSelectionListener( new ListSelectionListener() {
+			public void valueChanged( ListSelectionEvent e ) {
+				autoUpdateMainLabel();		
+			}
+		});		
+	}
+	
+	
+	
+	
+	
+	protected void autoUpdateMainLabel()
+	{
+		String sel     = searchPanel.getSelectedItemName();
+		String pretext = "Details for: ";
+		String text    = "[None selected]";
+		
+		if (null != sel)
+			text = sel;
+		
+		mainLabel.setText( pretext + text );
+	}
+	
+	
 	
 	
 	
