@@ -111,6 +111,12 @@ public class UserInfo
 	
 	
 	
+	/**
+	 * Get a person's name.
+	 * Returns null if no such person exists.
+	 * @param personNo
+	 * @return name or null
+	 */
 	public static String getName( Integer personNo )
 	{
 		EnhancedResultSet ers = Database.query(
@@ -119,7 +125,9 @@ public class UserInfo
 		    "where personNo = " + personNo + ";"
 		);
 		
-		return ers.getElemAs( "name", String.class );
+		if (ers.isEmpty())
+			 return null;
+		else return ers.getElemAs( "name", String.class ); 
 	}
 	
 	
