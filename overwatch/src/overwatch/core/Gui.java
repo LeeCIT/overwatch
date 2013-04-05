@@ -3,12 +3,10 @@
 
 package overwatch.core;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
-import javax.swing.UIManager;
 import overwatch.gui.DialogueAnswer;
 import overwatch.gui.tabs.PersonnelTab;
+import javax.swing.*;
+import javax.swing.event.*;
 
 
 
@@ -18,7 +16,7 @@ import overwatch.gui.tabs.PersonnelTab;
  * Core GUI class.
  * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -66,6 +64,28 @@ public class Gui extends JFrame
 	}
 	
 	
+	
+	
+	
+	/**
+	 * Add a change listener to the tabPane component.
+	 * @param cl
+	 */
+	public void addTabChangeListener( ChangeListener cl ) {
+		tabPane.addChangeListener( cl );
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Statics
+	/////////////////////////////////////////////////////////////////////////
 	
 	
 	
@@ -149,3 +169,49 @@ public class Gui extends JFrame
 		JOptionPane.showMessageDialog( Gui.currentInstance, message, title, JOptionPane.ERROR_MESSAGE );
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
