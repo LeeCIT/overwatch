@@ -3,7 +3,7 @@
 
 package overwatch.core;
 
-import overwatch.controllers.PersonnelLogic;
+import overwatch.controllers.*;
 
 
 
@@ -24,6 +24,9 @@ public class Controller
 	public static void attachLogicControllers( Gui gui )
 	{
 		new PersonnelLogic( gui.personnelTab );
+		new RankLogic     ( gui.rankTab      );
+		new VehicleLogic  ( gui.vehicleTab   );
+		new SupplyLogic   ( gui.supplyTab    );
 		// TODO: insert other controllers here
 	}
 	
