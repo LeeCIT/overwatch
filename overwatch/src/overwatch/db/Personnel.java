@@ -5,13 +5,14 @@ package overwatch.db;
 
 import overwatch.security.HashSaltPair;
 import overwatch.security.LoginCrypto;
+import overwatch.util.Util;
 
 
 
 
 
 /**
- * Fetches basic info about a user.
+ * Get/set various aspects of personnel information from the database.
  * 
  * @author  Lee Coakley
  * @version 2
@@ -21,7 +22,7 @@ import overwatch.security.LoginCrypto;
 
 
 
-public class UserInfo
+public class Personnel
 {
 	
 	/**
@@ -37,7 +38,7 @@ public class UserInfo
 			"where loginName = '" + loginName + "';"
 		);
 		
-		return firstOrElse( numbers, -1 );
+		return Util.firstOrElse( numbers, -1 );
 	}
 	
 	
@@ -59,7 +60,7 @@ public class UserInfo
 
 		HashSaltPair[] pairs = DatabaseTranslator.translateHashSaltPairs( ers );
 			
-		return firstOrElse( pairs, null );
+		return Util.firstOrElse( pairs, null );
 	}
 	
 	
@@ -74,13 +75,14 @@ public class UserInfo
 	public static int getPrivilegeLevel( int personNo )
 	{
 		Integer[] numbers = Database.queryInts(
-			"select privilegeLevel     " +
-			"from Ranks r, Personnel p " +
-			"where p.rank     = r.rank " +
+			"select r.privilegeLevel     " +
+			"from Ranks     r,           " +
+			"     Personnel p            " +
+			"where p.rankNo   = r.rankNo " +
 			"  and p.personNo = " + personNo + ";"
 		);
 		
-		return firstOrElse( numbers, -1 );
+		return Util.firstOrElse( numbers, -1 );
 	}
 	
 	
@@ -130,21 +132,6 @@ public class UserInfo
 		else return ers.getElemAs( "name", String.class ); 
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	///////////////////////////////////////////////////////////////////////////
-	// Internals
-	/////////////////////////////////////////////////////////////////////////
-	
-	private static <T> T firstOrElse( T[] array, T ifNone ) {
-		return (array.length != 0)  ?  array[0]  :  ifNone;
-	}	
 }
 
 

@@ -4,7 +4,7 @@
 package overwatch.gui;
 
 import overwatch.core.Gui;
-import overwatch.db.UserInfo;
+import overwatch.db.Personnel;
 import java.util.ArrayList;
 import java.awt.event.*;
 import javax.swing.*;
@@ -376,7 +376,7 @@ public class AssignPanel<T> extends JPanel
 		
 		final PickListener<Integer> pickListener = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
-				ap.addItem( picked, UserInfo.getName(picked) );		
+				ap.addItem( picked, Personnel.getName(picked) );		
 			}
 		};
 		
