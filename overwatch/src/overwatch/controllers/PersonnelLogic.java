@@ -1,15 +1,16 @@
 
 
 
-package overwatch.core;
+package overwatch.controllers;
 
+import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
 import overwatch.gui.CheckedFieldValidator;
-import overwatch.gui.PersonnelTab;
 import overwatch.gui.PickListener;
 import overwatch.gui.RankPicker;
+import overwatch.gui.tabs.PersonnelTab;
 import overwatch.util.Validator;
 import java.math.BigDecimal;
 import java.awt.event.ActionEvent;

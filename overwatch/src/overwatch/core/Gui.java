@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import overwatch.gui.DialogueAnswer;
-import overwatch.gui.PersonnelTab;
+import overwatch.gui.tabs.PersonnelTab;
 
 
 

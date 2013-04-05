@@ -1,9 +1,12 @@
-package overwatch.gui;
+package overwatch.gui.tabs;
 
 import javax.swing.JFrame;
 
+import overwatch.controllers.RankLogic;
 import overwatch.core.Gui;
 import overwatch.db.EnhancedResultSet;
+import overwatch.gui.GenericPanelButtoned;
+import overwatch.gui.LabelFieldPair;
 
 
 

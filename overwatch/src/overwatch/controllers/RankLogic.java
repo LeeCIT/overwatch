@@ -1,4 +1,4 @@
-package overwatch.gui;
+package overwatch.controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -8,6 +8,7 @@ import javax.swing.event.ListSelectionListener;
 
 import overwatch.db.Database;
 import overwatch.db.EnhancedResultSet;
+import overwatch.gui.tabs.RankTab;
 
 
 

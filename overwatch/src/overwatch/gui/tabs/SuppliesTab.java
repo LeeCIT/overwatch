@@ -1,9 +1,12 @@
 
-package overwatch.gui;
+package overwatch.gui.tabs;
 
 import javax.swing.*;
 
+import overwatch.controllers.SupplyTabLogic;
 import overwatch.core.Gui;
+import overwatch.gui.GenericPanelButtoned;
+import overwatch.gui.LabelFieldPair;
 
 
 /**

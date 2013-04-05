@@ -1,12 +1,16 @@
 
 
 
-package overwatch.gui;
+package overwatch.gui.tabs;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 import overwatch.db.Database;
+import overwatch.gui.CheckedFieldValidator;
+import overwatch.gui.GenericPanelButtoned;
+import overwatch.gui.LabelFieldEllipsisTriplet;
+import overwatch.gui.LabelFieldPair;
 
 
 
