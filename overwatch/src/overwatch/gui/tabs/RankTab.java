@@ -1,10 +1,8 @@
 package overwatch.gui.tabs;
 
 import javax.swing.JFrame;
-
 import overwatch.controllers.RankLogic;
 import overwatch.core.Gui;
-import overwatch.db.EnhancedResultSet;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.GenericPanelButtoned;
 import overwatch.gui.LabelFieldPair;
@@ -25,8 +23,8 @@ import overwatch.gui.LabelFieldPair;
 
 public class RankTab extends GenericPanelButtoned<Integer>{
 	
-	LabelFieldPair name;
-	LabelFieldPair privileges;
+	public final LabelFieldPair name;
+	public final LabelFieldPair privileges;
 
 	
 	
@@ -45,11 +43,6 @@ public class RankTab extends GenericPanelButtoned<Integer>{
 	//Validate
 	public void addNameValidator(CheckedFieldValidator v){name.field.addValidator(v);	}
 	public void addPrivilegesValidator(CheckedFieldValidator v){privileges.field.addValidator(v);	}
-	
-	
-	
-	
-	
 	
 	
 	
