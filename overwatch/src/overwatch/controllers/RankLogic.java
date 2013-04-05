@@ -12,7 +12,7 @@ import overwatch.gui.tabs.RankTab;
 /**
  * RankTab logic
  * @author john
- * Version 3
+ * @Version 3
  */
 
 
@@ -81,7 +81,7 @@ public class RankLogic
 											   "WHERE rankNo = " + rankNo);
 		
 		rankTab.name.field.setText(ers.getElemAs( "name", String.class ));
-		
+		rankTab.privileges.field.setText("" + ers.getElemAs("privilegeLevel", Integer.class));		
 	}
 	
 	
@@ -93,7 +93,6 @@ public class RankLogic
 		//TODO populate the fields here
 		rt.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				System.out.println(rt.getSelectedItem());	
 				populateRankFields(rt.getSelectedItem());
 			}
 		});
