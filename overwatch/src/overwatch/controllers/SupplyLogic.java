@@ -13,33 +13,61 @@ import overwatch.gui.tabs.SupplyTab;
 /**
  * Supply tab logic
  * @author john
- * version 1
+ * @version 2
  */
 
 public class SupplyLogic {
 	
+	private final SupplyTab supplyTab;
+	
 	public SupplyLogic(SupplyTab st)
 	{
-		attachButtonEvents(st);
+		this.supplyTab = st;
+		attachButtonEvents();
 	}
 	
 	
 	
-	public void attachButtonEvents(SupplyTab st)
+	public void attachButtonEvents()
 	{
-		newSupply(st);
-		deleteSupply(st);
-		saveSupply(st);	
-		populateTabList(st);
-		supplyListChange(st);
+		setupButtonActions();
+		populateTabList();
+		supplyListChange();
 	}
 	
 	
 	
 	
-	private static void populateTabList(SupplyTab st)
+	public void setupButtonActions()
 	{
-		st.setSearchableItems(
+		
+		supplyTab.addNewListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Clicked add new");	
+			}
+		});
+	
+		supplyTab.addDeleteListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Clicked delete");
+			}
+		});
+	
+		supplyTab.addSaveListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Clicked save");
+			}
+		});
+	
+
+	}
+	
+	
+	
+	
+	private void populateTabList()
+	{
+		supplyTab.setSearchableItems(
 			Database.queryKeyNamePairs( "Supplies", "supplyNo", "type", Integer[].class )
 		);
 	}
@@ -47,49 +75,13 @@ public class SupplyLogic {
 	
 	
 	
-	public void supplyListChange(final SupplyTab st)
+	public void supplyListChange()
 	{
-		st.addSearchPanelListSelectionListener(new ListSelectionListener() {
+		supplyTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-			System.out.println(st.getSelectedItem());	
+			System.out.println(supplyTab.getSelectedItem());	
 			}
 		});
 	}
 	
-	
-	
-	
-	public void newSupply(SupplyTab st)
-	{
-		st.addNewListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked add new");	
-			}
-		});
-	}
-	
-	
-	
-	
-	public void deleteSupply(SupplyTab st)
-	{
-		st.addDeleteListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked delete");
-			}
-		});
-	}
-	
-	
-	
-	
-	public void saveSupply(SupplyTab st)
-	{
-		st.addSaveListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked save");
-			}
-		});
-	}
-
 }
