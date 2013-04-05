@@ -30,8 +30,7 @@ public class RankLogic
 	
 	public RankLogic(RankTab rt)
 	{
-		attatchButtonEvents(rt);
-		
+		attatchButtonEvents(rt);		
 	}
 	
 	
