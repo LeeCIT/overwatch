@@ -29,11 +29,19 @@ public class RankLogic
 	
 	
 	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
+	
+	
 	public void attachButtonEvents(RankTab rt)
 	{
-		addNewRank(rt);
-		deleteRank(rt);
-		saveRank(rt);
+		setupButtonActions(rt);
 		populateTabList(rt);
 		rankListChange(rt);
 	}
@@ -47,6 +55,32 @@ public class RankLogic
 			Database.queryKeyNamePairs( "Ranks", "rankNo", "name", Integer[].class )
 		);
 	}
+	
+	
+	
+	
+	public void setupButtonActions(final RankTab rt)
+	{
+		
+		rt.addNewListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Clicked add new");				
+			}
+		});	
+	
+		rt.addDeleteListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Clicked delete");
+			}
+		});		
+	
+		rt.addSaveListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Clicked save");		
+			}
+		});
+	}
+	
 	
 	
 	
@@ -65,34 +99,8 @@ public class RankLogic
 	
 	
 	
-	public void addNewRank(RankTab rt)
-	{
-		rt.addNewListener(new ActionListener() {			
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked addnew");				
-			}
-		});	
-	}
 	
 	
 	
-	public void deleteRank(RankTab rt) 
-	{
-		rt.addDeleteListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked delete");
-			}
-		});		
-	}
 	
-	
-	
-	public void saveRank(RankTab rt)
-	{
-		rt.addSaveListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked save");		
-			}
-		});
-	}
 }
