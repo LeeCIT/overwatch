@@ -18,27 +18,30 @@ import overwatch.gui.LabelFieldPair;
  * Rank tab
  * 
  * @author john
- * @Version 5
+ * @version 5
 */
 
 
 
 
 
-public class RankTab extends GenericPanelButtoned<Integer>{
-	
+public class RankTab extends GenericPanelButtoned<Integer>
+{
+
+	public final LabelFieldPair number;
 	public final LabelFieldPair name;
-	public final LabelFieldPair privileges;
+	public final LabelFieldPair privileges;	
 	
-//	private 
-//	private JTextField numberField;
 	
 	public RankTab()
 	{
 		super( "Rank", "Details" );		
 		
+		number		= addLabelledField("Number:");
 		name    	= addLabelledField("Name:");
 		privileges  = addLabelledField("Privileges:");
+		
+		number.field.setEditable(false);
 	}
 	
 	
