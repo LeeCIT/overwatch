@@ -52,9 +52,9 @@ public class VehicleTabLogic {
 	
 	public void vehicleListChange(final VehicleTab vt)
 	{
-		vt.searchPanel.addListSelectionListener(new ListSelectionListener() {
+		vt.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-			System.out.println(vt.searchPanel.getSelectedItem());	
+				System.out.println(vt.getSelectedItem());	
 			}
 		});
 	}
@@ -63,7 +63,7 @@ public class VehicleTabLogic {
 	
 	public void addNew(VehicleTab vt)
 	{
-		vt.buttons.addNew.addActionListener(new ActionListener() {
+		vt.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked add new");
 			}
@@ -74,7 +74,7 @@ public class VehicleTabLogic {
 	
 	public void deleteVehicle(VehicleTab vt)
 	{
-		vt.buttons.delete.addActionListener(new ActionListener() {
+		vt.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked delete");				
 			}
@@ -85,7 +85,7 @@ public class VehicleTabLogic {
 	
 	public void saveVehicle(VehicleTab vt)
 	{
-		vt.buttons.save.addActionListener(new ActionListener() {
+		vt.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked save");				
 			}

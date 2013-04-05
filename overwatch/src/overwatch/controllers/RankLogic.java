@@ -62,9 +62,9 @@ public class RankLogic
 	public void rankListChange(final RankTab rt)
 	{
 		//TODO populate the fields here
-		rt.searchPanel.addListSelectionListener(new ListSelectionListener() {
+		rt.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-			System.out.println(rt.searchPanel.getSelectedItem());	
+				System.out.println(rt.getSelectedItem());	
 			}
 		});
 		
@@ -74,7 +74,7 @@ public class RankLogic
 	
 	public void addNewRank(RankTab rt)
 	{
-		rt.buttons.addNew.addActionListener(new ActionListener() {			
+		rt.addNewListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked addnew");				
 			}
@@ -85,7 +85,7 @@ public class RankLogic
 	
 	public void deleteRank(RankTab rt) 
 	{
-		rt.buttons.delete.addActionListener(new ActionListener() {
+		rt.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked delete");
 			}
@@ -96,7 +96,7 @@ public class RankLogic
 	
 	public void saveRank(RankTab rt)
 	{
-		rt.buttons.save.addActionListener(new ActionListener() {
+		rt.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked save");		
 			}

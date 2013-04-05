@@ -49,9 +49,9 @@ public class SupplyTabLogic {
 	
 	public void supplyListChange(final SuppliesTab st)
 	{
-		st.searchPanel.addListSelectionListener(new ListSelectionListener() {
+		st.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-			System.out.println(st.searchPanel.getSelectedItem());	
+			System.out.println(st.getSelectedItem());	
 			}
 		});
 	}
@@ -61,7 +61,7 @@ public class SupplyTabLogic {
 	
 	public void newSupply(SuppliesTab st)
 	{
-		st.buttons.addNew.addActionListener(new ActionListener() {
+		st.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked add new");	
 			}
@@ -73,7 +73,7 @@ public class SupplyTabLogic {
 	
 	public void deleteSupply(SuppliesTab st)
 	{
-		st.buttons.delete.addActionListener(new ActionListener() {
+		st.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked delete");
 			}
@@ -85,7 +85,7 @@ public class SupplyTabLogic {
 	
 	public void saveSupply(SuppliesTab st)
 	{
-		st.buttons.save.addActionListener(new ActionListener() {
+		st.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked save");
 			}
