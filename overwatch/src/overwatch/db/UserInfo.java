@@ -111,10 +111,32 @@ public class UserInfo
 	
 	
 	
-	private static <T> T firstOrElse( T[] array, T ifNone ) {
-		return (array.length != 0)  ?  array[0]  :  ifNone;
+	public static String getName( Integer personNo )
+	{
+		EnhancedResultSet ers = Database.query(
+			"select name      " +
+		    "from Personnel   " +
+		    "where personNo = " + personNo + ";"
+		);
+		
+		return ers.getElemAs( "name", String.class );
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
+	
+	private static <T> T firstOrElse( T[] array, T ifNone ) {
+		return (array.length != 0)  ?  array[0]  :  ifNone;
+	}	
 }
 
 
