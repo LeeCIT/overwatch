@@ -2,7 +2,7 @@ package overwatch.gui.tabs;
 
 import javax.swing.*;
 
-import overwatch.controllers.VehicleTabLogic;
+import overwatch.controllers.VehicleLogic;
 import overwatch.core.Gui;
 import overwatch.gui.GenericPanelButtoned;
 import overwatch.gui.LabelFieldEllipsisTriplet;
@@ -63,7 +63,7 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 		frame.setVisible(true);	
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		new VehicleTabLogic(vt);
+		new VehicleLogic(vt);
 	}
 	
 	

@@ -3,7 +3,7 @@ package overwatch.gui.tabs;
 
 import javax.swing.*;
 
-import overwatch.controllers.SupplyTabLogic;
+import overwatch.controllers.SupplyLogic;
 import overwatch.core.Gui;
 import overwatch.gui.GenericPanelButtoned;
 import overwatch.gui.LabelFieldPair;
@@ -62,7 +62,7 @@ public class SuppliesTab extends GenericPanelButtoned<Integer>
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
-		new SupplyTabLogic(st);
+		new SupplyLogic(st);
 	}
 
 }

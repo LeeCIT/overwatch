@@ -16,9 +16,9 @@ import overwatch.gui.tabs.SuppliesTab;
  * version 1
  */
 
-public class SupplyTabLogic {
+public class SupplyLogic {
 	
-	public SupplyTabLogic(SuppliesTab st)
+	public SupplyLogic(SuppliesTab st)
 	{
 		attachButtonEvents(st);
 	}

@@ -16,12 +16,12 @@ import overwatch.gui.tabs.VehicleTab;
  * Version 1
  */
 
-public class VehicleTabLogic {
+public class VehicleLogic {
 	
 	
 	
 	
-	public VehicleTabLogic(VehicleTab vt)
+	public VehicleLogic(VehicleTab vt)
 	{
 		attachButtonEvents(vt);
 	}

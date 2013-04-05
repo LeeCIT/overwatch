@@ -140,7 +140,7 @@ public class BackgroundMonitor
 					java.sql.Connection conn = Database.getConnection();
 					System.out.println( conn );
 					
-					System.out.println( Thread.currentThread().getName() + " -> Checking that " + user + " still exists..." );
+					System.out.println( "Checking that " + user + " still exists..." );
 					
 					if (Database.queryInts( "select personNo from Personnel where personNo = " + user + ";").length == 0)
 					{
