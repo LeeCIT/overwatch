@@ -14,8 +14,11 @@ import overwatch.gui.LabelFieldPair;
 
 /**
  * Rank tab
+ * 
  * @author john
- * Version 4
+ * @version 4
+ * 
+ * TODO: Add uneditable number field
  */
 
 

@@ -15,6 +15,8 @@ import overwatch.gui.LabelFieldPair;
  * @author  John Murphy
  * @author  Lee Coakley
  * @version 3
+ * 
+ * TODO: Add uneditable number field
  */
 
 
