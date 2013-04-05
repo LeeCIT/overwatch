@@ -2,7 +2,9 @@ package overwatch.controllers;
 import java.awt.event.*;
 import javax.swing.event.*;
 import overwatch.db.Database;
+import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
+import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.tabs.RankTab;
 
 
@@ -21,7 +23,7 @@ import overwatch.gui.tabs.RankTab;
 
 public class RankLogic 
 {
-	RankTab rankTab;
+	private final RankTab rankTab;
 		
 	
 	public RankLogic(RankTab rt)
@@ -44,17 +46,18 @@ public class RankLogic
 	
 	public void attachButtonEvents()
 	{
-		setupButtonActions(rankTab);
-		populateTabList(rankTab);
-		rankListChange(rankTab);
+		setupButtonActions();
+		populateTabList();
+		rankListChange();
+		setupFieldValidators();
 	}
 	
 	
 	
 	
-	private static void populateTabList(RankTab rt)
+	private void populateTabList()
 	{
-		rt.setSearchableItems(
+		rankTab.setSearchableItems(
 			Database.queryKeyNamePairs( "Ranks", "rankNo", "name", Integer[].class )
 		);
 	}
@@ -87,13 +90,32 @@ public class RankLogic
 	
 	
 	
+	public void setupFieldValidators()
+	{
+		rankTab.addNameValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {				
+				return DatabaseConstraints.isValidName(text);
+			}
+		});
+		
+		//Not sure if this needs to be checked
+		rankTab.addPrivilegesValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {
+				return false;
+			}
+		});
+	}
 	
-	public void rankListChange(final RankTab rt)
+	
+	
+	
+	
+	public void rankListChange()
 	{
 		//TODO populate the fields here
-		rt.addSearchPanelListSelectionListener(new ListSelectionListener() {
+		rankTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				populateRankFields(rt.getSelectedItem());
+				populateRankFields(rankTab.getSelectedItem());
 			}
 		});
 		
@@ -102,22 +124,22 @@ public class RankLogic
 	
 	
 	
-	public void setupButtonActions(final RankTab rt)
+	public void setupButtonActions()
 	{
 		
-		rt.addNewListener(new ActionListener() {			
+		rankTab.addNewListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked add new");				
 			}
 		});	
 	
-		rt.addDeleteListener(new ActionListener() {
+		rankTab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked delete");
 			}
 		});		
 	
-		rt.addSaveListener(new ActionListener() {
+		rankTab.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked save");		
 			}
