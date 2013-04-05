@@ -18,8 +18,8 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Creating new DB connections can be very slow. This spawns many of
  * them in the background without holding up the rest of the program.
  * 
- * @author Lee Coakley
- * @version 5
+ * @author  Lee Coakley
+ * @version 6
  */
 
 
