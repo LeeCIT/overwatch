@@ -18,7 +18,7 @@ public class Controller
 	 */
 	public static void attachLogicControllers( Gui gui )
 	{
-		PersonnelLogic.attachEvents( gui.personnelTab );
+		new PersonnelLogic( gui.personnelTab );
 		// TODO: insert other controllers here
 	}
 	

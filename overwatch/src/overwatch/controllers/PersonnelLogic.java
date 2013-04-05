@@ -27,7 +27,7 @@ import javax.swing.event.ListSelectionListener;
  * Controls saving, loading, security checking etc.
  * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -36,24 +36,49 @@ import javax.swing.event.ListSelectionListener;
 
 public class PersonnelLogic
 {
+	private final PersonnelTab tab;
+	
+	
+	
+	
 	
 	/**
-	 * Plugs the GUI into the logic controller.
+	 * Plug the GUI tab into the controller.
 	 * @param tab
 	 */
-	public static void attachEvents( PersonnelTab tab )
+	public PersonnelLogic( PersonnelTab tab )
 	{
-		setupSelectActions( tab );
-		setupButtonActions( tab );
-		setupPickActions  ( tab );
-		setupValidators   ( tab );
+		this.tab = tab;
+		
+		attachEvents();
+		populateTabList();
 	}
 	
 	
 	
 	
 	
-	private static void respondToRankPicker( Integer rankNo )
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
+	
+	private void attachEvents()
+	{
+		setupSelectActions  ();
+		setupButtonActions  ();
+		setupPickActions    ();
+		setupFieldValidators();
+	}
+	
+	
+	
+	
+	
+	private void respondToRankPicker( Integer rankNo )
 	{
 		System.out.println( "respondToRankPicker: got " + rankNo );
 		// TODO
@@ -63,7 +88,7 @@ public class PersonnelLogic
 	
 	
 	
-	private static void populateTabList( PersonnelTab tab )
+	private void populateTabList()
 	{
 		tab.setSearchableItems(
 			Database.queryKeyNamePairs( "Personnel", "personNo", "name", Integer[].class )
@@ -74,7 +99,7 @@ public class PersonnelLogic
 	
 	
 	
-	private static void populateTabFields( PersonnelTab tab, Integer personNo )
+	private void populateTabFields( Integer personNo )
 	{
 		if (personNo == null) {
 			tab.setEnableFieldsAndButtons( false );
@@ -109,7 +134,7 @@ public class PersonnelLogic
 	
 	
 	
-	private static void setupPickActions( PersonnelTab tab )
+	private void setupPickActions()
 	{
 		final PickListener<Integer> rankPickListener = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
@@ -129,11 +154,11 @@ public class PersonnelLogic
 	
 	
 	
-	private static void setupSelectActions( final PersonnelTab tab )
+	private void setupSelectActions()
 	{
 		tab.addSearchPanelListSelectionListener( new ListSelectionListener() {
 			public void valueChanged( ListSelectionEvent e ) {
-				populateTabFields( tab, tab.getSelectedItem() );
+				populateTabFields( tab.getSelectedItem() );
 			}
 		});
 	}
@@ -142,7 +167,7 @@ public class PersonnelLogic
 	
 	
 	
-	private static void setupButtonActions( PersonnelTab tab )
+	private void setupButtonActions()
 	{
 		tab.addNewListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
@@ -169,7 +194,7 @@ public class PersonnelLogic
 	
 	
 	
-	private static void setupValidators( PersonnelTab tab )
+	private void setupFieldValidators()
 	{
 		tab.addNameValidator( new CheckedFieldValidator() {
 			public boolean check( String text ) {
@@ -222,8 +247,10 @@ public class PersonnelLogic
 		
 		Gui gui = new Gui();
 		
-		PersonnelLogic.attachEvents   ( gui.personnelTab );
-		PersonnelLogic.populateTabList( gui.personnelTab );
+		new PersonnelLogic( gui.personnelTab );
+		
+		gui.pack();
+		gui.setVisible( true );
 	}
 }
 
