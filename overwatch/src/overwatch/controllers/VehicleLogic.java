@@ -6,13 +6,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.EnhancedResultSet;
-import overwatch.db.UserInfo;
+import overwatch.db.Personnel;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
-import overwatch.gui.RankPicker;
 import overwatch.gui.tabs.VehicleTab;
 
 
@@ -146,7 +144,7 @@ public class VehicleLogic {
 	{
 		final PickListener<Integer> pickListener = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
-				vehicleTab.pilot.field.setText(UserInfo.getName(picked)) ;		
+				vehicleTab.pilot.field.setText(Personnel.getName(picked)) ;		
 			}
 		};
 		
