@@ -30,12 +30,12 @@ public class RankLogic
 	
 	public RankLogic(RankTab rt)
 	{
-		attatchButtonEvents(rt);		
+		attachButtonEvents(rt);		
 	}
 	
 	
 	
-	public void attatchButtonEvents(RankTab rt)
+	public void attachButtonEvents(RankTab rt)
 	{
 		addNewRank(rt);
 		deleteRank(rt);
