@@ -7,42 +7,53 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import overwatch.db.Database;
+import overwatch.db.EnhancedResultSet;
 import overwatch.gui.tabs.VehicleTab;
 
 
 /**
  * Set up the vehicle tab logic
  * @author john
- * Version 1
+ * @version 2
  */
 
 public class VehicleLogic {
 	
-	VehicleTab vehicleTab;
+	private final VehicleTab vehicleTab;
 	
 	
 	public VehicleLogic(VehicleTab vt)
 	{
+		this.vehicleTab = vt;
 		attachButtonEvents(vt);
 	}
 	
 	
 	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	public void attachButtonEvents(VehicleTab vt)
 	{
-		addNew(vt);
-		deleteVehicle(vt);
-		saveVehicle(vt);
-		populateTabList(vt);
-		vehicleListChange(vt);
+		setupButtonActions();
+		populateTabList();
+		vehicleListChange();
 	}
 	
 	
 	
 	
-	private static void populateTabList(VehicleTab vt)
+	private void populateTabList()
 	{
-		vt.setSearchableItems(
+		vehicleTab.setSearchableItems(
 			Database.queryKeyNamePairs( "Vehicles", "vehicleNo", "type", Integer[].class )
 		);
 	}
@@ -50,13 +61,40 @@ public class VehicleLogic {
 	
 	
 	
-	public void vehicleListChange(final VehicleTab vt)
+	public void vehicleListChange()
 	{
-		vt.addSearchPanelListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				System.out.println(vt.getSelectedItem());	
+		vehicleTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {	
+				populateVehicleFields(vehicleTab.getSelectedItem());
 			}
 		});
+	}
+	
+	
+	
+	
+	public void populateVehicleFields(Integer vehicleNo)
+	{
+		if(vehicleNo == null)
+		{
+			vehicleTab.setEnableFieldsAndButtons(false);
+			vehicleTab.clearFields();
+			return;
+		}
+		else
+		{
+			vehicleTab.setEnableFieldsAndButtons(true);
+		}
+		
+		
+		EnhancedResultSet ers = Database.query("SELECT vehicleNo, type, v.personNo, p.name AS personName " +
+											   "FROM Vehicles v, Personnel p " +
+											   "WHERE vehicleNo = " + vehicleNo + 
+											   " AND v.personNo = p.personNo;");
+		
+		vehicleTab.number.field.setText("" + ers.getElemAs("vehicleNo", Integer.class));
+		vehicleTab.type.field.setText(ers.getElemAs( "type", String.class ));
+		vehicleTab.pilot.field.setText(ers.getElemAs("personName", String.class));		
 	}
 	
 	
@@ -65,27 +103,20 @@ public class VehicleLogic {
 	
 	public void setupButtonActions()
 	{
-		vt.addNewListener(new ActionListener() {
+		vehicleTab.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked add new");
 			}
-		});
+		});	
 	
-	
-	
-	
-	
-		vt.addDeleteListener(new ActionListener() {
+		vehicleTab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked delete");				
 			}
-		});
+			
+		});	
 	
-	
-	
-	
-	
-		vt.addSaveListener(new ActionListener() {
+		vehicleTab.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked save");				
 			}
