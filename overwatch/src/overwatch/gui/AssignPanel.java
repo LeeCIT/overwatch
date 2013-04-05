@@ -4,16 +4,10 @@
 package overwatch.gui;
 
 import overwatch.core.Gui;
-import java.awt.event.*;
 import java.util.ArrayList;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionListener;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -36,7 +30,17 @@ public class AssignPanel<T> extends JPanel
 	
 	private AssignPanel()
 	{
-		super(  new MigLayout("filly", "[grow]", "[][fill,grow][]")  );
+		super(  new MigLayout("debug,filly", "[grow]", "[][fill,grow][]")  );
+	}
+	
+	
+	
+
+	
+	public AssignPanel( String labelText, ArrayList<NameRefPair<T>> pickables )
+	{
+		this();
+		setup( labelText, pickables );
 	}
 	
 	
@@ -46,16 +50,6 @@ public class AssignPanel<T> extends JPanel
 	public AssignPanel( String labelText )
 	{
 		this(  labelText,  new ArrayList<NameRefPair<T>>()  );
-	}
-	
-	
-	
-	
-	
-	public AssignPanel( String labelText, ArrayList<NameRefPair<T>> pickables )
-	{
-		this();
-		setup( labelText, pickables );
 	}
 	
 	
@@ -85,6 +79,18 @@ public class AssignPanel<T> extends JPanel
 	
 	
 	/**
+	 * Generates an event when the add button is used.  This should create a picker of some kind.
+	 * @param lis
+	 */
+	public void addAddButtonListener( ActionListener lis ) {
+		buttAdd.addActionListener( lis );
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Generates an event when the remove button is used.
 	 * @param lis
 	 */
@@ -96,13 +102,7 @@ public class AssignPanel<T> extends JPanel
 	
 	
 	
-	/**
-	 * Generates an event when the add button is used.  This should create a picker of some kind.
-	 * @param lis
-	 */
-	public void addAddButtonListener( ActionListener lis ) {
-		buttAdd.addActionListener( lis );
-	}
+	
 	
 	
 	
@@ -151,23 +151,78 @@ public class AssignPanel<T> extends JPanel
 	
 	
 	
-	public void addItem( T item )
+	/**
+	 * Add an item to the list.
+	 * Null items are ignored.
+	 * @param item
+	 * @param displayAs
+	 */
+	public void addItem( T item, String displayAs )
 	{
-		// TODO
+		if (item == null)
+			return;
+		
+		listItems.add( new NameRefPair<T>(item, displayAs) );
+		resetDisplayedItems();
 	}
 	
 	
 	
 	
+	
+	/**
+	 * Get an ArrayList of all the items currently in the panel's list.
+	 * @return ArrayList
+	 */
+	public ArrayList<T> getItems()
+	{
+		ArrayList<T> items = new ArrayList<T>();
+		
+		for (NameRefPair<T> pair: listItems) {
+			items.add( pair.getRef() );
+		}
+		
+		return items;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Remove item from the list.
+	 * Note: The remove button already does this for you.
+	 * @param item
+	 * @return Whether it was actually there
+	 */
 	public boolean removeItem( T item )
 	{
-		// TODO
-		return false;
+		boolean wasRemoved = false;
+		
+		for (NameRefPair<T> pair: listItems) {
+			if( pair.getRef().equals(item)) {
+				listItems.remove( pair );
+				wasRemoved = true;
+				break;
+			}
+		}
+		
+		resetDisplayedItems();
+		return wasRemoved;
 	}
 	
 	
 	
 	
+	
+	/**
+	 * Clears the list.
+	 */
+	public void clearItems()
+	{
+		listItems.clear();
+		resetDisplayedItems();
+	}
 	
 	
 	
@@ -229,8 +284,8 @@ public class AssignPanel<T> extends JPanel
 		
 		add( label,       "wrap, growy 0" );
 		add( scrollPane,  "wrap, grow, hmin 72px" );
-		add( buttAdd, 	  "split 2, alignx left"  );
-		add( buttRemove,  "alignx right" );
+		add( buttAdd, 	  "split 2, right"  );
+		add( buttRemove,  "split 2, right" );
 	}
 	
 	
@@ -240,9 +295,7 @@ public class AssignPanel<T> extends JPanel
 	private void setupActions()
 	{
 		list.addKeyListener( new KeyAdapter() {
-			public void keyReleased( KeyEvent e ) {}
-			public void keyPressed ( KeyEvent e ) {}
-			public void keyTyped   ( KeyEvent e ) {
+			public void keyTyped( KeyEvent e ) {
 				if (e.getKeyCode() == KeyEvent.VK_DELETE)
 					removeItem( getSelectedItem() );
 			}
@@ -303,8 +356,17 @@ public class AssignPanel<T> extends JPanel
 	{
 		Gui.setNativeStyle();
 		
+		
+		
+		AssignPanel<Integer> ap = new AssignPanel<Integer>("label");
+		ap.addItem( 1, "One" );
+		ap.addItem( 2, "Two" );
+		ap.addItem( 3, "Three" );
+	
+		
+		
 		JFrame frame = new JFrame();
-		frame.add( new AssignPanel<Integer>("label") );
+		frame.add( ap );
 		frame.pack();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
