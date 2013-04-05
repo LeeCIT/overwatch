@@ -35,7 +35,7 @@ public class RankTab extends GenericPanelButtoned<Integer>{
 	
 	public RankTab()
 	{
-		super( "Rank", "Details" );		
+		super( "Rank" );		
 		setupComponents();
 	}
 	

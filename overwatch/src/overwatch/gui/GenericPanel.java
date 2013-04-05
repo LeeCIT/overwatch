@@ -53,13 +53,13 @@ public class GenericPanel<T> extends JPanel
 	 * @param searchLabelText
 	 * @param mainLabelText
 	 */
-	public GenericPanel( String searchLabelText, String mainLabelText )
+	public GenericPanel( String searchLabelText )
 	{
 		super( new MigLayout( "", "[shrink 100][grow,fill]", "[grow,fill][]" ) );
 		
 		this.searchPanel = new SearchPanel<T>( searchLabelText );
-		this.mainPanel   = new JPanel( new MigLayout() );
-		this.mainLabel   = new JLabel( mainLabelText );
+		this.mainPanel   = new JPanel( new MigLayout("","[][256]") );
+		this.mainLabel   = new JLabel( "" );
 		this.subPanel    = new JPanel( new MigLayout() );
 		
 		mainPanel.add( mainLabel, "cell 1 0, wrap" );
@@ -69,6 +69,7 @@ public class GenericPanel<T> extends JPanel
 		add( subPanel,    "alignx right, skip 1"  );
 		
 		setupAutoLabel();
+		autoUpdateMainLabel();
 	}
 	
 	
@@ -345,7 +346,7 @@ public class GenericPanel<T> extends JPanel
 	{
 		Gui.setNativeStyle();
 		
-		final GenericPanel<Integer> gp = new GenericPanel<Integer>( "SearchLabel", "MainLabel" );
+		final GenericPanel<Integer> gp = new GenericPanel<Integer>( "SearchLabel" );
 		gp.addLabelledField( "Name:" );
 		gp.addLabelledField( "Age:"  );
 

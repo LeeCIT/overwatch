@@ -33,9 +33,9 @@ public class GenericPanelButtoned<T> extends GenericPanel<T>
 	 * @param searchLabelText
 	 * @param mainLabelText
 	 */
-	public GenericPanelButtoned( String searchLabelText, String mainLabelText )
+	public GenericPanelButtoned( String searchLabelText )
 	{
-		super( searchLabelText, mainLabelText );
+		super( searchLabelText );
 		buttons = addNewSaveDeleteButtons();
 	}
 	
