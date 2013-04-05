@@ -14,7 +14,7 @@ import overwatch.gui.LabelFieldPair;
  * 
  * @author  John Murphy
  * @author  Lee Coakley
- * @version 3
+ * @version 4
  * 
  * TODO: Add uneditable number field
  */
@@ -25,27 +25,29 @@ import overwatch.gui.LabelFieldPair;
 public class SupplyTab extends GenericPanelButtoned<Integer>
 {
 	
-	private LabelFieldPair name;
-	private LabelFieldPair type;
-	private LabelFieldPair amount;
+	public final LabelFieldPair name;
+	public final LabelFieldPair type;
+	public final LabelFieldPair amount;
+	public final LabelFieldPair number;
 	
 	
 	public SupplyTab()
 	{
-		super( "Supplies" );		
-		setupComponents();
+		super( "Supplies" );	
+		
+		number	= addLabelledField("Number:");
+		name  	= addLabelledField("Name:");
+		type	= addLabelledField("Type:");
+		amount  = addLabelledField("Amount:");	
+		
+		number.field.setEditable(false);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
 	
-	private void setupComponents()
-	{
-		name  	= addLabelledField("Name:");
-		type	= addLabelledField("Type:");
-		amount  = addLabelledField("Amount:");	
-	}
+	
 	
 	
 	
