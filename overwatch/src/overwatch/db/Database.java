@@ -29,7 +29,7 @@ import overwatch.gui.NameRefPairList;
 
 public class Database
 {
-	private static final ConnectionPool connPool = new ConnectionPool( 6, true );
+	private static final ConnectionPool connPool = new ConnectionPool( 4, true );
 	
 	
 	
@@ -53,20 +53,6 @@ public class Database
 	 */
 	public static void disconnect() {
 		connPool.stop();
-	}
-	
-	
-		
-	
-	
-	/**
-	 * Check if the pool has an unused connection ready.
-	 * Informational - 
-	 * @return status
-	 * @see ConnectionPool
-	 */
-	public static boolean hasConnection() {
-		return connPool.getConnectionCount() > 0;
 	}
 	
 	
