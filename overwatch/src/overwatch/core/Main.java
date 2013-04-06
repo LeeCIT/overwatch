@@ -17,7 +17,10 @@ public class Main
 	{
 		Gui.setNativeStyle();
 		
-		createLoginFrame();
+		// TODO re-enable in real release
+		//createLoginFrame();
+		
+		createMainGui(); // TODO debug only: delete later
 	}
 	
 	
