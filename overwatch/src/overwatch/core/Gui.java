@@ -27,7 +27,7 @@ import javax.swing.event.*;
 public class Gui extends JFrame
 {
 	// Statics
-	public static Gui currentInstance; // Main JFrame
+	private static Gui currentInstance; // Main JFrame
 	
 
 	
@@ -60,6 +60,17 @@ public class Gui extends JFrame
 		setDefaultCloseOperation( EXIT_ON_CLOSE );
 		pack();
 		setVisible(true);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Get a reference to the most recently created Gui instance.
+	 */
+	public static Gui getCurrentInstance() {
+		return currentInstance;
 	}
 	
 	

@@ -7,6 +7,7 @@ import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
+import overwatch.db.Ranks;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.PickListener;
 import overwatch.gui.RankPicker;
@@ -15,6 +16,8 @@ import overwatch.util.Validator;
 import java.math.BigDecimal;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -51,16 +54,6 @@ public class PersonnelLogic
 		this.tab = tab;
 		
 		attachEvents();
-		populateList(); // TODO this should be generated from an event as well
-	}
-	
-	
-	
-	
-	
-	public void onTabChange()
-	{	
-		populateList();
 	}
 	
 	
@@ -77,10 +70,11 @@ public class PersonnelLogic
 	
 	private void attachEvents()
 	{
-		setupSelectActions  ();
-		setupButtonActions  ();
-		setupPickActions    ();
-		setupFieldValidators();
+		setupTabChangeActions();
+		setupSelectActions   ();
+		setupButtonActions   ();
+		setupPickActions     ();
+		setupFieldValidators ();
 	}
 	
 	
@@ -89,8 +83,16 @@ public class PersonnelLogic
 	
 	private void respondToRankPicker( Integer rankNo )
 	{
-		System.out.println( "respondToRankPicker: got " + rankNo );
-		// TODO
+		tab.rank.field.setText( Ranks.getName( rankNo ) );
+	}
+	
+	
+	
+	
+	
+	private void respondToTabSelect()
+	{	
+		populateList();
 	}
 	
 	
@@ -121,14 +123,14 @@ public class PersonnelLogic
 		EnhancedResultSet ers = Database.query(
 			"select r.name as rankName,   " +
 			"		p.name as personName, " +
-			"		personNo,  " +
-			"		age,       " +
-			"		sex,       " +
-			"		salary     " +
-			"from Ranks     r, " +
-			"	  Personnel p  " +
-			"where personNo =  " + personNo + "   " +
-			"  and p.rankNo = r.rankNo;"
+			"		personNo,    " +
+			"		age,         " +
+			"		sex,         " +
+			"		salary       " +
+			"from Ranks     r,   " +
+			"	  Personnel p    " +
+			"where p.personNo =  " + personNo + "   " +
+			"  and p.rankNo   = r.rankNo;"
 		);
 		
 		tab.number.field.setText( "" + ers.getElemAs( "personNo",   Integer   .class ) );
@@ -137,6 +139,23 @@ public class PersonnelLogic
 		tab.sex   .field.setText(      ers.getElemAs( "sex",        String    .class ) );
 		tab.salary.field.setText( "" + ers.getElemAs( "salary",     BigDecimal.class ) );
 		tab.rank  .field.setText(      ers.getElemAs( "rankName",   String    .class ) );
+	}
+	
+	
+	
+	
+	
+	private void setupTabChangeActions()
+	{
+		final Gui gui = Gui.getCurrentInstance();
+		
+		gui.addTabChangeListener( new ChangeListener() {
+			public void stateChanged( ChangeEvent e ) {
+				if (tab == gui.tabPane.getSelectedComponent()) {
+					respondToTabSelect();
+				}
+			}
+		});		
 	}
 	
 	
@@ -154,7 +173,7 @@ public class PersonnelLogic
 		
 		tab.rank.button.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				new RankPicker( Gui.currentInstance, rankPickListener );
+				new RankPicker( Gui.getCurrentInstance(), rankPickListener );
 			}
 		});
 	}

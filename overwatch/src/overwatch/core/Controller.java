@@ -3,8 +3,6 @@
 
 package overwatch.core;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import overwatch.controllers.*;
 
 
@@ -30,13 +28,6 @@ public class Controller
 		new VehicleLogic  ( gui.vehicleTab   );
 		new SupplyLogic   ( gui.supplyTab    );
 		// TODO: insert other controllers here
-		
-		
-		gui.addTabChangeListener( new ChangeListener() {
-			public void stateChanged( ChangeEvent e ) {
-				System.out.println( gui.tabPane.getSelectedComponent() );	
-			}
-		});
 	}
 	
 }
