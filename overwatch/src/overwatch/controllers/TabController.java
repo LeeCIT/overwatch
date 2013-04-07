@@ -3,6 +3,8 @@
 
 package overwatch.controllers;
 
+import javax.swing.JPanel;
+
 
 
 
@@ -22,5 +24,6 @@ package overwatch.controllers;
 
 public interface TabController
 {
-	public void respondToTabSelect();
+	public void   respondToTabSelect();
+	public JPanel getTab();
 }
