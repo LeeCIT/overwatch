@@ -1,6 +1,7 @@
-package overwatch.gui.tabs;
 
-import javax.swing.*;
+
+
+package overwatch.gui.tabs;
 
 import overwatch.controllers.VehicleLogic;
 import overwatch.core.Gui;
@@ -8,13 +9,23 @@ import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.GenericPanelButtoned;
 import overwatch.gui.LabelFieldEllipsisTriplet;
 import overwatch.gui.LabelFieldPair;
+import javax.swing.*;
+
+
+
 
 
 /**
  * Creates the vehicle tab
- * @author john
- * @version 3
+ * 
+ * @author John Murphy
+ * @author Lee Coakley
+ * @version 4
  */
+
+
+
+
 
 public class VehicleTab extends GenericPanelButtoned<Integer>
 {
@@ -23,37 +34,35 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 	public final LabelFieldEllipsisTriplet pilot;
 	
 	
+	
+	
+	
 	public VehicleTab()
 	{
-		super( "Vehicles" );		
+		super( "Vehicles" );
 		
 		number  = addLabelledField( "Number:" );
-		type	= addLabelledField("Type:");
-		pilot   = addLabelledFieldWithEllipsis( "Pilot:" );	
+		type	= addLabelledField( "Type:"   );
+		pilot   = addLabelledFieldWithEllipsis( "Pilot:" );
 		
-		number.field.setEditable(false);
+		number.field.setEditable( false );
 	}
-	
-	
 	
 	
 		// Validate
 		public void addTypeValidator(CheckedFieldValidator v)	{type.field.addValidator(v); 	}
 		public void addNumberValiator(CheckedFieldValidator v)	{number.field.addValidator(v);	}
 		public void addPilotValidator(CheckedFieldValidator v)	{pilot.field.addValidator(v);	}
-	
-	
-	
-		
-	///////////////////////////////////////////////////////////////////////////
-	// Internals
-	/////////////////////////////////////////////////////////////////////////
 
 	
 	
 	
 		
-	//Test
+	///////////////////////////////////////////////////////////////////////////
+	// Test
+	/////////////////////////////////////////////////////////////////////////
+
+	
 	public static void main(String[] args)
 	{
 		Gui.setNativeStyle();
@@ -66,11 +75,7 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 		frame.setVisible(true);	
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		new VehicleLogic(vt);
+		new VehicleLogic( vt );
 	}
-	
-	
-	
-	
 
 }

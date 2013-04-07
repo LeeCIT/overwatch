@@ -95,8 +95,7 @@ public class PersonnelLogic implements TabController
 	
 	
 	
-	private void respondToRankPicker( Integer rankNo )
-	{
+	private void respondToRankPicker( Integer rankNo ) {
 		tab.rank.field.setText( Ranks.getName( rankNo ) );
 	}
 	
@@ -106,6 +105,7 @@ public class PersonnelLogic implements TabController
 	
 	private void populateList()
 	{
+		populateTabFields( null );
 		tab.setSearchableItems(
 			Database.queryKeyNamePairs( "Personnel", "personNo", "name", Integer[].class )
 		);
