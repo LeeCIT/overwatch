@@ -13,7 +13,8 @@ import overwatch.util.Validator;
  * Sanity-check data for entry into the database.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @author 	John Murphy
+ * @version 2
  */
 
 
@@ -86,6 +87,16 @@ public class DatabaseConstraints
 		);
 		
 		return (ranks.length != 0);
+	}
+	
+	
+	/**
+	 * Check if the type is valid
+	 * Applies to supplies tab and vehicles tab
+	 */
+	public static boolean isValidType(String str)
+	{
+		return Validator.isLengthRange(str, 1, maxLengthName);
 	}
 }
 
