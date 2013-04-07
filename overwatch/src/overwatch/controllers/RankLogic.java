@@ -172,7 +172,11 @@ public class RankLogic implements TabController
 	
 		rankTab.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked save");		
+				System.out.println("Clicked save");	
+				Database.update("UPDATE Ranks " +
+						"SET name = '" + rankTab.name.field.getText() +
+						"', privilegeLevel = " + rankTab.privileges.field.getText() + 
+						" WHERE rankNo = " + rankTab.getSelectedItem() + " ;");
 			}
 		});
 	}
