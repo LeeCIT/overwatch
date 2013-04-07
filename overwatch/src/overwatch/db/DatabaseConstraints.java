@@ -117,7 +117,7 @@ public class DatabaseConstraints
 	 * Checks if the id number is still valid
 	 * Applicable to all tabs with a uneditable
 	 * @param Num
-	 * @return	Exists
+	 * @return Exists
 	 */
 	public static boolean numberExists(String num)
 	{
@@ -132,7 +132,11 @@ public class DatabaseConstraints
 	}
 	
 	
-	
+	/**
+	 * Checks if the personnel still exists
+	 * @param name
+	 * @return Exists
+	 */
 	public static boolean personnelExists(String name)
 	{
 		Integer[] personnelName = Database.queryInts(
