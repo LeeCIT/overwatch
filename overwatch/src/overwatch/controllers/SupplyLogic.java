@@ -154,6 +154,18 @@ public class SupplyLogic implements TabController{
 				return DatabaseConstraints.isValidType(text);
 			}
 		});
+		
+		supplyTab.addAmountValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {
+				return DatabaseConstraints.isValidAmount(text);
+			}
+		});
+		
+		supplyTab.addNumberValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {
+				return DatabaseConstraints.numberExists(text);
+			}
+		});		
 	}
 	
 }
