@@ -1,5 +1,7 @@
+overwatch.controllers
 overwatch.core
 overwatch.db
 overwatch.gui
+overwatch.gui.tabs
 overwatch.security
 overwatch.util
