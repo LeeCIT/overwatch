@@ -16,7 +16,7 @@ import javax.swing.*;
 
 
 /**
- * Creates the vehicle tab
+ * Implements the vehicle tab GUI.
  * 
  * @author John Murphy
  * @author Lee Coakley
@@ -53,7 +53,8 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 	
 	
 	// Validate
-	public void addTypeValidator(CheckedFieldValidator v){type.field.addValidator(v); }
+	public void addTypeValidator ( CheckedFieldValidator v ) { type .field.addValidator(v); }
+	public void addPilotValidator( CheckedFieldValidator v ) { pilot.field.addValidator(v); }
 	
 	
 	
