@@ -54,5 +54,6 @@ public class Main
 	{
 		final Gui gui = new Gui();
 		Controller.attachLogicControllers( gui );
+		gui.pack();
 	}
 }
