@@ -168,8 +168,7 @@ public class VehicleLogic implements TabController
 	
 	
 	
-	private void setupTabChangeActions()
-	{
+	private void setupTabChangeActions() {
 		Gui.getCurrentInstance().addTabSelectNotify(this);
 	}
 	
@@ -194,11 +193,9 @@ public class VehicleLogic implements TabController
 			}
 		};
 		
-		final JFrame frame = new JFrame();
-		
 		vehicleTab.pilot.button.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				new PersonnelPicker( frame, pickListener );
+				new PersonnelPicker( Gui.getCurrentInstance(), pickListener );
 			}
 		});
 		
