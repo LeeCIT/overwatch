@@ -25,8 +25,7 @@ public class DatabaseConstraints
 {
 	public static final int maxLengthName = 128;
 	public static final int maxLengthSex  = 1;
-	
-	
+
 	
 	
 	
@@ -110,7 +109,7 @@ public class DatabaseConstraints
 	 */
 	public static boolean isValidAmount(String amount)
 	{
-		return Validator.isLengthRange(amount, 0, 2147483647);
+		return Validator.isPositiveInt(amount);
 	}
 	
 }
