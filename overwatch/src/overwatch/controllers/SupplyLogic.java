@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.EnhancedResultSet;
 import overwatch.gui.tabs.SupplyTab;
@@ -26,6 +27,7 @@ public class SupplyLogic implements TabController{
 	{
 		this.supplyTab = st;
 		attachButtonEvents();
+		setupTabChangeActions();
 	}
 	
 	
@@ -46,6 +48,13 @@ public class SupplyLogic implements TabController{
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	public void setupTabChangeActions()
+	{
+		Gui.getCurrentInstance().addTabSelectNotify( this );
+	}
 	
 	
 	
