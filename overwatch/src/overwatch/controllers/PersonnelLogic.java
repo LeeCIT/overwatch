@@ -250,7 +250,7 @@ public class PersonnelLogic implements TabController
 		
 		tab.addRankValidator( new CheckedFieldValidator() {
 			public boolean check( String text ) {
-				return Ranks.exists( Ranks.getNumber( text ) );
+				return DatabaseConstraints.rankExists( text );
 			}
 		});
 	}

@@ -1,11 +1,7 @@
+
+
+
 package overwatch.controllers;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JPanel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import overwatch.core.Gui;
 import overwatch.db.Database;
@@ -13,24 +9,44 @@ import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.tabs.SupplyTab;
+import overwatch.util.Validator;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+
+
 
 
 /**
  * Supply tab logic
- * @author john
+ * 
+ * @author  John Murphy
  * @version 3
  */
 
-public class SupplyLogic implements TabController{
+
+
+
+
+public class SupplyLogic implements TabController
+{
 	
 	private final SupplyTab supplyTab;
+	
+	
+	
+	
 	
 	public SupplyLogic(SupplyTab st)
 	{
 		this.supplyTab = st;
-		attachButtonEvents();
+		attachEvents();
 		setupTabChangeActions();
 	}
+	
 	
 	
 	
@@ -39,10 +55,18 @@ public class SupplyLogic implements TabController{
 		populateTabList();
 	}
 
+	
+	
+	
 
 	public JPanel getTab() {
 		return supplyTab;
 	}
+	
+	
+	
+	
+	
 	
 	
 	
@@ -53,25 +77,25 @@ public class SupplyLogic implements TabController{
 	
 	
 	
-	public void setupTabChangeActions()
-	{
-		Gui.getCurrentInstance().addTabSelectNotify(this);
+	private void setupTabChangeActions() {
+		Gui.getCurrentInstance().addTabSelectNotify( this );
 	}
 	
 	
 	
-	public void attachButtonEvents()
+	
+	
+	private void attachEvents()
 	{
 		setupButtonActions();
-		populateTabList();
-		supplyListChange();
+		setupListSelectActions();
 		setupFieldValidators();
 	}
 	
 	
 	
 	
-	public void setupButtonActions()
+	private void setupButtonActions()
 	{
 		
 		supplyTab.addNewListener(new ActionListener() {
@@ -98,14 +122,21 @@ public class SupplyLogic implements TabController{
 	
 	
 	
-	public void doSave()
+	
+	
+	private void doSave()
 	{
 		int selectedItem = supplyTab.getSelectedItem();
 		
-		Database.update("UPDATE Supplies " +
-				"SET type = '" + supplyTab.type.field.getText() +
-				"', count = " + supplyTab.amount.field.getText() + 
-				" WHERE supplyNo = " + selectedItem + " ;");
+		// TODO check existence and warn before saving
+		// see PersonnelLogic
+		
+		Database.update(
+			"UPDATE Supplies "   +
+			"SET type =     '"   + supplyTab.type  .field.getText() +
+			"', count =      "   + supplyTab.amount.field.getText() + 
+			" WHERE supplyNo = " + selectedItem + ";"
+		);
 		
 		populateTabList();
 		supplyTab.setSelectedItem(selectedItem);
@@ -124,7 +155,8 @@ public class SupplyLogic implements TabController{
 	
 	
 	
-	public void supplyListChange()
+	
+	private void setupListSelectActions()
 	{
 		supplyTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
@@ -136,7 +168,8 @@ public class SupplyLogic implements TabController{
 	
 	
 	
-	public void populateSupplyFields(Integer supplyNo)
+	
+	private void populateSupplyFields(Integer supplyNo)
 	{
 		if(supplyNo == null)
 		{
@@ -150,9 +183,11 @@ public class SupplyLogic implements TabController{
 		}
 		
 		
-		EnhancedResultSet ers = Database.query("SELECT *" +
-											   "FROM Supplies " +
-											   "WHERE supplyNo = " + supplyNo);
+		EnhancedResultSet ers = Database.query(
+			"SELECT *         " +
+		    "FROM Supplies    " +
+		    "WHERE supplyNo = " + supplyNo
+		);
 		
 		supplyTab.number.field.setText("" + ers.getElemAs("supplyNo", Integer.class));
 		supplyTab.type.field.setText(ers.getElemAs( "type", String.class ));
@@ -163,7 +198,7 @@ public class SupplyLogic implements TabController{
 	
 	
 	
-	public void setupFieldValidators()
+	private void setupFieldValidators()
 	{
 		supplyTab.addTypeValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {
@@ -171,11 +206,13 @@ public class SupplyLogic implements TabController{
 			}
 		});
 		
+		
 		supplyTab.addAmountValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {
-				return DatabaseConstraints.isValidAmount(text);
+				return Validator.isPositiveInt( text );
 			}
 		});
+		
 		
 		supplyTab.addNumberValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {

@@ -10,6 +10,7 @@ import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.tabs.RankTab;
+import overwatch.util.Validator;
 
 
 
@@ -93,26 +94,27 @@ public class RankLogic implements TabController
 	
 	public void populateRankFields(Integer rankNo)
 	{
-		if(rankNo == null)
+		if (rankNo == null)
 		{
 			rankTab.setEnableFieldsAndButtons(false);
 			rankTab.clearFields();
 			return;
 		}
-		else
-		{
+		else {
 			rankTab.setEnableFieldsAndButtons(true);
 		}
 		
 		
-		EnhancedResultSet ers = Database.query("SELECT *" +
-											   "FROM Ranks " +
-											   "WHERE rankNo = " + rankNo);
-		
-		rankTab.number.field.setText("" + ers.getElemAs("rankNo", Integer.class));
-		rankTab.name.field.setText(ers.getElemAs( "name", String.class ));
-		rankTab.privileges.field.setText("" + ers.getElemAs("privilegeLevel", Integer.class));		
+		EnhancedResultSet ers = Database.query(
+		    "SELECT *       " +
+		    "FROM Ranks     " +
+		    "WHERE rankNo = " + rankNo);
+
+		rankTab.number    .field.setText("" + ers.getElemAs( "rankNo",         Integer.class ));
+		rankTab.name      .field.setText(     ers.getElemAs( "name",           String .class ));
+		rankTab.privileges.field.setText("" + ers.getElemAs( "privilegeLevel", Integer.class ));		
 	}
+	
 	
 	
 	
@@ -125,15 +127,17 @@ public class RankLogic implements TabController
 			}
 		});
 		
+		
 		rankTab.addNumberValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {
 				return DatabaseConstraints.numberExists(text);
 			}
 		});
 		
+		
 		rankTab.addPrivilegesValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {
-				return DatabaseConstraints.isValidAmount(text);
+				return Validator.isPositiveInt( text );
 			}
 		} );
 	}

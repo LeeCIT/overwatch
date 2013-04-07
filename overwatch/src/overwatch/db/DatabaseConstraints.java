@@ -89,15 +89,7 @@ public class DatabaseConstraints
 	}
 	
 	
-	/**
-	 * Checks the amount passed in to ensure it will go into the database
-	 * @param Amount
-	 * @return Valid or invalid
-	 */
-	public static boolean isValidAmount(String amount)
-	{
-		return Validator.isPositiveInt(amount);
-	}
+	
 	
 	
 	/**
@@ -109,8 +101,8 @@ public class DatabaseConstraints
 	public static boolean numberExists(String num)
 	{
 		Integer[] number = Database.queryInts(
-			"SELECT  supplyNo " +
-			"from Supplies " +
+			"SELECT supplyNo " +
+			"from Supplies   " +
 			"where supplyNo = '" + num + "' " +
 			"limit 1;"
 		);
@@ -119,16 +111,19 @@ public class DatabaseConstraints
 	}
 	
 	
+		
+	
+	
 	/**
 	 * Checks if the personnel still exists
 	 * @param name
 	 * @return Exists
 	 */
-	public static boolean personnelExists(String name)
+	public static boolean personExists( String name )
 	{
 		Integer[] personnelName = Database.queryInts(
-			"SELECT  name " +
-			"from Personnel " +
+			"SELECT personNo " +
+			"from Personnel  " +
 			"where name = '" + name + "' " +
 			"limit 1;"
 		);

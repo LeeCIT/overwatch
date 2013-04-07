@@ -10,7 +10,6 @@ import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.db.Vehicles;
-import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
 import overwatch.gui.tabs.VehicleTab;
@@ -26,8 +25,8 @@ import javax.swing.event.ListSelectionListener;
 
 /**
  * Set up the vehicle tab logic
- * @author John Murphy
- * @author Lee Coakley
+ * @author  John Murphy
+ * @author  Lee Coakley
  * @version 6
  */
 
