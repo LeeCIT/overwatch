@@ -26,7 +26,6 @@ import overwatch.gui.LabelFieldPair;
 public class SupplyTab extends GenericPanelButtoned<Integer>
 {
 	
-	public final LabelFieldPair name;
 	public final LabelFieldPair type;
 	public final LabelFieldPair amount;
 	public final LabelFieldPair number;
@@ -37,7 +36,6 @@ public class SupplyTab extends GenericPanelButtoned<Integer>
 		super( "Supplies" );	
 		
 		number	= addLabelledField("Number:");
-		name  	= addLabelledField("Name:");
 		type	= addLabelledField("Type:");
 		amount  = addLabelledField("Amount:");	
 		
