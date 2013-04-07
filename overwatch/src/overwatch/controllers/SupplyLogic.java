@@ -3,6 +3,7 @@ package overwatch.controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -17,7 +18,7 @@ import overwatch.gui.tabs.SupplyTab;
  * @version 2
  */
 
-public class SupplyLogic {
+public class SupplyLogic implements TabController{
 	
 	private final SupplyTab supplyTab;
 	
@@ -26,6 +27,25 @@ public class SupplyLogic {
 		this.supplyTab = st;
 		attachButtonEvents();
 	}
+	
+	
+	
+	
+	public void respondToTabSelect() {
+		populateTabList();
+	}
+
+
+	public JPanel getTab() {
+		return supplyTab;
+	}
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
 	
 	
 	
