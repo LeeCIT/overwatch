@@ -45,7 +45,9 @@ public class SupplyTab extends GenericPanelButtoned<Integer>
 	
 	
 	
-	public void addTypeValidator(CheckedFieldValidator v){type.field.addValidator(v); }
+	public void addTypeValidator(CheckedFieldValidator v)	{type.field.addValidator(v); }
+	public void addAmountValidator(CheckedFieldValidator v)	{amount.field.addValidator(v);}
+	public void addNumberValidator(CheckedFieldValidator v)	{number.field.addValidator(v);}
 	
 	
 	
