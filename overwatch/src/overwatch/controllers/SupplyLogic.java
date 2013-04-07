@@ -89,14 +89,26 @@ public class SupplyLogic implements TabController{
 	
 		supplyTab.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Database.update("UPDATE Supplies " +
-								"SET type = '" + supplyTab.type.field.getText() +
-								"', count = " + supplyTab.amount.field.getText() + 
-								" WHERE supplyNo = " + supplyTab.getSelectedItem() + " ;");
+				doSave();				
 			}
 		});
 	
 
+	}
+	
+	
+	
+	public void doSave()
+	{
+		int selectedItem = supplyTab.getSelectedItem();
+		
+		Database.update("UPDATE Supplies " +
+				"SET type = '" + supplyTab.type.field.getText() +
+				"', count = " + supplyTab.amount.field.getText() + 
+				" WHERE supplyNo = " + selectedItem + " ;");
+		
+		populateTabList();
+		supplyTab.setSelectedItem(selectedItem);
 	}
 	
 	
