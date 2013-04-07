@@ -9,7 +9,9 @@ import javax.swing.event.ListSelectionListener;
 
 import overwatch.core.Gui;
 import overwatch.db.Database;
+import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
+import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.tabs.SupplyTab;
 
 
@@ -147,7 +149,11 @@ public class SupplyLogic implements TabController{
 	
 	public void setupFieldValidators()
 	{
-		//TODO Validators will go in here
+		supplyTab.addTypeValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {
+				return DatabaseConstraints.isValidType(text);
+			}
+		});
 	}
 	
 }
