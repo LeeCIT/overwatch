@@ -3,9 +3,10 @@
 
 package overwatch.core;
 
-import java.awt.Component;
+import overwatch.controllers.TabController;
 import overwatch.gui.DialogueAnswer;
 import overwatch.gui.tabs.*;
+import java.awt.Component;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -78,11 +79,17 @@ public class Gui extends JFrame
 	
 	
 	/**
-	 * Add a change listener to the tabPane component.
-	 * @param cl
+	 * Register a TabController so that its respondToTabSelect() function
+	 * will be called when a tab is selected.
+	 * @param tabController
 	 */
-	public void addTabChangeListener( ChangeListener cl ) {
-		tabPane.addChangeListener( cl );
+	public void addTabChangeNotify( final TabController tabController )
+	{
+		tabPane.addChangeListener( new ChangeListener() {
+			public void stateChanged( ChangeEvent e ) {
+				tabController.respondToTabSelect();
+			}
+		});
 	}
 	
 	
@@ -101,6 +108,8 @@ public class Gui extends JFrame
 		tabPane.addTab( name, tab );
 		return tab;
 	}
+	
+	
 	
 	
 	
