@@ -66,7 +66,7 @@ public class DatabaseConstraints
 		return str.matches( "\\d{1,9}(\\.\\d{1,2})?" );
 	}
 	
-	
+
 	
 	
 	
@@ -136,6 +136,7 @@ public class DatabaseConstraints
 		return (personnelName.length != 0);
 	}
 	
+
 }
 
 

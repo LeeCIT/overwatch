@@ -60,4 +60,40 @@ public class Ranks
 		else return ers.getElemAs( "name", String.class ); 
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Get a person's number based on their name.
+	 * Returns null if no such person exists.
+	 * @param name
+	 * @return rankNo or null
+	 */
+	public static Integer getNumber( String name )
+	{
+		EnhancedResultSet ers = Database.query(
+			"select rankNo  " +
+		    "from Ranks     " +
+		    "where name = '" + name + "';"
+		);
+		
+		if (ers.isEmpty())
+			 return null;
+		else return ers.getElemAs( "rankNo", Integer.class ); 
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
