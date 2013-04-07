@@ -232,7 +232,8 @@ public class VehicleLogic implements TabController
 	{
 		final PickListener<Integer> pickListener = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
-				tab.pilot.field.setText(Personnel.getName(picked)) ;		
+				if (picked != null)
+					tab.pilot.field.setText(Personnel.getName(picked)) ;		
 			}
 		};
 		
