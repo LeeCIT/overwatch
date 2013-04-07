@@ -151,7 +151,7 @@ public class SupplyLogic implements TabController{
 	{
 		supplyTab.addTypeValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {
-				return DatabaseConstraints.isValidType(text);
+				return DatabaseConstraints.isValidName(text);
 			}
 		});
 		

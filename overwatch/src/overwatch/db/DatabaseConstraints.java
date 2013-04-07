@@ -90,19 +90,6 @@ public class DatabaseConstraints
 	
 	
 	/**
-	 * Check if the type is valid
-	 * Applies to supplies tab and vehicles tab
-	 * @param Type
-	 * @return Exists
-	 */
-	public static boolean isValidType(String str)
-	{
-		return Validator.isLengthRange(str, 1, maxLengthName);
-	}
-	
-	
-	
-	/**
 	 * Checks the amount passed in to ensure it will go into the database
 	 * @param Amount
 	 * @return Valid or invalid

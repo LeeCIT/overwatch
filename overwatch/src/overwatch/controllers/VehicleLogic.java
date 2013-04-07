@@ -170,7 +170,7 @@ public class VehicleLogic implements TabController{
 		
 		vehicleTab.addTypeValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {
-				return DatabaseConstraints.isValidType(text);
+				return DatabaseConstraints.isValidName(text);
 			}
 		});
 	}
