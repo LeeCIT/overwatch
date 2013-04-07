@@ -30,6 +30,8 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 		number  = addLabelledField( "Number:" );
 		type	= addLabelledField("Type:");
 		pilot   = addLabelledFieldWithEllipsis( "Pilot:" );	
+		
+		number.field.setEditable(false);
 	}
 	
 	
