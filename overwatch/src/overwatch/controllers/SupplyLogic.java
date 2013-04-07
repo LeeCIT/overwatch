@@ -74,15 +74,7 @@ public class SupplyLogic implements TabController
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
-	
-	
-	
-	private void setupTabChangeActions() {
-		Gui.getCurrentInstance().addTabSelectNotify( this );
-	}
-	
-	
-	
+
 	
 	
 	private void attachEvents()
@@ -91,6 +83,15 @@ public class SupplyLogic implements TabController
 		setupListSelectActions();
 		setupFieldValidators();
 	}
+	
+	
+	
+	
+	
+	private void setupTabChangeActions() {
+		Gui.getCurrentInstance().addTabSelectNotify( this );
+	}
+	
 	
 	
 	
@@ -139,14 +140,17 @@ public class SupplyLogic implements TabController
 		);
 		
 		populateTabList();
-		supplyTab.setSelectedItem(selectedItem);
+		supplyTab.setSelectedItem( selectedItem );
 	}
+	
 	
 	
 	
 	
 	private void populateTabList()
 	{
+		populateFields( null );
+		
 		supplyTab.setSearchableItems(
 			Database.queryKeyNamePairs( "Supplies", "supplyNo", "type", Integer[].class )
 		);
@@ -160,7 +164,7 @@ public class SupplyLogic implements TabController
 	{
 		supplyTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-			populateSupplyFields(supplyTab.getSelectedItem());
+				populateFields(supplyTab.getSelectedItem());
 			}
 		});
 	}
@@ -169,19 +173,17 @@ public class SupplyLogic implements TabController
 	
 	
 	
-	private void populateSupplyFields(Integer supplyNo)
+	private void populateFields(Integer supplyNo)
 	{
 		if(supplyNo == null)
 		{
-			supplyTab.setEnableFieldsAndButtons(false);
+			supplyTab.setEnableFieldsAndButtons( false );
 			supplyTab.clearFields();
 			return;
 		}
-		else
-		{
-			supplyTab.setEnableFieldsAndButtons(true);
+		else {
+			supplyTab.setEnableFieldsAndButtons( true );
 		}
-		
 		
 		EnhancedResultSet ers = Database.query(
 			"SELECT *         " +
@@ -189,9 +191,9 @@ public class SupplyLogic implements TabController
 		    "WHERE supplyNo = " + supplyNo
 		);
 		
-		supplyTab.number.field.setText("" + ers.getElemAs("supplyNo", Integer.class));
-		supplyTab.type.field.setText(ers.getElemAs( "type", String.class ));
-		supplyTab.amount.field.setText("" + ers.getElemAs("count", Integer.class));
+		supplyTab.number.field.setText( "" + ers.getElemAs( "supplyNo", Integer.class ));
+		supplyTab.type  .field.setText(      ers.getElemAs( "type",     String .class ));
+		supplyTab.amount.field.setText( "" + ers.getElemAs( "count",    Integer.class ));
 		
 	}
 	
