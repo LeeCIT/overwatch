@@ -115,6 +115,7 @@ public class DatabaseConstraints
 	
 	/**
 	 * Checks if the id number is still valid
+	 * Applicable to all tabs with a uneditable
 	 * @param Num
 	 * @return	Exists
 	 */
