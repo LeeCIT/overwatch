@@ -1,12 +1,7 @@
+
+
+
 package overwatch.controllers;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import overwatch.core.Gui;
 import overwatch.db.Database;
@@ -15,25 +10,42 @@ import overwatch.db.Personnel;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
 import overwatch.gui.tabs.VehicleTab;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+
+
 
 
 /**
  * Set up the vehicle tab logic
- * @author john
- * @version 4
+ * @author John Murphy
+ * @author Lee Coakley
+ * @version 5
  */
 
-public class VehicleLogic implements TabController{
-	
+
+
+
+
+public class VehicleLogic implements TabController
+{
 	private final VehicleTab vehicleTab;
 	
 	
-	public VehicleLogic(VehicleTab vt)
+	
+	
+	
+	public VehicleLogic( VehicleTab vt )
 	{
 		this.vehicleTab = vt;
 		attachButtonEvents();
-		setupTabChangeActions();
 	}
+	
 	
 	
 	
@@ -42,6 +54,9 @@ public class VehicleLogic implements TabController{
 		populateTabList();
 	}
 
+	
+		
+	
 
 	public JPanel getTab() {
 		return vehicleTab;
@@ -60,22 +75,24 @@ public class VehicleLogic implements TabController{
 	
 	
 	
-	
-	public void setupTabChangeActions()
+	private void attachButtonEvents()
 	{
-		Gui.getCurrentInstance().addTabSelectNotify(this);
-	}
-	
-	
-	
-	public void attachButtonEvents()
-	{
+		setupTabChangeActions();
 		setupButtonActions();
-		populateTabList();
 		vehicleListChange();
 		setupFieldValidators();
 		setUpPick();
 	}
+	
+	
+	
+	
+	
+	private void setupTabChangeActions()
+	{
+		Gui.getCurrentInstance().addTabSelectNotify(this);
+	}
+	
 	
 	
 	
