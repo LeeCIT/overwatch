@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
@@ -18,10 +20,10 @@ import overwatch.gui.tabs.VehicleTab;
 /**
  * Set up the vehicle tab logic
  * @author john
- * @version 3
+ * @version 4
  */
 
-public class VehicleLogic {
+public class VehicleLogic implements TabController{
 	
 	private final VehicleTab vehicleTab;
 	
@@ -30,6 +32,7 @@ public class VehicleLogic {
 	{
 		this.vehicleTab = vt;
 		attachButtonEvents();
+		setupTabChangeActions();
 	}
 	
 	
@@ -54,6 +57,14 @@ public class VehicleLogic {
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	
+	public void setupTabChangeActions()
+	{
+		Gui.getCurrentInstance().addTabSelectNotify(this);
+	}
 	
 	
 	

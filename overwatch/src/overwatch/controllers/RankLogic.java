@@ -18,7 +18,7 @@ import overwatch.gui.tabs.RankTab;
 /**
  * RankTab logic
  * @author john
- * @Version 3
+ * @Version 4
  */
 
 
@@ -65,7 +65,7 @@ public class RankLogic implements TabController
 	
 	public void setupTabChangeActions()
 	{
-		Gui.getCurrentInstance().addTabSelectNotify( this );
+		Gui.getCurrentInstance().addTabSelectNotify(this);
 	}
 	
 	

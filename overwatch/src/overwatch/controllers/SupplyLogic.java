@@ -16,7 +16,7 @@ import overwatch.gui.tabs.SupplyTab;
 /**
  * Supply tab logic
  * @author john
- * @version 2
+ * @version 3
  */
 
 public class SupplyLogic implements TabController{
@@ -53,7 +53,7 @@ public class SupplyLogic implements TabController{
 	
 	public void setupTabChangeActions()
 	{
-		Gui.getCurrentInstance().addTabSelectNotify( this );
+		Gui.getCurrentInstance().addTabSelectNotify(this);
 	}
 	
 	
