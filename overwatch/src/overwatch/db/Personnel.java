@@ -147,12 +147,12 @@ public class Personnel
 		EnhancedResultSet ers = Database.query(
 			"select personNo  " +
 		    "from Personnel   " +
-		    "where name = " + name + ";"
+		    "where name = '" + name + "';"
 		);
 		
 		if (ers.isEmpty())
 			 return null;
-		else return ers.getElemAs( "name", Integer.class ); 
+		else return ers.getElemAs( "personNo", Integer.class ); 
 	}
 	
 }
