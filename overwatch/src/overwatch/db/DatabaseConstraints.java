@@ -112,6 +112,24 @@ public class DatabaseConstraints
 		return Validator.isPositiveInt(amount);
 	}
 	
+	
+	/**
+	 * Checks if the id number is still valid
+	 * @param Num
+	 * @return	Exists
+	 */
+	public static boolean numberExists(String num)
+	{
+		Integer[] ranks = Database.queryInts(
+				"SELECT  supplyNo " +
+				"from Supplies " +
+				"where supplyNo = '" + num + "' " +
+				"limit 1;"
+			);
+			
+			return (ranks.length != 0);
+	}
+	
 }
 
 
