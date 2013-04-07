@@ -37,7 +37,7 @@ import javax.swing.event.ListSelectionListener;
 
 
 
-public class PersonnelLogic
+public class PersonnelLogic implements TabController
 {
 	private final PersonnelTab tab;
 	
@@ -54,8 +54,16 @@ public class PersonnelLogic
 		this.tab = tab;
 		
 		attachEvents();
+		//populateList();
 	}
 	
+	
+	
+	
+	
+	public void respondToTabSelect() {	
+		populateList();
+	}
 	
 	
 	
@@ -84,15 +92,6 @@ public class PersonnelLogic
 	private void respondToRankPicker( Integer rankNo )
 	{
 		tab.rank.field.setText( Ranks.getName( rankNo ) );
-	}
-	
-	
-	
-	
-	
-	private void respondToTabSelect()
-	{	
-		populateList();
 	}
 	
 	
@@ -145,17 +144,8 @@ public class PersonnelLogic
 	
 	
 	
-	private void setupTabChangeActions()
-	{
-		final Gui gui = Gui.getCurrentInstance();
-		
-		gui.addTabChangeListener( new ChangeListener() {
-			public void stateChanged( ChangeEvent e ) {
-				if (tab == gui.tabPane.getSelectedComponent()) {
-					respondToTabSelect();
-				}
-			}
-		});		
+	private void setupTabChangeActions() {
+		Gui.getCurrentInstance().addTabChangeNotify( this );	
 	}
 	
 	
