@@ -9,7 +9,9 @@ import javax.swing.event.ListSelectionListener;
 
 import overwatch.core.Gui;
 import overwatch.db.Database;
+import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
+import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.tabs.SupplyTab;
 
 
@@ -74,19 +76,23 @@ public class SupplyLogic implements TabController{
 		
 		supplyTab.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked add new");	
+				System.out.println("Clicked add new");
 			}
 		});
 	
 		supplyTab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked delete");
+				
 			}
 		});
 	
 		supplyTab.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked save");
+				Database.update("UPDATE Supplies " +
+								"SET type = '" + supplyTab.type.field.getText() +
+								"', count = " + supplyTab.amount.field.getText() + 
+								" WHERE supplyNo = " + supplyTab.getSelectedItem() + " ;");
 			}
 		});
 	
@@ -147,7 +153,23 @@ public class SupplyLogic implements TabController{
 	
 	public void setupFieldValidators()
 	{
-		//TODO Validators will go in here
+		supplyTab.addTypeValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {
+				return DatabaseConstraints.isValidName(text);
+			}
+		});
+		
+		supplyTab.addAmountValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {
+				return DatabaseConstraints.isValidAmount(text);
+			}
+		});
+		
+		supplyTab.addNumberValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {
+				return DatabaseConstraints.numberExists(text);
+			}
+		});		
 	}
 	
 }

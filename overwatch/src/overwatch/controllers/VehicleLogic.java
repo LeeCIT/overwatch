@@ -5,8 +5,10 @@ package overwatch.controllers;
 
 import overwatch.core.Gui;
 import overwatch.db.Database;
+import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
+import overwatch.gui.CheckedFieldValidator;
 import overwatch.db.Vehicles;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
@@ -207,7 +209,17 @@ public class VehicleLogic implements TabController
 	
 	public void setupFieldValidators()
 	{
-		//TODO Add a type validator
+		tab.addNumberValiator(new CheckedFieldValidator() {
+			public boolean check(String text) {
+				return DatabaseConstraints.numberExists(text);
+			}
+		});
+		
+		tab.addTypeValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {
+				return DatabaseConstraints.isValidName(text);
+			}
+		});
 	}
 	
 	

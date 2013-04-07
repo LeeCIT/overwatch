@@ -49,7 +49,9 @@ public class RankTab extends GenericPanelButtoned<Integer>
 	
 	
 	// Validate
-	public void addNameValidator(CheckedFieldValidator v){name.field.addValidator(v);	}
+	public void addNameValidator(CheckedFieldValidator v)		{name.field.addValidator(v);		}
+	public void addNumberValidator(CheckedFieldValidator v)		{number.field.addValidator(v);		}
+	public void addPrivilegesValidator(CheckedFieldValidator v)	{privileges.field.addValidator(v); 	}
 
 	
 	

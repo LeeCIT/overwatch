@@ -13,7 +13,8 @@ import overwatch.util.Validator;
  * Sanity-check data for entry into the database.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @author 	John Murphy
+ * @version 2
  */
 
 
@@ -24,8 +25,7 @@ public class DatabaseConstraints
 {
 	public static final int maxLengthName = 128;
 	public static final int maxLengthSex  = 1;
-	
-	
+
 	
 	
 	
@@ -87,6 +87,55 @@ public class DatabaseConstraints
 		
 		return (ranks.length != 0);
 	}
+	
+	
+	/**
+	 * Checks the amount passed in to ensure it will go into the database
+	 * @param Amount
+	 * @return Valid or invalid
+	 */
+	public static boolean isValidAmount(String amount)
+	{
+		return Validator.isPositiveInt(amount);
+	}
+	
+	
+	/**
+	 * Checks if the id number is still valid
+	 * Applicable to all tabs with a uneditable
+	 * @param Num
+	 * @return Exists
+	 */
+	public static boolean numberExists(String num)
+	{
+		Integer[] number = Database.queryInts(
+				"SELECT  supplyNo " +
+				"from Supplies " +
+				"where supplyNo = '" + num + "' " +
+				"limit 1;"
+			);
+			
+			return (number.length != 0);
+	}
+	
+	
+	/**
+	 * Checks if the personnel still exists
+	 * @param name
+	 * @return Exists
+	 */
+	public static boolean personnelExists(String name)
+	{
+		Integer[] personnelName = Database.queryInts(
+				"SELECT  name " +
+				"from Personnel " +
+				"where name = '" + name + "' " +
+				"limit 1;"
+			);
+		
+			return (personnelName.length != 0);
+	}
+	
 }
 
 

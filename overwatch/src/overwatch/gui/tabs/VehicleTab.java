@@ -30,13 +30,17 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 		number  = addLabelledField( "Number:" );
 		type	= addLabelledField("Type:");
 		pilot   = addLabelledFieldWithEllipsis( "Pilot:" );	
+		
+		number.field.setEditable(false);
 	}
 	
 	
 	
 	
 		// Validate
-		public void addTypeValidator(CheckedFieldValidator v){type.field.addValidator(v); }
+		public void addTypeValidator(CheckedFieldValidator v)	{type.field.addValidator(v); 	}
+		public void addNumberValiator(CheckedFieldValidator v)	{number.field.addValidator(v);	}
+		public void addPilotValidator(CheckedFieldValidator v)	{pilot.field.addValidator(v);	}
 	
 	
 	
