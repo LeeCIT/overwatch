@@ -64,8 +64,7 @@ public class VehicleLogic implements TabController
 	
 	
 	
-	
-	
+		
 	
 	
 	
@@ -81,16 +80,7 @@ public class VehicleLogic implements TabController
 		setupButtonActions();
 		vehicleListChange();
 		setupFieldValidators();
-		setUpPick();
-	}
-	
-	
-	
-	
-	
-	private void setupTabChangeActions()
-	{
-		Gui.getCurrentInstance().addTabSelectNotify(this);
+		setupPick();
 	}
 	
 	
@@ -107,6 +97,7 @@ public class VehicleLogic implements TabController
 	
 	
 	
+	
 	public void vehicleListChange()
 	{
 		vehicleTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
@@ -115,6 +106,7 @@ public class VehicleLogic implements TabController
 			}
 		});
 	}
+	
 	
 	
 	
@@ -175,6 +167,16 @@ public class VehicleLogic implements TabController
 	
 	
 	
+	
+	private void setupTabChangeActions()
+	{
+		Gui.getCurrentInstance().addTabSelectNotify(this);
+	}
+	
+	
+	
+	
+	
 	public void setupFieldValidators()
 	{
 		//TODO Add a type validator
@@ -183,7 +185,8 @@ public class VehicleLogic implements TabController
 	
 	
 	
-	public void setUpPick()
+	
+	public void setupPick()
 	{
 		final PickListener<Integer> pickListener = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
