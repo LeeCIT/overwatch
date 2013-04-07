@@ -80,14 +80,17 @@ public class Gui extends JFrame
 	
 	/**
 	 * Register a TabController so that its respondToTabSelect() function
-	 * will be called when a tab is selected.
+	 * will be called when that particular tab is selected.
 	 * @param tabController
 	 */
-	public void addTabChangeNotify( final TabController tabController )
+	public void addTabSelectNotify( final TabController tabController )
 	{
 		tabPane.addChangeListener( new ChangeListener() {
-			public void stateChanged( ChangeEvent e ) {
-				tabController.respondToTabSelect();
+			public void stateChanged( ChangeEvent e )
+			{
+				if (tabPane.getSelectedComponent() == tabController) {
+					tabController.respondToTabSelect();
+				}
 			}
 		});
 	}
