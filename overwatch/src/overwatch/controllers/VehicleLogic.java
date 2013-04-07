@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import overwatch.db.Database;
@@ -17,7 +18,7 @@ import overwatch.gui.tabs.VehicleTab;
 /**
  * Set up the vehicle tab logic
  * @author john
- * @version 2
+ * @version 3
  */
 
 public class VehicleLogic {
@@ -28,7 +29,19 @@ public class VehicleLogic {
 	public VehicleLogic(VehicleTab vt)
 	{
 		this.vehicleTab = vt;
-		attachButtonEvents(vt);
+		attachButtonEvents();
+	}
+	
+	
+	
+	
+	public void respondToTabSelect() {
+		populateTabList();
+	}
+
+
+	public JPanel getTab() {
+		return vehicleTab;
 	}
 	
 	
@@ -44,7 +57,7 @@ public class VehicleLogic {
 	
 	
 	
-	public void attachButtonEvents(VehicleTab vt)
+	public void attachButtonEvents()
 	{
 		setupButtonActions();
 		populateTabList();
