@@ -247,7 +247,7 @@ public class PersonnelLogic
 		
 		tab.addSalaryValidator( new CheckedFieldValidator() {
 			public boolean check( String text ) {
-				return Validator.isPositiveBigDecimal( text );
+				return DatabaseConstraints.isValidSalary( text );
 			}
 		});
 		

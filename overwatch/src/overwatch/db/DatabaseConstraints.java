@@ -4,6 +4,7 @@
 package overwatch.db;
 
 import overwatch.util.Validator;
+import sun.misc.Regexp;
 
 
 
@@ -50,6 +51,19 @@ public class DatabaseConstraints
 	 */
 	public static boolean isValidSex( String str ) {
 		return Validator.isLengthRange( str, 1, maxLengthSex );
+	}
+	
+	
+	
+	
+	/**
+	 * Check if salary is valid.
+	 * Format is: 1-9 digits . 1-2 digits 
+	 * @param str
+	 * @return
+	 */
+	public static boolean isValidSalary( String str ) {
+		return str.matches( "\\d{1,9}(\\.\\d{1,2})?" );
 	}
 	
 	
