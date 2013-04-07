@@ -64,7 +64,7 @@ public class VehicleLogic implements TabController
 	
 	
 	
-		
+	
 	
 	
 	
@@ -102,8 +102,8 @@ public class VehicleLogic implements TabController
 		
 		Database.update(
 			"update Vehicles " +
-			" set type     = '" + vehicleType + "'," +
-			" set personNo = '" + pilotNo     + "'," +
+			" set type     = '" + vehicleType + "', " +
+			"     personNo = "  + pilotNo     + " "   +
 			"where vehicleNo = " + vehicleNo  + ";" 
 		);
 	}
