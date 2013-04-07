@@ -3,6 +3,8 @@ import java.awt.event.*;
 
 import javax.swing.JPanel;
 import javax.swing.event.*;
+
+import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
@@ -31,7 +33,8 @@ public class RankLogic implements TabController
 	public RankLogic(RankTab rt)
 	{
 		this.rankTab = rt;
-		attachButtonEvents();		
+		attachButtonEvents();	
+		setupTabChangeActions();
 	}
 	
 	
@@ -56,6 +59,14 @@ public class RankLogic implements TabController
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	
+	public void setupTabChangeActions()
+	{
+		Gui.getCurrentInstance().addTabSelectNotify( this );
+	}
 	
 	
 	public void attachButtonEvents()
