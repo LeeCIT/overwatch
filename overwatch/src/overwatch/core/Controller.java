@@ -24,9 +24,9 @@ public class Controller
 	public static void attachLogicControllers( final Gui gui )
 	{
 		new PersonnelLogic( gui.personnelTab ).respondToTabSelect();
-		new RankLogic     ( gui.rankTab      );
-		new VehicleLogic  ( gui.vehicleTab   );
-		new SupplyLogic   ( gui.supplyTab    );
+		new RankLogic     ( gui.rankTab      ).respondToTabSelect();
+		new VehicleLogic  ( gui.vehicleTab   ).respondToTabSelect();
+		new SupplyLogic   ( gui.supplyTab    ).respondToTabSelect();
 		// TODO: insert other controllers here
 	}
 	
