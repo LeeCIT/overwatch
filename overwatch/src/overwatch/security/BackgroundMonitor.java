@@ -5,7 +5,6 @@ package overwatch.security;
 
 import java.util.Date;
 import java.util.Vector;
-import com.sun.jmx.snmp.Timestamp;
 import overwatch.core.Gui;
 import overwatch.db.Database;
 
