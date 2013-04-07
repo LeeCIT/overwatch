@@ -1,5 +1,7 @@
 package overwatch.controllers;
 import java.awt.event.*;
+
+import javax.swing.JPanel;
 import javax.swing.event.*;
 import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
@@ -21,7 +23,7 @@ import overwatch.gui.tabs.RankTab;
 
 
 
-public class RankLogic 
+public class RankLogic implements TabController
 {
 	private final RankTab rankTab;
 		
@@ -31,6 +33,18 @@ public class RankLogic
 		this.rankTab = rt;
 		attachButtonEvents();		
 	}
+	
+	
+	
+	public void respondToTabSelect() {
+		populateTabList();
+	}
+
+
+	public JPanel getTab() {
+		return rankTab;
+	}
+	
 	
 	
 	
@@ -140,6 +154,6 @@ public class RankLogic
 			}
 		});
 	}
-	
+
 	
 }
