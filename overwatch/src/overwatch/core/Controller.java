@@ -23,7 +23,7 @@ public class Controller
 	 */
 	public static void attachLogicControllers( final Gui gui )
 	{
-		new PersonnelLogic( gui.personnelTab );
+		new PersonnelLogic( gui.personnelTab ).respondToTabSelect();
 		new RankLogic     ( gui.rankTab      );
 		new VehicleLogic  ( gui.vehicleTab   );
 		new SupplyLogic   ( gui.supplyTab    );

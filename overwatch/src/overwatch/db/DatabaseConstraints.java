@@ -4,7 +4,6 @@
 package overwatch.db;
 
 import overwatch.util.Validator;
-import sun.misc.Regexp;
 
 
 
@@ -52,6 +51,7 @@ public class DatabaseConstraints
 	public static boolean isValidSex( String str ) {
 		return Validator.isLengthRange( str, 1, maxLengthSex );
 	}
+	
 	
 	
 	
