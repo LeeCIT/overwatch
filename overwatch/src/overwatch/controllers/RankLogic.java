@@ -124,6 +124,18 @@ public class RankLogic implements TabController
 				return DatabaseConstraints.isValidName(text);
 			}
 		});
+		
+		rankTab.addNumberValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {
+				return DatabaseConstraints.numberExists(text);
+			}
+		});
+		
+		rankTab.addPrivilegesValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {
+				return DatabaseConstraints.isValidAmount(text);
+			}
+		} );
 	}
 	
 	
@@ -132,7 +144,6 @@ public class RankLogic implements TabController
 	
 	public void rankListChange()
 	{
-		//TODO populate the fields here
 		rankTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				populateRankFields(rankTab.getSelectedItem());
