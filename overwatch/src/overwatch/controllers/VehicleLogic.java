@@ -7,12 +7,12 @@ import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
+import overwatch.db.Vehicles;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
 import overwatch.gui.tabs.VehicleTab;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -25,7 +25,7 @@ import javax.swing.event.ListSelectionListener;
  * Set up the vehicle tab logic
  * @author John Murphy
  * @author Lee Coakley
- * @version 5
+ * @version 6
  */
 
 
@@ -95,10 +95,11 @@ public class VehicleLogic implements TabController
 		Integer pilotNo     = Personnel.getNumber( pilotName );
 		
 		// TODO
-//		if (! vehicleExists(vehicleNo)) {
-//			Gui.showErrorDialogue( "Failed to save", "The vehicle no longer exists." );
-//			populateTabList(); // Reload
-//		}
+		if (! Vehicles.exists(vehicleNo)) {
+			Gui.showErrorDialogue( "Failed to save", "The vehicle no longer exists." );
+			populateTabList(); // Reload
+			return;
+		}
 		
 		Database.update(
 			"update Vehicles " +
@@ -106,6 +107,9 @@ public class VehicleLogic implements TabController
 			"     personNo = "  + pilotNo     + " "   +
 			"where vehicleNo = " + vehicleNo  + ";" 
 		);
+		
+		populateTabList();
+		tab.setSelectedItem( vehicleNo );
 	}
 	
 	
