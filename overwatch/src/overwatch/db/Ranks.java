@@ -22,6 +22,26 @@ public class Ranks
 {
 	
 	/**
+	 * Check if a rank exists.
+	 * @param rankNo
+	 * @return exists
+	 */
+	public static boolean exists( Integer rankNo )
+	{
+		EnhancedResultSet ers = Database.query(
+			"select rankNo  " +
+		    "from Ranks     " +
+		    "where rankNo = " + rankNo + ";"
+		);
+		
+		return ! ers.isEmpty();
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Get a rank's name.
 	 * Returns null if no such rank exists.
 	 * @param rankNo
