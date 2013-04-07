@@ -121,14 +121,28 @@ public class DatabaseConstraints
 	 */
 	public static boolean numberExists(String num)
 	{
-		Integer[] ranks = Database.queryInts(
+		Integer[] number = Database.queryInts(
 				"SELECT  supplyNo " +
 				"from Supplies " +
 				"where supplyNo = '" + num + "' " +
 				"limit 1;"
 			);
 			
-			return (ranks.length != 0);
+			return (number.length != 0);
+	}
+	
+	
+	
+	public static boolean personnelExists(String name)
+	{
+		Integer[] personnelName = Database.queryInts(
+				"SELECT  name " +
+				"from Personnel " +
+				"where name = '" + name + "' " +
+				"limit 1;"
+			);
+		
+			return (personnelName.length != 0);
 	}
 	
 }
