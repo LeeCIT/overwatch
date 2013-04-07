@@ -58,7 +58,7 @@ public class Gui extends JFrame
 
 		add( tabPane );
 		
-		setDefaultCloseOperation( EXIT_ON_CLOSE );
+		setDefaultCloseOperation( DO_NOTHING_ON_CLOSE );
 		pack();
 		setVisible(true);
 	}

@@ -3,6 +3,9 @@
 
 package overwatch.core;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import overwatch.db.Database;
 import overwatch.gui.LoginFrame;
 import overwatch.gui.LoginListener;
 import overwatch.security.LoginManager;
@@ -45,15 +48,35 @@ public class Main
 			}
 		});
 	}
-
-
-
-
-
+	
+	
+	
+	
+	
 	private static void createMainGui()
 	{
 		final Gui gui = new Gui();
 		Controller.attachLogicControllers( gui );
 		gui.pack();
+		
+		gui.addWindowListener( new WindowAdapter() {
+			public void windowClosing( WindowEvent e ) {
+				Database.disconnect();
+				System.exit( 0 );
+			}
+		});
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
