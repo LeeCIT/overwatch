@@ -109,13 +109,13 @@ public class DatabaseConstraints
 	public static boolean numberExists(String num)
 	{
 		Integer[] number = Database.queryInts(
-				"SELECT  supplyNo " +
-				"from Supplies " +
-				"where supplyNo = '" + num + "' " +
-				"limit 1;"
-			);
-			
-			return (number.length != 0);
+			"SELECT  supplyNo " +
+			"from Supplies " +
+			"where supplyNo = '" + num + "' " +
+			"limit 1;"
+		);
+		
+		return (number.length != 0);
 	}
 	
 	
@@ -127,13 +127,13 @@ public class DatabaseConstraints
 	public static boolean personnelExists(String name)
 	{
 		Integer[] personnelName = Database.queryInts(
-				"SELECT  name " +
-				"from Personnel " +
-				"where name = '" + name + "' " +
-				"limit 1;"
-			);
-		
-			return (personnelName.length != 0);
+			"SELECT  name " +
+			"from Personnel " +
+			"where name = '" + name + "' " +
+			"limit 1;"
+		);
+	
+		return (personnelName.length != 0);
 	}
 	
 }
