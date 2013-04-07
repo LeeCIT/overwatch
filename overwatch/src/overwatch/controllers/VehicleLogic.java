@@ -34,7 +34,7 @@ import javax.swing.event.ListSelectionListener;
 
 public class VehicleLogic implements TabController
 {
-	private final VehicleTab vehicleTab;
+	private final VehicleTab tab;
 	
 	
 	
@@ -42,7 +42,7 @@ public class VehicleLogic implements TabController
 	
 	public VehicleLogic( VehicleTab vt )
 	{
-		this.vehicleTab = vt;
+		this.tab = vt;
 		attachButtonEvents();
 	}
 	
@@ -59,7 +59,7 @@ public class VehicleLogic implements TabController
 	
 
 	public JPanel getTab() {
-		return vehicleTab;
+		return tab;
 	}
 	
 	
@@ -78,7 +78,7 @@ public class VehicleLogic implements TabController
 	{
 		setupTabChangeActions();
 		setupButtonActions();
-		vehicleListChange();
+		setupSelectActions();
 		setupFieldValidators();
 		setupPick();
 	}
@@ -87,9 +87,34 @@ public class VehicleLogic implements TabController
 	
 	
 	
+	private void doSave()
+	{
+		Integer vehicleNo   = tab.getSelectedItem();
+		String  vehicleType = tab.type.field.getText();
+		String  pilotName   = tab.pilot.field.getText();
+		Integer pilotNo     = Personnel.getNumber( pilotName );
+		
+		// TODO
+//		if (! vehicleExists(vehicleNo)) {
+//			Gui.showErrorDialogue( "Failed to save", "The vehicle no longer exists." );
+//			populateTabList(); // Reload
+//		}
+		
+		Database.update(
+			"update Vehicles " +
+			" set type     = '" + vehicleType + "'," +
+			" set personNo = '" + pilotNo     + "'," +
+			"where vehicleNo = " + vehicleNo  + ";" 
+		);
+	}
+	
+	
+	
+	
+	
 	private void populateTabList()
 	{
-		vehicleTab.setSearchableItems(
+		tab.setSearchableItems(
 			Database.queryKeyNamePairs( "Vehicles", "vehicleNo", "type", Integer[].class )
 		);
 	}
@@ -98,11 +123,11 @@ public class VehicleLogic implements TabController
 	
 	
 	
-	public void vehicleListChange()
+	public void setupSelectActions()
 	{
-		vehicleTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
+		tab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {	
-				populateVehicleFields(vehicleTab.getSelectedItem());
+				populateVehicleFields(tab.getSelectedItem());
 			}
 		});
 	}
@@ -115,13 +140,13 @@ public class VehicleLogic implements TabController
 	{
 		if(vehicleNo == null)
 		{
-			vehicleTab.setEnableFieldsAndButtons(false);
-			vehicleTab.clearFields();
+			tab.setEnableFieldsAndButtons(false);
+			tab.clearFields();
 			return;
 		}
 		else
 		{
-			vehicleTab.setEnableFieldsAndButtons(true);
+			tab.setEnableFieldsAndButtons(true);
 		}
 		
 		
@@ -132,9 +157,9 @@ public class VehicleLogic implements TabController
 		    "  AND v.personNo  = p.personNo;"
 		);
 		
-		vehicleTab.number.field.setText("" + ers.getElemAs( "vehicleNo",  Integer.class ));
-		vehicleTab.type  .field.setText(	 ers.getElemAs( "type",       String.class  ));
-		vehicleTab.pilot .field.setText(	 ers.getElemAs( "personName", String.class  ));		
+		tab.number.field.setText("" + ers.getElemAs( "vehicleNo",  Integer.class ));
+		tab.type  .field.setText(	 ers.getElemAs( "type",       String.class  ));
+		tab.pilot .field.setText(	 ers.getElemAs( "personName", String.class  ));		
 	}
 	
 	
@@ -143,25 +168,25 @@ public class VehicleLogic implements TabController
 	
 	public void setupButtonActions()
 	{
-		vehicleTab.addNewListener(new ActionListener() {
+		tab.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked add new");
 			}
 		});	
+		
 	
-		vehicleTab.addDeleteListener(new ActionListener() {
+		tab.addSaveListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				doSave();
+			}
+		});
+		
+		
+		tab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Clicked delete");				
 			}
-			
 		});	
-	
-		vehicleTab.addSaveListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked save");				
-			}
-		});
-	
 	}
 	
 	
@@ -189,11 +214,11 @@ public class VehicleLogic implements TabController
 	{
 		final PickListener<Integer> pickListener = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
-				vehicleTab.pilot.field.setText(Personnel.getName(picked)) ;		
+				tab.pilot.field.setText(Personnel.getName(picked)) ;		
 			}
 		};
 		
-		vehicleTab.pilot.button.addActionListener( new ActionListener() {
+		tab.pilot.button.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				new PersonnelPicker( Gui.getCurrentInstance(), pickListener );
 			}
