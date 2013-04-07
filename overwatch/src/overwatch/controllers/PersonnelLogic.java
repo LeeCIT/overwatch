@@ -145,7 +145,7 @@ public class PersonnelLogic implements TabController
 	
 	
 	private void setupTabChangeActions() {
-		Gui.getCurrentInstance().addTabSelectNotify( this );	
+		Gui.getCurrentInstance().addTabSelectNotify( this, tab );	
 	}
 	
 	
