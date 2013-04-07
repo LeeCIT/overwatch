@@ -16,8 +16,7 @@ import overwatch.util.Validator;
 import java.math.BigDecimal;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -54,7 +53,14 @@ public class PersonnelLogic implements TabController
 		this.tab = tab;
 		
 		attachEvents();
-		//populateList();
+	}
+	
+	
+	
+	
+	
+	public JPanel getTab() {
+		return tab;
 	}
 	
 	
@@ -145,7 +151,7 @@ public class PersonnelLogic implements TabController
 	
 	
 	private void setupTabChangeActions() {
-		Gui.getCurrentInstance().addTabChangeNotify( this );	
+		Gui.getCurrentInstance().addTabSelectNotify( this );	
 	}
 	
 	
