@@ -66,27 +66,6 @@ public class DatabaseConstraints
 		return str.matches( "\\d{1,9}(\\.\\d{1,2})?" );
 	}
 	
-	
-	
-	
-	
-	/**
-	 * Check if a rank exists with the given name.
-	 * Note: Ranks are case sensitive and start with a capital letter.
-	 * @param rankName
-	 * @return exists
-	 */
-	public static boolean rankExists( String rankName )
-	{
-		Integer[] ranks = Database.queryInts(
-			"select rankNo " +
-			"from Ranks " +
-			"where name = '" + rankName + "' " +
-			"limit 1;"
-		);
-		
-		return (ranks.length != 0);
-	}
 }
 
 
