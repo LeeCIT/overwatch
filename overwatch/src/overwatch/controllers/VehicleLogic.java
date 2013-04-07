@@ -10,8 +10,10 @@ import javax.swing.event.ListSelectionListener;
 
 import overwatch.core.Gui;
 import overwatch.db.Database;
+import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
+import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
 import overwatch.gui.tabs.VehicleTab;
@@ -160,7 +162,17 @@ public class VehicleLogic implements TabController{
 	
 	public void setupFieldValidators()
 	{
-		//TODO Add a type validator
+		vehicleTab.addNumberValiator(new CheckedFieldValidator() {
+			public boolean check(String text) {
+				return DatabaseConstraints.numberExists(text);
+			}
+		});
+		
+		vehicleTab.addTypeValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {
+				return DatabaseConstraints.isValidType(text);
+			}
+		});
 	}
 	
 	
