@@ -93,28 +93,6 @@ public class DatabaseConstraints
 	
 	
 	/**
-	 * Checks if the id number is still valid
-	 * Applicable to all tabs with a uneditable
-	 * @param Num
-	 * @return Exists
-	 */
-	public static boolean numberExists(String num)
-	{
-		Integer[] number = Database.queryInts(
-			"SELECT supplyNo " +
-			"from Supplies   " +
-			"where supplyNo = '" + num + "' " +
-			"limit 1;"
-		);
-		
-		return (number.length != 0);
-	}
-	
-	
-		
-	
-	
-	/**
 	 * Checks if the personnel still exists
 	 * @param name
 	 * @return Exists
