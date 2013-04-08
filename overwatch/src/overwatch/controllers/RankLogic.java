@@ -10,6 +10,8 @@ import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
+import overwatch.db.Ranks;
+import overwatch.db.Supplies;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.tabs.RankTab;
 import overwatch.util.Validator;
@@ -75,7 +77,11 @@ public class RankLogic extends TabController
 		String  rankName  = rankTab.name.      field.getText();
 		Integer rankLevel = rankTab.privileges.field.getTextAsInt();
 		
-		// TODO Validate
+		if ( ! Ranks.exists(rankNo)) {
+			Gui.showErrorDialogue( "Failed to save", "The rank no longer exists." );
+			populateTabList(); // Reload
+			return;
+		}
 		
 		Database.update(
 			"UPDATE Ranks "          +
