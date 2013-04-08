@@ -19,7 +19,7 @@ import javax.swing.text.Document;
  * Goes red when there's bad input.  Test with isInputValid().
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  * @see     CheckedFieldValidator
  */
 
@@ -93,6 +93,17 @@ public class CheckedField extends JTextField
 	}
 	
 	
+	
+	
+	
+	public Integer getTextAsInt()
+	{
+		try { 
+			return Integer.parseInt( getText() );
+		} catch (NumberFormatException ex) {
+			throw new RuntimeException( ex );
+		}
+	}
 	
 	
 	
