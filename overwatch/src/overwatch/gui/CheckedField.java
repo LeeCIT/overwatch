@@ -4,8 +4,8 @@
 package overwatch.gui;
 
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import javax.swing.JTextField;
 import javax.swing.text.Document;
@@ -76,10 +76,21 @@ public class CheckedField extends JTextField
 	
 	
 	
+	
 	public boolean isInputValid() {
 		return areValidationConditionsMet();
 	}
 	
+	
+	
+	
+	
+	public void setText( String text ) {
+		super.setText( text );
+		
+		if (isEnabled() && isEditable())
+			doVisualValidityFeedback();
+	}
 	
 	
 	
@@ -106,9 +117,7 @@ public class CheckedField extends JTextField
 	
 	private void setupActions()
 	{
-		this.addKeyListener( new KeyListener() {
-			public void keyTyped   ( KeyEvent e ) {}
-			public void keyPressed ( KeyEvent e ) {}
+		this.addKeyListener( new KeyAdapter() {
 			public void keyReleased( KeyEvent e ) { doVisualValidityFeedback(); }
 		});
 	}

@@ -36,6 +36,7 @@ public class Gui extends JFrame
 	public final JTabbedPane  tabPane;
 	public final PersonnelTab personnelTab;
 	public final RankTab      rankTab;
+	public final SquadTab     squadTab;
 	public final SupplyTab    supplyTab;
 	public final VehicleTab   vehicleTab;
 	
@@ -52,9 +53,10 @@ public class Gui extends JFrame
 		// Create
 		tabPane = new JTabbedPane();
 		personnelTab = addTab( "Personnel", new PersonnelTab() ); 
-		rankTab      = addTab( "Ranks",     new RankTab     () );      
+		rankTab      = addTab( "Ranks",     new RankTab     () );
+		squadTab     = addTab( "Squads",    new SquadTab    () );
 		vehicleTab   = addTab( "Vehicles",  new VehicleTab  () );   
-		supplyTab    = addTab( "Supplies",  new SupplyTab   () );    
+		supplyTab    = addTab( "Supplies",  new SupplyTab   () );
 
 		add( tabPane );
 		
