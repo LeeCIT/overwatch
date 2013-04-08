@@ -129,19 +129,6 @@ public class VehicleLogic extends TabController
 	
 	
 	
-	private void setupSelectActions()
-	{
-		tab.addSearchPanelListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {	
-				populateVehicleFields(tab.getSelectedItem());
-			}
-		});
-	}
-	
-	
-	
-	
-	
 	private void populateVehicleFields(Integer vehicleNo)
 	{
 		if (vehicleNo == null)
@@ -164,8 +151,20 @@ public class VehicleLogic extends TabController
 		);
 		
 		tab.number.field.setText("" + ers.getElemAs( "vehicleNo",  Integer.class ));
-		tab.type  .field.setText(	 ers.getElemAs( "type",       String.class  ));
-		tab.pilot .field.setText(	 ers.getElemAs( "personName", String.class  ));		
+		tab.type  .field.setText(	  ers.getElemAs( "type",       String .class ));
+		tab.pilot .field.setText(	  ers.getElemAs( "personName", String .class ));		
+	}
+	
+	
+	
+	
+	private void setupSelectActions()
+	{
+		tab.addSearchPanelListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {	
+				populateVehicleFields(tab.getSelectedItem());
+			}
+		});
 	}
 	
 	
