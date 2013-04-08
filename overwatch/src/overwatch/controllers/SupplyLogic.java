@@ -7,6 +7,8 @@ import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
+import overwatch.db.Supplies;
+import overwatch.db.Vehicles;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.tabs.SupplyTab;
 import overwatch.util.Validator;
@@ -79,20 +81,25 @@ public class SupplyLogic extends TabController
 	
 	private void doSave()
 	{
-		int selectedItem = supplyTab.getSelectedItem();
+		Integer supplyNo    = supplyTab.getSelectedItem();
+		String  supplyType  = supplyTab.type  .field.getText();
+		Integer supplyCount = supplyTab.amount.field.getTextAsInt();
 		
-		// TODO check existence and warn before saving
-		// see PersonnelLogic for example
+		if ( ! Supplies.exists(supplyNo)) {
+			Gui.showErrorDialogue( "Failed to save", "The supply no longer exists." );
+			populateTabList(); // Reload
+			return;
+		}
 		
 		Database.update(
 			"UPDATE Supplies "   +
-			"SET type =     '"   + supplyTab.type  .field.getText() +
-			"', count =      "   + supplyTab.amount.field.getText() + 
-			" WHERE supplyNo = " + selectedItem + ";"
+			"SET type =     '"   + supplyType   +
+			"', count =      "   + supplyCount  + 
+			" WHERE supplyNo = " + supplyNo + ";"
 		);
 		
 		populateTabList();
-		supplyTab.setSelectedItem( selectedItem );
+		supplyTab.setSelectedItem( supplyNo );
 	}
 	
 	
