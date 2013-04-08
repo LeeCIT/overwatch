@@ -27,7 +27,7 @@ import javax.swing.event.ListSelectionListener;
  * Set up the vehicle tab logic
  * @author  John Murphy
  * @author  Lee Coakley
- * @version 6
+ * @version 7
  */
 
 
@@ -76,14 +76,7 @@ public class VehicleLogic extends TabController
 	
 	
 	
-	private void attachEvents()
-	{
-		setupTabChangeActions();
-		setupButtonActions();
-		setupSelectActions();
-		setupFieldValidators();
-		setupPickActions();
-	}
+	
 	
 	
 	
@@ -96,7 +89,7 @@ public class VehicleLogic extends TabController
 		String  pilotName   = tab.pilot.field.getText();
 		Integer pilotNo     = Personnel.getNumber( pilotName );
 		
-		if (! Vehicles.exists(vehicleNo)) {
+		if ( ! Vehicles.exists(vehicleNo)) {
 			Gui.showErrorDialogue( "Failed to save", "The vehicle no longer exists." );
 			populateTabList(); // Reload
 			return;
@@ -119,7 +112,7 @@ public class VehicleLogic extends TabController
 	
 	private void populateTabList()
 	{
-		populateVehicleFields( null );
+		populateFields( null );
 		tab.setSearchableItems(
 			Database.queryKeyNamePairs( "Vehicles", "vehicleNo", "type", Integer[].class )
 		);
@@ -129,7 +122,7 @@ public class VehicleLogic extends TabController
 	
 	
 	
-	private void populateVehicleFields(Integer vehicleNo)
+	private void populateFields(Integer vehicleNo)
 	{
 		if (vehicleNo == null)
 		{
@@ -158,11 +151,25 @@ public class VehicleLogic extends TabController
 	
 	
 	
+	
+	private void attachEvents()
+	{
+		setupTabChangeActions();
+		setupButtonActions();
+		setupSelectActions();
+		setupFieldValidators();
+		setupPickActions();
+	}
+	
+	
+	
+	
+	
 	private void setupSelectActions()
 	{
 		tab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {	
-				populateVehicleFields(tab.getSelectedItem());
+				populateFields(tab.getSelectedItem());
 			}
 		});
 	}
@@ -242,14 +249,5 @@ public class VehicleLogic extends TabController
 		});
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
