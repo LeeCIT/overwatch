@@ -34,19 +34,22 @@ public class RankLogic extends TabController
 	private final RankTab rankTab;
 		
 	
+	
+	
+	
 	public RankLogic(RankTab rt)
 	{
 		this.rankTab = rt;
-		attachButtonEvents();	
-		setupTabChangeActions();
+		attachEvents();
 	}
 	
-	
+		
 	
 	public void respondToTabSelect() {
 		populateTabList();
 	}
-
+	
+	
 
 	public JPanel getTab() {
 		return rankTab;
@@ -66,18 +69,19 @@ public class RankLogic extends TabController
 	
 	
 	
-	
-	public void setupTabChangeActions()
+	private void doSave()
 	{
-		Gui.getCurrentInstance().addTabSelectNotify(this);
-	}
-	
-	
-	public void attachButtonEvents()
-	{
-		setupButtonActions();
-		setupListSelectActions();
-		setupFieldValidators();
+		int selectedItem = rankTab.getSelectedItem();
+		
+		// TODO Validate
+		
+		Database.update("UPDATE Ranks " +
+				"SET name = '" + rankTab.name.field.getText() +
+				"', privilegeLevel = " + rankTab.privileges.field.getText() + 
+				" WHERE rankNo = " + selectedItem + " ;");
+		
+		populateTabList();
+		rankTab.setSelectedItem(selectedItem);
 	}
 	
 	
@@ -123,20 +127,30 @@ public class RankLogic extends TabController
 	
 	
 	
+	private void attachEvents() {
+		setupTabChangeActions();
+		setupButtonActions();
+		setupListSelectActions();
+		setupFieldValidators();
+	}
+	
+	
+	
+	
+	
+	private void setupTabChangeActions() {
+		Gui.getCurrentInstance().addTabSelectNotify(this);
+	}
+	
+	
+	
+	
+	
 	private void setupFieldValidators()
 	{
 		rankTab.addNameValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {				
 				return DatabaseConstraints.isValidName(text);
-			}
-		});
-		
-		
-		rankTab.addNumberValidator(new CheckedFieldValidator() {
-			public boolean check(String text) {
-				//return DatabaseConstraints.numberExists(text);
-				// TODO BUGFIX
-				return false;
 			}
 		});
 		
@@ -186,23 +200,6 @@ public class RankLogic extends TabController
 				doSave();
 			}
 		});
-	}
-	
-	
-	
-	
-	
-	private void doSave()
-	{
-		int selectedItem = rankTab.getSelectedItem();
-		
-		Database.update("UPDATE Ranks " +
-				"SET name = '" + rankTab.name.field.getText() +
-				"', privilegeLevel = " + rankTab.privileges.field.getText() + 
-				" WHERE rankNo = " + selectedItem + " ;");
-		
-		populateTabList();
-		rankTab.setSelectedItem(selectedItem);
 	}
 
 	
