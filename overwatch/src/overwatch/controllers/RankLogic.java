@@ -1,9 +1,11 @@
-package overwatch.controllers;
-import java.awt.event.*;
 
+
+
+package overwatch.controllers;
+
+import java.awt.event.*;
 import javax.swing.JPanel;
 import javax.swing.event.*;
-
 import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
@@ -18,6 +20,7 @@ import overwatch.util.Validator;
 
 /**
  * RankTab logic
+ * 
  * @author john
  * @Version 4
  */
@@ -73,16 +76,17 @@ public class RankLogic implements TabController
 	public void attachButtonEvents()
 	{
 		setupButtonActions();
-		populateTabList();
-		rankListChange();
+		setupListSelectActions();
 		setupFieldValidators();
 	}
 	
 	
 	
 	
+	
 	private void populateTabList()
 	{
+		populateFields( null );
 		rankTab.setSearchableItems(
 			Database.queryKeyNamePairs( "Ranks", "rankNo", "name", Integer[].class )
 		);
@@ -92,7 +96,7 @@ public class RankLogic implements TabController
 	
 	
 	
-	public void populateRankFields(Integer rankNo)
+	private void populateFields(Integer rankNo)
 	{
 		if (rankNo == null)
 		{
@@ -119,7 +123,7 @@ public class RankLogic implements TabController
 	
 	
 	
-	public void setupFieldValidators()
+	private void setupFieldValidators()
 	{
 		rankTab.addNameValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {				
@@ -146,11 +150,11 @@ public class RankLogic implements TabController
 	
 	
 	
-	public void rankListChange()
+	private void setupListSelectActions()
 	{
 		rankTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				populateRankFields(rankTab.getSelectedItem());
+				populateFields(rankTab.getSelectedItem());
 			}
 		});
 		
@@ -159,7 +163,8 @@ public class RankLogic implements TabController
 	
 	
 	
-	public void setupButtonActions()
+	
+	private void setupButtonActions()
 	{
 		
 		rankTab.addNewListener(new ActionListener() {			
@@ -185,7 +190,7 @@ public class RankLogic implements TabController
 	
 	
 	
-	public void doSave()
+	private void doSave()
 	{
 		int selectedItem = rankTab.getSelectedItem();
 		

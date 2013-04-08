@@ -96,7 +96,8 @@ public class PersonnelLogic implements TabController
 	
 	
 	private void respondToRankPicker( Integer rankNo ) {
-		tab.rank.field.setText( Ranks.getName( rankNo ) );
+		if (rankNo != null)
+			tab.rank.field.setText( Ranks.getName(rankNo) );
 	}
 	
 	
@@ -105,7 +106,7 @@ public class PersonnelLogic implements TabController
 	
 	private void populateList()
 	{
-		populateTabFields( null );
+		populateFields( null );
 		tab.setSearchableItems(
 			Database.queryKeyNamePairs( "Personnel", "personNo", "name", Integer[].class )
 		);
@@ -115,7 +116,7 @@ public class PersonnelLogic implements TabController
 	
 	
 	
-	private void populateTabFields( Integer personNo )
+	private void populateFields( Integer personNo )
 	{
 		if (personNo == null) {
 			tab.setEnableFieldsAndButtons( false );
@@ -182,7 +183,7 @@ public class PersonnelLogic implements TabController
 	{
 		tab.addSearchPanelListSelectionListener( new ListSelectionListener() {
 			public void valueChanged( ListSelectionEvent e ) {
-				populateTabFields( tab.getSelectedItem() );
+				populateFields( tab.getSelectedItem() );
 			}
 		});
 	}

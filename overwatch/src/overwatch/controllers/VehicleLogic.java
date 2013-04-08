@@ -82,7 +82,7 @@ public class VehicleLogic implements TabController
 		setupButtonActions();
 		setupSelectActions();
 		setupFieldValidators();
-		setupPick();
+		setupPickActions();
 	}
 	
 	
@@ -120,6 +120,7 @@ public class VehicleLogic implements TabController
 	
 	private void populateTabList()
 	{
+		populateVehicleFields( null );
 		tab.setSearchableItems(
 			Database.queryKeyNamePairs( "Vehicles", "vehicleNo", "type", Integer[].class )
 		);
@@ -129,7 +130,7 @@ public class VehicleLogic implements TabController
 	
 	
 	
-	public void setupSelectActions()
+	private void setupSelectActions()
 	{
 		tab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {	
@@ -142,9 +143,9 @@ public class VehicleLogic implements TabController
 	
 	
 	
-	public void populateVehicleFields(Integer vehicleNo)
+	private void populateVehicleFields(Integer vehicleNo)
 	{
-		if(vehicleNo == null)
+		if (vehicleNo == null)
 		{
 			tab.setEnableFieldsAndButtons(false);
 			tab.clearFields();
@@ -172,7 +173,7 @@ public class VehicleLogic implements TabController
 	
 	
 	
-	public void setupButtonActions()
+	private void setupButtonActions()
 	{
 		tab.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -207,7 +208,7 @@ public class VehicleLogic implements TabController
 	
 	
 	
-	public void setupFieldValidators()
+	private void setupFieldValidators()
 	{
 		tab.addTypeValidator( new CheckedFieldValidator() {
 			public boolean check( String text ){
@@ -227,7 +228,7 @@ public class VehicleLogic implements TabController
 	
 	
 	
-	public void setupPick()
+	private void setupPickActions()
 	{
 		final PickListener<Integer> pickListener = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
