@@ -54,6 +54,8 @@ public class SquadTab extends GenericPanelButtoned<Integer>
 		add( assignSupplies );
 	}
 	
+	
+	// TODO 
 }
 
 
