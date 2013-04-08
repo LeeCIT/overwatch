@@ -20,7 +20,7 @@ import net.miginfocom.swing.MigLayout;
  * See main() in this file for a usage example. 
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -42,7 +42,7 @@ public class AssignPanel<T> extends JPanel
 	
 	private AssignPanel()
 	{
-		super(  new MigLayout("debug,filly", "[grow]", "[][fill,grow][]")  );
+		super(  new MigLayout("filly", "[grow]", "[][fill,grow][]")  );
 	}
 	
 	
