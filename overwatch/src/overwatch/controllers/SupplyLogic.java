@@ -74,54 +74,6 @@ public class SupplyLogic extends TabController
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
-
-	
-	
-	private void attachEvents()
-	{
-		setupButtonActions();
-		setupListSelectActions();
-		setupFieldValidators();
-	}
-	
-	
-	
-	
-	
-	private void setupTabChangeActions() {
-		Gui.getCurrentInstance().addTabSelectNotify( this );
-	}
-	
-	
-	
-	
-	
-	private void setupButtonActions()
-	{
-		
-		supplyTab.addNewListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked add new");
-			}
-		});
-	
-		supplyTab.addDeleteListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked delete");
-				
-			}
-		});
-	
-		supplyTab.addSaveListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doSave();				
-			}
-		});
-	
-
-	}
-	
-	
 	
 	
 	
@@ -130,7 +82,7 @@ public class SupplyLogic extends TabController
 		int selectedItem = supplyTab.getSelectedItem();
 		
 		// TODO check existence and warn before saving
-		// see PersonnelLogic
+		// see PersonnelLogic for example
 		
 		Database.update(
 			"UPDATE Supplies "   +
@@ -155,20 +107,6 @@ public class SupplyLogic extends TabController
 			Database.queryKeyNamePairs( "Supplies", "supplyNo", "type", Integer[].class )
 		);
 	}
-	
-	
-	
-	
-	
-	private void setupListSelectActions()
-	{
-		supplyTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				populateFields(supplyTab.getSelectedItem());
-			}
-		});
-	}
-	
 	
 	
 	
@@ -200,6 +138,65 @@ public class SupplyLogic extends TabController
 	
 	
 	
+	
+	private void attachEvents()
+	{
+		setupButtonActions();
+		setupListSelectActions();
+		setupFieldValidators();
+	}
+	
+	
+	
+	
+	
+	private void setupTabChangeActions() {
+		Gui.getCurrentInstance().addTabSelectNotify( this );
+	}
+	
+	
+	
+	
+	
+	private void setupButtonActions()
+	{
+		supplyTab.addNewListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Clicked add new");
+			}
+		});
+	
+		supplyTab.addDeleteListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Clicked delete");
+				
+			}
+		});
+	
+		supplyTab.addSaveListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				doSave();				
+			}
+		});
+	}
+	
+	
+		
+	
+	
+	private void setupListSelectActions()
+	{
+		supplyTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				populateFields(supplyTab.getSelectedItem());
+			}
+		});
+	}
+	
+	
+	
+	
+	
 	private void setupFieldValidators()
 	{
 		supplyTab.addTypeValidator(new CheckedFieldValidator() {
@@ -214,15 +211,6 @@ public class SupplyLogic extends TabController
 				return Validator.isPositiveInt( text );
 			}
 		});
-		
-		
-		supplyTab.addNumberValidator(new CheckedFieldValidator() {
-			public boolean check(String text) {
-				//return DatabaseConstraints.numberExists(text);
-				// TODO BUGFIX
-				return false;
-			}
-		});		
 	}
 	
 }
