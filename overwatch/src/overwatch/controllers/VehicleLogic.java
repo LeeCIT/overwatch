@@ -96,7 +96,6 @@ public class VehicleLogic implements TabController
 		String  pilotName   = tab.pilot.field.getText();
 		Integer pilotNo     = Personnel.getNumber( pilotName );
 		
-		// TODO
 		if (! Vehicles.exists(vehicleNo)) {
 			Gui.showErrorDialogue( "Failed to save", "The vehicle no longer exists." );
 			populateTabList(); // Reload
