@@ -43,7 +43,7 @@ public class SquadTab extends GenericPanelButtoned<Integer>
 		
 		number    = addLabelledField( "Number:" );
 		name      = addLabelledField( "Name:"   );
-		commander = addLabelledFieldWithEllipsis( "Commnader:" );
+		commander = addLabelledFieldWithEllipsis( "Commander:" );
 		
 		assignTroops   = new AssignPanel<Integer>( "Squad Troops"   );
 		assignVehicles = new AssignPanel<Integer>( "Squad Vehicles" );
@@ -55,7 +55,33 @@ public class SquadTab extends GenericPanelButtoned<Integer>
 	}
 	
 	
-	// TODO 
+	
+	
+	
+	/**
+	 * Enable/disable everything: fields, buttons and asssignment panels.
+	 * @param enable
+	 */
+	public void setEnabledAll( boolean enable ) {
+		super.setEnableFieldsAndButtons( enable );
+		assignVehicles.setEnabled( enable );
+		assignSupplies.setEnabled( enable );
+		assignTroops  .setEnabled( enable );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Clear everything editable: fields and assignment panels.
+	 */
+	public void clearAll() {
+		super.clearFields();
+		assignTroops  .clearItems();
+		assignVehicles.clearItems();
+		assignSupplies.clearItems();
+	}
 }
 
 
