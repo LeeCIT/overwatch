@@ -134,7 +134,9 @@ public class RankLogic implements TabController
 		
 		rankTab.addNumberValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {
-				return DatabaseConstraints.numberExists(text);
+				//return DatabaseConstraints.numberExists(text);
+				// TODO BUGFIX
+				return false;
 			}
 		});
 		

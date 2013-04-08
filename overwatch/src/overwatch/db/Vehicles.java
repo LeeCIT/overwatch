@@ -7,6 +7,17 @@ package overwatch.db;
 
 
 
+/**
+ * Database <-> Vehicle interactions
+ * 
+ * @author  Lee Coakley
+ * @version 1
+ */
+
+
+
+
+
 public class Vehicles
 {
 	
