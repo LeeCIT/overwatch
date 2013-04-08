@@ -156,7 +156,7 @@ public class SearchPanel<T> extends JPanel
 	public T getSelectedItem()
 	{
 		if (this.hasSelectedItem()) {
-			return searchList.getSelectedValue().getRef();
+			return searchList.getSelectedValue().ref;
 		} else {
 			return null;
 		}
@@ -169,7 +169,7 @@ public class SearchPanel<T> extends JPanel
 	public String getSelectedItemName()
 	{
 		if (this.hasSelectedItem()) {
-			return searchList.getSelectedValue().getName();
+			return searchList.getSelectedValue().name;
 		} else {
 			return null;
 		}
@@ -188,7 +188,7 @@ public class SearchPanel<T> extends JPanel
 		doSearchClear();
 		
 		for (int i=0; i<getSearchableItemCount(); i++) {
-			if (item.equals(searchableItems.get( i ).getRef())) {
+			if (item.equals(searchableItems.get( i ).ref)) {
 				setSelectedIndex( i );
 				return true;
 			}
@@ -319,7 +319,7 @@ public class SearchPanel<T> extends JPanel
 			ArrayList<NameRefPair<T>> searchResult = new ArrayList<NameRefPair<T>>();
 			
 			for (NameRefPair<T> item: searchableItems) 
-				if (searchCompare( item.getName(), userStr )) 
+				if (searchCompare( item.name, userStr )) 
 					searchResult.add( item );
 
 			setDisplayedItems( searchResult );

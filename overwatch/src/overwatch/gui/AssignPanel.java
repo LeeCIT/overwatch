@@ -191,7 +191,7 @@ public class AssignPanel<T> extends JPanel
 		ArrayList<T> items = new ArrayList<T>();
 		
 		for (NameRefPair<T> pair: listItems) {
-			items.add( pair.getRef() );
+			items.add( pair.ref );
 		}
 		
 		return items;
@@ -212,7 +212,7 @@ public class AssignPanel<T> extends JPanel
 		boolean wasRemoved = false;
 		
 		for (NameRefPair<T> pair: listItems) {
-			if( pair.getRef().equals(item)) {
+			if( pair.ref.equals(item)) {
 				listItems.remove( pair );
 				wasRemoved = true;
 				break;
@@ -252,7 +252,7 @@ public class AssignPanel<T> extends JPanel
 	private T getSelectedItem()
 	{
 		if (this.hasSelectedItem()) {
-			return list.getSelectedValue().getRef();
+			return list.getSelectedValue().ref;
 		} else {
 			return null;
 		}
