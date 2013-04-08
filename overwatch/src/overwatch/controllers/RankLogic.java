@@ -71,17 +71,21 @@ public class RankLogic extends TabController
 	
 	private void doSave()
 	{
-		int selectedItem = rankTab.getSelectedItem();
+		Integer rankNo    = rankTab.getSelectedItem();
+		String  rankName  = rankTab.name.      field.getText();
+		Integer rankLevel = rankTab.privileges.field.getTextAsInt();
 		
 		// TODO Validate
 		
-		Database.update("UPDATE Ranks " +
-				"SET name = '" + rankTab.name.field.getText() +
-				"', privilegeLevel = " + rankTab.privileges.field.getText() + 
-				" WHERE rankNo = " + selectedItem + " ;");
+		Database.update(
+			"UPDATE Ranks "          +
+			"SET name           = '" + rankName  + "'," +
+			"    privilegeLevel = "  + rankLevel + " "  +
+			"WHERE rankNo = " + rankNo + " ;"
+		);
 		
 		populateTabList();
-		rankTab.setSelectedItem(selectedItem);
+		rankTab.setSelectedItem(rankNo);
 	}
 	
 	
