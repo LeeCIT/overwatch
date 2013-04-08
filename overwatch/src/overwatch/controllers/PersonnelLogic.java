@@ -29,7 +29,7 @@ import javax.swing.event.ListSelectionListener;
  * Controls saving, loading, security checking etc.
  * 
  * @author  Lee Coakley
- * @version 4
+ * @version 5
  */
 
 
@@ -81,17 +81,6 @@ public class PersonnelLogic extends TabController
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
-	
-	private void attachEvents()
-	{
-		setupTabChangeActions();
-		setupSelectActions   ();
-		setupButtonActions   ();
-		setupPickActions     ();
-		setupFieldValidators ();
-	}
-	
-	
 	
 	
 	
@@ -151,6 +140,19 @@ public class PersonnelLogic extends TabController
 	
 	
 	
+	private void attachEvents()
+	{
+		setupTabChangeActions();
+		setupSelectActions   ();
+		setupButtonActions   ();
+		setupPickActions     ();
+		setupFieldValidators ();
+	}
+	
+	
+	
+	
+	
 	private void setupTabChangeActions() {
 		Gui.getCurrentInstance().addTabSelectNotify( this );	
 	}
@@ -197,6 +199,7 @@ public class PersonnelLogic extends TabController
 		tab.addNewListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				System.out.println( "new" );
+				// TODO new
 			}
 		});
 		
@@ -204,6 +207,8 @@ public class PersonnelLogic extends TabController
 		tab.addSaveListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				System.out.println( "save" );
+				// TODO save
+				// TODO idea: save the fields here, but have another frame for the login details with its own save button
 			}
 		});
 		
@@ -211,6 +216,7 @@ public class PersonnelLogic extends TabController
 		tab.addDeleteListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				System.out.println( "delete" );
+				// TODO del
 			}
 		});
 	}
@@ -255,28 +261,7 @@ public class PersonnelLogic extends TabController
 			}
 		});
 	}
-
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public static void main( String[] args )
-	{
-		Gui.setNativeStyle();
-		
-		Gui gui = new Gui();
-		
-		new PersonnelLogic( gui.personnelTab );
-		
-		gui.pack();
-		gui.setVisible( true );
-	}
 }
 
 
