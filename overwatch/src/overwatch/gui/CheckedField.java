@@ -87,7 +87,9 @@ public class CheckedField extends JTextField
 	
 	public void setText( String text ) {
 		super.setText( text );
-		doVisualValidityFeedback();
+		
+		if (isEnabled() && isEditable())
+			doVisualValidityFeedback();
 	}
 	
 	
