@@ -31,7 +31,7 @@ import javax.swing.event.ListSelectionListener;
 
 
 
-public class SupplyLogic implements TabController
+public class SupplyLogic extends TabController
 {
 	
 	private final SupplyTab supplyTab;

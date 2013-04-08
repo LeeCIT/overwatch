@@ -34,7 +34,7 @@ import javax.swing.event.ListSelectionListener;
 
 
 
-public class VehicleLogic implements TabController
+public class VehicleLogic extends TabController
 {
 	private final VehicleTab tab;
 	
@@ -45,7 +45,7 @@ public class VehicleLogic implements TabController
 	public VehicleLogic( VehicleTab vt )
 	{
 		this.tab = vt;
-		attachButtonEvents();
+		attachEvents();
 	}
 	
 	
@@ -76,7 +76,7 @@ public class VehicleLogic implements TabController
 	
 	
 	
-	private void attachButtonEvents()
+	private void attachEvents()
 	{
 		setupTabChangeActions();
 		setupButtonActions();
@@ -92,11 +92,10 @@ public class VehicleLogic implements TabController
 	private void doSave()
 	{
 		Integer vehicleNo   = tab.getSelectedItem();
-		String  vehicleType = tab.type.field.getText();
+		String  vehicleType = tab.type .field.getText();
 		String  pilotName   = tab.pilot.field.getText();
 		Integer pilotNo     = Personnel.getNumber( pilotName );
 		
-		// TODO
 		if (! Vehicles.exists(vehicleNo)) {
 			Gui.showErrorDialogue( "Failed to save", "The vehicle no longer exists." );
 			populateTabList(); // Reload

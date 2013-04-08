@@ -172,7 +172,7 @@ public class GenericPanel<T> extends JPanel
 	
 	/**
 	 * Enable or disable all the fields and buttons in the main and sub panels.
-	 * To control input normally, you should use setEditable on the components.
+	 * To control input normally, you should use setEditable on the components instead of setEnabled.
 	 * @param enable
 	 */
 	public void setEnableFieldsAndButtons( boolean enable )
@@ -227,6 +227,7 @@ public class GenericPanel<T> extends JPanel
 		
 		return true;
 	}
+	
 	
 	
 	

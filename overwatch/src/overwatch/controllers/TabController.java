@@ -14,7 +14,7 @@ import java.awt.Component;
  * Used in the Gui class for registering controllers to receive tab change notifications.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  * @see     Gui
  */
 
@@ -22,8 +22,8 @@ import java.awt.Component;
 
 
 
-public interface TabController
+public abstract class TabController
 {
-	public void      respondToTabSelect();
-	public Component getTab();
+	public abstract void      respondToTabSelect();
+	public abstract Component getTab();
 }

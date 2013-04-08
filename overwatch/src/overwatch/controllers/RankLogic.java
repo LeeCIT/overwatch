@@ -29,7 +29,7 @@ import overwatch.util.Validator;
 
 
 
-public class RankLogic implements TabController
+public class RankLogic extends TabController
 {
 	private final RankTab rankTab;
 		

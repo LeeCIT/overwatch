@@ -36,7 +36,7 @@ import javax.swing.event.ListSelectionListener;
 
 
 
-public class PersonnelLogic implements TabController
+public class PersonnelLogic extends TabController
 {
 	private final PersonnelTab tab;
 	
