@@ -218,7 +218,9 @@ public class SupplyLogic implements TabController
 		
 		supplyTab.addNumberValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {
-				return DatabaseConstraints.numberExists(text);
+				//return DatabaseConstraints.numberExists(text);
+				// TODO BUGFIX
+				return false;
 			}
 		});		
 	}
