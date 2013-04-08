@@ -240,6 +240,20 @@ public class AssignPanel<T> extends JPanel
 	
 	
 	
+	/**
+	 * Enable/disable the panel and buttons.
+	 * @param editable
+	 */
+	public void setEditable( boolean editable )
+	{
+		list      .setEnabled( editable );
+		buttAdd   .setEnabled( editable );
+		buttRemove.setEnabled( editable );
+	}
+	
+	
+	
+	
 	
 	
 	
