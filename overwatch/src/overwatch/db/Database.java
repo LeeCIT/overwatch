@@ -165,7 +165,7 @@ public class Database
 	 * @param type Type of element.
 	 * @return T
 	 */
-	public static <T> T querySingle( String sql, Class<T> type ) {
+	public static <T> T querySingle( Class<T> type, String sql ) {
 		EnhancedResultSet ers = query( sql );
 		return ( ! ers.isEmpty())  ?  ers.getElemAs(0,type)  :  null;
 	}
@@ -180,7 +180,7 @@ public class Database
 	 * @param type Type of array
 	 * @return T
 	 */
-	public static <T> T[] queryArray( String sql, Class<? extends T[]> type ) {
+	public static <T> T[] queryArray( Class<? extends T[]> type, String sql ) {
 		return query(sql).getColumnAs(0,type);
 	}
 	
