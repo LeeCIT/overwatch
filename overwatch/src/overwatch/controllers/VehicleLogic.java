@@ -72,6 +72,8 @@ public class VehicleLogic extends TabController
 	{
 		Integer vehicleNo = Vehicles.create();
 		
+		System.out.println( vehicleNo );
+		
 		populateTabList();
 		tab.setSelectedItem( vehicleNo );
 	}

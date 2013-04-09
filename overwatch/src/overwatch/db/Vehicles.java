@@ -46,8 +46,9 @@ public class Vehicles
 	/**
 	 * Create a new vehicle.
 	 * @return Integer vehicleNo
+	 * TODO: this code may still be useful, generalise it and put it somewhere else
 	 */
-	public static Integer create()
+	public static Integer createOLD()
 	{	
 		Connection conn = Database.getConnection();
 		
@@ -82,16 +83,15 @@ public class Vehicles
 	
 	
 	
-	// TODO rename/replace create() with this
-	public static Integer createAutoInc()
+	public static Integer create()
 	{	
 		Database.update(
 			"insert into Vehicles " +
 			"values( default, 'new vehicle', null );"
 		);
 		
-		return Database.querySingle( Integer.class,
-			"select max(vehicleNo)+1 " +
+		return (int) (long) Database.querySingle( Long.class,
+			"select max(vehicleNo)" +
 			"from Vehicles;"
 		);
 	}
