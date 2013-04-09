@@ -66,7 +66,7 @@ public class Vehicles
 				"insert into Vehicles values (" +
 				    vehicleNo + ", " +
 					"'new vehicle #" + vehicleNo + "'," +
-					"''" +
+					"null" +
 				");"
 			);
 			
