@@ -57,6 +57,25 @@ public class Squads
 	
 	
 	
+	public static <T> NameRefPairList<T> getSupplies(int squadNo, Class<? extends T[]> keyType)
+	{
+		EnhancedResultSet ers = Database.query(
+				"SELECT supplies.type AS supType, supplies.supplyNo AS supNo " +
+				"FROM Squads s, SquadSupplies ss, Supplies supplies " +
+				"WHERE s.squadNo = " + squadNo + " " + 
+				"AND s.squadNo = ss.squadNo " + 
+				"AND ss.supplyNo = supplies.supplyNo;"
+		);
+		
+		
+		T[]      keys  = ers.getColumnAs( "supNo",   keyType        );
+		String[] names = ers.getColumnAs( "supType", String[].class );
+		
+		return new NameRefPairList<T>( keys, names );	
+	}
+	 
+	
+	
 	
 	
 
