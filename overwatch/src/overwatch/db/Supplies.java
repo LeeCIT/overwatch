@@ -43,16 +43,21 @@ public class Supplies
 	
 	
 	/**
-	 * Checks the database for the amount of supplies there are already and returns a new supply number
-	 * @return
+	 * Adds a new supply to the database
+	 * @return The max ID
 	 */
-	public static int newSupplyId()
+	public static int create()
 	{
-		EnhancedResultSet ers = Database.query(
-			"SELECT supplyNo " +
-			"FROM Supplies;");
+		Database.update(
+				"insert into Supplies " +
+				"values( default, 'new Supply', 0 );"
+				);
 		
-		return ers.getRowCount() + 1;
+		EnhancedResultSet ers = Database.query("select max(supplyNo)" +
+			"from Supplies;");
+		
+		return (Integer) ers.getElem(0);
+		
 		
 	}
 }
