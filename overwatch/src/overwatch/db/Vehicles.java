@@ -47,12 +47,10 @@ public class Vehicles
 	 */
 	public static Integer create()
 	{	
-		Integer vehicleNo = null;
-		
-		Database.lockWrite( "Vehicles" );
-		
 		try {
-			 vehicleNo = Database.queryInt(
+			 Database.lockWrite( "Vehicles" );
+			
+			 Integer vehicleNo = Database.queryInt(
 				"select max(vehicleNo)+1 " +
 				"from Vehicles;"
 			);
@@ -64,12 +62,12 @@ public class Vehicles
 					"null" +
 				");"
 			);
+			
+			return vehicleNo;
 		}
 		finally {
 			Database.unlock();
 		}
-		
-		return vehicleNo;
 	}
 	
 	
