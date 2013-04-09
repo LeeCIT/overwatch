@@ -86,47 +86,6 @@ public class Database
 	
 	
 	/**
-	 * Run an SQL query that yields a single string.
-	 * Must not return an empty set!
-	 * @param sql
-	 * @return Integer
-	 */
-	public static String queryString( String sql ) {
-		return query(sql).getElemAs( 0, String.class );
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Run an SQL query that yields a single integer.
-	 * Must not return an empty set!
-	 * @param sql
-	 * @return Integer
-	 */
-	public static Integer queryInt( String sql ) {
-		return query(sql).getElemAs( 0, Integer.class );
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Run an SQL query that yields a single set of integers.
-	 * @param sql
-	 * @return Integer[]
-	 */
-	public static Integer[] queryInts( String sql ) {
-		return query(sql).getColumnAs( 0, Integer[].class );
-	}
-	
-	
-	
-	
-	
-	/**
 	 * Run a query, get an EnhancedResultSet.
 	 * Handles cleanup and conversion automatically.
 	 * @param sql
@@ -200,11 +159,41 @@ public class Database
 	
 	
 	/**
+	 * Convenience function for single-column single-row queries.
+	 * Returns null if the set is empty.
+	 * @param sql
+	 * @param type Type of element.
+	 * @return T
+	 */
+	public static <T> T querySingle( String sql, Class<T> type ) {
+		EnhancedResultSet ers = query( sql );
+		return ( ! ers.isEmpty())  ?  ers.getElemAs(0,type)  :  null;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Convenience function for single-column multiple-row queries.
+	 * @param sql
+	 * @param type Type of array
+	 * @return T
+	 */
+	public static <T> T[] queryArray( String sql, Class<? extends T[]> type ) {
+		return query(sql).getColumnAs(0,type);
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Dump the contents of an entire table into an EnhancedResultSet.
 	 * @param tableName
 	 * @return EnhancedResultSet
 	 */
-	public EnhancedResultSet dumpTable( String tableName ) {
+	public static EnhancedResultSet dumpTable( String tableName ) {
 	    return query( "SELECT * FROM " + tableName + ";" );
 	}
 	
