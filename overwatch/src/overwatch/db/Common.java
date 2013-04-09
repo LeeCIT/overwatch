@@ -35,7 +35,7 @@ public class Common
 	 * The table must use autoIncrement values.
 	 * @param table Table to apply the insert to
 	 * @param namePrefix What to prepend the unique name with, eg "vehicle"
-	 * @param values Values you would put in the SQL query values() part.  The string "<?>" will be replaced with a generated unique string.
+	 * @param values Values you would put in the SQL query values() part.  The string "<?>" will be replaced with a random unique string.
 	 */
 	public static void createWithUnique( String table, String...values )
 	{
@@ -45,7 +45,7 @@ public class Common
 		
 		for (;;) {
 			try {
-				Database.update(  query.replace("<\\?>",randomNamePart())  );
+				Database.update(  query.replaceAll("\\<\\?\\>",randomNamePart())  );
 				return;
 			}
 			catch (DatabaseException ex) {
