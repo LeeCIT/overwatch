@@ -28,7 +28,7 @@ import net.miginfocom.swing.MigLayout;
  * Templated on the SearchPanel type.
  * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -55,7 +55,7 @@ public class GenericPanel<T> extends JPanel
 	 */
 	public GenericPanel( String searchLabelText )
 	{
-		super( new MigLayout( "", "[shrink 100][grow,fill]", "[grow,fill][][grow,fill]" ) );
+		super( new MigLayout( "debug", "[][grow,fill]", "[grow,fill][][grow,fill]" ) );
 		
 		this.searchPanel = new SearchPanel<T>( searchLabelText );
 		this.mainPanel   = new JPanel( new MigLayout("","[][256]") );
@@ -64,7 +64,7 @@ public class GenericPanel<T> extends JPanel
 		
 		mainPanel.add( mainLabel, "cell 1 0, wrap" );
 		
-		add( searchPanel, "wmin 96px, wmax 224px, spany 2" );
+		add( searchPanel, "wmin 96px, wmax 224px, spany 2, height 100%" );
 		add( mainPanel,   "alignx left, wrap"     );
 		add( subPanel,    "alignx right, skip 1"  );
 		

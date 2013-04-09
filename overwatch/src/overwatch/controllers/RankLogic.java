@@ -76,7 +76,7 @@ public class RankLogic extends TabController
 	{
 		Integer rankNo    = rankTab.getSelectedItem();
 		String  rankName  = rankTab.name.      field.getText();
-		Integer rankLevel = rankTab.privileges.field.getTextAsInt();
+		Integer rankLevel = rankTab.securityLevel.field.getTextAsInt();
 		
 		if ( ! Ranks.exists(rankNo)) {
 			Gui.showErrorDialogue( "Failed to save", "The rank no longer exists." );
@@ -153,7 +153,7 @@ public class RankLogic extends TabController
 
 		rankTab.number    .field.setText("" + ers.getElemAs( "rankNo",         Integer.class ));
 		rankTab.name      .field.setText(     ers.getElemAs( "name",           String .class ));
-		rankTab.privileges.field.setText("" + ers.getElemAs( "privilegeLevel", Integer.class ));		
+		rankTab.securityLevel.field.setText("" + ers.getElemAs( "privilegeLevel", Integer.class ));		
 	}
 	
 	

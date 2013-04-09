@@ -45,11 +45,11 @@ public class SquadTab extends GenericPanelButtoned<Integer>
 		name      = addLabelledField( "Name:"   );
 		commander = addLabelledFieldWithEllipsis( "Commander:" );
 		
-		assignTroops   = new AssignPanel<Integer>( "Squad Troops"   );
-		assignVehicles = new AssignPanel<Integer>( "Squad Vehicles" );
-		assignSupplies = new AssignPanel<Integer>( "Squad Supplies" );
+		assignTroops   = new AssignPanel<Integer>( "Troops"   );
+		assignVehicles = new AssignPanel<Integer>( "Vehicles" );
+		assignSupplies = new AssignPanel<Integer>( "Supplies" );
 		
-		add( assignTroops,  "newline, span 2, split 3" );
+		add( assignTroops,  "newline, span 2, split 3, height 75%" );
 		add( assignVehicles );
 		add( assignSupplies );
 	}
