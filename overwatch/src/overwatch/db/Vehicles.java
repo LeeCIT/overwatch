@@ -3,6 +3,8 @@
 
 package overwatch.db;
 
+import java.sql.Connection;
+
 
 
 
@@ -47,26 +49,32 @@ public class Vehicles
 	 */
 	public static Integer create()
 	{	
+		Connection conn = Database.getConnection();
+		
 		try {
-			 Database.lockWrite( "Vehicles" );
+			Database.lockWrite( conn, "Vehicles" );
 			
-			 Integer vehicleNo = Database.queryInt(
+			 EnhancedResultSet ers = Database.query( conn,
 				"select max(vehicleNo)+1 " +
 				"from Vehicles;"
 			);
+			 
+			Long    vehicleNoKey = ers.getElemAs( 0, Long.class );
+			Integer vehicleNo    = (int) (long) vehicleNoKey;
 			
-			Database.update( 
+			Database.update( conn,
 				"insert into Vehicles values (" +
 				    vehicleNo + ", " +
 					"'new vehicle #" + vehicleNo + "'," +
-					"null" +
+					"''" +
 				");"
 			);
 			
 			return vehicleNo;
 		}
 		finally {
-			Database.unlock();
+			try     { Database.unlock( conn );           }
+			finally { Database.returnConnection( conn ); }
 		}
 	}
 	
