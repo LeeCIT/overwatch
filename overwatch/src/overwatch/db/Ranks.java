@@ -86,18 +86,6 @@ public class Ranks
 	
 	
 	
-	/**
-	 * Gets the new ID for the ranks
-	 * @return The new ID
-	 */
-	public static int getNewRankId()
-	{
-		EnhancedResultSet ers = Database.query(
-			"SELECT rankNo " +
-			"FROM Ranks");
-		
-		return ers.getRowCount() + 1;
-	}
 }
 
 
