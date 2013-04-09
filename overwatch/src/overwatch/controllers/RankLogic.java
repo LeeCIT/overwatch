@@ -12,6 +12,7 @@ import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Ranks;
 import overwatch.db.Supplies;
+import overwatch.db.Vehicles;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.tabs.RankTab;
 import overwatch.util.Validator;
@@ -99,17 +100,10 @@ public class RankLogic extends TabController
 	
 	private void createNew()
 	{
-		Integer rankNo			= Ranks.getNewRankId();
-		String 	rankName		= Integer.toString(rankNo);
-		Integer privilegeNum	= 0;
-		
-		Database.update("INSERT INTO Ranks VALUES(" +
-				rankNo + ", '" + rankName + "', " + privilegeNum + ");");
-		
+		Integer rankNo = Ranks.create();
+				
 		populateTabList();
-		rankTab.setSelectedItem(rankNo);
-		rankTab.name.field.setText(rankName);
-		rankTab.privileges.field.setText("" + privilegeNum);
+		rankTab.setSelectedItem( rankNo );
 	}
 	
 	
