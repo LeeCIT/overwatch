@@ -1,9 +1,9 @@
+
+
+
 package overwatch.gui.tabs;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
-
 import overwatch.controllers.RankLogic;
 import overwatch.core.Gui;
 import overwatch.gui.CheckedFieldValidator;
@@ -30,7 +30,10 @@ public class RankTab extends GenericPanelButtoned<Integer>
 
 	public final LabelFieldPair number;
 	public final LabelFieldPair name;
-	public final LabelFieldPair privileges;	
+	public final LabelFieldPair securityLevel;	
+	
+	
+	
 	
 	
 	public RankTab()
@@ -38,9 +41,9 @@ public class RankTab extends GenericPanelButtoned<Integer>
 
 		super( "Rank" );		
 		
-		number		= addLabelledField("Number:");
-		name    	= addLabelledField("Name:");
-		privileges  = addLabelledField("Privileges:");
+		number		  = addLabelledField( "Number:"         );
+		name    	  = addLabelledField( "Name:"           );
+		securityLevel = addLabelledField( "Security Level:" );
 		
 		number.field.setEditable(false);
 	}
@@ -48,10 +51,11 @@ public class RankTab extends GenericPanelButtoned<Integer>
 	
 	
 	
+	
 	// Validate
-	public void addNameValidator(CheckedFieldValidator v)		{name.field.addValidator(v);		}
-	public void addNumberValidator(CheckedFieldValidator v)		{number.field.addValidator(v);		}
-	public void addPrivilegesValidator(CheckedFieldValidator v)	{privileges.field.addValidator(v); 	}
+	public void addNameValidator      (CheckedFieldValidator v)	{ name         .field.addValidator(v); }
+	public void addNumberValidator    (CheckedFieldValidator v)	{ number       .field.addValidator(v); }
+	public void addPrivilegesValidator(CheckedFieldValidator v)	{ securityLevel.field.addValidator(v); }
 
 	
 	
