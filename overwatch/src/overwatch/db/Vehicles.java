@@ -84,13 +84,8 @@ public class Vehicles
 	
 	
 	public static Integer create()
-	{	
-		String rand = Common.randomNamePart();
-		
-		Database.update(
-			"insert into Vehicles " +
-			"values( default, 'new vehicle " + rand + "', null );"
-		);
+	{
+		Common.createWithUnique( "Vehicles", "DEFAULT", "'new vehicle <?>'", "NULL" );
 		
 		return Database.querySingle( Integer.class,
 			"select max(vehicleNo)" +
