@@ -90,7 +90,7 @@ public class Vehicles
 			"values( default, 'new vehicle', null );"
 		);
 		
-		return (int) (long) Database.querySingle( Long.class,
+		return Database.querySingle( Integer.class,
 			"select max(vehicleNo)" +
 			"from Vehicles;"
 		);
