@@ -123,6 +123,7 @@ public class SquadLogic extends TabController{
 	
 	private void loadSubPanels(int squadNo){
 		tab.assignTroops.setListItems(Squads.getTroops(squadNo, Integer[].class));
+		tab.assignVehicles.setListItems(Squads.getVehicles(squadNo, Integer[].class));
 	}
 	
 	
