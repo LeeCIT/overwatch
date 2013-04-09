@@ -84,13 +84,10 @@ public class Vehicles
 	
 	
 	public static Integer create()
-	{	
-		Database.update(
-			"insert into Vehicles " +
-			"values( default, 'new vehicle', null );"
-		);
+	{
+		Common.createWithUnique( "Vehicles", "DEFAULT", "'new vehicle <?>'", "NULL" );
 		
-		return (int) (long) Database.querySingle( Long.class,
+		return Database.querySingle( Integer.class,
 			"select max(vehicleNo)" +
 			"from Vehicles;"
 		);

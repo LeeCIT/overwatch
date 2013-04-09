@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import com.mysql.jdbc.authentication.MysqlClearPasswordPlugin;
 
 
 
@@ -72,8 +73,6 @@ public class VehicleLogic extends TabController
 	{
 		Integer vehicleNo = Vehicles.create();
 		
-		System.out.println( vehicleNo );
-		
 		populateTabList();
 		tab.setSelectedItem( vehicleNo );
 	}
@@ -87,20 +86,21 @@ public class VehicleLogic extends TabController
 		Integer vehicleNo   = tab.getSelectedItem();
 		String  vehicleType = tab.type .field.getText();
 		String  pilotName   = tab.pilot.field.getText();
-		Integer pilotNo     = Personnel.getNumber( pilotName );
+		Integer pilotNo     = Personnel.getNumber( pilotName ); // TODO: not unique, use logins instead?
 		
-		if ( ! Vehicles.exists(vehicleNo)) {
-			Gui.showErrorDialogue( "Failed to Apply Changes", "The vehicle has been deleted!" );
-			populateTabList(); // Reload
-			return;
-		}
-		
-		Database.update(
-			"update Vehicles " +
-			" set type     = '" + vehicleType + "', " +
-			"     personNo = "  + pilotNo     + " "   +
-			"where vehicleNo = " + vehicleNo  + ";" 
+		int mods = Database.update(
+			"update Vehicles   " +
+			"set type     =   '" + vehicleType + "', " +
+			"    personNo =    " + pilotNo     + " "   +
+			"where vehicleNo = " + vehicleNo   + ";" 
 		);
+		
+		if (mods <= 0) {
+			Gui.showErrorDialogue(
+				"Failed to Apply Changes",
+				"The vehicle has been deleted by someone else!"
+			);
+		}
 		
 		populateTabList();
 		tab.setSelectedItem( vehicleNo );
