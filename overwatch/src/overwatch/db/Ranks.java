@@ -11,7 +11,8 @@ package overwatch.db;
  * Database <-> Rank interactions
  * 
  * @author  Lee Coakley
- * @version 1
+ * @author  John Murphy
+ * @version 2
  */
 
 
@@ -81,6 +82,21 @@ public class Ranks
 		if (ers.isEmpty())
 			 return null;
 		else return ers.getElemAs( "rankNo", Integer.class ); 
+	}
+	
+	
+	
+	/**
+	 * Gets the new ID for the ranks
+	 * @return The new ID
+	 */
+	public static int getNewRankId()
+	{
+		EnhancedResultSet ers = Database.query(
+			"SELECT rankNo " +
+			"FROM Ranks");
+		
+		return ers.getRowCount() + 1;
 	}
 }
 
