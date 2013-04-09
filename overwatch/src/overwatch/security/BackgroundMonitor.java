@@ -141,14 +141,14 @@ public class BackgroundMonitor
 					
 					System.out.println( "Checking that " + user + " still exists..." );
 					
-					if (Database.queryInts( "select personNo from Personnel where personNo = " + user + ";").length == 0)
-					{
-						Gui.showErrorDialogue(
-							"Forced Logout",
-							"Your account has been deleted."
-						);
-						System.exit(0);
-					}
+//					if (Database.queryInts( "select personNo from Personnel where personNo = " + user + ";").length == 0)
+//					{
+//						Gui.showErrorDialogue(
+//							"Forced Logout",
+//							"Your account has been deleted."
+//						);
+//						System.exit(0);
+//					}
 					
 					System.out.println( "Return conn @ " + new Date().getTime() );
 					Database.returnConnection( conn );
