@@ -116,22 +116,14 @@ public class Database
 	/**
 	 * Run a query, get an EnhancedResultSet.
 	 * Handles cleanup and conversion automatically.
-	 * @param ps
+	 * @param sql
 	 * @return EnhancedResultSet
-	 * @throws SQLException
 	 */
-	public static EnhancedResultSet query( PreparedStatement ps )
+	public static EnhancedResultSet query( String sql )
 	{
-		EnhancedResultSet ers = null;
-		
-		try {
-	    	ResultSet rs = ps.executeQuery();
-	    		ers = new EnhancedResultSet( rs );
-	    	rs.close();
-		}
-		catch( SQLException ex) {
-			throw new DatabaseException( ex );
-		}
+		Connection conn = getConnection();
+			EnhancedResultSet ers = query( conn, sql );
+		returnConnection( conn );
     	
     	return ers;
 	}
@@ -143,27 +135,24 @@ public class Database
 	/**
 	 * Run a query, get an EnhancedResultSet.
 	 * Handles cleanup and conversion automatically.
+	 * @param Connection
 	 * @param sql
 	 * @return EnhancedResultSet
 	 */
-	public static EnhancedResultSet query( String sql )
+	public static EnhancedResultSet query( Connection conn, String sql )
 	{
-		Connection conn = getConnection();
+		EnhancedResultSet ers = null;
 		
-			EnhancedResultSet ers = null;
-		
-			try {
-				Statement st = conn.createStatement();
-					ResultSet rs = st.executeQuery( sql );
-		    			ers = new EnhancedResultSet( rs );
-		    		rs.close();
-				st.close();
-			}
-			catch (SQLException ex) {
-				throw new DatabaseException( ex );
-			}
-		
-		returnConnection( conn );
+		try {
+			Statement st = conn.createStatement();
+				ResultSet rs = st.executeQuery( sql );
+	    			ers = new EnhancedResultSet( rs );
+	    		rs.close();
+			st.close();
+		}
+		catch (SQLException ex) {
+			throw new DatabaseException( ex );
+		}
     	
     	return ers;
 	}
@@ -245,7 +234,7 @@ public class Database
 	 * Make damn sure to unlock() after!
 	 * @param table
 	 */
-	public static void lockWrite( String table ) {
+	private void lockWrite( Connection conn, String table ) {
 		Database.update( "lock tables " + table + " write;" );
 	}
 	
@@ -256,7 +245,7 @@ public class Database
 	/**
 	 * Unlock a previously locked table.
 	 */
-	public static void unlock() {
+	private void unlock() {
 		Database.update( "unlock tables;" );
 	}
 	
