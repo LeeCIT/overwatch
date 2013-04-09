@@ -4,14 +4,8 @@
 package overwatch.controllers;
 
 import overwatch.core.Gui;
-import overwatch.db.Database;
-import overwatch.db.DatabaseConstraints;
-import overwatch.db.EnhancedResultSet;
-import overwatch.db.Personnel;
-import overwatch.gui.CheckedFieldValidator;
-import overwatch.db.Vehicles;
-import overwatch.gui.PersonnelPicker;
-import overwatch.gui.PickListener;
+import overwatch.db.*;
+import overwatch.gui.*;
 import overwatch.gui.tabs.VehicleTab;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -94,7 +88,7 @@ public class VehicleLogic extends TabController
 		Integer pilotNo     = Personnel.getNumber( pilotName );
 		
 		if ( ! Vehicles.exists(vehicleNo)) {
-			Gui.showErrorDialogue( "Failed to save", "The vehicle no longer exists." );
+			Gui.showErrorDialogue( "Failed to Apply Changes", "The vehicle has been deleted!" );
 			populateTabList(); // Reload
 			return;
 		}
@@ -120,6 +114,7 @@ public class VehicleLogic extends TabController
 		Vehicles.delete( vehicleNo );
 		populateTabList();
 	}
+	
 	
 	
 	
