@@ -206,10 +206,27 @@ public class Database
 	 * @return number rows modified
 	 */
 	public static int update( String sql )
+	{	
+		Connection conn = getConnection();
+			int rowsModified = update( conn, sql ); 
+		returnConnection( conn );
+		
+		return rowsModified; 
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Run update/insert/delete SQL and get back the number of rows modified.
+	 * @param conn Connection to use (needed for locks)
+	 * @param sql
+	 * @return number rows modified
+	 */
+	public static int update( Connection conn, String sql )
 	{
 		int rowsModified = -1;
-		
-		Connection conn = getConnection();
 	
 			try {
 				Statement st = conn.createStatement();
@@ -219,8 +236,6 @@ public class Database
 			catch (SQLException ex) {
 				throw new DatabaseException( ex );
 			}
-		
-		returnConnection( conn );
 		
 		return rowsModified; 
 	}
@@ -234,8 +249,8 @@ public class Database
 	 * Make damn sure to unlock() after!
 	 * @param table
 	 */
-	private void lockWrite( Connection conn, String table ) {
-		Database.update( "lock tables " + table + " write;" );
+	public void lockWrite( Connection conn, String table ) {
+		Database.update( conn, "lock tables " + table + " write;" );
 	}
 	
 	
@@ -245,8 +260,8 @@ public class Database
 	/**
 	 * Unlock a previously locked table.
 	 */
-	private void unlock() {
-		Database.update( "unlock tables;" );
+	private void unlock( Connection conn ) {
+		Database.update( conn, "unlock tables;" );
 	}
 	
 }
