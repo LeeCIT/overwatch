@@ -1,6 +1,6 @@
 
     create table Ranks (
-        rankNo          integer 	    not null    unique,
+        rankNo          integer 	    not null    unique  auto_increment,
         name            varchar(128) 	not null    unique,
         privilegeLevel  integer         not null,
         
@@ -10,7 +10,7 @@
     
     
     create table Personnel (
-         personNo       integer         not null    unique,
+         personNo       integer         not null    unique  auto_increment,
          name           varchar(128)    not null,
          age            integer,
          sex            char   (  1),
@@ -27,7 +27,7 @@
     
     
     create table Messages (
-        messageNo       integer         not null    unique,
+        messageNo       integer         not null    unique  auto_increment,
         sentDate        timestamp       not null,
         subject         varchar(128),
         body            blob,
@@ -42,7 +42,7 @@
     
     
     create table Orders (
-        orderNo         integer         not null    unique,
+        orderNo         integer         not null    unique  auto_increment,
         messageNo       integer         not null    unique,
         isComplete      boolean         not null,
         
@@ -53,7 +53,7 @@
     
     
     create table Reports (
-        reportNo        integer         not null    unique,
+        reportNo        integer         not null    unique  auto_increment,
         messageNo       integer         not null    unique,
         isRead          boolean         not null,
         
@@ -74,7 +74,7 @@
     
     
     create table Supplies (
-        supplyNo        integer         not null    unique,
+        supplyNo        integer         not null    unique  auto_increment,
         type            varchar(128)    not null,
         count           integer         not null,
         
@@ -84,7 +84,7 @@
     
     
     create table Squads (
-        squadNo         integer         not null    unique,
+        squadNo         integer         not null    unique  auto_increment,
         squadName       varchar(128)    not null    unique,
         
         primary key (squadNo)
@@ -93,7 +93,7 @@
     
     
     create table Vehicles (
-        vehicleNo       integer         not null    unique,
+        vehicleNo       integer         not null    unique  auto_increment,
         type            varchar(128)    not null,
         personNo        integer,
         
@@ -145,7 +145,7 @@
     
     
     create table Battles (
-        battleNo        integer         not null    unique,
+        battleNo        integer         not null    unique  auto_increment,
         datetime        timestamp       not null,
         reportNo        integer,
         
@@ -162,3 +162,5 @@
         foreign key (battleNo) references Battles(battleNo),
         foreign key (squadNo)  references Squads (squadNo)
     );
+    
+    

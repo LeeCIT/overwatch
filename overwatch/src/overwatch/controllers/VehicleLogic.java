@@ -4,14 +4,8 @@
 package overwatch.controllers;
 
 import overwatch.core.Gui;
-import overwatch.db.Database;
-import overwatch.db.DatabaseConstraints;
-import overwatch.db.EnhancedResultSet;
-import overwatch.db.Personnel;
-import overwatch.gui.CheckedFieldValidator;
-import overwatch.db.Vehicles;
-import overwatch.gui.PersonnelPicker;
-import overwatch.gui.PickListener;
+import overwatch.db.*;
+import overwatch.gui.*;
 import overwatch.gui.tabs.VehicleTab;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -74,9 +68,15 @@ public class VehicleLogic extends TabController
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
 	
-	
-	
-	
+	private void doNew()
+	{
+		Integer vehicleNo = Vehicles.create();
+		
+		System.out.println( vehicleNo );
+		
+		populateTabList();
+		tab.setSelectedItem( vehicleNo );
+	}
 	
 	
 	
@@ -90,7 +90,7 @@ public class VehicleLogic extends TabController
 		Integer pilotNo     = Personnel.getNumber( pilotName );
 		
 		if ( ! Vehicles.exists(vehicleNo)) {
-			Gui.showErrorDialogue( "Failed to save", "The vehicle no longer exists." );
+			Gui.showErrorDialogue( "Failed to Apply Changes", "The vehicle has been deleted!" );
 			populateTabList(); // Reload
 			return;
 		}
@@ -104,6 +104,17 @@ public class VehicleLogic extends TabController
 		
 		populateTabList();
 		tab.setSelectedItem( vehicleNo );
+	}
+	
+	
+	
+	
+	
+	private void doDelete()
+	{
+		Integer vehicleNo = tab.getSelectedItem();
+		Vehicles.delete( vehicleNo );
+		populateTabList();
 	}
 	
 	
@@ -130,25 +141,33 @@ public class VehicleLogic extends TabController
 			tab.clearFields();
 			return;
 		}
-		else
-		{
+		else {
 			tab.setEnableFieldsAndButtons(true);
 		}
 		
 		
-		EnhancedResultSet ers = Database.query(
-			"SELECT v.vehicleNo,         " +
-			"       v.type, v.personNo,  " +
-			"       p.name AS personName " +
-		    "FROM Vehicles  v, " +
-		    "     Personnel p  " +
-		    "WHERE v.vehicleNo = " + vehicleNo + 
-		    "  AND v.personNo  = p.personNo;"
+		EnhancedResultSet vehicle = Database.query(
+			"SELECT vehicleNo, " +
+			"       type,      " +
+			"		personNo   " +
+		    "FROM Vehicles     " +
+		    "WHERE vehicleNo = " + vehicleNo + ";"
 		);
 		
-		tab.number.field.setText("" + ers.getElemAs( "vehicleNo",  Integer.class ));
-		tab.type  .field.setText(	  ers.getElemAs( "type",       String .class ));
-		tab.pilot .field.setText(	  ers.getElemAs( "personName", String .class ));		
+		Integer pilot = vehicle.getElemAs( "personNo", Integer.class );
+		
+		String pilotName = "";
+		if (pilot != null) {
+			pilotName = Database.querySingle( String.class,
+				"select name      " +
+				"from Personnel   " +
+				"where personNo = " + pilot + ";"
+			);
+		}
+		
+		tab.number.field.setText( "" + vehicle.getElemAs( "vehicleNo",  Integer.class ));
+		tab.type  .field.setText(	   vehicle.getElemAs( "type",       String .class ));
+		tab.pilot .field.setText(      pilotName );		
 	}
 	
 	
@@ -185,7 +204,7 @@ public class VehicleLogic extends TabController
 	{
 		tab.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked add new");
+				doNew();
 			}
 		});	
 		
@@ -199,7 +218,7 @@ public class VehicleLogic extends TabController
 		
 		tab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked delete");				
+				doDelete();	
 			}
 		});	
 	}
@@ -227,7 +246,8 @@ public class VehicleLogic extends TabController
 				
 		tab.addPilotValidator( new CheckedFieldValidator() {
 			public boolean check( String text ){
-				return Personnel.exists( Personnel.getNumber( text ) );
+				return text.isEmpty()
+					|| DatabaseConstraints.personExists( text );
 			}
 		});
 	}

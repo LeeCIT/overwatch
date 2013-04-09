@@ -4,7 +4,6 @@
 package overwatch.db;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,7 +19,7 @@ import overwatch.gui.NameRefPairList;
  * Provides basic global database functions.
  * 
  * @author Lee Coakley
- * @version 3
+ * @version 4
  */
 
 
@@ -87,37 +86,16 @@ public class Database
 	
 	
 	/**
-	 * Run an SQL query that yields a single set of integers.
-	 * @param sql
-	 * @return Integer[]
-	 */
-	public static Integer[] queryInts( String sql ) {
-		return query(sql).getColumnAs( 0, Integer[].class );
-	}
-	
-	
-	
-	
-	
-	/**
 	 * Run a query, get an EnhancedResultSet.
 	 * Handles cleanup and conversion automatically.
-	 * @param ps
+	 * @param sql
 	 * @return EnhancedResultSet
-	 * @throws SQLException
 	 */
-	public static EnhancedResultSet query( PreparedStatement ps )
+	public static EnhancedResultSet query( String sql )
 	{
-		EnhancedResultSet ers = null;
-		
-		try {
-	    	ResultSet rs = ps.executeQuery();
-	    		ers = new EnhancedResultSet( rs );
-	    	rs.close();
-		}
-		catch( SQLException ex) {
-			throw new RuntimeException( ex );
-		}
+		Connection conn = getConnection();
+			EnhancedResultSet ers = query( conn, sql );
+		returnConnection( conn );
     	
     	return ers;
 	}
@@ -128,28 +106,24 @@ public class Database
 	
 	/**
 	 * Run a query, get an EnhancedResultSet.
-	 * Handles cleanup and conversion automatically.
+	 * @param conn Connection to use (needed for locks)
 	 * @param sql
 	 * @return EnhancedResultSet
 	 */
-	public static EnhancedResultSet query( String sql )
+	public static EnhancedResultSet query( Connection conn, String sql )
 	{
-		Connection conn = getConnection();
+		EnhancedResultSet ers = null;
 		
-			EnhancedResultSet ers = null;
-		
-			try {
-				Statement st = conn.createStatement();
-					ResultSet rs = st.executeQuery( sql );
-		    			ers = new EnhancedResultSet( rs );
-		    		rs.close();
-				st.close();
-			}
-			catch (SQLException ex) {
-				throw new RuntimeException( ex );
-			}
-		
-		returnConnection( conn );
+		try {
+			Statement st = conn.createStatement();
+				ResultSet rs = st.executeQuery( sql );
+	    			ers = new EnhancedResultSet( rs );
+	    		rs.close();
+			st.close();
+		}
+		catch (SQLException ex) {
+			throw new DatabaseException( ex );
+		}
     	
     	return ers;
 	}
@@ -185,11 +159,54 @@ public class Database
 	
 	
 	/**
+	 * Convenience function for single-column integer queries.
+	 * @param sql
+	 * @return T
+	 */
+	public static Integer[] queryInts( String sql ) {
+		return queryArray( Integer[].class, sql );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Convenience function for single-column single-row queries.
+	 * Returns null if the set is empty.
+	 * @param sql
+	 * @param type Type of element.
+	 * @return T
+	 */
+	public static <T> T querySingle( Class<T> type, String sql ) {
+		EnhancedResultSet ers = query( sql );
+		return ( ! ers.isEmpty())  ?  ers.getElemAs(0,type)  :  null;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Convenience function for single-column multiple-row queries.
+	 * @param sql
+	 * @param type Type of array
+	 * @return T
+	 */
+	public static <T> T[] queryArray( Class<? extends T[]> type, String sql ) {
+		return query(sql).getColumnAs(0,type);
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Dump the contents of an entire table into an EnhancedResultSet.
 	 * @param tableName
 	 * @return EnhancedResultSet
 	 */
-	public EnhancedResultSet dumpTable( String tableName ) {
+	public static EnhancedResultSet dumpTable( String tableName ) {
 	    return query( "SELECT * FROM " + tableName + ";" );
 	}
 	
@@ -203,10 +220,27 @@ public class Database
 	 * @return number rows modified
 	 */
 	public static int update( String sql )
+	{	
+		Connection conn = getConnection();
+			int rowsModified = update( conn, sql ); 
+		returnConnection( conn );
+		
+		return rowsModified; 
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Run update/insert/delete SQL and get back the number of rows modified.
+	 * @param conn Connection to use (needed for locks)
+	 * @param sql
+	 * @return number rows modified
+	 */
+	public static int update( Connection conn, String sql )
 	{
 		int rowsModified = -1;
-		
-		Connection conn = getConnection();
 	
 			try {
 				Statement st = conn.createStatement();
@@ -214,12 +248,34 @@ public class Database
 				st.close();
 			}
 			catch (SQLException ex) {
-				throw new RuntimeException( ex );
+				throw new DatabaseException( ex );
 			}
 		
-		returnConnection( conn );
-		
 		return rowsModified; 
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Prevent writes from being made to a table.  They're queued until it's unlocked again.
+	 * Make damn sure to unlock() after!
+	 * @param table
+	 */
+	public static void lockWrite( Connection conn, String table ) {
+		Database.update( conn, "lock tables " + table + " write;" );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Unlock a previously locked table.
+	 */
+	public static void unlock( Connection conn ) {
+		Database.update( conn, "unlock tables;" );
 	}
 	
 }
