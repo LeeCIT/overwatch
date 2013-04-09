@@ -87,6 +87,20 @@ public class Database
 	
 	
 	/**
+	 * Run an SQL query that yields a single integer.
+	 * Must not return an empty set!
+	 * @param sql
+	 * @return Integer
+	 */
+	public static Integer queryInt( String sql ) {
+		return query(sql).getElemAs( 0, Integer.class );
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Run an SQL query that yields a single set of integers.
 	 * @param sql
 	 * @return Integer[]
