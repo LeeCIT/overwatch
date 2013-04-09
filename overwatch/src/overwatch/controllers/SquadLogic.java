@@ -10,6 +10,7 @@ import javax.swing.event.ListSelectionListener;
 import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.EnhancedResultSet;
+import overwatch.db.Squads;
 import overwatch.gui.tabs.SquadTab;
 
 
@@ -101,7 +102,6 @@ public class SquadLogic extends TabController{
 	private void setupListSelectActions(){
 		tab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				loadSubPanels();
 				populateFields(tab.getSelectedItem());
 			}
 		});
@@ -121,8 +121,8 @@ public class SquadLogic extends TabController{
 	
 	
 	
-	private void loadSubPanels(){
-		//TODO
+	private void loadSubPanels(int squadNo){
+		tab.assignTroops.setListItems(Squads.getTroops(squadNo, Integer[].class));
 	}
 	
 	
@@ -141,16 +141,19 @@ public class SquadLogic extends TabController{
 		}
 		
 		EnhancedResultSet ers = Database.query(
-				"SELECT s.squadNo, squadName, p.name AS name     " +
-			    "FROM Squads s, SquadCommanders sq, Personnel p     " +
-			    "WHERE s.squadNo =  " + squadNo + " " +
-			    "AND p.personNo = sq.personNo;"
-			);
+			"SELECT s.squadNo, squadName, p.name AS personName     " +
+		    "FROM Squads s, SquadCommanders sq, Personnel p     " +
+		    "WHERE s.squadNo =  " + squadNo + " " +
+		    "AND p.personNo = sq.personNo;"
+		);
 		
 		
 		tab.number.field.setText( "" 	+ ers.getElemAs( "squadNo", 	Integer.class ));
 		tab.name  .field.setText(      	  ers.getElemAs( "squadName",   String .class ));
-		tab.commander.field.setText( "" + ers.getElemAs( "name",    	Integer.class ));		
+		tab.commander.field.setText( "" + ers.getElemAs( "personName",  Integer.class ));	
+		
+		//Populate the subpanels
+		loadSubPanels(squadNo);
 	}
 	
 	
