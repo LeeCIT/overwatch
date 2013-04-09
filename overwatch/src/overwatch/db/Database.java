@@ -159,6 +159,19 @@ public class Database
 	
 	
 	/**
+	 * Convenience function for single-column integer queries.
+	 * @param sql
+	 * @return T
+	 */
+	public static Integer[] queryInts( String sql ) {
+		return queryArray( Integer[].class, sql );
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Convenience function for single-column single-row queries.
 	 * Returns null if the set is empty.
 	 * @param sql
