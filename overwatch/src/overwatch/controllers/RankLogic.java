@@ -11,6 +11,7 @@ import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Ranks;
+import overwatch.db.Supplies;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.tabs.RankTab;
 import overwatch.util.Validator;
@@ -23,7 +24,7 @@ import overwatch.util.Validator;
  * RankTab logic
  * 
  * @author john
- * @Version 4
+ * @Version 5
  */
 
 
@@ -91,6 +92,35 @@ public class RankLogic extends TabController
 		
 		populateTabList();
 		rankTab.setSelectedItem(rankNo);
+	}
+	
+	
+	
+	
+	private void createNew()
+	{
+		Integer rankNo			= Ranks.getNewRankId();
+		String 	rankName		= Integer.toString(rankNo);
+		Integer privilegeNum	= 0;
+		
+		Database.update("INSERT INTO Ranks VALUES(" +
+				rankNo + ", '" + rankName + "', " + privilegeNum + ");");
+		
+		populateTabList();
+		rankTab.setSelectedItem(rankNo);
+		rankTab.name.field.setText(rankName);
+		rankTab.privileges.field.setText("" + privilegeNum);
+	}
+	
+	
+	
+	
+	private void delete()
+	{
+		Integer rankNum = rankTab.getSelectedItem();
+		Database.update("DELETE FROM Ranks WHERE rankNo = " + rankNum + ";");
+		
+		populateTabList();
 	}
 	
 	
@@ -194,13 +224,13 @@ public class RankLogic extends TabController
 		
 		rankTab.addNewListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked add new");				
+				createNew();				
 			}
 		});	
 	
 		rankTab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked delete");
+				delete();
 			}
 		});		
 	
