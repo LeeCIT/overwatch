@@ -11,7 +11,8 @@ package overwatch.db;
  * Database <-> Supply interactions
  * 
  * @author  Lee Coakley
- * @version 1
+ * @author  John Murphy
+ * @version 2
  */
 
 
@@ -35,5 +36,23 @@ public class Supplies
 		);
 		
 		return (number.length != 0);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Checks the database for the amount of supplies there are already and returns a new supply number
+	 * @return
+	 */
+	public static int newSupplyId()
+	{
+		EnhancedResultSet ers = Database.query(
+			"SELECT supplyNo " +
+			"FROM Supplies;");
+		
+		return ers.getRowCount() + 1;
+		
 	}
 }
