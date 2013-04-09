@@ -116,7 +116,7 @@ public class Database
 	    	rs.close();
 		}
 		catch( SQLException ex) {
-			throw new RuntimeException( ex );
+			throw new DatabaseException( ex );
 		}
     	
     	return ers;
@@ -146,7 +146,7 @@ public class Database
 				st.close();
 			}
 			catch (SQLException ex) {
-				throw new RuntimeException( ex );
+				throw new DatabaseException( ex );
 			}
 		
 		returnConnection( conn );
@@ -214,7 +214,7 @@ public class Database
 				st.close();
 			}
 			catch (SQLException ex) {
-				throw new RuntimeException( ex );
+				throw new DatabaseException( ex );
 			}
 		
 		returnConnection( conn );
