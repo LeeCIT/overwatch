@@ -46,4 +46,20 @@ public class Util
 		return lowest + (int) (Math.random() * ++delta);
 	}
 	
+	
+	
+	
+	
+	public static String concatWithCommas( String[] array ) {
+		StringBuilder bld  = new StringBuilder();
+		int           last = array.length - 1;
+		
+		for (int i=0; i<=last; i++) {
+			bld.append(
+				array[i] + ((i!=last) ? "," : "")
+			);
+		}
+		
+		return bld.toString();
+	}
 }
