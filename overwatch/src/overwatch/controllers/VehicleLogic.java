@@ -137,8 +137,11 @@ public class VehicleLogic extends TabController
 		
 		
 		EnhancedResultSet ers = Database.query(
-			"SELECT v.vehicleNo, v.type, v.personNo, p.name AS personName " +
-		    "FROM Vehicles v, Personnel p " +
+			"SELECT v.vehicleNo,         " +
+			"       v.type, v.personNo,  " +
+			"       p.name AS personName " +
+		    "FROM Vehicles  v, " +
+		    "     Personnel p  " +
 		    "WHERE v.vehicleNo = " + vehicleNo + 
 		    "  AND v.personNo  = p.personNo;"
 		);
