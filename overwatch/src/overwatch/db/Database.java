@@ -236,6 +236,30 @@ public class Database
 		return rowsModified; 
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Prevent writes from being made to a table.  They're queued until it's unlocked again.
+	 * Make damn sure to unlock() after!
+	 * @param table
+	 */
+	public static void lockWrite( String table ) {
+		Database.update( "lock tables " + table + " write;" );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Unlock a previously locked table.
+	 */
+	public static void unlock() {
+		Database.update( "unlock tables;" );
+	}
+	
 }
 
 
