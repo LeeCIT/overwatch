@@ -149,19 +149,28 @@ public class VehicleLogic extends TabController
 		}
 		
 		
-		EnhancedResultSet ers = Database.query(
-			"SELECT v.vehicleNo,         " +
-			"       v.type, v.personNo,  " +
-			"       p.name AS personName " +
-		    "FROM Vehicles  v, " +
-		    "     Personnel p  " +
-		    "WHERE v.vehicleNo = " + vehicleNo + 
-		    "  AND v.personNo  = p.personNo;"
+		EnhancedResultSet vehicle = Database.query(
+			"SELECT vehicleNo, " +
+			"       type,      " +
+			"		personNo   " +
+		    "FROM Vehicles     " +
+		    "WHERE vehicleNo = " + vehicleNo + ";"
 		);
 		
-		tab.number.field.setText("" + ers.getElemAs( "vehicleNo",  Integer.class ));
-		tab.type  .field.setText(	  ers.getElemAs( "type",       String .class ));
-		tab.pilot .field.setText(	  ers.getElemAs( "personName", String .class ));		
+		Integer pilot = vehicle.getElemAs( "personNo", Integer.class );
+		
+		String pilotName = "";
+		if (pilot != null) {
+			pilotName = Database.queryString(
+				"select name      " +
+				"from Personnel   " +
+				"where personNo = " + pilot + ";"
+			);
+		}
+		
+		tab.number.field.setText( "" + vehicle.getElemAs( "vehicleNo",  Integer.class ));
+		tab.type  .field.setText(	   vehicle.getElemAs( "type",       String .class ));
+		tab.pilot .field.setText(      pilotName );		
 	}
 	
 	
@@ -240,7 +249,8 @@ public class VehicleLogic extends TabController
 				
 		tab.addPilotValidator( new CheckedFieldValidator() {
 			public boolean check( String text ){
-				return Personnel.exists( Personnel.getNumber( text ) );
+				return text.isEmpty()
+					|| DatabaseConstraints.personExists( text );
 			}
 		});
 	}
