@@ -4,7 +4,6 @@
 package overwatch.db;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,7 +19,7 @@ import overwatch.gui.NameRefPairList;
  * Provides basic global database functions.
  * 
  * @author Lee Coakley
- * @version 3
+ * @version 4
  */
 
 
@@ -134,8 +133,7 @@ public class Database
 	
 	/**
 	 * Run a query, get an EnhancedResultSet.
-	 * Handles cleanup and conversion automatically.
-	 * @param Connection
+	 * @param conn Connection to use (needed for locks)
 	 * @param sql
 	 * @return EnhancedResultSet
 	 */
@@ -249,7 +247,7 @@ public class Database
 	 * Make damn sure to unlock() after!
 	 * @param table
 	 */
-	public void lockWrite( Connection conn, String table ) {
+	public static void lockWrite( Connection conn, String table ) {
 		Database.update( conn, "lock tables " + table + " write;" );
 	}
 	
@@ -260,7 +258,7 @@ public class Database
 	/**
 	 * Unlock a previously locked table.
 	 */
-	private void unlock( Connection conn ) {
+	public static void unlock( Connection conn ) {
 		Database.update( conn, "unlock tables;" );
 	}
 	
