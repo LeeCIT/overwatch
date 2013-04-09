@@ -82,6 +82,24 @@ public class Vehicles
 	
 	
 	
+	// TODO rename/replace create() with this
+	public static Integer createAutoInc()
+	{	
+		Database.update(
+			"insert into Vehicles " +
+			"values( default, 'new vehicle', null );"
+		);
+		
+		return Database.querySingle( Integer.class,
+			"select max(vehicleNo)+1 " +
+			"from Vehicles;"
+		);
+	}
+	
+	
+	
+	
+	
 	public static void delete( Integer vehicleNo )
 	{
 		// TODO: check if vehicle is in use in a squad, and throw an exception or show a warning message if so
