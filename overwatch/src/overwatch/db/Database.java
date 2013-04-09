@@ -5,7 +5,6 @@ package overwatch.db;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import overwatch.gui.NameRefPair;
@@ -121,7 +120,7 @@ public class Database
 	    		rs.close();
 			st.close();
 		}
-		catch (SQLException ex) {
+		catch (Exception ex) {
 			throw new DatabaseException( ex );
 		}
     	
@@ -247,7 +246,7 @@ public class Database
 				rowsModified = st.executeUpdate( sql );
 				st.close();
 			}
-			catch (SQLException ex) {
+			catch (Exception ex) {
 				throw new DatabaseException( ex );
 			}
 		
