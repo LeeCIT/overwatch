@@ -9,7 +9,8 @@ import overwatch.gui.NameRefPairList;
 
 /**
  * 
- * @author john
+ * @author John Murphy
+ * @author Lee Coakley
  * @version 1
  */
 
@@ -22,8 +23,9 @@ public class Squads
 	{
 		EnhancedResultSet ers = Database.query(
 			"SELECT  p.personNo AS personNum, p.name AS personName " +
-			"FROM Personnel p, Squads s, SquadTroops st " +
-			"WHERE s.squadNo = st.squadNo " +
+			"FROM Personnel p, Squads s, SquadTroops st " 			 +
+			"WHERE s.squadNo = " + squadNo + " "					 +
+			"AND s.squadNo = st.squadNo "							 +
 			"AND st.personNo = p.personNo;"
 		);
 			
@@ -32,5 +34,30 @@ public class Squads
 		
 		return new NameRefPairList<T>( keys, names );
 	}
+	
+	
+	
+	
+	public static <T> NameRefPairList<T> getVehicles(int squadNo, Class<? extends T[]> keyType)
+	{
+		EnhancedResultSet ers = Database.query(
+				"SELECT v.type AS vehicleType, v.vehicleNo AS vehicleNum " 	+
+				"FROM Squads s, SquadVehicles sv, Vehicles v " 	+
+				"WHERE s.squadNo = " + squadNo + " " +
+				"AND s.squadNo = sv.squadNo "	+
+				"AND sv.vehicleNo = v.vehicleNo;"				
+		);
+		
+		
+		T[]      keys  = ers.getColumnAs( "vehicleNum",   keyType        );
+		String[] names = ers.getColumnAs( "vehicleType", String[].class );
+		
+		return new NameRefPairList<T>( keys, names );		
+	}
+	
+	
+	
+	
+	
 
 }
