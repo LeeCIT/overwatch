@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
 import overwatch.core.Gui;
+import overwatch.db.Database;
 import overwatch.gui.tabs.SquadTab;
 
 
@@ -36,7 +37,7 @@ public class SquadLogic extends TabController{
 	
 	
 	public void respondToTabSelect(){
-		
+		populateSquadsList();
 	}
 	
 	
@@ -95,6 +96,14 @@ public class SquadLogic extends TabController{
 	
 	private void setupTabChangeActions() {
 		Gui.getCurrentInstance().addTabSelectNotify(this);
+	}
+	
+	
+	
+	private void populateSquadsList(){
+		tab.setSearchableItems(
+		Database.queryKeyNamePairs("Squads", "squadNo", "squadName", Integer[].class)
+		);
 	}
 	
 	
