@@ -123,6 +123,17 @@ public class SupplyLogic extends TabController
 	
 	
 	
+	private void delete()
+	{
+		Integer supplyNo = supplyTab.getSelectedItem();
+		
+		Database.update("DELETE FROM Supplies WHERE supplyNo = " + supplyNo + ";");
+		
+		populateTabList();
+	}
+	
+	
+	
 	
 	private void populateTabList()
 	{
@@ -133,7 +144,7 @@ public class SupplyLogic extends TabController
 		);
 	}
 	
-	
+		
 	
 	
 	private void populateFields(Integer supplyNo)
@@ -193,8 +204,7 @@ public class SupplyLogic extends TabController
 	
 		supplyTab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked delete");
-				
+				delete();				
 			}
 		});
 	
