@@ -78,14 +78,14 @@ public class DatabaseConstraints
 	 */
 	public static boolean rankExists( String rankName )
 	{
-		Integer ranks = Database.querySingle( Integer.class,
+		Integer[] ranks = Database.queryInts(
 			"select rankNo " +
 			"from Ranks " +
 			"where name = '" + rankName + "' " +
 			"limit 1;"
 		);
 		
-		return ranks != null;
+		return (ranks.length != 0);
 	}
 	
 	
@@ -99,14 +99,14 @@ public class DatabaseConstraints
 	 */
 	public static boolean personExists( String name )
 	{
-		Integer p = Database.querySingle( Integer.class,
+		Integer[] personnelName = Database.queryInts(
 			"SELECT personNo " +
 			"from Personnel  " +
 			"where name = '" + name + "' " +
 			"limit 1;"
 		);
 	
-		return (p != null);
+		return (personnelName.length != 0);
 	}
 	
 
