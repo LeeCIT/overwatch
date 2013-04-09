@@ -8,6 +8,7 @@ import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Supplies;
+import overwatch.db.Vehicles;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.tabs.SupplyTab;
 import overwatch.util.Validator;
@@ -107,17 +108,10 @@ public class SupplyLogic extends TabController
 	
 	private void createNew()
 	{
-		Integer supplyNo	= Supplies.newSupplyId();
-		String 	supplyType	= Integer.toString(supplyNo);
-		Integer supplyCount 	= 0;
-		
-		Database.update("INSERT INTO Supplies VALUES(" +
-			supplyNo + ", '" + supplyType + "', " + supplyCount + ");");
+		Integer supplyNo = Supplies.create();
 		
 		populateTabList();
-		supplyTab.setSelectedItem(supplyNo);
-		supplyTab.type.field.setText(supplyType);
-		supplyTab.amount.field.setText("" + supplyCount);
+		supplyTab.setSelectedItem( supplyNo );
 	}
 	
 	
