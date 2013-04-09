@@ -74,9 +74,13 @@ public class VehicleLogic extends TabController
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
 	
-	
-	
-	
+	private void doNew()
+	{
+		Integer vehicleNo = Vehicles.create();
+		
+		populateTabList();
+		tab.setSelectedItem( vehicleNo );
+	}
 	
 	
 	
@@ -110,6 +114,16 @@ public class VehicleLogic extends TabController
 	
 	
 	
+	private void doDelete()
+	{
+		Integer vehicleNo = tab.getSelectedItem();
+		Vehicles.delete( vehicleNo );
+		populateTabList();
+	}
+	
+	
+	
+	
 	private void populateTabList()
 	{
 		populateFields( null );
@@ -130,8 +144,7 @@ public class VehicleLogic extends TabController
 			tab.clearFields();
 			return;
 		}
-		else
-		{
+		else {
 			tab.setEnableFieldsAndButtons(true);
 		}
 		
@@ -185,7 +198,7 @@ public class VehicleLogic extends TabController
 	{
 		tab.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked add new");
+				doNew();
 			}
 		});	
 		
@@ -199,7 +212,7 @@ public class VehicleLogic extends TabController
 		
 		tab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked delete");				
+				doDelete();	
 			}
 		});	
 	}
