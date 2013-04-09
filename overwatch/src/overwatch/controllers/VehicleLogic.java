@@ -161,7 +161,7 @@ public class VehicleLogic extends TabController
 		
 		String pilotName = "";
 		if (pilot != null) {
-			pilotName = Database.queryString(
+			pilotName = Database.querySingle( String.class,
 				"select name      " +
 				"from Personnel   " +
 				"where personNo = " + pilot + ";"
