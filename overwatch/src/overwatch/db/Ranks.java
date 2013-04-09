@@ -86,6 +86,22 @@ public class Ranks
 	
 	
 	
+	/**
+	 * Creates a new Rank
+	 * @return The Max id
+	 */
+	public static Integer create()
+	{
+		Database.update(
+				"insert into Ranks " +
+				"values( default, 'new Rank', 0 );"
+				);
+		
+		EnhancedResultSet ers = Database.query("select max(rankNo)" +
+			"from Ranks;");
+		
+		return (Integer) ers.getElem(0);
+	}
 }
 
 
