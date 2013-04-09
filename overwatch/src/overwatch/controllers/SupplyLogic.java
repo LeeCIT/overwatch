@@ -105,6 +105,24 @@ public class SupplyLogic extends TabController
 	
 	
 	
+	private void createNew()
+	{
+		Integer supplyNo	= Supplies.newSupplyId();
+		String 	supplyType	= Integer.toString(supplyNo);
+		Integer supplyCount 	= 0;
+		
+		Database.update("INSERT INTO Supplies VALUES(" +
+			supplyNo + ", '" + supplyType + "', " + supplyCount + ");");
+		
+		populateTabList();
+		supplyTab.setSelectedItem(supplyNo);
+		supplyTab.type.field.setText(supplyType);
+		supplyTab.amount.field.setText("" + supplyCount);
+	}
+	
+	
+	
+	
 	
 	private void populateTabList()
 	{
@@ -169,7 +187,7 @@ public class SupplyLogic extends TabController
 	{
 		supplyTab.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Clicked add new");
+				createNew();
 			}
 		});
 	
