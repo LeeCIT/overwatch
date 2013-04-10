@@ -10,7 +10,7 @@ import overwatch.security.LoginManager;
 
 
 //TODO Make labels the same width
-//TODO Check rank name before attempting to save. 
+
 
 
 
