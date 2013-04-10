@@ -115,7 +115,7 @@ public class Personnel
 	 * @param pass
 	 * @return Whether the change was successful
 	 */
-	public static boolean setUserPass( int personNo, String pass )
+	public static boolean setPass( int personNo, String pass )
 	{
 		HashSaltPair pair = LoginCrypto.generateHashSaltPair( pass );
 		
