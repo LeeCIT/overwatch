@@ -27,12 +27,9 @@ import overwatch.db.Personnel;
 
 public class LoginManager
 {
-	private static final int NONE = -1;
-	
-	private static int currentUser;
-	private static int currentLevel;
-	
-	private static BackgroundMonitor monitor;
+	private static final int               NONE = -1;
+	private static       int               currentUser;
+	private static       BackgroundMonitor monitor;
 	
 	
 	
@@ -64,12 +61,12 @@ public class LoginManager
 	
 	
 	/**
-	 * 
-	 * @return integer sucurity level
+	 * Get security level for the current user from the database.
+	 * @return integer security level
 	 */
 	public static int getSecurityLevel() {
 		checkUser();		
-		return currentLevel;
+		return Personnel.getPrivilegeLevel( getUser() );
 	}
 	
 	
@@ -94,7 +91,6 @@ public class LoginManager
 			if (hsp != null)
 			if (LoginCrypto.isPassValid( pass, hsp )) {
 				currentUser  = personNo;
-				currentLevel = Personnel.getPrivilegeLevel( personNo );
 				setupMonitor();
 				return true;
 			}
@@ -137,17 +133,6 @@ public class LoginManager
 				if ( ! Personnel.exists( LoginManager.getUser() )) {
 					Gui.showErrorDialogue( "Account Deleted", "Your account has been deleted!" );
 					System.exit( 0 );
-				}
-			}
-		});
-		
-		
-		// Dynamic security level update
-		monitor.addBackgroundCheck( new BackgroundCheck() {
-			public void onCheck()
-			{
-				if (hasUser()) {
-					LoginManager.currentLevel = Personnel.getPrivilegeLevel( getUser() );
 				}
 			}
 		});
