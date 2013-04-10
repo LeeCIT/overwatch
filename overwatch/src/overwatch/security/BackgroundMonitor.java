@@ -135,11 +135,11 @@ public class BackgroundMonitor
 				if (LoginManager.hasCurrentUser()) {
 					int user = 1;//LoginManager.getCurrentUser();
 					
-					System.out.println( "Get conn @ " + new Date().getTime() );
-					java.sql.Connection conn = Database.getConnection();
-					System.out.println( conn );
 					
-					System.out.println( "Checking that " + user + " still exists..." );
+					java.sql.Connection conn = Database.getConnection();
+					System.out.println( "" + new Date().getTime() + ": conn get " + conn );
+					
+					//System.out.println( "Checking that " + user + " still exists..." );
 					
 //					if (Database.queryInts( "select personNo from Personnel where personNo = " + user + ";").length == 0)
 //					{
@@ -150,7 +150,12 @@ public class BackgroundMonitor
 //						System.exit(0);
 //					}
 					
-					System.out.println( "Return conn @ " + new Date().getTime() );
+					try { Thread.sleep( (int) (Math.random()*3000.0) ); }
+					catch ( InterruptedException e ) {
+						e.printStackTrace();
+					}
+					
+					System.out.println( "" + new Date().getTime() + ": conn ret " + conn );
 					Database.returnConnection( conn );
 				}
 			}
@@ -158,7 +163,7 @@ public class BackgroundMonitor
 		
 		
 		
-		for (int i=0; i<16; i++) {
+		for (int i=0; i<32; i++) {
 			BackgroundMonitor bgm = new BackgroundMonitor();
 			bgm.addBackgroundCheck( userLoggedin );
 			
