@@ -4,21 +4,11 @@
 package overwatch.controllers;
 
 import java.awt.event.*;
-
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.*;
 import overwatch.core.Gui;
-import overwatch.db.Database;
-import overwatch.db.DatabaseConstraints;
-import overwatch.db.DatabaseException;
-import overwatch.db.EnhancedResultSet;
-import overwatch.db.Ranks;
-import overwatch.db.Supplies;
-import overwatch.db.Vehicles;
+import overwatch.db.*;
 import overwatch.gui.CheckedFieldValidator;
-import overwatch.gui.MessageDialog;
 import overwatch.gui.tabs.RankTab;
 import overwatch.util.Validator;
 
@@ -103,9 +93,9 @@ public class RankLogic extends TabController
 		}
 		catch(DatabaseException exception)
 		{
-			Integer rankNo    		= rankTab.getSelectedItem();
-			
-			new MessageDialog("Rank already exits, please rename the rank", "Already exists");
+			Integer rankNo = rankTab.getSelectedItem();
+
+			Gui.showErrorDialogue("Already exists", "Rank already exists, please rename the rank");
 			populateTabList();
 			rankTab.setSelectedItem(rankNo);
 		}
