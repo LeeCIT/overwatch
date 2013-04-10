@@ -99,21 +99,28 @@ public class Main
 	
 	private static void createLoginFrame()
 	{
-		final LoginFrame frame = new LoginFrame();
-		frame.pack();
-		frame.setVisible( true );		
-		
-		frame.addLoginListener( new LoginListener() {
-			public void onLoginAttempt( String user, String pass )
+		Thread thread = new Thread( new Runnable() {
+			public void run()
 			{
-				if (LoginManager.doLogin( user, pass )) {
-					createMainGui();
-					frame.dispose();
-				} else {
-					Gui.showErrorDialogue( "Invalid Login", "Incorrect login details." );
-				}
+				final LoginFrame frame = new LoginFrame();
+				frame.pack();
+				frame.setVisible( true );		
+				
+				frame.addLoginListener( new LoginListener() {
+					public void onLoginAttempt( String user, String pass )
+					{
+						if (LoginManager.doLogin( user, pass )) {
+							createMainGui();
+							frame.dispose();
+						} else {
+							Gui.showErrorDialogue( "Invalid Login", "Incorrect login details." );
+						}
+					}
+				});
 			}
 		});
+		
+		thread.start();
 	}
 	
 	
@@ -122,15 +129,22 @@ public class Main
 	
 	private static void createMainGui()
 	{
-		final Gui gui = new Gui();
-		Controller.attachLogicControllers( gui );
-		gui.pack();
-		
-		gui.addWindowListener( new WindowAdapter() {
-			public void windowClosing( WindowEvent e ) {
-				shutdown();
+		Thread thread = new Thread( new Runnable() {
+			public void run()
+			{
+				final Gui gui = new Gui();
+				Controller.attachLogicControllers( gui );
+				gui.pack();
+				
+				gui.addWindowListener( new WindowAdapter() {
+					public void windowClosing( WindowEvent e ) {
+						shutdown();
+					}
+				});
 			}
 		});
+		
+		thread.start();
 	}
 }
 
