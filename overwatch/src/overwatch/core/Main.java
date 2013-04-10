@@ -85,6 +85,7 @@ public class Main
 			}
 		});
 		
+		shutdownSignalReceiver.setName( "shutdownSignalReceiver" );
 		shutdownSignalReceiver.start();
 	}
 	
