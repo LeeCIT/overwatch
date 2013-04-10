@@ -16,7 +16,7 @@ import overwatch.gui.LabelFieldPair;
  * Implements the squad management tab.
  *  
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -35,7 +35,7 @@ public class SquadTab extends GenericPanelButtoned<Integer>
 	
 	
 	
-		
+	
 	
 	public SquadTab()
 	{
@@ -49,9 +49,9 @@ public class SquadTab extends GenericPanelButtoned<Integer>
 		assignVehicles = new AssignPanel<Integer>( "Vehicles" );
 		assignSupplies = new AssignPanel<Integer>( "Supplies" );
 		
-		add( assignTroops,  "newline, span 2, split 3, height 75%" );
-		add( assignVehicles );
-		add( assignSupplies );
+		addToMain( assignTroops,   "newline, spanx 2, split 3, height 85%" );
+		addToMain( assignVehicles, "height 85%");
+		addToMain( assignSupplies, "height 85%" );
 	}
 	
 	
