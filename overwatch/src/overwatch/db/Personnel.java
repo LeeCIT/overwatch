@@ -46,6 +46,57 @@ public class Personnel
 	
 	
 	/**
+	 * Create a new Personnel entry in the DB.
+	 * For the sake of convenience, 1234 is the default password.
+	 * @return personNo
+	 */
+	public static Integer create()
+	{
+		HashSaltPair hsp = LoginCrypto.generateHashSaltPair( "1234" );
+		
+		Common.createWithUnique(
+			"Personnel",
+			"DEFAULT",
+			"'new person'",
+			"0",
+			"'?'",
+			"" + Ranks.getNumber( "Mook" ),
+			"0",
+			"'new person <?>'",
+			"'" + hsp.hash + "'",
+			"'" + hsp.salt + "'"
+		);
+		
+		return Database.querySingle( Integer.class,
+			"select max(personNo)" +
+			"from Personnel;"
+		);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Delete a person.
+	 * Note that this is UNLIKELY to succeed given how many dependencies on Personnel there are in the database.
+	 * @param personNo
+	 */
+	public static void delete( Integer personNo )
+	{
+		// TODO: There are TONS of things Personnel are referenced in which would prevent deletion.  And they must all be checked here!
+		
+		Database.update( 
+			"delete from Personnel " +
+			"where Personnel =    " + personNo + ";"
+		);
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Find the personNo related to a loginName, if any.
 	 * @param loginName
 	 * @return personNo if a valid login, -1 otherwise.
