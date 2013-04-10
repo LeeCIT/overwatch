@@ -204,6 +204,7 @@ public class Database
 	 * Count occurences of a value in a table column.
 	 * @param table
 	 * @param column
+	 * @param value SQL formatted value
 	 * @return occurences
 	 */
 	public static int queryCount( String table, String column, String value )
@@ -213,6 +214,21 @@ public class Database
 			"from           " + table  + " " +
 			"where column = " + value  + ";"
 		);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Check that a value is unique within the table column, and that it exists.
+	 * @param table
+	 * @param column
+	 * @param value SQL formatted value
+	 * @return boolean
+	 */
+	public static boolean queryUnique( String table, String column, String value ) {
+		return (1 == queryCount(table,column,value));
 	}
 	
 	
