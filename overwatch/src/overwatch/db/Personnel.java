@@ -88,7 +88,7 @@ public class Personnel
 		
 		Database.update( 
 			"delete from Personnel " +
-			"where Personnel =    " + personNo + ";"
+			"where PersonNo = " + personNo + ";"
 		);
 	}
 	
