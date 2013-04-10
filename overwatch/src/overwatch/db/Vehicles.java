@@ -3,8 +3,6 @@
 
 package overwatch.db;
 
-import java.sql.Connection;
-
 
 
 
@@ -37,46 +35,6 @@ public class Vehicles
 		);
 		
 		return ! ers.isEmpty();
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Create a new vehicle.
-	 * @return Integer vehicleNo
-	 * TODO: this code may still be useful, generalise it and put it somewhere else
-	 */
-	public static Integer createOLD()
-	{	
-		Connection conn = Database.getConnection();
-		
-		try {
-			Database.lockWrite( conn, "Vehicles" );
-			
-			 EnhancedResultSet ers = Database.query( conn,
-				"select max(vehicleNo)+1 " +
-				"from Vehicles;"
-			);
-			 
-			Long    vehicleNoKey = ers.getElemAs( 0, Long.class );
-			Integer vehicleNo    = (int) (long) vehicleNoKey;
-			
-			Database.update( conn,
-				"insert into Vehicles values (" +
-				    vehicleNo + ", " +
-					"'new vehicle #" + vehicleNo + "'," +
-					"null" +
-				");"
-			);
-			
-			return vehicleNo;
-		}
-		finally {
-			try     { Database.unlock( conn );           }
-			finally { Database.returnConnection( conn ); }
-		}
 	}
 	
 	
