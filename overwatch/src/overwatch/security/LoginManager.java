@@ -165,7 +165,7 @@ public class LoginManager
 	{	
 			
 		int personNo = Personnel.mapLoginToPerson( "testGuy" );
-		Personnel.setUserPass( personNo, "1234" );
+		Personnel.setPass( personNo, "1234" );
 		
 		
 		
