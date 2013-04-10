@@ -64,7 +64,7 @@ public class GenericPanel<T> extends JPanel
 		
 		mainPanel.add( mainLabel, "cell 1 0, wrap" );
 		
-		add( searchPanel, "wmin 96px, wmax 224px, spany 2, height 100%" );
+		add( searchPanel, "wmin 192px, wmax 224px, spany 2, height 100%" );
 		add( mainPanel,   "alignx left, wrap"     );
 		add( subPanel,    "alignx right, skip 1"  );
 		
@@ -84,6 +84,21 @@ public class GenericPanel<T> extends JPanel
 	 */
 	public <C extends Component> C addToMain( C comp, String layoutParams ) {
 		mainPanel.add( comp, layoutParams );
+		return comp;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Add a component to the right main panel. 
+	 * @param comp
+	 * @param layoutParams MigLayout parameters
+	 * @return comp
+	 */
+	public <C extends Component> C addToMain( C comp ) {
+		mainPanel.add( comp );
 		return comp;
 	}
 	
