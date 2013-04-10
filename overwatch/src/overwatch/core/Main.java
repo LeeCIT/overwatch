@@ -15,7 +15,6 @@ import overwatch.security.LoginManager;
 
 
 
-
 /**
  * The alpha and omega of the program.
  * Creates the core classes, delegates control, and waits to shutdown.  
@@ -67,6 +66,7 @@ public class Main
 	
 	
 	
+	
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
@@ -93,7 +93,6 @@ public class Main
 	
 	private static void shutdownInternal()
 	{
-		System.out.println( "shutting down" );
 		try {
 			BackgroundMonitor.stopAll();
 			Database.disconnect();
