@@ -103,7 +103,7 @@ public class RankLogic extends TabController
 		}
 		catch(DatabaseException exception)
 		{
-			Integer rankNo    = rankTab.getSelectedItem();
+			Integer rankNo    		= rankTab.getSelectedItem();
 			
 			new MessageDialog("Rank already exits, please rename the rank", "Already exists");
 			populateTabList();
