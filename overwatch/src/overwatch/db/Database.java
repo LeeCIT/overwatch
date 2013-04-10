@@ -201,6 +201,25 @@ public class Database
 	
 	
 	/**
+	 * Count occurences of a value in a table column.
+	 * @param table
+	 * @param column
+	 * @return occurences
+	 */
+	public static int queryCount( String table, String column, String value )
+	{
+		return Database.querySingle( Integer.class,
+			"select count(  " + column + ")" +
+			"from           " + table  + " " +
+			"where column = " + value  + ";"
+		);
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Dump the contents of an entire table into an EnhancedResultSet.
 	 * @param tableName
 	 * @return EnhancedResultSet
@@ -251,30 +270,6 @@ public class Database
 			}
 		
 		return rowsModified; 
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Prevent writes from being made to a table.  They're queued until it's unlocked again.
-	 * Make damn sure to unlock() after!
-	 * @param table
-	 */
-	public static void lockWrite( Connection conn, String table ) {
-		Database.update( conn, "lock tables " + table + " write;" );
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Unlock a previously locked table.
-	 */
-	public static void unlock( Connection conn ) {
-		Database.update( conn, "unlock tables;" );
 	}
 	
 }
