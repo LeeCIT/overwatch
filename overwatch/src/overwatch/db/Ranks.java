@@ -85,22 +85,18 @@ public class Ranks
 	}
 	
 	
-	
 	/**
 	 * Creates a new Rank
-	 * @return The Max id
+	 * @return 
 	 */
 	public static Integer create()
-	{
-		Database.update(
-				"insert into Ranks " +
-				"values( default, 'new Rank', 0 );"
-				);
+	{	
+		Common.createWithUnique( "Ranks", "DEFAULT", "'new Rank <?>'", "0" );
 		
-		EnhancedResultSet ers = Database.query("select max(rankNo)" +
-			"from Ranks;");
-		
-		return (Integer) ers.getElem(0);
+		return Database.querySingle( Integer.class,
+			"SELECT max(rankNo)" +
+			"FROM Ranks;"
+		);		
 	}
 }
 

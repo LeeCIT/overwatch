@@ -47,17 +47,12 @@ public class Supplies
 	 * @return The max ID
 	 */
 	public static int create()
-	{
-		Database.update(
-				"insert into Supplies " +
-				"values( default, 'new Supply', 0 );"
-				);
+	{		
+		Common.createWithUnique( "Supplies", "DEFAULT", "'new Supply <?>'", "0" );
 		
-		EnhancedResultSet ers = Database.query("select max(supplyNo)" +
-			"from Supplies;");
-		
-		return (Integer) ers.getElem(0);
-		
-		
+		return Database.querySingle( Integer.class,
+			"SELECT max(supplyNo)" +
+			"FROM Supplies;"
+			);	
 	}
 }

@@ -1,6 +1,4 @@
 
-
-
 package overwatch.core;
 
 import java.awt.event.WindowAdapter;
@@ -10,6 +8,8 @@ import overwatch.gui.LoginFrame;
 import overwatch.gui.LoginListener;
 import overwatch.security.LoginManager;
 
+
+//TODO Make labels the same width
 
 
 

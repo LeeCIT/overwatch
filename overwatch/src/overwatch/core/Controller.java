@@ -22,6 +22,7 @@ public class Controller
 		new RankLogic     ( gui.rankTab      );
 		new VehicleLogic  ( gui.vehicleTab   );
 		new SupplyLogic   ( gui.supplyTab    );
+		new SquadLogic	  ( gui.squadTab	 );
 		// TODO: insert other controllers here
 	}
 	

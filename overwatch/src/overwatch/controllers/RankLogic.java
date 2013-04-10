@@ -4,16 +4,21 @@
 package overwatch.controllers;
 
 import java.awt.event.*;
+
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.*;
 import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
+import overwatch.db.DatabaseException;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Ranks;
 import overwatch.db.Supplies;
 import overwatch.db.Vehicles;
 import overwatch.gui.CheckedFieldValidator;
+import overwatch.gui.MessageDialog;
 import overwatch.gui.tabs.RankTab;
 import overwatch.util.Validator;
 
@@ -74,25 +79,36 @@ public class RankLogic extends TabController
 	
 	private void doSave()
 	{
-		Integer rankNo    = rankTab.getSelectedItem();
-		String  rankName  = rankTab.name.      field.getText();
-		Integer rankLevel = rankTab.securityLevel.field.getTextAsInt();
-		
-		if ( ! Ranks.exists(rankNo)) {
-			Gui.showErrorDialogue( "Failed to save", "The rank no longer exists." );
-			populateTabList(); // Reload
-			return;
+		try
+		{
+			Integer rankNo    = rankTab.getSelectedItem();
+			String  rankName  = rankTab.name.      field.getText();
+			Integer rankLevel = rankTab.securityLevel.field.getTextAsInt();
+			
+			if ( ! Ranks.exists(rankNo)) {
+				Gui.showErrorDialogue( "Failed to save", "The rank no longer exists." );
+				populateTabList(); // Reload
+				return;
+			}
+			
+			Database.update(
+				"UPDATE Ranks "          +
+				"SET name           = '" + rankName  + "'," +
+				"    privilegeLevel = "  + rankLevel + " "  +
+				"WHERE rankNo = " + rankNo + " ;"
+			);
+			
+			populateTabList();
+			rankTab.setSelectedItem(rankNo);
 		}
-		
-		Database.update(
-			"UPDATE Ranks "          +
-			"SET name           = '" + rankName  + "'," +
-			"    privilegeLevel = "  + rankLevel + " "  +
-			"WHERE rankNo = " + rankNo + " ;"
-		);
-		
-		populateTabList();
-		rankTab.setSelectedItem(rankNo);
+		catch(DatabaseException exception)
+		{
+			Integer rankNo    		= rankTab.getSelectedItem();
+			
+			new MessageDialog("Rank already exits, please rename the rank", "Already exists");
+			populateTabList();
+			rankTab.setSelectedItem(rankNo);
+		}
 	}
 	
 	
