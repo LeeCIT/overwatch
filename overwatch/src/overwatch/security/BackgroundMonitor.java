@@ -57,15 +57,16 @@ public class BackgroundMonitor
 	
 	/**
 	 * Stop monitoring.  Terminates the thread.
+	 * WARNING: Do not call this from within a BackgroundChecker!
 	 */
 	public void stop()
-	{
-		monitors.remove( this );
-		
+	{		
 		for (;;) {
 			try {
 				threadTerminate = true;
 				thread.join();
+				monitors.remove( this );
+				return;
 			} catch ( InterruptedException ex) {
 				ex.printStackTrace();
 			}
@@ -80,8 +81,11 @@ public class BackgroundMonitor
 	 * Stops all background monitors that exist.
 	 */
 	public static void stopAll() {
+		
+		System.out.println( "stopping all" );
 		while ( ! monitors.isEmpty()) {
 			BackgroundMonitor bgm =  monitors.lastElement();
+			System.out.println( "stopping " + bgm );
 			bgm.stop();
 			monitors.remove( bgm );
 		}

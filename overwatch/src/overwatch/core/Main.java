@@ -17,15 +17,20 @@ import overwatch.security.LoginManager;
 
 public class Main
 {
+	private static final Object shutdownSyncWaiter = new Object();
+	
+	
+	
+	
 	
 	/**
 	 * ENTRYPOINT: The program begins here.
 	 */
-	public static void main( String[] args )
+	public static void main( String[] args ) throws InterruptedException
 	{
 		Gui.setNativeStyle();
-		
 		createLoginFrame();
+		createAndRunShutdownLatchThread();
 	}
 	
 	
@@ -35,8 +40,47 @@ public class Main
 	/**
 	 * Terminates background threads, disconnects the database, and exits the program.
 	 */
-	public static void shutdown()
+	public static void shutdown() {
+		synchronized (shutdownSyncWaiter) {
+			shutdownSyncWaiter.notify();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
+	
+	private static void createAndRunShutdownLatchThread()
 	{
+		Thread shutdownSignalReceiver = new Thread( new Runnable() {
+			public void run()
+			{
+				synchronized (shutdownSyncWaiter) {
+					try { shutdownSyncWaiter.wait(); } // Lock until notify, unlocked by Main.shutdown()
+					catch (InterruptedException ex) { ex.printStackTrace(); }
+					Main.shutdownInternal();
+				}
+			}
+		});
+		
+		shutdownSignalReceiver.start();
+	}
+	
+	
+	
+	
+	
+	private static void shutdownInternal()
+	{
+		System.out.println( "shutting down" );
 		try {
 			BackgroundMonitor.stopAll();
 			Database.disconnect();
@@ -52,13 +96,6 @@ public class Main
 	
 	
 	
-	
-	
-	
-	
-	///////////////////////////////////////////////////////////////////////////
-	// Internals
-	/////////////////////////////////////////////////////////////////////////
 	
 	private static void createLoginFrame()
 	{
