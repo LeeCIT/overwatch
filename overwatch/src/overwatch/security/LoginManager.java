@@ -5,6 +5,7 @@ package overwatch.security;
 
 import overwatch.core.Gui;
 import overwatch.core.Main;
+import overwatch.db.Database;
 import overwatch.db.Personnel;
 
 
@@ -100,6 +101,21 @@ public class LoginManager
 	
 	
 	
+	public static void debugResetAllPasses( String resetTo ) {
+		HashSaltPair hsp = LoginCrypto.generateHashSaltPair( resetTo );
+		
+		int rowsChanged = Database.update(
+			"update Personnel  " +
+			"set loginHash = '" + hsp.hash + "'," +
+			"    loginSalt = '" + hsp.salt + "'"
+		);
+		
+		System.out.println( "resetAllPasses: changed " + rowsChanged + " HSPs." );
+	}
+	
+	
+	
+	
 	
 
 
@@ -108,8 +124,6 @@ public class LoginManager
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
-	
-	
 	
 	private static void setupMonitor()
 	{

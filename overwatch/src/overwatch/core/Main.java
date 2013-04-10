@@ -1,4 +1,6 @@
 
+
+
 package overwatch.core;
 
 import java.awt.event.WindowAdapter;
@@ -54,12 +56,15 @@ public class Main
 	
 	
 	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
 	
 	private static void createLoginFrame()
 	{
 		final LoginFrame frame = new LoginFrame();
 		frame.pack();
-		frame.setVisible( true );
+		frame.setVisible( true );		
 		
 		frame.addLoginListener( new LoginListener() {
 			public void onLoginAttempt( String user, String pass )
