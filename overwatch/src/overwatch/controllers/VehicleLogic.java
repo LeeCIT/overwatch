@@ -83,6 +83,14 @@ public class VehicleLogic extends TabController
 	
 	private void doSave()
 	{
+		if ( ! tab.areAllFieldsValid()) {
+			Gui.showErrorDialogue(
+				"Invalid Fields",
+				"Can't save: some fields contain invalid data."
+			);
+			return;
+		}
+		
 		Integer vehicleNo   = tab.getSelectedItem();
 		String  vehicleType = tab.type .field.getText();
 		String  pilotName   = tab.pilot.field.getText();
@@ -97,7 +105,7 @@ public class VehicleLogic extends TabController
 		
 		if (mods <= 0) {
 			Gui.showErrorDialogue(
-				"Failed to Apply Changes",
+				"Vehicle Deleted",
 				"The vehicle has been deleted by someone else!"
 			);
 		}
