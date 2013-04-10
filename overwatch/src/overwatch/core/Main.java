@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 import overwatch.db.Database;
 import overwatch.gui.LoginFrame;
 import overwatch.gui.LoginListener;
+import overwatch.security.BackgroundMonitor;
 import overwatch.security.LoginManager;
 
 
@@ -16,14 +17,38 @@ import overwatch.security.LoginManager;
 
 public class Main
 {
+	/**
+	 * ENTRYPOINT: The program begins here.
+	 */
 	public static void main( String[] args )
 	{
 		Gui.setNativeStyle();
 		
 		// TODO re-enable in real release
-		//createLoginFrame();
+		createLoginFrame();
 		
-		createMainGui(); // TODO debug only: delete later
+		//createMainGui(); // TODO debug only: delete later
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Terminates background threads, disconnects the database, and exits the program.
+	 */
+	public static void shutdown()
+	{
+		try {
+			BackgroundMonitor.stopAll();
+			Database.disconnect();
+		}
+		catch (Exception ex) {
+			// Don't give a crap, we're shutting down come hell or high water
+		}
+		finally {
+			System.exit( 0 );
+		}
 	}
 	
 	
