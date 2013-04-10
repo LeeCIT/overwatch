@@ -3,6 +3,8 @@
 
 package overwatch.security;
 
+import overwatch.core.Gui;
+import overwatch.db.Database;
 import overwatch.db.Personnel;
 
 
@@ -30,11 +32,17 @@ public class LoginManager
 	private static int currentUser;
 	private static int currentLevel;
 	
+	private static BackgroundMonitor monitor;
 	
 	
 	
 	
-	public static boolean hasCurrentUser() {
+	
+	/**
+	 * Check whether there is someone logged in right now.
+	 * @return boolean
+	 */
+	public static boolean hasUser() {
 		return (currentUser != NONE);
 	}
 	
@@ -42,7 +50,11 @@ public class LoginManager
 	
 	
 	
-	public static int getCurrentUser() {
+	/**
+	 * Get the person currently logged in.
+	 * @return personNo
+	 */
+	public static int getUser() {
 		checkUser();
 		return currentUser;
 	}
@@ -51,7 +63,11 @@ public class LoginManager
 	
 	
 	
-	public static int getCurrentPrivilegeLevel() {
+	/**
+	 * 
+	 * @return integer sucurity level
+	 */
+	public static int getSecurityLevel() {
 		checkUser();		
 		return currentLevel;
 	}
@@ -60,18 +76,26 @@ public class LoginManager
 	
 	
 	
-	public static boolean doLogin( String inputUser, String inputPass )
+	/**
+	 * Logs in a user.  If this function succeeds, the current user is set and
+	 * a background monitor is run.
+	 * @param user
+	 * @param pass
+	 * @return whether it succeeded
+	 */
+	public static boolean doLogin( String user, String pass )
 	{
-		int     personNo     = Personnel.mapLoginToPerson( inputUser );
+		int     personNo     = Personnel.mapLoginToPerson( user );
 		boolean personExists = (personNo > 0);
 		
 		if (personExists) {
 			HashSaltPair hsp = Personnel.getHashSaltPair( personNo );
 			
 			if (hsp != null)
-			if (LoginCrypto.isPassValid( inputPass, hsp )) {
+			if (LoginCrypto.isPassValid( pass, hsp )) {
 				currentUser  = personNo;
 				currentLevel = Personnel.getPrivilegeLevel( personNo );
+				setupMonitor();
 				return true;
 			}
 		}
@@ -85,15 +109,57 @@ public class LoginManager
 	
 	
 	
-	
-	
+
+
+
+
+
+
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
 	
+	
+	
+	private static void setupMonitor()
+	{
+		if (monitor != null) {
+			monitor.stop();
+		}
+		
+		monitor = new BackgroundMonitor();
+		
+		
+		// Existence
+		monitor.addBackgroundCheck( new BackgroundCheck() {
+			public void onCheck()
+			{
+				if ( ! Personnel.exists( LoginManager.getUser() )) {
+					Gui.showErrorDialogue( "Account Deleted", "Your account has been deleted!" );
+					System.exit( 0 );
+				}
+			}
+		});
+		
+		
+		// Dynamic security level update
+		monitor.addBackgroundCheck( new BackgroundCheck() {
+			public void onCheck()
+			{
+				if (hasUser()) {
+					LoginManager.currentLevel = Personnel.getPrivilegeLevel( getUser() );
+				}
+			}
+		});
+	}
+	
+	
+	
+	
+	
 	private static void checkUser()
 	{
-		if ( ! hasCurrentUser()) {
+		if ( ! hasUser()) {
 			throw new RuntimeException( "No user logged in!" );
 		}
 	}
@@ -126,7 +192,7 @@ public class LoginManager
 		
 		
 		if (loginSuccess) {
-			System.out.println( "logged in as #" + LoginManager.getCurrentUser() );
+			System.out.println( "logged in as #" + LoginManager.getUser() );
 		} else {
 			System.out.println( "Invalid login details!" );
 		}

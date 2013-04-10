@@ -132,7 +132,7 @@ public class BackgroundMonitor
 	{
 		BackgroundCheck userLoggedin = new BackgroundCheck() {
 			public void onCheck() {
-				if (LoginManager.hasCurrentUser()) {
+				if (LoginManager.hasUser()) {
 					int user = 1;//LoginManager.getCurrentUser();
 					
 					
