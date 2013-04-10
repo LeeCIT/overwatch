@@ -207,12 +207,12 @@ public class Database
 	 * @param value SQL formatted value
 	 * @return occurences
 	 */
-	public static int queryCount( String table, String column, String value )
+	public static long queryCount( String table, String column, String value )
 	{
-		return Database.querySingle( Integer.class,
+		return Database.querySingle( Long.class,
 			"select count(  " + column + ")" +
 			"from           " + table  + " " +
-			"where column = " + value  + ";"
+			"where " + column +  " = " + value  + ";"
 		);
 	}
 	
@@ -228,7 +228,7 @@ public class Database
 	 * @return boolean
 	 */
 	public static boolean queryUnique( String table, String column, String value ) {
-		return (1 == queryCount(table,column,value));
+		return (1L == queryCount(table,column,value));
 	}
 	
 	
@@ -243,7 +243,7 @@ public class Database
 	 * @return exists
 	 */
 	public static boolean queryExists( String table, String column, String value ) {
-		return (queryCount(table,column,value) > 0);
+		return (queryCount(table,column,value) > 0L);
 	}
 	
 	
