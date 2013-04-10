@@ -51,6 +51,10 @@ public class Main
 	
 	
 	
+	
+	
+	
+	
 	private static void createLoginFrame()
 	{
 		final LoginFrame frame = new LoginFrame();
@@ -82,8 +86,7 @@ public class Main
 		
 		gui.addWindowListener( new WindowAdapter() {
 			public void windowClosing( WindowEvent e ) {
-				Database.disconnect();
-				System.exit( 0 );
+				shutdown();
 			}
 		});
 	}
