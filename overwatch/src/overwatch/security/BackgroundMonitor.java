@@ -5,7 +5,6 @@ package overwatch.security;
 
 import java.util.Date;
 import java.util.Vector;
-import overwatch.core.Gui;
 import overwatch.db.Database;
 
 
@@ -27,6 +26,10 @@ import overwatch.db.Database;
 
 public class BackgroundMonitor
 {
+	private static Vector<BackgroundMonitor> monitors = new Vector<BackgroundMonitor>();
+	
+	
+	
 	private Vector<BackgroundCheck> checks;
 	private Thread                  thread;
 	private boolean					threadTerminate;
@@ -41,6 +44,8 @@ public class BackgroundMonitor
 	 */
 	public BackgroundMonitor()
 	{
+		monitors.add( this );
+		
 		checks = new Vector<BackgroundCheck>();
 		thread = createThread();
 		thread.start();
@@ -55,6 +60,8 @@ public class BackgroundMonitor
 	 */
 	public void stop()
 	{
+		monitors.remove( this );
+		
 		for (;;) {
 			try {
 				threadTerminate = true;
@@ -69,6 +76,26 @@ public class BackgroundMonitor
 	
 	
 	
+	/**
+	 * Stops all background monitors that exist.
+	 */
+	public static void stopAll() {
+		while ( ! monitors.isEmpty()) {
+			BackgroundMonitor bgm =  monitors.lastElement();
+			bgm.stop();
+			monitors.remove( bgm );
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Add a check to be executed in the background.
+	 * Checks are performed sequentially, in the order they're added, once per second.
+	 * @param bc
+	 */
 	public synchronized void addBackgroundCheck( BackgroundCheck bc ) {
 		checks.add( bc );
 	}
