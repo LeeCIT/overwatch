@@ -194,9 +194,17 @@ public class RankLogic extends TabController
 		});
 		
 		
+		rankTab.addNameValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {				
+				// TODO
+				return true;s
+			}
+		});
+		
+		
 		rankTab.addPrivilegesValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {
-				return Validator.isPositiveInt( text );
+				return Validator.isInt( text );
 			}
 		} );
 	}
