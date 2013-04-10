@@ -7,7 +7,8 @@ import javax.swing.JOptionPane;
  * Creates a message dialog
  * The string passed is displayed to the user
  * The type of error is displayed at the top of the box
- * @author john
+ * @author John Murphy
+ * @version 1
  *
  */
 
@@ -23,7 +24,7 @@ public class MessageDialog extends JOptionPane{
 	{
 		JFrame frame = new JFrame();
 		
-		JOptionPane.showMessageDialog(frame, Message, Message, JOptionPane.ERROR_MESSAGE, icon);
+		JOptionPane.showMessageDialog(frame, Message, typeOfError, JOptionPane.ERROR_MESSAGE, icon);
 	}
 
 }
