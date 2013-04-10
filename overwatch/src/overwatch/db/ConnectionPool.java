@@ -6,7 +6,7 @@ package overwatch.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 
 
@@ -19,7 +19,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * them in the background without holding up the rest of the program.
  * 
  * @author  Lee Coakley
- * @version 6
+ * @version 7
  */
 
 
@@ -31,8 +31,8 @@ public class ConnectionPool
 	private Thread	thread;
 	private boolean threadLoopController;
 	
-	private LinkedBlockingQueue<Connection> freeConns;
-	private LinkedBlockingQueue<Connection> usedConns;
+	private LinkedBlockingDeque<Connection> freeConns;
+	private LinkedBlockingDeque<Connection> usedConns;
 	
 	private int connTargetBasis;
 	private int connTargetNow;
@@ -49,8 +49,8 @@ public class ConnectionPool
 	 */
 	public ConnectionPool( int initialConns, boolean immediateStart )
 	{
-		freeConns = new LinkedBlockingQueue<Connection>();
-		usedConns = new LinkedBlockingQueue<Connection>();
+		freeConns = new LinkedBlockingDeque<Connection>();
+		usedConns = new LinkedBlockingDeque<Connection>();
 		
 		connTargetBasis = initialConns;
 		connTargetNow   = connTargetBasis;
@@ -178,8 +178,8 @@ public class ConnectionPool
 	
 	private void deallocateConnection( Connection conn )
 	{
-		usedConns.remove( conn );
-		freeConns.add   ( conn );
+		usedConns.remove  ( conn );
+		freeConns.addFirst( conn );
 	}
 	
 	
