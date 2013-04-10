@@ -5,7 +5,6 @@ package overwatch.security;
 
 import overwatch.core.Gui;
 import overwatch.core.Main;
-import overwatch.db.Database;
 import overwatch.db.Personnel;
 
 
@@ -15,11 +14,8 @@ import overwatch.db.Personnel;
 /**
  * Manages the user login process.
  * 
- * TODO: What happens if some berk deletes a user that's logged in?
- *       Need some periodic checking somewhere to keep things valid with multiple users.
- * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
