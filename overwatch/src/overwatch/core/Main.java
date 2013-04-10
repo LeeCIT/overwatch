@@ -1,4 +1,4 @@
-//TODO The unique setting is causing errors when creating a new user in ranks and vehicles
+
 
 
 package overwatch.core;
