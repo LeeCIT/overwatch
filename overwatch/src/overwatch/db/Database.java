@@ -201,6 +201,56 @@ public class Database
 	
 	
 	/**
+	 * Count occurences of a value in a table column.
+	 * @param table
+	 * @param column
+	 * @param value SQL formatted value
+	 * @return occurences
+	 */
+	public static long queryCount( String table, String column, String value )
+	{
+		return Database.querySingle( Long.class,
+			"select count(  " + column + ")" +
+			"from           " + table  + " " +
+			"where " + column +  " = " + value  + ";"
+		);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Check that a value is unique within the table column, and that it exists.
+	 * @param table
+	 * @param column
+	 * @param value SQL formatted value
+	 * @return boolean
+	 */
+	public static boolean queryUnique( String table, String column, String value ) {
+		return (1L == queryCount(table,column,value));
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Check that a value exists within a table column.
+	 * @param table
+	 * @param column
+	 * @param value SQL formatted value
+	 * @return exists
+	 */
+	public static boolean queryExists( String table, String column, String value ) {
+		return (queryCount(table,column,value) > 0L);
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Dump the contents of an entire table into an EnhancedResultSet.
 	 * @param tableName
 	 * @return EnhancedResultSet
@@ -251,30 +301,6 @@ public class Database
 			}
 		
 		return rowsModified; 
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Prevent writes from being made to a table.  They're queued until it's unlocked again.
-	 * Make damn sure to unlock() after!
-	 * @param table
-	 */
-	public static void lockWrite( Connection conn, String table ) {
-		Database.update( conn, "lock tables " + table + " write;" );
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Unlock a previously locked table.
-	 */
-	public static void unlock( Connection conn ) {
-		Database.update( conn, "unlock tables;" );
 	}
 	
 }

@@ -7,12 +7,7 @@ import java.awt.event.*;
 import javax.swing.JPanel;
 import javax.swing.event.*;
 import overwatch.core.Gui;
-import overwatch.db.Database;
-import overwatch.db.DatabaseConstraints;
-import overwatch.db.EnhancedResultSet;
-import overwatch.db.Ranks;
-import overwatch.db.Supplies;
-import overwatch.db.Vehicles;
+import overwatch.db.*;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.tabs.RankTab;
 import overwatch.util.Validator;
@@ -74,25 +69,36 @@ public class RankLogic extends TabController
 	
 	private void doSave()
 	{
-		Integer rankNo    = rankTab.getSelectedItem();
-		String  rankName  = rankTab.name.      field.getText();
-		Integer rankLevel = rankTab.securityLevel.field.getTextAsInt();
-		
-		if ( ! Ranks.exists(rankNo)) {
-			Gui.showErrorDialogue( "Failed to save", "The rank no longer exists." );
-			populateTabList(); // Reload
-			return;
+		try
+		{
+			Integer rankNo    = rankTab.getSelectedItem();
+			String  rankName  = rankTab.name.      field.getText();
+			Integer rankLevel = rankTab.securityLevel.field.getTextAsInt();
+			
+			if ( ! Ranks.exists(rankNo)) {
+				Gui.showErrorDialogue( "Failed to save", "The rank no longer exists." );
+				populateTabList(); // Reload
+				return;
+			}
+			
+			Database.update(
+				"UPDATE Ranks "          +
+				"SET name           = '" + rankName  + "'," +
+				"    privilegeLevel = "  + rankLevel + " "  +
+				"WHERE rankNo = " + rankNo + " ;"
+			);
+			
+			populateTabList();
+			rankTab.setSelectedItem(rankNo);
 		}
-		
-		Database.update(
-			"UPDATE Ranks "          +
-			"SET name           = '" + rankName  + "'," +
-			"    privilegeLevel = "  + rankLevel + " "  +
-			"WHERE rankNo = " + rankNo + " ;"
-		);
-		
-		populateTabList();
-		rankTab.setSelectedItem(rankNo);
+		catch(DatabaseException exception)
+		{
+			Integer rankNo = rankTab.getSelectedItem();
+
+			Gui.showErrorDialogue("Already exists", "Rank already exists, please rename the rank");
+			populateTabList();
+			rankTab.setSelectedItem(rankNo);
+		}
 	}
 	
 	
@@ -141,18 +147,16 @@ public class RankLogic extends TabController
 			rankTab.clearFields();
 			return;
 		}
-		else {
-			rankTab.setEnableFieldsAndButtons(true);
-		}
 		
+		rankTab.setEnableFieldsAndButtons(true);
 		
 		EnhancedResultSet ers = Database.query(
 		    "SELECT *       " +
 		    "FROM Ranks     " +
 		    "WHERE rankNo = " + rankNo);
 
-		rankTab.number    .field.setText("" + ers.getElemAs( "rankNo",         Integer.class ));
-		rankTab.name      .field.setText(     ers.getElemAs( "name",           String .class ));
+		rankTab.number       .field.setText("" + ers.getElemAs( "rankNo",         Integer.class ));
+		rankTab.name         .field.setText(     ers.getElemAs( "name",           String .class ));
 		rankTab.securityLevel.field.setText("" + ers.getElemAs( "privilegeLevel", Integer.class ));		
 	}
 	
@@ -188,9 +192,16 @@ public class RankLogic extends TabController
 		});
 		
 		
+		rankTab.addNameValidator(new CheckedFieldValidator() {
+			public boolean check(String text) {				
+				return DatabaseConstraints.isValidName( text );
+			}
+		});
+		
+		
 		rankTab.addPrivilegesValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {
-				return Validator.isPositiveInt( text );
+				return Validator.isInt( text );
 			}
 		} );
 	}

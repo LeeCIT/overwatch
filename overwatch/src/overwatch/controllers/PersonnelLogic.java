@@ -7,7 +7,9 @@ import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
+import overwatch.db.Personnel;
 import overwatch.db.Ranks;
+import overwatch.db.Vehicles;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.PickListener;
 import overwatch.gui.RankPicker;
@@ -81,6 +83,39 @@ public class PersonnelLogic extends TabController
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	private void doNew()
+	{
+		Integer personNo = Personnel.create();
+		
+		populateList();
+		tab.setSelectedItem( personNo );
+	}
+	
+	
+	
+	
+	
+	private void doSave()
+	{
+		// TODO Personnel save
+		System.out.println( "save" );
+	}
+	
+	
+	
+	
+	
+	private void doDelete()
+	{
+		Integer personNo = tab.getSelectedItem();
+		Personnel.delete( personNo );
+		populateList();
+	}
+	
+	
 	
 	
 	
@@ -198,25 +233,21 @@ public class PersonnelLogic extends TabController
 	{
 		tab.addNewListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				System.out.println( "new" );
-				// TODO new
+				doNew();
 			}
 		});
 		
 		
 		tab.addSaveListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				System.out.println( "save" );
-				// TODO save
-				// TODO idea: save the fields here, but have another frame for the login details with its own save button
+				doSave();				
 			}
 		});
 		
 		
 		tab.addDeleteListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				System.out.println( "delete" );
-				// TODO del
+				doDelete();
 			}
 		});
 	}

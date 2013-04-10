@@ -1,5 +1,3 @@
-//TODO The unique setting is causing errors when creating a new user in ranks and vehicles
-
 
 package overwatch.core;
 
@@ -11,6 +9,8 @@ import overwatch.gui.LoginListener;
 import overwatch.security.BackgroundMonitor;
 import overwatch.security.LoginManager;
 
+
+//TODO Make labels the same width
 
 
 
