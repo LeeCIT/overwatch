@@ -147,18 +147,16 @@ public class RankLogic extends TabController
 			rankTab.clearFields();
 			return;
 		}
-		else {
-			rankTab.setEnableFieldsAndButtons(true);
-		}
 		
+		rankTab.setEnableFieldsAndButtons(true);
 		
 		EnhancedResultSet ers = Database.query(
 		    "SELECT *       " +
 		    "FROM Ranks     " +
 		    "WHERE rankNo = " + rankNo);
 
-		rankTab.number    .field.setText("" + ers.getElemAs( "rankNo",         Integer.class ));
-		rankTab.name      .field.setText(     ers.getElemAs( "name",           String .class ));
+		rankTab.number       .field.setText("" + ers.getElemAs( "rankNo",         Integer.class ));
+		rankTab.name         .field.setText(     ers.getElemAs( "name",           String .class ));
 		rankTab.securityLevel.field.setText("" + ers.getElemAs( "privilegeLevel", Integer.class ));		
 	}
 	
@@ -196,8 +194,7 @@ public class RankLogic extends TabController
 		
 		rankTab.addNameValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {				
-				// TODO
-				return true;s
+				return DatabaseConstraints.isValidName( text );
 			}
 		});
 		
