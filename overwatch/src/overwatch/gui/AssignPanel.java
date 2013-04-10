@@ -26,6 +26,7 @@ import net.miginfocom.swing.MigLayout;
 
 
 
+
 public class AssignPanel<T> extends JPanel
 {
 	private ArrayList<NameRefPair<T>> listItems;
@@ -123,7 +124,8 @@ public class AssignPanel<T> extends JPanel
 	/**
 	 * Set object/string pairs.
 	 */
-	public void setListItems( ArrayList<NameRefPair<T>> items ) {		
+	public void setListItems( ArrayList<NameRefPair<T>> items ) {
+		
 		listItems = (ArrayList<NameRefPair<T>>) items.clone();
 		resetDisplayedItems();
 	}

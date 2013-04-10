@@ -10,13 +10,12 @@ import overwatch.security.BackgroundMonitor;
 import overwatch.security.LoginManager;
 
 
-//TODO Make labels the same width
-
 
 
 
 public class Main
 {
+	
 	/**
 	 * ENTRYPOINT: The program begins here.
 	 */
@@ -24,10 +23,7 @@ public class Main
 	{
 		Gui.setNativeStyle();
 		
-		// TODO re-enable in real release
 		createLoginFrame();
-		
-		//createMainGui(); // TODO debug only: delete later
 	}
 	
 	
