@@ -15,6 +15,19 @@ import overwatch.security.LoginManager;
 
 
 
+
+/**
+ * The alpha and omega of the program.
+ * Creates the core classes, delegates control, and waits to shutdown.  
+ * 
+ * @author  Lee Coakley
+ * @version 3
+ */
+
+
+
+
+
 public class Main
 {
 	private static final Object shutdownSyncWaiter = new Object();
