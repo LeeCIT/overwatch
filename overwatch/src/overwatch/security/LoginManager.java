@@ -4,6 +4,7 @@
 package overwatch.security;
 
 import overwatch.core.Gui;
+import overwatch.core.Main;
 import overwatch.db.Database;
 import overwatch.db.Personnel;
 
@@ -104,9 +105,6 @@ public class LoginManager
 	
 	
 	
-	
-
-
 
 
 
@@ -132,7 +130,7 @@ public class LoginManager
 			{
 				if ( ! Personnel.exists( LoginManager.getUser() )) {
 					Gui.showErrorDialogue( "Account Deleted", "Your account has been deleted!" );
-					System.exit( 0 );
+					Main.shutdown();
 				}
 			}
 		});
