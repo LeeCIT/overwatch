@@ -44,7 +44,9 @@ public class BackgroundMonitor
 	 */
 	public BackgroundMonitor()
 	{
-		monitors.add( this );
+		synchronized (monitors) {
+			monitors.add( this );
+		}
 		
 		checks = new Vector<BackgroundCheck>();
 		thread = createThread();
@@ -60,7 +62,7 @@ public class BackgroundMonitor
 	 * WARNING: Do not call this from within a BackgroundChecker!
 	 */
 	public void stop()
-	{		
+	{
 		for (;;) {
 			try {
 				threadTerminate = true;
@@ -81,11 +83,8 @@ public class BackgroundMonitor
 	 * Stops all background monitors that exist.
 	 */
 	public static void stopAll() {
-		
-		System.out.println( "stopping all" );
 		while ( ! monitors.isEmpty()) {
 			BackgroundMonitor bgm =  monitors.lastElement();
-			System.out.println( "stopping " + bgm );
 			bgm.stop();
 			monitors.remove( bgm );
 		}
@@ -100,8 +99,10 @@ public class BackgroundMonitor
 	 * Checks are performed sequentially, in the order they're added, once per second.
 	 * @param bc
 	 */
-	public synchronized void addBackgroundCheck( BackgroundCheck bc ) {
-		checks.add( bc );
+	public void addBackgroundCheck( BackgroundCheck bc ) {
+		synchronized (checks) {
+			checks.add( bc );
+		}
 	}
 	
 	
@@ -123,7 +124,7 @@ public class BackgroundMonitor
 			}
 		});
 		
-		t.setName( "BackgroundMonitor" );
+		t.setName( "BackgroundMonitor " + t );
 		
 		return t;
 	}
@@ -136,9 +137,12 @@ public class BackgroundMonitor
 	{
 		while ( ! threadTerminate)
 		{
-			for (BackgroundCheck check: checks) {
-				check.onCheck();
+			synchronized (checks) {
+				for (BackgroundCheck check: checks) {
+					check.onCheck();
+				}
 			}
+			
 			
 			try { Thread.sleep( 1000 );
 			} catch (InterruptedException ex) {
