@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import overwatch.core.Gui;
+import overwatch.gui.LabelFieldPair;
 import overwatch.gui.ScrollableTextPanel;
 import overwatch.gui.SearchPanel;
 
@@ -16,8 +17,11 @@ import overwatch.gui.SearchPanel;
 
 public class OrdersTab extends JPanel
 {
-	public final SearchPanel<Integer> leftSearch;
-	public final SearchPanel<Integer> rightSearch;
+	public final LabelFieldPair       sentBy;
+	public final LabelFieldPair       sentTo;
+	public final LabelFieldPair       subject;
+	public final SearchPanel<Integer> ordersIn;
+	public final SearchPanel<Integer> ordersOut;
 	public final ScrollableTextPanel  textPanel;
 	
 	
@@ -28,15 +32,27 @@ public class OrdersTab extends JPanel
 	{
 		super( new MigLayout( "debug", "[][grow,fill][]", "[grow,fill][]" ) );
 		
-		leftSearch  = new SearchPanel<Integer>( "Orders Received \u2193" );
-		rightSearch = new SearchPanel<Integer>( "Orders Sent \u2191" );
-		textPanel   = new ScrollableTextPanel( "Message" );
+		sentBy    = new LabelFieldPair( "From:" );
+		sentTo    = new LabelFieldPair( "To:" );
+		subject   = new LabelFieldPair( "Subject:" );
+		ordersIn  = new SearchPanel<Integer>( "Orders Received \u2193" );
+		ordersOut = new SearchPanel<Integer>( "Orders Sent \u2191" );
+		textPanel = new ScrollableTextPanel( "Message" );
 		
 		String searchMigParams = "wmin 192px, wmax 224px, height 100%";
 		
-		add( leftSearch,  searchMigParams );
+		add( ordersIn,  searchMigParams );	
+//		add( sentBy .label, "split 2, alignx right" );
+//		add( sentBy .field, "wrap, skip 1"    );
+//		add( sentTo .label, "split 2, alignx right" );
+//		add( sentTo .field, "wrap"    );
+//		add( subject.label, "split 2, alignx right" );
+//		add( subject.field, "wrap"    );
 		add( textPanel );
-		add( rightSearch, searchMigParams );
+		add( ordersOut, searchMigParams );
+		
+		
+		// TODO make message panel
 	}
 	
 	
