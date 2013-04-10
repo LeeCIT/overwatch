@@ -3,6 +3,7 @@
 
 package overwatch.gui;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -25,6 +26,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class ScrollableTextPanel extends JPanel
 {
+	private JLabel      label;
 	private JTextArea   textArea;
 	private JScrollPane scrollPane;
 	
@@ -32,9 +34,11 @@ public class ScrollableTextPanel extends JPanel
 	
 	
 	
-	public ScrollableTextPanel()
+	public ScrollableTextPanel( String labelText )
 	{
-		super( new MigLayout( "", "[grow,fill]", "[grow,fill]") );
+		super( new MigLayout( "", "[grow,fill]", "[][grow,fill]") );
+		
+		label = new JLabel( labelText );
 		
 		textArea = new JTextArea( "" );
 		textArea.setLineWrap( true );
@@ -44,6 +48,7 @@ public class ScrollableTextPanel extends JPanel
 		scrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 		scrollPane.setVerticalScrollBarPolicy  ( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS  );
 		
+		add( label, "wrap" );
 		add( scrollPane );
 	}
 	
@@ -97,7 +102,7 @@ public class ScrollableTextPanel extends JPanel
 	{
 		javax.swing.JFrame frame = new javax.swing.JFrame();
 		
-		ScrollableTextPanel sta = new ScrollableTextPanel();
+		ScrollableTextPanel sta = new ScrollableTextPanel( "Test" );
 		
 		frame.add( sta );
 		frame.pack();
