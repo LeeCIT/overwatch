@@ -186,13 +186,6 @@ public class RankLogic extends TabController
 	private void setupFieldValidators()
 	{
 		rankTab.addNameValidator(new CheckedFieldValidator() {
-			public boolean check(String text) {				
-				return DatabaseConstraints.isValidName(text);
-			}
-		});
-		
-		
-		rankTab.addNameValidator(new CheckedFieldValidator() {
 			public boolean check(String text)
 			{
 				if ( ! DatabaseConstraints.isValidName( text ))
