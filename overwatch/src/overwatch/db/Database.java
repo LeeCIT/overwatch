@@ -236,6 +236,21 @@ public class Database
 	
 	
 	/**
+	 * Check that a value exists within a table column.
+	 * @param table
+	 * @param column
+	 * @param value SQL formatted value
+	 * @return exists
+	 */
+	public static boolean queryExists( String table, String column, String value ) {
+		return (queryCount(table,column,value) > 0);
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Dump the contents of an entire table into an EnhancedResultSet.
 	 * @param tableName
 	 * @return EnhancedResultSet
