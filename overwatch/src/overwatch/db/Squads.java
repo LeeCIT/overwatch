@@ -102,6 +102,7 @@ public class Squads
 	
 	
 	
+	
 	public static Integer create()
 	{
 		Common.createWithUnique( "Squads", "DEFAULT", "'new Squad <?>'", "null" );
@@ -111,6 +112,26 @@ public class Squads
 			"from Squads;"
 		);
 	}
+	
+	
+	
+	
+	/**
+	 * Check if a squad exists.
+	 * @param squadNo
+	 * @return name or null
+	 */
+	public static boolean exists( Integer squadNo )
+	{
+		EnhancedResultSet ers = Database.query(
+			"select squadNo  " +
+		    "from Squads     " +
+		    "where squadNo = " + squadNo + ";"
+		);
+		
+		return ! ers.isEmpty();
+	}
+	
 	 
 	
 	
