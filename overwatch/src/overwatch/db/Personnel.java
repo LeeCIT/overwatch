@@ -101,7 +101,7 @@ public class Personnel
 	 * @param loginName
 	 * @return personNo if a valid login, -1 otherwise.
 	 */
-	public static int mapLoginToPerson( String loginName )
+	public static int getNumberFromLogin( String loginName )
 	{
 		Integer[] numbers = Database.queryInts(
 			"select personNo   " +

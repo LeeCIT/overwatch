@@ -80,7 +80,7 @@ public class LoginManager
 	 */
 	public static boolean doLogin( String user, String pass )
 	{
-		int     personNo     = Personnel.mapLoginToPerson( user );
+		int     personNo     = Personnel.getNumberFromLogin( user );
 		boolean personExists = (personNo > 0);
 		
 		if (personExists) {
@@ -172,7 +172,7 @@ public class LoginManager
 	public static void main( String[] args )
 	{	
 			
-		int personNo = Personnel.mapLoginToPerson( "testGuy" );
+		int personNo = Personnel.getNumberFromLogin( "testGuy" );
 		Personnel.setPass( personNo, "1234" );
 		
 		
