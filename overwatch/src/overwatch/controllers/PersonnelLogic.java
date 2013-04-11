@@ -164,10 +164,8 @@ public class PersonnelLogic extends TabController
 			"  and p.rankNo   = r.rankNo;"
 		);
 		
-		if(ers.isEmpty())
-		{
-			Gui.showErrorDialogue("No longer exists", "The selected person no longer exists");
-			populateList();
+		if (ers.isEmpty()) {
+			showDeletedError( "person" );
 			return;
 		}
 
@@ -177,8 +175,6 @@ public class PersonnelLogic extends TabController
 		tab.sex   .field.setText(      ers.getElemAs( "sex",        String    .class ) );
 		tab.salary.field.setText( "" + ers.getElemAs( "salary",     BigDecimal.class ) );
 		tab.rank  .field.setText(      ers.getElemAs( "rankName",   String    .class ) );
-		
-		populateList();
 	}
 	
 	
