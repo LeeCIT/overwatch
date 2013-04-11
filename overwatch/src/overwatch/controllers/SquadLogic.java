@@ -138,21 +138,38 @@ public class SquadLogic extends TabController{
 			tab.clearFields();
 			return;
 		}
-		else{
-			tab.setEnableFieldsAndButtons( true );
-		}
+		
+		tab.setEnableFieldsAndButtons( true );
+		
 		
 		EnhancedResultSet ers = Database.query(
 			"SELECT s.squadNo, squadName, p.name AS personName     " +
 		    "FROM Squads s, SquadCommanders sq, Personnel p     " +
 		    "WHERE s.squadNo =  " + squadNo + " " +
-		    "AND p.personNo = sq.personNo;"
+		    "AND s.squadNo   = sq.squadNo " +
+		    "AND sq.personNo = p.personNo;"
 		);
 		
 		
-		tab.number.field.setText( "" 	+ ers.getElemAs( "squadNo", 	Integer.class ));
-		tab.name  .field.setText(      	  ers.getElemAs( "squadName",   String .class ));
-		tab.commander.field.setText( "" + ers.getElemAs( "personName",  Integer.class ));	
+		if(ers.isEmpty())
+		{
+			EnhancedResultSet squad = Database.query( 
+					"SELECT squadNo, squadName " +  
+					"FROM Squads  " +
+					"WHERE squadNo = " + squadNo + ";"
+			);
+			
+			
+			tab.number.field.setText( "" 	+ squad.getElemAs( "squadNo", 	Integer.class ));
+			tab.name  .field.setText(      	  squad.getElemAs( "squadName",   String .class ));		
+			tab.commander.field.setText( "None selected" );
+		}
+		else
+		{
+			tab.number.field.setText( "" 	+ ers.getElemAs( "squadNo", 	Integer.class ));
+			tab.name  .field.setText(      	  ers.getElemAs( "squadName",   String .class ));
+			tab.commander.field.setText( "" + ers.getElemAs( "personName",  Integer.class ));	
+		}	
 		
 		//Populate the subpanels
 		loadSubPanels(squadNo);
