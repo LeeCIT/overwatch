@@ -79,18 +79,20 @@ public class Personnel
 	
 	/**
 	 * Delete a person.
-	 * Note that this is UNLIKELY to succeed given how many dependencies on Personnel there are in the database.
+	 * Note that this is UNLIKELY to succeed given how many dependencies on Personnel there are.
 	 * @param personNo
+	 * @return succeeded
 	 */
-	public static void delete( Integer personNo )
+	public static boolean delete( Integer personNo )
 	{
-		// TODO: There are TONS of things Personnel are referenced in which would prevent deletion.  And they must all be checked here!
-		// It's a fairly simple matter though, just a big query and and isEmpty check.
+		// TODO personnel delete check
 		
-		Database.update( 
+		int rowMods = Database.update( 
 			"delete from Personnel " +
 			"where PersonNo = " + personNo + ";"
 		);
+		
+		return (rowMods == 1);
 	}
 	
 	
