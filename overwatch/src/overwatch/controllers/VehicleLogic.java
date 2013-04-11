@@ -98,7 +98,7 @@ public class VehicleLogic extends TabController
 		
 		int mods = Database.update(
 			"update Vehicles   " +
-			"set type     =   '" + vehicleType + "', " +
+			"set name     =   '" + vehicleType + "', " +
 			"    pilot    =    " + pilotNo     + " "   +
 			"where vehicleNo = " + vehicleNo   + ";" 
 		);

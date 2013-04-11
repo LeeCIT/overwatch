@@ -3,9 +3,6 @@
 
 package overwatch.db;
 
-import java.util.ArrayList;
-
-import overwatch.gui.NameRefPair;
 import overwatch.gui.NameRefPairList;
 
 
@@ -41,10 +38,13 @@ public class Squads
 			"  AND st.personNo = p.personNo;   "
 		);
 		
-		Integer[] keys  = ers.getColumnAs( "personNum",  Integer[].class  );
-		String [] names = ers.getColumnAs( "personName", String [].class  );
+		if ( ! ers.isEmpty()) {
+			Integer[] keys  = ers.getColumnAs( "personNum",  Integer[].class  );
+			String [] names = ers.getColumnAs( "personName", String [].class  );
+			return new NameRefPairList<Integer>( keys, names );
+		}
 		
-		return new NameRefPairList<Integer>( keys, names );
+		return new NameRefPairList<Integer>();
 	}
 	
 	
@@ -64,10 +64,13 @@ public class Squads
 			"  AND sv.vehicleNo = v .vehicleNo; "
 		);
 		
-		Integer[] keys  = ers.getColumnAs( "vehicleNum",  Integer[].class  );
-		String [] names = ers.getColumnAs( "vehicleName", String [].class  );
+		if ( ! ers.isEmpty()) {
+			Integer[] keys  = ers.getColumnAs( "vehicleNum",  Integer[].class  );
+			String [] names = ers.getColumnAs( "vehicleName", String [].class  );
+			return new NameRefPairList<Integer>( keys, names );
+		}
 		
-		return new NameRefPairList<Integer>( keys, names );
+		return new NameRefPairList<Integer>();
 	}
 	
 	
@@ -87,10 +90,13 @@ public class Squads
 			"  AND sqs.supplyNo = s  .supplyNo;   "
 		);
 		
-		Integer[] keys  = ers.getColumnAs( "supNo",   Integer[].class );
-		String [] names = ers.getColumnAs( "supName", String [].class );
+		if ( ! ers.isEmpty()) {
+			Integer[] keys  = ers.getColumnAs( "supNum",  Integer[].class  );
+			String [] names = ers.getColumnAs( "supName", String [].class  );
+			return new NameRefPairList<Integer>( keys, names );
+		}
 		
-		return new NameRefPairList<Integer>( keys, names );
+		return new NameRefPairList<Integer>();
 	}
 	
 	
