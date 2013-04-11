@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.concurrent.LinkedBlockingDeque;
+import overwatch.core.Gui;
 
 
 
@@ -338,7 +339,7 @@ public class ConnectionPool
 				return;
 			}
 			catch( Exception ex ) {
-				//ex.printStackTrace();
+				ex.printStackTrace(); // TODO remove for production
 				// Failed, retry until it completes
 			}
 		}
