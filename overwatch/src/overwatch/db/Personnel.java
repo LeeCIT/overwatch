@@ -224,7 +224,7 @@ public class Personnel
 		
 		if (ers.isEmpty())
 			 return null;
-		else return ers.getElemAs( "name", String.class ); 
+		else return ers.getElemAs( "loginName", String.class ); 
 	}
 	
 	
