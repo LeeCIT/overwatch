@@ -1,3 +1,6 @@
+
+
+
 package overwatch.controllers;
 
 import java.awt.event.ActionEvent;
@@ -16,11 +19,13 @@ import overwatch.gui.tabs.SquadTab;
 
 
 
+
 /**
  * The squadTabLogic
  * @author  John Murphy
  *
  */
+
 
 
 
@@ -106,7 +111,7 @@ public class SquadLogic extends TabController
 	
 	private void doSave()
 	{
-		
+		// TODO
 	}
 	
 	
@@ -126,7 +131,7 @@ public class SquadLogic extends TabController
 	
 	private void delete()
 	{
-		
+		// TODO
 	}
 	
 	
@@ -158,6 +163,7 @@ public class SquadLogic extends TabController
 	
 	
 	private void populateAssignPanels( int squadNo ) {
+		// TODO not concurrency safe
 		tab.assignTroops  .setListItems( Squads.getTroops  ( squadNo ));
 		tab.assignVehicles.setListItems( Squads.getVehicles( squadNo ));
 		tab.assignSupplies.setListItems( Squads.getSupplies( squadNo ));
@@ -198,7 +204,7 @@ public class SquadLogic extends TabController
 		String commanderName = "";
 		if (commander != null) {
 			commanderName = Database.querySingle( String.class,
-				"select name      " +
+				"select loginName " +
 				"from Personnel   " +
 				"where personNo = " + commander + ";"
 			);
