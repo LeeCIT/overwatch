@@ -276,8 +276,8 @@ public class EnhancedResultSet implements Iterable<Object[]>
 			return index;
 		} else {
 			throw new RuntimeException(
-				"No column named '" + name + "' exist.  Columns are: " +
-				columnNames.toString() 
+				"No column named '" + name + "' exists.  Columns are: " +
+				Arrays.toString( getColumnNames() )
 			);
 		}
 	}
@@ -287,9 +287,9 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	
 	
 	/**
-	 * 
+	 * Check if a column exists.
 	 * @param name
-	 * @return
+	 * @return boolean
 	 */
 	public boolean columnExists( String name ) {
 		return (-1 != getColumnIndexInternal(name));
