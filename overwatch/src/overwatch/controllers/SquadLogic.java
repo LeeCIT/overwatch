@@ -78,6 +78,7 @@ public class SquadLogic extends TabController
 		setUpButtonActions();
 		setupListSelectActions();
 		setupPickActions();
+		setupTroopsAssign();
 	}
 	
 	
@@ -283,6 +284,18 @@ public class SquadLogic extends TabController
 			}
 		});
 		
+	}
+	
+	
+	
+	
+	private void setupTroopsAssign()
+	{
+		tab.assignTroops.addAddButtonListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 	}
 	
 	
