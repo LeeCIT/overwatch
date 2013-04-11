@@ -20,7 +20,7 @@ import overwatch.util.Validator;
  * RankTab logic
  * 
  * @author john
- * @Version 5
+ * @Version 6
  */
 
 
@@ -104,7 +104,8 @@ public class RankLogic extends TabController
 	
 	
 	
-	private void createNew()
+	
+	private void doNew()
 	{
 		Integer rankNo = Ranks.create();
 				
@@ -115,13 +116,17 @@ public class RankLogic extends TabController
 	
 	
 	
-	private void delete()
+	
+	private void doDelete()
 	{
 		Integer rankNum = rankTab.getSelectedItem();
-		int mods = Database.update("DELETE FROM Ranks WHERE rankNo = " + rankNum + ";");
+		int mods = Database.update(
+			"DELETE         " +
+			"FROM Ranks     " +
+			"WHERE rankNo = " + rankNum + ";"
+		);
 		
-		if(mods <= 0)
-		{
+		if(mods <= 0) {
 			Gui.showErrorDialogue("Rank deleted", "Rank deleted by someone else");
 		}
 		
@@ -156,7 +161,7 @@ public class RankLogic extends TabController
 		rankTab.setEnableFieldsAndButtons(true);
 		
 		EnhancedResultSet ers = Database.query(
-		    "SELECT *       " +
+		    "SELECT rankNo, name, privilegeLevel " +
 		    "FROM Ranks     " +
 		    "WHERE rankNo = " + rankNo);
 		
@@ -242,13 +247,13 @@ public class RankLogic extends TabController
 		
 		rankTab.addNewListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
-				createNew();				
+				doNew();				
 			}
 		});	
 	
 		rankTab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				delete();
+				doDelete();
 			}
 		});		
 	
