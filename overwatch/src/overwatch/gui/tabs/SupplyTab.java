@@ -75,8 +75,6 @@ public class SupplyTab extends GenericPanelButtoned<Integer>
 		frame.pack();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
-		
-		new SupplyLogic(st);
 	}
 
 }
