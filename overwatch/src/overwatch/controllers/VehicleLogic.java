@@ -162,9 +162,8 @@ public class VehicleLogic extends TabController
 		);
 		
 		
-		if(ers.isEmpty()) {
+		if (ers.isEmpty()) {
 			showDeletedError( "vehicle" );
-			populateList();
 			return;
 		}
 		
@@ -183,8 +182,6 @@ public class VehicleLogic extends TabController
 		tab.number.field.setText( "" + ers.getElemAs( "vehicleNo",  Integer.class ));
 		tab.type  .field.setText(	   ers.getElemAs( "name",       String .class ));
 		tab.pilot .field.setText(      pilotName );
-		
-		populateList();
 	}
 	
 	
