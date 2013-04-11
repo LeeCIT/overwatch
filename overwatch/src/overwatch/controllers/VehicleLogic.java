@@ -48,7 +48,7 @@ public class VehicleLogic extends TabController
 	
 	
 	public void respondToTabSelect() {
-		populateTabList();
+		populateList();
 	}
 
 	
@@ -73,7 +73,7 @@ public class VehicleLogic extends TabController
 	{
 		Integer vehicleNo = Vehicles.create();
 		
-		populateTabList();
+		populateList();
 		tab.setSelectedItem( vehicleNo );
 	}
 	
@@ -110,7 +110,7 @@ public class VehicleLogic extends TabController
 			);
 		}
 		
-		populateTabList();
+		populateList();
 		tab.setSelectedItem( vehicleNo );
 	}
 	
@@ -122,14 +122,14 @@ public class VehicleLogic extends TabController
 	{
 		Integer vehicleNo = tab.getSelectedItem();
 		Vehicles.delete( vehicleNo );
-		populateTabList();
+		populateList();
 	}
 	
 	
 	
 	
 	
-	private void populateTabList()
+	private void populateList()
 	{
 		populateFields( null );
 		tab.setSearchableItems(
@@ -153,7 +153,7 @@ public class VehicleLogic extends TabController
 		
 		tab.setEnableFieldsAndButtons(true);
 		
-		EnhancedResultSet vehicle = Database.query(
+		EnhancedResultSet ers = Database.query(
 			"SELECT vehicleNo, " +
 			"       name,      " +
 			"		pilot      " +
@@ -161,28 +161,30 @@ public class VehicleLogic extends TabController
 		    "WHERE vehicleNo = " + vehicleNo + ";"
 		);
 		
-		if(!vehicle.isEmpty())
-		{
-			Integer pilot = vehicle.getElemAs( "pilot", Integer.class );
-			
-			String pilotName = "";
-			if (pilot != null) {
-				pilotName = Database.querySingle( String.class,
-					"select name      " +
-					"from Personnel   " +
-					"where personNo = " + pilot + ";"
-				);
-			}
-			
-			tab.number.field.setText( "" + vehicle.getElemAs( "vehicleNo",  Integer.class ));
-			tab.type  .field.setText(	   vehicle.getElemAs( "name",       String .class ));
-			tab.pilot .field.setText(      pilotName );		
-		}
-		else{
-			Gui.showErrorDialogue("No longer exists", "The selected vehicle no longer exists");
-			populateTabList();
+		
+		if(ers.isEmpty()) {
+			showDeletedError( "vehicle" );
+			populateList();
+			return;
 		}
 		
+		
+		Integer pilot = ers.getElemAs( "pilot", Integer.class );
+		
+		String pilotName = "";
+		if (pilot != null) {
+			pilotName = Database.querySingle( String.class,
+				"select name      " +
+				"from Personnel   " +
+				"where personNo = " + pilot + ";"
+			);
+		}
+		
+		tab.number.field.setText( "" + ers.getElemAs( "vehicleNo",  Integer.class ));
+		tab.type  .field.setText(	   ers.getElemAs( "name",       String .class ));
+		tab.pilot .field.setText(      pilotName );
+		
+		populateList();
 	}
 	
 	
