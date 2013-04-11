@@ -79,7 +79,7 @@ public class SquadLogic extends TabController{
 		
 		tab.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("New");
+				createNew();
 			}
 		});
 		
@@ -94,6 +94,31 @@ public class SquadLogic extends TabController{
 				System.out.println("Delete");				
 			}
 		});
+	}
+	
+	
+	
+	private void doSave()
+	{
+		
+	}
+	
+	
+	
+	
+	private void createNew()
+	{
+		Integer squadNo = Squads.create();
+		populateSquadsList();
+		populateFields(squadNo);
+	}
+	
+	
+	
+	
+	private void delete()
+	{
+		
 	}
 	
 	
