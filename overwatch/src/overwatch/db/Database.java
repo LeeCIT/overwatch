@@ -317,7 +317,7 @@ public class Database
 	 * Create a new vehicle.
 	 * @return Integer vehicleNo
 	 */
-	public static Integer createUniqueLocking()
+	public static Integer createUniqueLockingTest()
 	{  
 	  Connection conn = Database.getConnection();
 	  
@@ -354,9 +354,11 @@ public class Database
 	
 	
 	/**
-	 * Prevent writes from being made to a table.  They're queued until it's unlocked again.
+	 * Prevent read/write access from being made to a table.  They're queued until it's unlocked again.
 	 * Make damn sure to unlock() after!
+	 * @param conn
 	 * @param table
+	 * @param mode READ or WRITE.  Write completely locks the table, not only for writing but reading too.
 	 */
 	public static void lock( Connection conn, String table, String mode ) {
 	  Database.update( conn, "lock tables " + table + " " + mode + ";" );
@@ -379,14 +381,15 @@ public class Database
 	
 	public static void main( String[] args )
 	{
-		Database.update( "delete from Vehicles where vehicleNo >= 4" );
+		Database.update( "delete from Vehicles where vehicleNo >= 4;" );
+		System.exit( 0 );
 		
 		for (int i=0; i<4; i++)
 		{
 			new BackgroundMonitor( Util.randomIntRange(16,64 ) )
 			    .addBackgroundCheck( new BackgroundCheck() {
 				public void onCheck() {
-					System.out.println( Database.createUniqueLocking() );				
+					System.out.println( Database.createUniqueLockingTest() );				
 				}
 			});
 		}

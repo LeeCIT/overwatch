@@ -3,6 +3,7 @@
 
 package overwatch.db;
 
+import java.math.BigInteger;
 import overwatch.security.HashSaltPair;
 import overwatch.security.LoginCrypto;
 import overwatch.util.Util;
@@ -54,8 +55,9 @@ public class Personnel
 	{
 		HashSaltPair hsp = LoginCrypto.generateHashSaltPair( "1234" );
 		
-		Common.createWithUnique(
+		EnhancedResultSet ers = Common.createWithUniqueLockingSelect(
 			"Personnel",
+			"LAST_INSERT_ID()",
 			"DEFAULT",
 			"'new person'",
 			"0",
@@ -67,10 +69,7 @@ public class Personnel
 			"'" + hsp.salt + "'"
 		);
 		
-		return Database.querySingle( Integer.class,
-			"select max(personNo)" +
-			"from Personnel;"
-		);
+		return ers.getElemAs(0,BigInteger.class).intValue();
 	}
 	
 	
