@@ -146,7 +146,7 @@ public class GenericPanel<T> extends JPanel
 	 * Add a separator between fields.
 	 */
 	public void addSeparator() {
-		addToMain( new JSeparator(), "growx, wrap" );
+		addToMain( new JSeparator(), "span 2, growx, wrap" );
 	}
 	
 	
