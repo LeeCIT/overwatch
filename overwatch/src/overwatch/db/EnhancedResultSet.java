@@ -277,7 +277,7 @@ public class EnhancedResultSet implements Iterable<Object[]>
 		} else {
 			throw new RuntimeException(
 				"No column named '" + name + "' exist.  Columns are: " +
-				columnNames.toString()
+				columnNames.toString() 
 			);
 		}
 	}
