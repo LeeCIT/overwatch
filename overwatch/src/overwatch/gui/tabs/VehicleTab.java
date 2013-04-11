@@ -30,7 +30,7 @@ import javax.swing.*;
 public class VehicleTab extends GenericPanelButtoned<Integer>
 {
 	public final LabelFieldPair            number;
-	public final LabelFieldPair            type;
+	public final LabelFieldPair            name;
 	public final LabelFieldEllipsisTriplet pilot;
 	
 	
@@ -42,7 +42,7 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 		super( "Vehicles" );
 		
 		number  = addLabelledField( "Number:" );
-		type	= addLabelledField( "Type:"   );
+		name	= addLabelledField( "Name:"   );
 		pilot   = addLabelledFieldWithEllipsis( "Pilot:" );
 		
 		number.field.setEditable( false );
@@ -53,7 +53,7 @@ public class VehicleTab extends GenericPanelButtoned<Integer>
 	
 	
 	// Validate
-	public void addTypeValidator ( CheckedFieldValidator v ) { type .field.addValidator(v); }
+	public void addTypeValidator ( CheckedFieldValidator v ) { name .field.addValidator(v); }
 	public void addPilotValidator( CheckedFieldValidator v ) { pilot.field.addValidator(v); }
 	
 	
