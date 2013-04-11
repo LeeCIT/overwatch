@@ -159,10 +159,16 @@ public class SupplyLogic extends TabController
 		    "WHERE supplyNo = " + supplyNo
 		);
 		
-		supplyTab.number.field.setText( "" + ers.getElemAs( "supplyNo", Integer.class ));
-		supplyTab.type  .field.setText(      ers.getElemAs( "type",     String .class ));
-		supplyTab.amount.field.setText( "" + ers.getElemAs( "count",    Integer.class ));
-		
+		if(!ers.isEmpty())
+		{
+			supplyTab.number.field.setText( "" + ers.getElemAs( "supplyNo", Integer.class ));
+			supplyTab.type  .field.setText(      ers.getElemAs( "type",     String .class ));
+			supplyTab.amount.field.setText( "" + ers.getElemAs( "count",    Integer.class ));
+		}
+		else{
+			Gui.showErrorDialogue("No longer exists", "The selected supply no longer exists");
+			populateTabList();
+		}		
 	}
 	
 	
