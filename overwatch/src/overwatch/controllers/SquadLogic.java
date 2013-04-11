@@ -16,6 +16,7 @@ import overwatch.db.DatabaseException;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
 import overwatch.db.Squads;
+import overwatch.db.Vehicles;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
 import overwatch.gui.tabs.SquadTab;
@@ -84,6 +85,7 @@ public class SquadLogic extends TabController
 		setupListSelectActions();
 		setupPickActions();
 		setupTroopsAssign();
+		setupVehiclesAssign();
 	}
 	
 	
@@ -123,7 +125,7 @@ public class SquadLogic extends TabController
 			String  squadName 	 = tab.name.      field.getText();
 			String commanderName = tab.commander.field.getText();
 			Integer commanderNo	 = Personnel.getNumber(commanderName);
-			
+						
 			if ( ! Squads.exists(squadNo)) {
 				showDeletedError( "Squad" );
 				populateSquadsList();
@@ -296,9 +298,39 @@ public class SquadLogic extends TabController
 	
 	private void setupTroopsAssign()
 	{
+		final PickListener<Integer> pickListener = new PickListener<Integer>() {
+			public void onPick( Integer picked ) {
+				if (picked != null)
+					tab.assignTroops.addItem(picked,Personnel.getLoginName(picked)) ;		
+			}
+		};
+		
+		
+		
 		tab.assignTroops.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				new PersonnelPicker(null, pickListener);
+			}
+		});
+	}
+	
+	
+	
+	
+	private void setupVehiclesAssign()
+	{
+		final PickListener<Integer> vehiclePick = new PickListener<Integer>() {
+			public void onPick( Integer picked ) {
+				if (picked != null)
+					tab.assignVehicles.addItem(picked,Squads.getAllVehiclesNotInSquads()) ;		
+			}
+		};
+		
+		
+		
+		tab.assignVehicles.addAddButtonListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new PersonnelPicker(null, vehiclePick);
 			}
 		});
 	}
