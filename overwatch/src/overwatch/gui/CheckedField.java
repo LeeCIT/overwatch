@@ -29,6 +29,7 @@ import javax.swing.text.Document;
 
 public class CheckedField extends JTextField
 {
+	private boolean isModifiedByUser;
 	private ArrayList<CheckedFieldValidator> validators;
 	private Color initialBgCol; 
 	
@@ -88,6 +89,8 @@ public class CheckedField extends JTextField
 	public void setText( String text ) {
 		super.setText( text );
 		
+		isModifiedByUser = false;
+		
 		if (isEnabled() && isEditable())
 			doVisualValidityFeedback();
 	}
@@ -105,6 +108,17 @@ public class CheckedField extends JTextField
 		}
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Returns true if the field was modified since setText was last used.
+	 * @return
+	 */
+	public boolean isModifiedByUser() {
+		return isModifiedByUser;
+	}
 	
 	
 	
@@ -130,6 +144,11 @@ public class CheckedField extends JTextField
 	{
 		this.addKeyListener( new KeyAdapter() {
 			public void keyReleased( KeyEvent e ) { doVisualValidityFeedback(); }
+		});
+		
+		
+		this.addKeyListener( new KeyAdapter() {
+			public void keyPressed( KeyEvent e ) { isModifiedByUser = true; }
 		});
 	}
 	

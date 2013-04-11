@@ -43,7 +43,7 @@ public class AssignPanel<T> extends JPanel
 	
 	private AssignPanel()
 	{
-		super(  new MigLayout("filly", "[grow]", "[][fill,grow][]")  );
+		super(  new MigLayout("filly", "[192px]", "[][fill,grow][]")  );
 	}
 	
 	
