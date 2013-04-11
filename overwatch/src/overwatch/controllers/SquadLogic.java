@@ -25,10 +25,13 @@ import overwatch.gui.tabs.SquadTab;
 
 
 
-public class SquadLogic extends TabController{
-	
-	
+public class SquadLogic extends TabController
+{
 	private final SquadTab tab;
+	
+	
+	
+	
 	
 	public SquadLogic(SquadTab tab)
 	{
@@ -40,19 +43,18 @@ public class SquadLogic extends TabController{
 	
 	
 	
+	
 	public void respondToTabSelect(){
 		populateSquadsList();
 	}
 	
 	
 	
+	
+	
 	public JPanel getTab(){
 		return tab;
 	}
-	
-	
-	
-	
 	
 	
 	
@@ -72,6 +74,8 @@ public class SquadLogic extends TabController{
 		setUpButtonActions();
 		setupListSelectActions();
 	}
+	
+	
 	
 	
 	
@@ -98,10 +102,13 @@ public class SquadLogic extends TabController{
 	
 	
 	
+	
+	
 	private void doSave()
 	{
 		
 	}
+	
 	
 	
 	
@@ -116,10 +123,12 @@ public class SquadLogic extends TabController{
 	
 	
 	
+	
 	private void delete()
 	{
 		
 	}
+	
 	
 	
 	
@@ -135,13 +144,15 @@ public class SquadLogic extends TabController{
 	
 	
 	
+	
 	private void populateSquadsList(){
 		populateFields(null);
 		
 		tab.setSearchableItems(
-		Database.queryKeyNamePairs("Squads", "squadNo", "squadName", Integer[].class)
+		Database.queryKeyNamePairs("Squads", "squadNo", "name", Integer[].class)
 		);
 	}
+	
 	
 	
 	
@@ -151,6 +162,7 @@ public class SquadLogic extends TabController{
 		tab.assignVehicles.setListItems(Squads.getVehicles(squadNo, Integer[].class));
 		tab.assignSupplies.setListItems(Squads.getSupplies(squadNo, Integer[].class));
 	}
+	
 	
 	
 	
@@ -168,20 +180,24 @@ public class SquadLogic extends TabController{
 		
 		
 		EnhancedResultSet ers = Database.query(
-			"SELECT s.squadNo, squadName, p.name AS personName     " +
-		    "FROM Squads s, SquadCommanders sq, Personnel p     " +
-		    "WHERE s.squadNo =  " + squadNo + " " +
-		    "AND s.squadNo   = sq.squadNo " +
-		    "AND sq.personNo = p.personNo;"
+			"SELECT s.squadNo," +
+			"		s.name AS squadName," +
+			"		p.name AS personName " +
+		    "FROM Squads s,			 " +
+		    "	  SquadCommanders sq," +
+		    "	  Personnel p 		 " +
+		    "WHERE s .squadNo  = " + squadNo + " " +
+		    "  AND s .squadNo  = sq.squadNo " +
+		    "  AND sq.personNo = p.personNo;"
 		);
 		
 		
 		if(ers.isEmpty())
 		{
 			EnhancedResultSet squad = Database.query( 
-					"SELECT squadNo, squadName " +  
-					"FROM Squads  " +
-					"WHERE squadNo = " + squadNo + ";"
+				"SELECT squadNo, squadName " +  
+				"FROM Squads  " +
+				"WHERE squadNo = " + squadNo + ";"
 			);
 			
 			
@@ -199,6 +215,7 @@ public class SquadLogic extends TabController{
 		//Populate the subpanels
 		loadSubPanels(squadNo);
 	}
+	
 	
 	
 	
