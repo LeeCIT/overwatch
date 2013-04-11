@@ -83,7 +83,7 @@ public class SupplyLogic extends TabController
 	private void doSave()
 	{
 		Integer supplyNo    = supplyTab.getSelectedItem();
-		String  supplyName  = supplyTab.type  .field.getText();
+		String  supplyName  = supplyTab.name  .field.getText();
 		Integer supplyCount = supplyTab.amount.field.getTextAsInt();
 		
 		if ( ! Supplies.exists(supplyNo)) {
@@ -162,19 +162,17 @@ public class SupplyLogic extends TabController
 		}
 		
 		EnhancedResultSet ers = Database.query(
-			"SELECT *         " +
+			"SELECT supplyNo, name, count " +
 		    "FROM Supplies    " +
-		    "WHERE supplyNo = " + supplyNo
+		    "WHERE supplyNo = " + supplyNo + ";"
 		);
 		
-		if(!ers.isEmpty())
-		{
+		if ( ! ers.isEmpty()) {
 			supplyTab.number.field.setText( "" + ers.getElemAs( "supplyNo", Integer.class ));
-			supplyTab.type  .field.setText(      ers.getElemAs( "name",     String .class ));
+			supplyTab.name  .field.setText(      ers.getElemAs( "name",     String .class ));
 			supplyTab.amount.field.setText( "" + ers.getElemAs( "count",    Integer.class ));
-		}
-		else{
-			Gui.showErrorDialogue("No longer exists", "The selected supply no longer exists");
+		} else {
+			showDeletedError( "supply" );
 			populateTabList();
 		}		
 	}

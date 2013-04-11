@@ -17,10 +17,10 @@ use `fortress`;
     create table Personnel (
          personNo       integer         not null    unique  auto_increment,
          name           varchar(128)    not null,
-         age            integer,
-         sex            char   (  1),
-         rankNo         integer,
-         salary         decimal(9,2),
+         age            integer         not null,
+         sex            char   (  1)    not null,
+         rankNo         integer         not null,
+         salary         decimal(9,2)    not null,
          loginName      varchar(128)    not null    unique,
          loginHash      char   ( 64)    not null,
          loginSalt      char   ( 16)    not null,
@@ -34,8 +34,8 @@ use `fortress`;
     create table Messages (
         messageNo       integer         not null    unique  auto_increment,
         sentDate        timestamp       not null,
-        subject         varchar(128),
-        body            text,
+        subject         varchar(128)    not null,
+        body            text            not null,
         sentBy          integer         not null,          
         sentTo          integer         not null,
         
@@ -82,7 +82,7 @@ use `fortress`;
     create table Squads (
         squadNo         integer         not null    unique  auto_increment,
         name            varchar(128)    not null    unique,
-        commander       integer,
+        commander       integer                     unique,
         
         primary key (squadNo),
         foreign key (commander) references Personnel(personNo)
@@ -93,7 +93,7 @@ use `fortress`;
     create table Vehicles (
         vehicleNo       integer         not null    unique  auto_increment,
         name            varchar(128)    not null,
-        pilot           integer,
+        pilot           integer                     unique,
         
         primary key (vehicleNo),
         foreign key (pilot) references Personnel(personNo)
@@ -103,7 +103,7 @@ use `fortress`;
     
     create table SquadTroops (
         squadNo         integer        not null,
-        personNo        integer        not null,
+        personNo        integer        not null     unique,
         
         foreign key (squadNo)  references Squads   (squadNo),
         foreign key (personNo) references Personnel(personNo)
@@ -113,7 +113,7 @@ use `fortress`;
     
     create table SquadVehicles (
         squadNo         integer        not null,
-        vehicleNo       integer        not null,
+        vehicleNo       integer        not null     unique,
         
         foreign key (squadNo)   references Squads  (squadNo),
         foreign key (vehicleNo) references Vehicles(vehicleNo)
@@ -124,7 +124,6 @@ use `fortress`;
     create table SquadSupplies (
         squadNo         integer        not null,
         supplyNo        integer        not null,
-        count           integer        not null,
         
         foreign key (squadNo)  references Squads  (squadNo),
         foreign key (supplyNo) references Supplies(supplyNo)
@@ -150,5 +149,4 @@ use `fortress`;
         foreign key (battleNo) references Battles(battleNo),
         foreign key (squadNo)  references Squads (squadNo)
     );
-    
     

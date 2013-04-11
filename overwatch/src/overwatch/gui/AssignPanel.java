@@ -393,7 +393,7 @@ public class AssignPanel<T> extends JPanel
 		
 		final PickListener<Integer> pickListener = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
-				ap.addItem( picked, Personnel.getName(picked) );		
+				ap.addItem( picked, Personnel.getLoginName(picked) );		
 			}
 		};
 		

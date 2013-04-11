@@ -85,6 +85,7 @@ public class Personnel
 	public static void delete( Integer personNo )
 	{
 		// TODO: There are TONS of things Personnel are referenced in which would prevent deletion.  And they must all be checked here!
+		// It's a fairly simple matter though, just a big query and and isEmpty check.
 		
 		Database.update( 
 			"delete from Personnel " +
@@ -101,7 +102,7 @@ public class Personnel
 	 * @param loginName
 	 * @return personNo if a valid login, -1 otherwise.
 	 */
-	public static int mapLoginToPerson( String loginName )
+	public static int getNumberFromLogin( String loginName )
 	{
 		Integer[] numbers = Database.queryInts(
 			"select personNo   " +
@@ -181,7 +182,7 @@ public class Personnel
 	}
 	
 	
-	
+		
 	
 	
 	/**
@@ -190,17 +191,17 @@ public class Personnel
 	 * @param personNo
 	 * @return name or null
 	 */
-	public static String getName( Integer personNo )
+	public static String getLoginName( Integer personNo )
 	{
 		EnhancedResultSet ers = Database.query(
-			"select name      " +
+			"select loginName " +
 		    "from Personnel   " +
 		    "where personNo = " + personNo + ";"
 		);
 		
 		if (ers.isEmpty())
 			 return null;
-		else return ers.getElemAs( "name", String.class ); 
+		else return ers.getElemAs( "loginName", String.class ); 
 	}
 	
 	
@@ -208,17 +209,17 @@ public class Personnel
 	
 	
 	/**
-	 * Get a person's number based on their name.
+	 * Get a person's number based on their login name.
 	 * Returns null if no such person exists.
 	 * @param name
 	 * @return personNo or null
 	 */
-	public static Integer getNumber( String name )
+	public static Integer getNumber( String loginName )
 	{
 		EnhancedResultSet ers = Database.query(
 			"select personNo  " +
 		    "from Personnel   " +
-		    "where name = '" + name + "';"
+		    "where loginName = '" + loginName + "';"
 		);
 		
 		if (ers.isEmpty())

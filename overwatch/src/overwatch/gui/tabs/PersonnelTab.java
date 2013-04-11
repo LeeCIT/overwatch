@@ -37,7 +37,8 @@ public class PersonnelTab extends GenericPanelButtoned<Integer>
 	public final LabelFieldPair            sex;
 	public final LabelFieldPair            salary;
 	public final LabelFieldEllipsisTriplet rank;
-	public final JButton 				   login;
+	public final LabelFieldPair            loginName;
+	public final JButton 				   passChange;
 	
 	
 	
@@ -47,13 +48,17 @@ public class PersonnelTab extends GenericPanelButtoned<Integer>
 	{
 		super( "Personnel" );
 		
-		number  = addLabelledField( "Number:" );
-		name    = addLabelledField( "Name:"   );
-		age     = addLabelledField( "Age:"    );
-		sex     = addLabelledField( "Sex:"    );
-		salary  = addLabelledField( "Salary:" );
-		rank    = addLabelledFieldWithEllipsis( "Rank:"   );
-		login   = addToMain( new JButton("Login details..."), "skip 1, alignx right" );
+		number     = addLabelledField( "Number:"     );
+		name       = addLabelledField( "Name:"       );
+		age        = addLabelledField( "Age:"        );
+		sex        = addLabelledField( "Sex:"        );
+		salary     = addLabelledField( "Salary:"     );
+		rank       = addLabelledFieldWithEllipsis( "Rank:"   );
+		
+		addSeparator();
+		
+		loginName  = addLabelledField( "Login name:" );
+		passChange = addToMain( new JButton("Change password..."), "skip 1, alignx right" );
 		
 		number.field.setEditable( false );
 	};
@@ -63,14 +68,15 @@ public class PersonnelTab extends GenericPanelButtoned<Integer>
 	
 	
 	// Field validators
-	public void addNameValidator  ( CheckedFieldValidator v ) {  name  .field.addValidator( v );  }
-	public void addAgeValidator   ( CheckedFieldValidator v ) {  age   .field.addValidator( v );  }
-	public void addSexValidator   ( CheckedFieldValidator v ) {  sex   .field.addValidator( v );  }
-	public void addSalaryValidator( CheckedFieldValidator v ) {  salary.field.addValidator( v );  }
-	public void addRankValidator  ( CheckedFieldValidator v ) {  rank  .field.addValidator( v );  }
+	public void addNameValidator  ( CheckedFieldValidator v ) {  name     .field.addValidator( v );  }
+	public void addAgeValidator   ( CheckedFieldValidator v ) {  age      .field.addValidator( v );  }
+	public void addSexValidator   ( CheckedFieldValidator v ) {  sex      .field.addValidator( v );  }
+	public void addSalaryValidator( CheckedFieldValidator v ) {  salary   .field.addValidator( v );  }
+	public void addRankValidator  ( CheckedFieldValidator v ) {  rank     .field.addValidator( v );  }
+	public void addLoginValidator ( CheckedFieldValidator v ) {  loginName.field.addValidator( v );  }
 
 	// Buttons
-	public void addChangeLoginListener( ActionListener e ) { login.addActionListener(e); }
+	public void addPassChangeListener( ActionListener e ) { passChange.addActionListener(e); }
 
 }
 

@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import com.mysql.jdbc.authentication.MysqlClearPasswordPlugin;
 
 
 
@@ -92,9 +91,9 @@ public class VehicleLogic extends TabController
 		}
 		
 		Integer vehicleNo   = tab.getSelectedItem();
-		String  vehicleType = tab.type .field.getText();
+		String  vehicleType = tab.name .field.getText();
 		String  pilotName   = tab.pilot.field.getText();
-		Integer pilotNo     = Personnel.getNumber( pilotName ); // TODO: not unique, use logins instead?
+		Integer pilotNo     = Personnel.getNumber( pilotName );
 		
 		int mods = Database.update(
 			"update Vehicles   " +
@@ -173,14 +172,14 @@ public class VehicleLogic extends TabController
 		String pilotName = "";
 		if (pilot != null) {
 			pilotName = Database.querySingle( String.class,
-				"select name      " +
+				"select loginName " +
 				"from Personnel   " +
 				"where personNo = " + pilot + ";"
 			);
 		}
 		
 		tab.number.field.setText( "" + ers.getElemAs( "vehicleNo",  Integer.class ));
-		tab.type  .field.setText(	   ers.getElemAs( "name",       String .class ));
+		tab.name  .field.setText(	   ers.getElemAs( "name",       String .class ));
 		tab.pilot .field.setText(      pilotName );
 	}
 	
@@ -275,7 +274,7 @@ public class VehicleLogic extends TabController
 		final PickListener<Integer> pickListener = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
 				if (picked != null)
-					tab.pilot.field.setText(Personnel.getName(picked)) ;		
+					tab.pilot.field.setText(Personnel.getLoginName(picked)) ;		
 			}
 		};
 		

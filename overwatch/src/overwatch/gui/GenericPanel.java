@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -135,6 +136,17 @@ public class GenericPanel<T> extends JPanel
 		addToMain( f, "growx, wrap"  );
 		
 		return new LabelFieldPair( l,f );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Add a separator between fields.
+	 */
+	public void addSeparator() {
+		addToMain( new JSeparator(), "span 2, growx, wrap" );
 	}
 	
 	

@@ -7,6 +7,8 @@ package overwatch.gui.tabs;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import net.miginfocom.swing.MigLayout;
 import overwatch.core.Gui;
 import overwatch.gui.LabelFieldPair;
@@ -40,6 +42,9 @@ public class OrderTab extends JPanel
 		buttMarkAsDone = new JButton( "Mark as done" );
 		buttCreateNew  = new JButton( "Create order..." );
 		
+		messagePanel.setEditable( false );
+		buttMarkAsDone.setEnabled( false );
+		
 		String searchMigParams = "wmin 192px, wmax 192px, height 100%";
 		
 		add( ordersIn,     searchMigParams );
@@ -48,18 +53,30 @@ public class OrderTab extends JPanel
 		add( buttMarkAsDone );
 		add( buttCreateNew, "growx" );
 		
-		
+		setupActions();
+	}	
+	
+	
+	
+	
+	
+	private void setupActions()
+	{
+		ordersIn.addListSelectionListener( new ListSelectionListener() {
+			public void valueChanged( ListSelectionEvent e ) {
+				buttMarkAsDone.setEnabled( (null != ordersIn.getSelectedItem()) );				
+			}
+		});		
 	}
+
+
+
+
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
 	///////////////////////////////////////////////////////////////////////////
 	// Test
 	/////////////////////////////////////////////////////////////////////////

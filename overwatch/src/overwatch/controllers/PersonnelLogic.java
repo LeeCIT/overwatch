@@ -132,7 +132,7 @@ public class PersonnelLogic extends TabController
 	{
 		populateFields( null );
 		tab.setSearchableItems(
-			Database.queryKeyNamePairs( "Personnel", "personNo", "name", Integer[].class )
+			Database.queryKeyNamePairs( "Personnel", "personNo", "loginName", Integer[].class )
 		);
 	}
 	
@@ -157,10 +157,11 @@ public class PersonnelLogic extends TabController
 			"		personNo,    " +
 			"		age,         " +
 			"		sex,         " +
-			"		salary       " +
+			"		salary,      " +
+			"       loginName    " +
 			"from Ranks     r,   " +
 			"	  Personnel p    " +
-			"where p.personNo =  " + personNo + "   " +
+			"where p.personNo =  " + personNo + " " +
 			"  and p.rankNo   = r.rankNo;"
 		);
 		
@@ -168,13 +169,14 @@ public class PersonnelLogic extends TabController
 			showDeletedError( "person" );
 			return;
 		}
-
-		tab.number.field.setText( "" + ers.getElemAs( "personNo",   Integer   .class ) );
-		tab.name  .field.setText(      ers.getElemAs( "personName", String    .class ) );
-		tab.age   .field.setText( "" + ers.getElemAs( "age",        Integer   .class ) );
-		tab.sex   .field.setText(      ers.getElemAs( "sex",        String    .class ) );
-		tab.salary.field.setText( "" + ers.getElemAs( "salary",     BigDecimal.class ) );
-		tab.rank  .field.setText(      ers.getElemAs( "rankName",   String    .class ) );
+		
+		tab.number   .field.setText( "" + ers.getElemAs( "personNo",   Integer   .class ) );
+		tab.name     .field.setText(      ers.getElemAs( "personName", String    .class ) );
+		tab.age      .field.setText( "" + ers.getElemAs( "age",        Integer   .class ) );
+		tab.sex      .field.setText(      ers.getElemAs( "sex",        String    .class ) );
+		tab.salary   .field.setText( "" + ers.getElemAs( "salary",     BigDecimal.class ) );
+		tab.rank     .field.setText(      ers.getElemAs( "rankName",   String    .class ) );
+		tab.loginName.field.setText(      ers.getElemAs( "loginName",  String    .class ) );
 	}
 	
 	
@@ -295,6 +297,13 @@ public class PersonnelLogic extends TabController
 		tab.addRankValidator( new CheckedFieldValidator() {
 			public boolean check( String text ) {
 				return DatabaseConstraints.rankExists( text );
+			}
+		});
+		
+		
+		tab.addLoginValidator( new CheckedFieldValidator() {
+			public boolean check( String text ) {
+				return DatabaseConstraints.isValidName( text );
 			}
 		});
 	}
