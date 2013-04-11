@@ -141,6 +141,32 @@ public class Squads
 		
 		return ers.getElemAs("name", String.class);
 	}
+	
+	
+	
+	
+	
+	public static NameRefPairList<Integer> getPersonnelNotInSquads()
+	{
+		EnhancedResultSet ers = Database.query(
+				"SELECT p.personNo, p.name " +
+				"FROM Personnel p, Ranks r " +
+				"wHERE p.rankNo = r.rankNo " +
+				"AND r.name = Trooper "	 	 +
+				"AND personNo NOT IN "		 +
+				"(   SELECT personNo "		 +		
+				"    FROM SquadTroops);"	 
+			);
+		
+		if ( ! ers.isEmpty()) {
+			Integer[] keys  = ers.getColumnAs( "personNo",  Integer[].class  );
+			String [] names = ers.getColumnAs( "name", String [].class  );
+			return new NameRefPairList<Integer>( keys, names );
+		}
+		
+		return new NameRefPairList<Integer>();
+	}
+	 
 	 
 	
 	
