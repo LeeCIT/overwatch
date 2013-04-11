@@ -265,19 +265,38 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	
 	/**
 	 * Given the column name, find the index.
-	 * Returns -1 if it can't be found.
+	 * If you used an "AS" command, it will be named as such.
+	 * @throws RuntimeException If no column with the given name exists.  (use columnExists for that)
 	 */
 	public int getColumnIndex( String name )
 	{
-		for (int col=0; col<columnNames.length; col++) 
-			if (columnNames[col].equals( name )) 
-				return col;
+		int index = getColumnIndexInternal( name );
 		
-		return -1;
+		if (index != -1) {
+			return index;
+		} else {
+			throw new RuntimeException(
+				"No column named '" + name + "' exist.  Columns are: " +
+				columnNames.toString()
+			);
+		}
 	}
 	
 	
+	
+	
+	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public boolean columnExists( String name ) {
+		return (-1 != getColumnIndexInternal(name));
+	}
+	
 		
+	
 	
 	
 	
@@ -287,6 +306,18 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////	
+	
+	
+	private int getColumnIndexInternal( String name )
+	{
+		for (int col=0; col<columnNames.length; col++) 
+			if (columnNames[col].equals( name )) 
+				return col;
+		
+		return -1;
+	}
+	
+	
 	
 	
 	
