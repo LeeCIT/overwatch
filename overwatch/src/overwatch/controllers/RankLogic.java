@@ -193,8 +193,14 @@ public class RankLogic extends TabController
 		
 		
 		rankTab.addNameValidator(new CheckedFieldValidator() {
-			public boolean check(String text) {				
-				return DatabaseConstraints.isValidName( text );
+			public boolean check(String text)
+			{
+				if ( ! DatabaseConstraints.isValidName( text ))
+					return false;
+				
+				boolean edited  = rankTab.name.field.isModifiedByUser();
+				boolean badEdit = (edited && Database.queryUnique( "Ranks", "name", "'"+text+"'" ));
+				return ! badEdit;
 			}
 		});
 		
