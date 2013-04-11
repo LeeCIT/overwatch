@@ -137,7 +137,7 @@ public class SupplyLogic extends TabController
 		populateFields( null );
 		
 		supplyTab.setSearchableItems(
-			Database.queryKeyNamePairs( "Supplies", "supplyNo", "type", Integer[].class )
+			Database.queryKeyNamePairs( "Supplies", "supplyNo", "name", Integer[].class )
 		);
 	}
 	
