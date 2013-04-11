@@ -299,6 +299,13 @@ public class PersonnelLogic extends TabController
 				return DatabaseConstraints.rankExists( text );
 			}
 		});
+		
+		
+		tab.addLoginValidator( new CheckedFieldValidator() {
+			public boolean check( String text ) {
+				return DatabaseConstraints.isValidName( text );
+			}
+		});
 	}
 	
 }

@@ -84,7 +84,7 @@ public class Personnel
 	 */
 	public static void delete( Integer personNo )
 	{
-		// TODO: There are TONS of things Personnel are referenced in which would prevent deletion.  And they must all be checked here!
+		// TODO: There are TONS of things Personnel are referenced in which would prevent deletion.  And they must all be checked here!		
 		
 		Database.update( 
 			"delete from Personnel " +
