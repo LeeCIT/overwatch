@@ -161,21 +161,28 @@ public class VehicleLogic extends TabController
 		    "FROM Vehicles     " +
 		    "WHERE vehicleNo = " + vehicleNo + ";"
 		);
-		
-		Integer pilot = vehicle.getElemAs( "personNo", Integer.class );
-		
-		String pilotName = "";
-		if (pilot != null) {
-			pilotName = Database.querySingle( String.class,
-				"select name      " +
-				"from Personnel   " +
-				"where personNo = " + pilot + ";"
-			);
+		if(!vehicle.isEmpty())
+		{
+			Integer pilot = vehicle.getElemAs( "personNo", Integer.class );
+			
+			String pilotName = "";
+			if (pilot != null) {
+				pilotName = Database.querySingle( String.class,
+					"select name      " +
+					"from Personnel   " +
+					"where personNo = " + pilot + ";"
+				);
+			}
+			
+			tab.number.field.setText( "" + vehicle.getElemAs( "vehicleNo",  Integer.class ));
+			tab.type  .field.setText(	   vehicle.getElemAs( "type",       String .class ));
+			tab.pilot .field.setText(      pilotName );		
+		}
+		else{
+			Gui.showErrorDialogue("No longer exists", "The selected vehicle no longer exists");
+			populateTabList();
 		}
 		
-		tab.number.field.setText( "" + vehicle.getElemAs( "vehicleNo",  Integer.class ));
-		tab.type  .field.setText(	   vehicle.getElemAs( "type",       String .class ));
-		tab.pilot .field.setText(      pilotName );		
 	}
 	
 	
