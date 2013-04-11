@@ -11,7 +11,7 @@ import overwatch.gui.NameRefPairList;
  * 
  * @author John Murphy
  * @author Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -72,6 +72,19 @@ public class Squads
 		String[] names = ers.getColumnAs( "supType", String[].class );
 		
 		return new NameRefPairList<T>( keys, names );	
+	}
+	
+	
+	
+	
+	public static Integer create()
+	{
+		Common.createWithUnique( "Squads", "DEFAULT", "'new Squad <?>'");
+		
+		return Database.querySingle( Integer.class,
+			"select max(squadNo)" +
+			"from Squads;"
+		);
 	}
 	 
 	
