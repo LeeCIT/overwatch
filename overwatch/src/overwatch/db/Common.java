@@ -32,7 +32,6 @@ public class Common
 	
 	/**
 	 * Unique creator for ranks, personnel etc
-	 * The table must use autoIncrement values.
 	 * @param table Table to apply the insert to
 	 * @param namePrefix What to prepend the unique name with, eg "vehicle"
 	 * @param values Values you would put in the SQL query values() part.  The string "<?>" will be replaced with a random unique string.
@@ -52,6 +51,7 @@ public class Common
 				return;
 			}
 			catch (DatabaseException ex) {
+				ex.printStackTrace();
 				System.out.println( "<debug> createWithUnique failed, retrying" ); // TODO remove debug
 			}
 		}
