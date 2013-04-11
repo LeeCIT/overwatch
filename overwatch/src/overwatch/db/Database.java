@@ -308,16 +308,48 @@ public class Database
 		
 		return rowsModified; 
 	}
+
+	
+		
+	
+	
+	/**
+	 * Prevent read/write access from being made to a table.  They're queued until it's unlocked again.
+	 * Make damn sure to unlock() after!
+	 * @param conn
+	 * @param table
+	 * @param mode READ or WRITE.  Write completely locks the table, not only for writing but reading too.
+	 */
+	public static void lock( Connection conn, String table, String mode ) {
+	  Database.update( conn, "lock tables " + table + " " + mode + ";" );
+	}
 	
 	
 	
 	
 	
 	/**
-	 * Create a new vehicle.
-	 * @return Integer vehicleNo
+	 * Unlock a previously locked table.
 	 */
-	public static Integer createUniqueLockingTest()
+	public static void unlock( Connection conn ) {
+		Database.update( conn, "unlock tables;" );
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Test
+	/////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	private static Integer createUniqueLockingTest()
 	{  
 	  Connection conn = Database.getConnection();
 	  
@@ -348,32 +380,6 @@ public class Database
 	    finally { Database.returnConnection( conn ); }
 	  }
 	} 
-	
-	
-	
-	
-	
-	/**
-	 * Prevent read/write access from being made to a table.  They're queued until it's unlocked again.
-	 * Make damn sure to unlock() after!
-	 * @param conn
-	 * @param table
-	 * @param mode READ or WRITE.  Write completely locks the table, not only for writing but reading too.
-	 */
-	public static void lock( Connection conn, String table, String mode ) {
-	  Database.update( conn, "lock tables " + table + " " + mode + ";" );
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Unlock a previously locked table.
-	 */
-	public static void unlock( Connection conn ) {
-		Database.update( conn, "unlock tables;" );
-	}
 	
 	
 	
