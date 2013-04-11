@@ -28,7 +28,7 @@ import overwatch.gui.LabelFieldPair;
 public class SupplyTab extends GenericPanelButtoned<Integer>
 {
 	
-	public final LabelFieldPair type;
+	public final LabelFieldPair name;
 	public final LabelFieldPair amount;
 	public final LabelFieldPair number;
 	
@@ -41,7 +41,7 @@ public class SupplyTab extends GenericPanelButtoned<Integer>
 		super( "Supplies" );	
 		
 		number	= addLabelledField("Number:");
-		type	= addLabelledField("Type:");
+		name	= addLabelledField("Type:");
 		amount  = addLabelledField("Amount:");	
 		
 		number.field.setEditable(false);
@@ -51,7 +51,7 @@ public class SupplyTab extends GenericPanelButtoned<Integer>
 	
 	
 	
-	public void addTypeValidator  (CheckedFieldValidator v)	{ type  .field.addValidator(v); }
+	public void addTypeValidator  (CheckedFieldValidator v)	{ name  .field.addValidator(v); }
 	public void addAmountValidator(CheckedFieldValidator v)	{ amount.field.addValidator(v); }
 	public void addNumberValidator(CheckedFieldValidator v)	{ number.field.addValidator(v); }
 	
