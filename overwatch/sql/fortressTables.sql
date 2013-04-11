@@ -1,5 +1,6 @@
 
 
+
 -- Create tables
 use `fortress`;
 
@@ -81,9 +82,10 @@ use `fortress`;
     create table Squads (
         squadNo         integer         not null    unique  auto_increment,
         name            varchar(128)    not null    unique,
-        commander       integer                        unique,
+        commander       integer,
         
-        primary key (squadNo)
+        primary key (squadNo),
+        foreign key (commander) references Personnel(personNo)
     );
     
     
@@ -91,10 +93,10 @@ use `fortress`;
     create table Vehicles (
         vehicleNo       integer         not null    unique  auto_increment,
         type            varchar(128)    not null,
-        personNo        integer,
+        pilot           integer,
         
         primary key (vehicleNo),
-        foreign key (personNo) references Personnel(personNo)
+        foreign key (pilot) references Personnel(personNo)
     );
     
     
@@ -148,4 +150,3 @@ use `fortress`;
         foreign key (battleNo) references Battles(battleNo),
         foreign key (squadNo)  references Squads (squadNo)
     );
-    
