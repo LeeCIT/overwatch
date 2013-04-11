@@ -133,7 +133,7 @@ public class VehicleLogic extends TabController
 	{
 		populateFields( null );
 		tab.setSearchableItems(
-			Database.queryKeyNamePairs( "Vehicles", "vehicleNo", "type", Integer[].class )
+			Database.queryKeyNamePairs( "Vehicles", "vehicleNo", "name", Integer[].class )
 		);
 	}
 	
@@ -149,21 +149,21 @@ public class VehicleLogic extends TabController
 			tab.clearFields();
 			return;
 		}
-		else {
-			tab.setEnableFieldsAndButtons(true);
-		}
 		
+		
+		tab.setEnableFieldsAndButtons(true);
 		
 		EnhancedResultSet vehicle = Database.query(
 			"SELECT vehicleNo, " +
-			"       type,      " +
-			"		personNo   " +
+			"       name,      " +
+			"		pilot      " +
 		    "FROM Vehicles     " +
 		    "WHERE vehicleNo = " + vehicleNo + ";"
 		);
+		
 		if(!vehicle.isEmpty())
 		{
-			Integer pilot = vehicle.getElemAs( "personNo", Integer.class );
+			Integer pilot = vehicle.getElemAs( "pilot", Integer.class );
 			
 			String pilotName = "";
 			if (pilot != null) {
@@ -175,7 +175,7 @@ public class VehicleLogic extends TabController
 			}
 			
 			tab.number.field.setText( "" + vehicle.getElemAs( "vehicleNo",  Integer.class ));
-			tab.type  .field.setText(	   vehicle.getElemAs( "type",       String .class ));
+			tab.type  .field.setText(	   vehicle.getElemAs( "name",       String .class ));
 			tab.pilot .field.setText(      pilotName );		
 		}
 		else{
