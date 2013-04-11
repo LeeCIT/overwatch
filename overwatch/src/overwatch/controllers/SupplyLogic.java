@@ -83,7 +83,7 @@ public class SupplyLogic extends TabController
 	private void doSave()
 	{
 		Integer supplyNo    = supplyTab.getSelectedItem();
-		String  supplyType  = supplyTab.type  .field.getText();
+		String  supplyName  = supplyTab.type  .field.getText();
 		Integer supplyCount = supplyTab.amount.field.getTextAsInt();
 		
 		if ( ! Supplies.exists(supplyNo)) {
@@ -93,15 +93,16 @@ public class SupplyLogic extends TabController
 		}
 		
 		Database.update(
-			"UPDATE Supplies "   +
-			"SET type =     '"   + supplyType   +
-			"', count =      "   + supplyCount  + 
-			" WHERE supplyNo = " + supplyNo + ";"
+			"UPDATE Supplies  " +
+			"SET name  =     '" + supplyName   + "'," + 
+			"    count =      " + supplyCount  + " "  + 
+			"WHERE supplyNo = " + supplyNo + ";"
 		);
 		
 		populateTabList();
 		supplyTab.setSelectedItem( supplyNo );
 	}
+	
 	
 	
 	
@@ -113,6 +114,7 @@ public class SupplyLogic extends TabController
 		populateTabList();
 		supplyTab.setSelectedItem( supplyNo );
 	}
+	
 	
 	
 	
@@ -129,6 +131,7 @@ public class SupplyLogic extends TabController
 	
 	
 	
+	
 	private void populateTabList()
 	{
 		populateFields( null );
@@ -139,6 +142,7 @@ public class SupplyLogic extends TabController
 	}
 	
 		
+	
 	
 	
 	private void populateFields(Integer supplyNo)
