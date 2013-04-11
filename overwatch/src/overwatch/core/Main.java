@@ -41,8 +41,8 @@ public class Main
 	public static void main( String[] args ) throws InterruptedException
 	{
 		Gui.setNativeStyle();
-		//createLoginFrame(); TODO DEBUG ONLY
-		createMainGui();
+		//createLoginFrame(); 
+		createMainGui(); //TODO DEBUG ONLY
 		createAndRunShutdownLatchThread();
 	}
 	
