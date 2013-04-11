@@ -12,7 +12,6 @@ import overwatch.db.Database;
 import overwatch.db.DatabaseException;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
-import overwatch.db.Ranks;
 import overwatch.db.Squads;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
@@ -101,7 +100,7 @@ public class SquadLogic extends TabController
 		
 		tab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Delete");				
+				delete();	
 			}
 		});
 	}
@@ -139,7 +138,8 @@ public class SquadLogic extends TabController
 		{
 			Integer squadNo = tab.getSelectedItem();
 
-			Gui.showErrorDialogue("Squad save failed", "The squad may exist already or may of been deleted");
+			Gui.showErrorDialogue("Squad save failed", "The squad may exist already or may of been deleted" +
+								  "\nSquads may not have the same commander");
 			populateSquadsList();
 			tab.setSelectedItem(squadNo);
 		}
@@ -162,7 +162,18 @@ public class SquadLogic extends TabController
 	
 	private void delete()
 	{
+		Integer squadNo = tab.getSelectedItem();
+		int mods = Database.update(
+			"DELETE         " +
+			"FROM Squads     " +
+			"WHERE squadNo = " + squadNo + ";"
+		);
 		
+		if(mods <= 0) {
+			showDeletedError("squads");
+		}
+		
+		populateSquadsList();
 	}
 	
 	
