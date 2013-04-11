@@ -6,7 +6,7 @@ use `fortress`;
 
     create table Ranks (
         rankNo          integer         not null    unique  auto_increment,
-        name            varchar(128)     not null    unique,
+        name            varchar(128)    not null    unique,
         privilegeLevel  integer         not null,
         
         primary key (rankNo)
@@ -92,7 +92,7 @@ use `fortress`;
     
     create table Vehicles (
         vehicleNo       integer         not null    unique  auto_increment,
-        type            varchar(128)    not null,
+        name            varchar(128)    not null,
         pilot           integer,
         
         primary key (vehicleNo),
@@ -150,3 +150,5 @@ use `fortress`;
         foreign key (battleNo) references Battles(battleNo),
         foreign key (squadNo)  references Squads (squadNo)
     );
+    
+    
