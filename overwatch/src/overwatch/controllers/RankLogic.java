@@ -118,7 +118,12 @@ public class RankLogic extends TabController
 	private void delete()
 	{
 		Integer rankNum = rankTab.getSelectedItem();
-		Database.update("DELETE FROM Ranks WHERE rankNo = " + rankNum + ";");
+		int mods = Database.update("DELETE FROM Ranks WHERE rankNo = " + rankNum + ";");
+		
+		if(mods <= 0)
+		{
+			Gui.showErrorDialogue("Rank deleted", "Rank deleted by someone else");
+		}
 		
 		populateTabList();
 	}
@@ -154,10 +159,19 @@ public class RankLogic extends TabController
 		    "SELECT *       " +
 		    "FROM Ranks     " +
 		    "WHERE rankNo = " + rankNo);
+		
+		if(!ers.isEmpty())
+		{
+			rankTab.number       .field.setText("" + ers.getElemAs( "rankNo",         Integer.class ));
+			rankTab.name         .field.setText(     ers.getElemAs( "name",           String .class ));
+			rankTab.securityLevel.field.setText("" + ers.getElemAs( "privilegeLevel", Integer.class ));		
+		}
+		else{
+			Gui.showErrorDialogue("No longer exists", "The selected rank no longer exists");
+			populateTabList();
+		}
 
-		rankTab.number       .field.setText("" + ers.getElemAs( "rankNo",         Integer.class ));
-		rankTab.name         .field.setText(     ers.getElemAs( "name",           String .class ));
-		rankTab.securityLevel.field.setText("" + ers.getElemAs( "privilegeLevel", Integer.class ));		
+		
 	}
 	
 	
