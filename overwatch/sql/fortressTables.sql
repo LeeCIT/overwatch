@@ -1,7 +1,11 @@
 
+
+-- Create tables
+use `fortress`;
+
     create table Ranks (
-        rankNo          integer 	    not null    unique  auto_increment,
-        name            varchar(128) 	not null    unique,
+        rankNo          integer         not null    unique  auto_increment,
+        name            varchar(128)     not null    unique,
         privilegeLevel  integer         not null,
         
         primary key (rankNo)
@@ -30,7 +34,7 @@
         messageNo       integer         not null    unique  auto_increment,
         sentDate        timestamp       not null,
         subject         varchar(128),
-        body            blob,
+        body            text,
         sentBy          integer         not null,          
         sentTo          integer         not null,
         
@@ -44,7 +48,8 @@
     create table Orders (
         orderNo         integer         not null    unique  auto_increment,
         messageNo       integer         not null    unique,
-        isComplete      boolean         not null,
+        isRead          boolean         not null,
+        isDone          boolean         not null,
         
         primary key (orderNo),
         foreign key (messageNo) references Messages(messageNo)
@@ -63,19 +68,9 @@
     
     
     
-    create table PersonnelOrders (
-        personNo        integer         not null,
-        orderNo         integer         not null,
-        
-        foreign key (personNo) references Personnel(personNo),
-        foreign key (orderNo)  references Orders   (orderNo)
-    );
-    
-    
-    
     create table Supplies (
         supplyNo        integer         not null    unique  auto_increment,
-        type            varchar(128)    not null,
+        name            varchar(128)    not null,
         count           integer         not null,
         
         primary key (supplyNo)
@@ -85,7 +80,8 @@
     
     create table Squads (
         squadNo         integer         not null    unique  auto_increment,
-        squadName       varchar(128)    not null    unique,
+        name            varchar(128)    not null    unique,
+        commander       integer                        unique,
         
         primary key (squadNo)
     );
@@ -98,16 +94,6 @@
         personNo        integer,
         
         primary key (vehicleNo),
-        foreign key (personNo) references Personnel(personNo)
-    );
-    
-    
-    
-    create table SquadCommanders (
-        squadNo         integer        not null,
-        personNo        integer        not null,
-        
-        foreign key (squadNo)  references Squads   (squadNo),
         foreign key (personNo) references Personnel(personNo)
     );
     
@@ -162,5 +148,4 @@
         foreign key (battleNo) references Battles(battleNo),
         foreign key (squadNo)  references Squads (squadNo)
     );
-    
     
