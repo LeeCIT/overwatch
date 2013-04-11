@@ -1,3 +1,6 @@
+
+
+
 package overwatch.db;
 
 import java.util.ArrayList;
@@ -7,71 +10,87 @@ import overwatch.gui.NameRefPairList;
 
 
 
+
+
 /**
  * 
  * @author John Murphy
  * @author Lee Coakley
  * @version 2
+ * 
+ * TODO comment your public functions
  */
+
+
 
 
 
 public class Squads
 {
 	
-	public static  <T> NameRefPairList<T> getTroops(int squadNo, Class<? extends T[]> keyType)
+	public static NameRefPairList<Integer> getTroops( int squadNo )
 	{
 		EnhancedResultSet ers = Database.query(
-			"SELECT  p.personNo AS personNum, p.name AS personName " +
-			"FROM Personnel p, Squads s, SquadTroops st " 			 +
-			"WHERE s.squadNo = " + squadNo + " "					 +
-			"AND s.squadNo = st.squadNo "							 +
-			"AND st.personNo = p.personNo;"
+			"SELECT  p.personNo AS personNum,  " +
+			"        p.name     AS personName  " +
+			"FROM Personnel   p,               " +
+			"     Squads      s,               " +
+			"     SquadTroops st               " +
+			"WHERE s .squadNo  = " + squadNo + " " +
+			"  AND s .squadNo  = st.squadNo    " +
+			"  AND st.personNo = p.personNo;   "
 		);
-			
-		T[]      keys  = ers.getColumnAs( "personNum",  keyType        );
-		String[] names = ers.getColumnAs( "personName", String[].class );
 		
-		return new NameRefPairList<T>( keys, names );
+		Integer[] keys  = ers.getColumnAs( "personNum",  Integer[].class  );
+		String [] names = ers.getColumnAs( "personName", String [].class  );
+		
+		return new NameRefPairList<Integer>( keys, names );
 	}
 	
 	
 	
 	
-	public static <T> NameRefPairList<T> getVehicles(int squadNo, Class<? extends T[]> keyType)
+	
+	public static NameRefPairList<Integer> getVehicles( int squadNo )
 	{
 		EnhancedResultSet ers = Database.query(
-				"SELECT v.type AS vehicleType, v.vehicleNo AS vehicleNum " 	+
-				"FROM Squads s, SquadVehicles sv, Vehicles v " 	+
-				"WHERE s.squadNo = " + squadNo + " " +
-				"AND s.squadNo = sv.squadNo "	+
-				"AND sv.vehicleNo = v.vehicleNo;"				
+			"SELECT v.name      AS vehicleName, " +
+			"       v.vehicleNo AS vehicleNum   " +
+			"FROM Squads        s,              " +
+			"     SquadVehicles sv,             " +
+			"     Vehicles      v               " +
+			"WHERE s  .squadNo  = " + squadNo + " " +
+			"  AND s  .squadNo  = sv.squadNo    " +
+			"  AND sv.vehicleNo = v .vehicleNo; "
 		);
 		
+		Integer[] keys  = ers.getColumnAs( "vehicleNum",  Integer[].class  );
+		String [] names = ers.getColumnAs( "vehicleName", String [].class  );
 		
-		T[]      keys  = ers.getColumnAs( "vehicleNum",   keyType        );
-		String[] names = ers.getColumnAs( "vehicleType", String[].class );
-		
-		return new NameRefPairList<T>( keys, names );		
+		return new NameRefPairList<Integer>( keys, names );
 	}
 	
 	
 	
-	public static <T> NameRefPairList<T> getSupplies(int squadNo, Class<? extends T[]> keyType)
+	
+	
+	public static NameRefPairList<Integer> getSupplies( int squadNo )
 	{
 		EnhancedResultSet ers = Database.query(
-				"SELECT supplies.type AS supType, supplies.supplyNo AS supNo " +
-				"FROM Squads s, SquadSupplies ss, Supplies supplies " +
-				"WHERE s.squadNo = " + squadNo + " " + 
-				"AND s.squadNo = ss.squadNo " + 
-				"AND ss.supplyNo = supplies.supplyNo;"
+			"SELECT s.supplyNo AS supNo,          " +
+			"       s.name     AS supName         " +
+			"FROM Squads        sq,               " +
+			"	  SquadSupplies sqs,              " +
+			"     Supplies      s                 " +
+			"WHERE sq .squadNo  = " + squadNo + " " + 
+			"  AND sq .squadNo  = sqs.squadNo     " + 
+			"  AND sqs.supplyNo = s  .supplyNo;   "
 		);
 		
+		Integer[] keys  = ers.getColumnAs( "supNo",   Integer[].class );
+		String [] names = ers.getColumnAs( "supName", String [].class );
 		
-		T[]      keys  = ers.getColumnAs( "supNo",   keyType        );
-		String[] names = ers.getColumnAs( "supType", String[].class );
-		
-		return new NameRefPairList<T>( keys, names );	
+		return new NameRefPairList<Integer>( keys, names );
 	}
 	
 	

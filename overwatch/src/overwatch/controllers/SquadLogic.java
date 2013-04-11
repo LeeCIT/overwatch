@@ -158,9 +158,9 @@ public class SquadLogic extends TabController
 	
 	
 	private void populateAssignPanels( int squadNo ) {
-		tab.assignTroops.setListItems  ( Squads.getTroops  ( squadNo, Integer[].class ));
-		tab.assignVehicles.setListItems( Squads.getVehicles( squadNo, Integer[].class ));
-		tab.assignSupplies.setListItems( Squads.getSupplies( squadNo, Integer[].class ));
+		tab.assignTroops  .setListItems( Squads.getTroops  ( squadNo ));
+		tab.assignVehicles.setListItems( Squads.getVehicles( squadNo ));
+		tab.assignSupplies.setListItems( Squads.getSupplies( squadNo ));
 	}
 	
 	
