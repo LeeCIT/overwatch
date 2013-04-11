@@ -37,7 +37,7 @@ public class MessagePanel extends JPanel
 	
 	public MessagePanel()
 	{
-		super( new MigLayout( "debug", "[][grow]", "[][][][][grow,fill]" ) );
+		super( new MigLayout( "", "[][grow]", "[][][][][grow,fill]" ) );
 		
 		sentBy  = new LabelFieldPair     ( "From:"    );
 		sentTo  = new LabelFieldPair     ( "To:"      );
