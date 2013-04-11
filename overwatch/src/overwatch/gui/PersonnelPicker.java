@@ -31,7 +31,7 @@ public class PersonnelPicker extends SearchPicker<Integer>
 			frame, 
 			"Choose Person",
 			"Personnel",
-			Database.queryKeyNamePairs( "Personnel", "personNo", "name", Integer[].class )
+			Database.queryKeyNamePairs( "Personnel", "personNo", "loginName", Integer[].class )
 		);
 		
 		this.addPickListener( listenerToCall );
