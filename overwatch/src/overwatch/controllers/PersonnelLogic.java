@@ -146,9 +146,10 @@ public class PersonnelLogic extends TabController
 			tab.setEnableFieldsAndButtons( false );
 			tab.clearFields();
 			return;
-		} else {
-			tab.setEnableFieldsAndButtons( true );
 		}
+		
+		
+		tab.setEnableFieldsAndButtons( true );
 		
 		EnhancedResultSet ers = Database.query(
 			"select r.name as rankName,   " +
@@ -163,19 +164,21 @@ public class PersonnelLogic extends TabController
 			"  and p.rankNo   = r.rankNo;"
 		);
 		
-		if(!ers.isEmpty())
+		if(ers.isEmpty())
 		{
-			tab.number.field.setText( "" + ers.getElemAs( "personNo",   Integer   .class ) );
-			tab.name  .field.setText(      ers.getElemAs( "personName", String    .class ) );
-			tab.age   .field.setText( "" + ers.getElemAs( "age",        Integer   .class ) );
-			tab.sex   .field.setText(      ers.getElemAs( "sex",        String    .class ) );
-			tab.salary.field.setText( "" + ers.getElemAs( "salary",     BigDecimal.class ) );
-			tab.rank  .field.setText(      ers.getElemAs( "rankName",   String    .class ) );
-		}
-		else{
 			Gui.showErrorDialogue("No longer exists", "The selected person no longer exists");
 			populateList();
-		}		
+			return;
+		}
+
+		tab.number.field.setText( "" + ers.getElemAs( "personNo",   Integer   .class ) );
+		tab.name  .field.setText(      ers.getElemAs( "personName", String    .class ) );
+		tab.age   .field.setText( "" + ers.getElemAs( "age",        Integer   .class ) );
+		tab.sex   .field.setText(      ers.getElemAs( "sex",        String    .class ) );
+		tab.salary.field.setText( "" + ers.getElemAs( "salary",     BigDecimal.class ) );
+		tab.rank  .field.setText(      ers.getElemAs( "rankName",   String    .class ) );
+		
+		populateList();
 	}
 	
 	
