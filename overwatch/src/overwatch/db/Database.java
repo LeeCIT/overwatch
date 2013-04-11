@@ -3,12 +3,18 @@
 
 package overwatch.db;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import com.sun.org.apache.bcel.internal.util.BCELifier;
+import overwatch.core.Main;
 import overwatch.gui.NameRefPair;
 import overwatch.gui.NameRefPairList;
+import overwatch.security.BackgroundCheck;
+import overwatch.security.BackgroundMonitor;
+import overwatch.util.Util;
 
 
 
@@ -302,7 +308,109 @@ public class Database
 		
 		return rowsModified; 
 	}
+
 	
+		
+	
+	
+	/**
+	 * Prevent read/write access from being made to a table.  They're queued until it's unlocked again.
+	 * Make damn sure to unlock() after!
+	 * @param conn
+	 * @param table
+	 * @param mode READ or WRITE.  Write completely locks the table, not only for writing but reading too.
+	 */
+	public static void lock( Connection conn, String table, String mode ) {
+	  Database.update( conn, "lock tables " + table + " " + mode + ";" );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Unlock a previously locked table.
+	 */
+	public static void unlock( Connection conn ) {
+		Database.update( conn, "unlock tables;" );
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Test
+	/////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	private static Integer createUniqueLockingTest()
+	{  
+	  Connection conn = Database.getConnection();
+	  
+	  try {
+		 Database.lock( conn, "Vehicles", "WRITE" );
+	     EnhancedResultSet ers = Database.query( conn,
+	      "select max(vehicleNo)+1 " +
+	      "from Vehicles;"
+	    );
+	     
+	    Long    vehicleNoKey = ers.getElemAs( 0, Long.class );
+	    Integer vehicleNo    = (int) (long) vehicleNoKey;
+	    
+	    Database.update( conn,
+	      "insert into Vehicles values (" +
+	          "default, " +
+	        "'new vehicle #" + vehicleNo + "'," +
+	        "null" +
+	      ");"
+	    );
+	    
+	    return Database.query( conn,
+		    	"select LAST_INSERT_ID() from Vehicles;"
+	    	    ).getElemAs( 0, BigInteger.class ).intValue();
+	  }
+	  finally {
+	    try     { Database.unlock( conn );           }
+	    finally { Database.returnConnection( conn ); }
+	  }
+	} 
+	
+	
+	
+	
+	
+	public static void main( String[] args )
+	{
+		Database.update( "delete from Vehicles where vehicleNo >= 4;" );
+		System.exit( 0 );
+		
+		for (int i=0; i<4; i++)
+		{
+			new BackgroundMonitor( Util.randomIntRange(16,64 ) )
+			    .addBackgroundCheck( new BackgroundCheck() {
+				public void onCheck() {
+					System.out.println( Database.createUniqueLockingTest() );				
+				}
+			});
+		}
+		
+		try { Thread.sleep( 1000 * 30 ); }
+		catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println( "Stopping all..." );
+		BackgroundMonitor.stopAll();
+		System.out.println( "Stopped all." );
+		
+		System.exit( 0 );
+	}
 }
 
 
