@@ -97,12 +97,12 @@ public class DatabaseConstraints
 	 * @param name
 	 * @return Exists
 	 */
-	public static boolean personExists( String name )
+	public static boolean personExists( String loginName )
 	{
 		Integer[] personnelName = Database.queryInts(
 			"SELECT personNo " +
 			"from Personnel  " +
-			"where name = '" + name + "' " +
+			"where loginName = '" + loginName + "' " +
 			"limit 1;"
 		);
 	
