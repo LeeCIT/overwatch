@@ -157,7 +157,7 @@ public class PersonnelLogic extends TabController
 			"		personNo,    " +
 			"		age,         " +
 			"		sex,         " +
-			"		salary       " +
+			"		salary,      " +
 			"       loginName    " +
 			"from Ranks     r,   " +
 			"	  Personnel p    " +
@@ -169,7 +169,7 @@ public class PersonnelLogic extends TabController
 			showDeletedError( "person" );
 			return;
 		}
-
+		
 		tab.number   .field.setText( "" + ers.getElemAs( "personNo",   Integer   .class ) );
 		tab.name     .field.setText(      ers.getElemAs( "personName", String    .class ) );
 		tab.age      .field.setText( "" + ers.getElemAs( "age",        Integer   .class ) );
