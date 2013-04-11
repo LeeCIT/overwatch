@@ -89,6 +89,17 @@ public class ScrollableTextPanel extends JPanel
 	
 	
 	
+	
+	/**
+	 * Make textArea editable or not.
+	 */
+	public void setEditable( boolean editable ) {
+		textArea.setEditable( editable );
+	}
+	
+	
+	
+	
 		
 	
 	
