@@ -14,6 +14,8 @@ import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
 import overwatch.db.Ranks;
 import overwatch.db.Squads;
+import overwatch.gui.PersonnelPicker;
+import overwatch.gui.PickListener;
 import overwatch.gui.tabs.SquadTab;
 
 
@@ -76,6 +78,7 @@ public class SquadLogic extends TabController
 	private void attatchEvents(){
 		setUpButtonActions();
 		setupListSelectActions();
+		setupPickActions();
 	}
 	
 	
@@ -118,7 +121,7 @@ public class SquadLogic extends TabController
 			
 			if ( ! Squads.exists(squadNo)) {
 				showDeletedError( "Squad" );
-				populateSquadsList(); // Reload
+				populateSquadsList();
 				return;
 			}
 			
@@ -136,7 +139,7 @@ public class SquadLogic extends TabController
 		{
 			Integer squadNo = tab.getSelectedItem();
 
-			Gui.showErrorDialogue("Already exists", "Rank already exists, please rename the rank");
+			Gui.showErrorDialogue("Squad save failed", "The squad may exist already or may of been deleted");
 			populateSquadsList();
 			tab.setSelectedItem(squadNo);
 		}
@@ -249,6 +252,26 @@ public class SquadLogic extends TabController
 	
 	private void setupTabChangeActions() {
 		Gui.getCurrentInstance().addTabSelectNotify(this);
+	}
+	
+	
+	
+	
+	private void setupPickActions()
+	{
+		final PickListener<Integer> pickListener = new PickListener<Integer>() {
+			public void onPick( Integer picked ) {
+				if (picked != null)
+					tab.commander.field.setText(Personnel.getName(picked)) ;		
+			}
+		};
+		
+		tab.commander.button.addActionListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				new PersonnelPicker( Gui.getCurrentInstance(), pickListener );
+			}
+		});
+		
 	}
 	
 	
