@@ -91,7 +91,7 @@ public class Squads
 		);
 		
 		if ( ! ers.isEmpty()) {
-			Integer[] keys  = ers.getColumnAs( "supNum",  Integer[].class  );
+			Integer[] keys  = ers.getColumnAs( "supNo",   Integer[].class  );
 			String [] names = ers.getColumnAs( "supName", String [].class  );
 			return new NameRefPairList<Integer>( keys, names );
 		}
@@ -104,7 +104,7 @@ public class Squads
 	
 	public static Integer create()
 	{
-		Common.createWithUnique( "Squads", "DEFAULT", "'new Squad <?>'");
+		Common.createWithUnique( "Squads", "DEFAULT", "'new Squad <?>'", "null" );
 		
 		return Database.querySingle( Integer.class,
 			"select max(squadNo)" +
