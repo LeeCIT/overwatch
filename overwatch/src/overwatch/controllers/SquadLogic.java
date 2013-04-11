@@ -144,8 +144,7 @@ public class SquadLogic extends TabController
 		{
 			Integer squadNo = tab.getSelectedItem();
 
-			Gui.showErrorDialogue("Squad save failed", "The squad may exist already or may of been deleted" +
-								  "\nSquads may not have the same commander");
+			showDeletedError("Squad was already deleted");
 			populateSquadsList();
 			tab.setSelectedItem(squadNo);
 		}
