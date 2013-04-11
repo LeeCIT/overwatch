@@ -91,7 +91,7 @@ public class VehicleLogic extends TabController
 		}
 		
 		Integer vehicleNo   = tab.getSelectedItem();
-		String  vehicleType = tab.type .field.getText();
+		String  vehicleType = tab.name .field.getText();
 		String  pilotName   = tab.pilot.field.getText();
 		Integer pilotNo     = Personnel.getNumber( pilotName );
 		
@@ -179,7 +179,7 @@ public class VehicleLogic extends TabController
 		}
 		
 		tab.number.field.setText( "" + ers.getElemAs( "vehicleNo",  Integer.class ));
-		tab.type  .field.setText(	   ers.getElemAs( "name",       String .class ));
+		tab.name  .field.setText(	   ers.getElemAs( "name",       String .class ));
 		tab.pilot .field.setText(      pilotName );
 	}
 	
