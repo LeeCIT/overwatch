@@ -18,7 +18,7 @@ import overwatch.gui.SearchPanel;
 
 
 
-public class OrdersTab extends JPanel
+public class OrderTab extends JPanel
 {
 	public final SearchPanel<Integer> ordersIn;
 	public final SearchPanel<Integer> ordersOut;
@@ -30,7 +30,7 @@ public class OrdersTab extends JPanel
 	
 	
 	
-	public OrdersTab()
+	public OrderTab()
 	{
 		super( new MigLayout( "", "[][grow,fill][]", "[grow,fill][]" ) );
 		
@@ -47,6 +47,8 @@ public class OrdersTab extends JPanel
 		add( ordersOut,    searchMigParams + ", wrap" );
 		add( buttMarkAsDone );
 		add( buttCreateNew, "growx" );
+		
+		
 	}
 	
 	
@@ -67,7 +69,7 @@ public class OrdersTab extends JPanel
 		Gui.setNativeStyle();
 		
 		JFrame frame = new JFrame();
-		OrdersTab ot = new OrdersTab();
+		OrderTab ot = new OrderTab();
 		
 		frame.add(ot);
 		frame.pack();
