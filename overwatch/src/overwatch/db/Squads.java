@@ -102,7 +102,6 @@ public class Squads
 	
 	
 	
-	
 	public static Integer create()
 	{
 		Common.createWithUnique( "Squads", "DEFAULT", "'new Squad <?>'", "null" );
@@ -116,11 +115,6 @@ public class Squads
 	
 	
 	
-	/**
-	 * Check if a squad exists.
-	 * @param squadNo
-	 * @return name or null
-	 */
 	public static boolean exists( Integer squadNo )
 	{
 		EnhancedResultSet ers = Database.query(
@@ -132,6 +126,21 @@ public class Squads
 		return ! ers.isEmpty();
 	}
 	
+	
+	
+	
+	public static String getAllVehiclesNotInSquads()
+	{
+		EnhancedResultSet ers = Database.query(
+			"SELECT vehicleNo "		+
+			"FROM Vehicles "	+
+			"WHERE vehicleNo NOT IN "  +
+			"( 		SELECT vehicleNo " +
+			"		FROM SquadVehicles"
+		);
+		
+		return ers.getElemAs("name", String.class);
+	}
 	 
 	
 	
