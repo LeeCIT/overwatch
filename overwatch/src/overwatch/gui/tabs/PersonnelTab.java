@@ -68,14 +68,15 @@ public class PersonnelTab extends GenericPanelButtoned<Integer>
 	
 	
 	// Field validators
-	public void addNameValidator  ( CheckedFieldValidator v ) {  name  .field.addValidator( v );  }
-	public void addAgeValidator   ( CheckedFieldValidator v ) {  age   .field.addValidator( v );  }
-	public void addSexValidator   ( CheckedFieldValidator v ) {  sex   .field.addValidator( v );  }
-	public void addSalaryValidator( CheckedFieldValidator v ) {  salary.field.addValidator( v );  }
-	public void addRankValidator  ( CheckedFieldValidator v ) {  rank  .field.addValidator( v );  }
+	public void addNameValidator  ( CheckedFieldValidator v ) {  name     .field.addValidator( v );  }
+	public void addAgeValidator   ( CheckedFieldValidator v ) {  age      .field.addValidator( v );  }
+	public void addSexValidator   ( CheckedFieldValidator v ) {  sex      .field.addValidator( v );  }
+	public void addSalaryValidator( CheckedFieldValidator v ) {  salary   .field.addValidator( v );  }
+	public void addRankValidator  ( CheckedFieldValidator v ) {  rank     .field.addValidator( v );  }
+	public void addLoginValidator ( CheckedFieldValidator v ) {  loginName.field.addValidator( v );  }
 
 	// Buttons
-	public void addChangeLoginListener( ActionListener e ) { passChange.addActionListener(e); }
+	public void addPassChangeListener( ActionListener e ) { passChange.addActionListener(e); }
 
 }
 
