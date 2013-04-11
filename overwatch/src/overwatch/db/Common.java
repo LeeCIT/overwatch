@@ -91,7 +91,7 @@ public class Common
 	  	String cmd  = pre + vals;
 	    
 	    try {
-	    	Database.lock( conn, "Vehicles", "WRITE" );
+	    	Database.lock( conn, table, "WRITE" );
 	  		
 	  		for (int r=1; r<=maxRetries; r++) {
 	  			boolean lastAttempt = (r == maxRetries);
