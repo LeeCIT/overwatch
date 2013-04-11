@@ -48,8 +48,12 @@ public class OrderTab extends JPanel
 		add( buttMarkAsDone );
 		add( buttCreateNew, "growx" );
 		
-		
+		messagePanel.setEditable( false );
 	}
+	
+	
+	
+	
 	
 	
 	
