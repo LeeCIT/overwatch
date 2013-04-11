@@ -123,7 +123,11 @@ public class SupplyLogic extends TabController
 	{
 		Integer supplyNo = supplyTab.getSelectedItem();
 		
-		Database.update("DELETE FROM Supplies WHERE supplyNo = " + supplyNo + ";");
+		Database.update(
+			"DELETE           " +
+			"FROM Supplies    " +
+			"WHERE supplyNo = " + supplyNo + ";"
+		);
 		
 		populateTabList();
 	}
@@ -166,7 +170,7 @@ public class SupplyLogic extends TabController
 		if(!ers.isEmpty())
 		{
 			supplyTab.number.field.setText( "" + ers.getElemAs( "supplyNo", Integer.class ));
-			supplyTab.type  .field.setText(      ers.getElemAs( "type",     String .class ));
+			supplyTab.type  .field.setText(      ers.getElemAs( "name",     String .class ));
 			supplyTab.amount.field.setText( "" + ers.getElemAs( "count",    Integer.class ));
 		}
 		else{
