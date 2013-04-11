@@ -139,6 +139,9 @@ public class SquadLogic extends TabController
 				"WHERE squadNo = " 		  + squadNo + " ;"
 			);
 			
+			
+			
+			
 			populateSquadsList();
 			tab.setSelectedItem(squadNo);
 		}
@@ -213,9 +216,15 @@ public class SquadLogic extends TabController
 	
 	private void populateAssignPanels( int squadNo ) {
 		// TODO not concurrency safe
-		tab.assignTroops  .setListItems( Squads.getTroops  ( squadNo ));
-		tab.assignVehicles.setListItems( Squads.getVehicles( squadNo ));
-		tab.assignSupplies.setListItems( Squads.getSupplies( squadNo ));
+		try
+		{		
+			tab.assignTroops  .setListItems( Squads.getTroops  ( squadNo ));
+			tab.assignVehicles.setListItems( Squads.getVehicles( squadNo ));
+			tab.assignSupplies.setListItems( Squads.getSupplies( squadNo ));
+		}
+		catch (DatabaseException de) {
+			showDeletedError("Squads");
+		}
 	}
 	
 	
@@ -330,7 +339,7 @@ public class SquadLogic extends TabController
 		
 		tab.assignVehicles.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new PersonnelPicker(null, vehiclePick);
+				new PersonnelPicker(null, vehiclePick);//Should be a VehiclePicker
 			}
 		});
 	}
