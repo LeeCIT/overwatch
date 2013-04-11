@@ -4,6 +4,7 @@
 package overwatch.controllers;
 
 import java.awt.Component;
+import overwatch.core.Gui;
 
 
 
@@ -26,4 +27,16 @@ public abstract class TabController
 {
 	public abstract void      respondToTabSelect();
 	public abstract Component getTab();
+	
+	
+	
+	
+	
+	public void showDeletedError( String itemName )
+	{
+		Gui.showErrorDialogue(
+			"Deleted By Other User",
+			"The " + itemName + " has been deleted by another user!"
+		);
+	}
 }
