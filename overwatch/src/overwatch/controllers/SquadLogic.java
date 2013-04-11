@@ -5,7 +5,6 @@ package overwatch.controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -16,7 +15,6 @@ import overwatch.db.DatabaseException;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
 import overwatch.db.Squads;
-import overwatch.db.Vehicles;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
 import overwatch.gui.tabs.SquadTab;
@@ -122,9 +120,10 @@ public class SquadLogic extends TabController
 		try
 		{
 			Integer squadNo   	 = tab.getSelectedItem();
-			String  squadName 	 = tab.name.      field.getText();
+			String  squadName 	 = tab.name.     field.getText();
 			String commanderName = tab.commander.field.getText();
 			Integer commanderNo	 = Personnel.getNumber(commanderName);
+			
 						
 			if ( ! Squads.exists(squadNo)) {
 				showDeletedError( "Squad" );
@@ -138,8 +137,6 @@ public class SquadLogic extends TabController
 				"    commander = " 		  + commanderNo + " "  +
 				"WHERE squadNo = " 		  + squadNo + " ;"
 			);
-			
-			
 			
 			
 			populateSquadsList();

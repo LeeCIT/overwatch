@@ -145,8 +145,11 @@ public class Squads
 	
 	
 	
-	
-	public static NameRefPairList<Integer> getPersonnelNotInSquads()
+	/**
+	 * Gets all the troops who are not in a squad
+	 * @return
+	 */
+	public static NameRefPairList<Integer> getTroopsNotInSquads()
 	{
 		EnhancedResultSet ers = Database.query(
 				"SELECT p.personNo, p.name " +
@@ -166,6 +169,8 @@ public class Squads
 		
 		return new NameRefPairList<Integer>();
 	}
+	
+	
 	 
 	 
 	
