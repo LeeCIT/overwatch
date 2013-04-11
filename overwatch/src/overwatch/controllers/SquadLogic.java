@@ -9,7 +9,10 @@ import javax.swing.event.ListSelectionListener;
 
 import overwatch.core.Gui;
 import overwatch.db.Database;
+import overwatch.db.DatabaseException;
 import overwatch.db.EnhancedResultSet;
+import overwatch.db.Personnel;
+import overwatch.db.Ranks;
 import overwatch.db.Squads;
 import overwatch.gui.tabs.SquadTab;
 
@@ -19,7 +22,7 @@ import overwatch.gui.tabs.SquadTab;
 /**
  * The squadTabLogic
  * @author  John Murphy
- *
+ * @version 2
  */
 
 
@@ -89,7 +92,7 @@ public class SquadLogic extends TabController
 		
 		tab.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Save");
+				doSave();
 			}
 		});
 		
@@ -106,7 +109,37 @@ public class SquadLogic extends TabController
 	
 	private void doSave()
 	{
-		
+		try
+		{
+			Integer squadNo   	 = tab.getSelectedItem();
+			String  squadName 	 = tab.name.      field.getText();
+			String commanderName = tab.commander.field.getText();
+			Integer commanderNo	 = Personnel.getNumber(commanderName);
+			
+			if ( ! Squads.exists(squadNo)) {
+				showDeletedError( "Squad" );
+				populateSquadsList(); // Reload
+				return;
+			}
+			
+			Database.update(
+				"UPDATE Squads "          +
+				"SET name           = '"  + squadName  + "'," +
+				"    commander = " 		  + commanderNo + " "  +
+				"WHERE squadNo = " 		  + squadNo + " ;"
+			);
+			
+			populateSquadsList();
+			tab.setSelectedItem(squadNo);
+		}
+		catch(DatabaseException exception)
+		{
+			Integer squadNo = tab.getSelectedItem();
+
+			Gui.showErrorDialogue("Already exists", "Rank already exists, please rename the rank");
+			populateSquadsList();
+			tab.setSelectedItem(squadNo);
+		}
 	}
 	
 	
@@ -211,8 +244,6 @@ public class SquadLogic extends TabController
 		//Populate the subpanels
 		populateAssignPanels(squadNo);
 	}
-	
-	
 	
 	
 	
