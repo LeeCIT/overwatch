@@ -117,7 +117,7 @@ public class SquadLogic extends TabController
 	{
 		Integer squadNo = Squads.create();
 		populateSquadsList();
-		populateFields(squadNo);
+		populateFieldsAndPanels(squadNo);
 	}
 	
 	
@@ -136,7 +136,7 @@ public class SquadLogic extends TabController
 	private void setupListSelectActions(){
 		tab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				populateFields(tab.getSelectedItem());
+				populateFieldsAndPanels(tab.getSelectedItem());
 			}
 		});
 	}
@@ -146,7 +146,7 @@ public class SquadLogic extends TabController
 	
 	
 	private void populateSquadsList(){
-		populateFields(null);
+		populateFieldsAndPanels(null);
 		
 		tab.setSearchableItems(
 		Database.queryKeyNamePairs("Squads", "squadNo", "name", Integer[].class)
@@ -157,63 +157,59 @@ public class SquadLogic extends TabController
 	
 	
 	
-	private void loadSubPanels(int squadNo){
-		tab.assignTroops.setListItems(Squads.getTroops(squadNo, Integer[].class));
-		tab.assignVehicles.setListItems(Squads.getVehicles(squadNo, Integer[].class));
-		tab.assignSupplies.setListItems(Squads.getSupplies(squadNo, Integer[].class));
+	private void populateAssignPanels( int squadNo ) {
+		tab.assignTroops.setListItems  ( Squads.getTroops  ( squadNo, Integer[].class ));
+		tab.assignVehicles.setListItems( Squads.getVehicles( squadNo, Integer[].class ));
+		tab.assignSupplies.setListItems( Squads.getSupplies( squadNo, Integer[].class ));
 	}
 	
 	
 	
 	
 	
-	private void populateFields(Integer squadNo)
+	private void populateFieldsAndPanels(Integer squadNo)
 	{
-		if(squadNo == null)
-		{
+		if(squadNo == null) {
 			tab.setEnableFieldsAndButtons( false );
 			tab.clearFields();
 			return;
 		}
 		
+		
 		tab.setEnableFieldsAndButtons( true );
 		
-		
 		EnhancedResultSet ers = Database.query(
-			"SELECT s.squadNo," +
-			"		s.name AS squadName," +
-			"		p.name AS personName " +
-		    "FROM Squads s,			 " +
-		    "	  SquadCommanders sq," +
-		    "	  Personnel p 		 " +
-		    "WHERE s .squadNo  = " + squadNo + " " +
-		    "  AND s .squadNo  = sq.squadNo " +
-		    "  AND sq.personNo = p.personNo;"
+			"SELECT squadNo,  " +
+			"		name,     " +
+			"       commander " +
+		    "FROM Squads " +
+		    "WHERE squadNo  = " + squadNo  + ";"
 		);
 		
 		
-		if(ers.isEmpty())
-		{
-			EnhancedResultSet squad = Database.query( 
-				"SELECT squadNo, squadName " +  
-				"FROM Squads  " +
-				"WHERE squadNo = " + squadNo + ";"
-			);
-			
-			
-			tab.number.field.setText( "" 	+ squad.getElemAs( "squadNo", 	Integer.class ));
-			tab.name  .field.setText(      	  squad.getElemAs( "squadName",   String .class ));		
-			tab.commander.field.setText( "None selected" );
+		if (ers.isEmpty()) {
+			showDeletedError( "squad" );
+			return;
 		}
-		else
-		{
-			tab.number.field.setText( "" 	+ ers.getElemAs( "squadNo", 	Integer.class ));
-			tab.name  .field.setText(      	  ers.getElemAs( "squadName",   String .class ));
-			tab.commander.field.setText( "" + ers.getElemAs( "personName",  Integer.class ));	
-		}	
+		
+		
+		Integer commander = ers.getElemAs( "commander", Integer.class );
+		
+		String commanderName = "";
+		if (commander != null) {
+			commanderName = Database.querySingle( String.class,
+				"select name      " +
+				"from Personnel   " +
+				"where personNo = " + commander + ";"
+			);
+		}
+		
+		tab.number   .field.setText( "" + ers.getElemAs( "squadNo",    Integer.class ));
+		tab.name     .field.setText(      ers.getElemAs( "name",       String .class ));
+		tab.commander.field.setText(      commanderName );
 		
 		//Populate the subpanels
-		loadSubPanels(squadNo);
+		populateAssignPanels(squadNo);
 	}
 	
 	
