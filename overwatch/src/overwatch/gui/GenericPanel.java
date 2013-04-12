@@ -37,9 +37,7 @@ import net.miginfocom.swing.MigLayout;
 
 
 public class GenericPanel<T> extends JPanel
-{
-	public static final int defaultFieldWidth = 24;
-	
+{	
 	protected final SearchPanel<T> searchPanel;
 	protected final JPanel         mainPanel;
 	protected final JLabel         mainLabel;
@@ -127,26 +125,8 @@ public class GenericPanel<T> extends JPanel
 	 * @param label
 	 * @return LabelFieldPair
 	 */
-	public LabelFieldPair addLabelledField( String label )
-	{
-		JLabel       l = new JLabel( label );
-		CheckedField f = new CheckedField( defaultFieldWidth );
-		
-		addToMain( l, "alignx right" );
-		addToMain( f, "growx, wrap"  );
-		
-		return new LabelFieldPair( l,f );
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Add a separator between fields.
-	 */
-	public void addSeparator() {
-		addToMain( new JSeparator(), "span 2, growx, wrap" );
+	public LabelFieldPair addLabelledField( String label ) {
+		return GuiUtil.addLabelledField( mainPanel, label );
 	}
 	
 	
@@ -158,17 +138,19 @@ public class GenericPanel<T> extends JPanel
 	 * @param label
 	 * @return LabelFieldEllipsisTriplet
 	 */
-	public LabelFieldEllipsisTriplet addLabelledFieldWithEllipsis( String label )
-	{
-		JLabel       l = new JLabel ( label );
-		CheckedField f = new CheckedField( defaultFieldWidth );
-		JButton      b = new JButton( "..." );
-		
-		addToMain( l, "alignx right"     );
-		addToMain( f, "growx, split 2"   );
-		addToMain( b, "wmax 32px, wrap"	 );
-		
-		return new LabelFieldEllipsisTriplet( l,f,b );
+	public LabelFieldEllipsisTriplet addLabelledFieldWithEllipsis( String label ) {
+		return GuiUtil.addLabelledFieldWithEllipsis( mainPanel, label );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Add a separator between fields.
+	 */
+	public void addSeparator() {
+		addToMain( new JSeparator(), "span 2, growx, wrap" );
 	}
 	
 	
