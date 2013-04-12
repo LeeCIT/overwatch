@@ -47,11 +47,11 @@ public class OrderTab extends JPanel
 		
 		String searchMigParams = "wmin 192px, wmax 192px, height 100%";
 		
-		add( ordersIn,     searchMigParams );
-		add( messagePanel, "wmin 224px, hmin 128px" );
-		add( ordersOut,    searchMigParams + ", wrap" );
-		add( buttMarkAsDone );
-		add( buttCreateNew, "growx" );
+		add( ordersIn,       searchMigParams );
+		add( messagePanel,   "wmin 224px, hmin 128px" );
+		add( ordersOut,      searchMigParams + ", wrap" );
+		add( buttMarkAsDone, "growx" );
+		add( buttCreateNew,  "skip 1, growx" );
 		
 		setupActions();
 	}	
