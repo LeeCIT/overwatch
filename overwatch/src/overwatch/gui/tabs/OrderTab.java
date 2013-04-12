@@ -12,9 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import net.miginfocom.swing.MigLayout;
 import overwatch.core.Gui;
-import overwatch.gui.LabelFieldPair;
 import overwatch.gui.MessagePanel;
-import overwatch.gui.ScrollableTextPanel;
 import overwatch.gui.SearchPanel;
 
 
