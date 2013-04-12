@@ -3,6 +3,9 @@
 
 package overwatch.db;
 
+import java.util.ArrayList;
+import overwatch.gui.NameRefPair;
+
 
 
 
@@ -30,4 +33,89 @@ public class Orders
 			"false"
 		);
 	}
+	
+	
+	
+	
+	
+	/**
+	 * Get orders sent to this person
+	 * @param personNo
+	 * @return
+	 */
+	public static ArrayList<NameRefPair<Integer>> getOrdersAndSubjectsSentTo( Integer personNo ) {
+		return getOrdersAndSubjects( "sentTo", personNo );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Get orders sent by this person
+	 * @param personNo
+	 * @return
+	 */
+	public static ArrayList<NameRefPair<Integer>> getOrdersAndSubjectsSentBy( Integer personNo ) {
+		return getOrdersAndSubjects( "sentBy", personNo );
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
+	
+	private static ArrayList<NameRefPair<Integer>> getOrdersAndSubjects( String sentByOrTo, Integer personNo )
+	{
+		EnhancedResultSet ers = Database.query(
+			"select orderNo, subject           " +
+			"                                  " +
+			"from Orders   o,                  " +
+			"     Messages m                   " +
+			"                                  " +
+			"where o.messageNo = m.messageNo   " +
+			"  and m." + sentByOrTo + " = " + personNo +
+			"                                  " +
+			"order by o.isRead, o.isDone desc; "
+		);
+		
+		return ers.getNameRefPairArrayList( "orderNo", Integer[].class, "subject" );
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
