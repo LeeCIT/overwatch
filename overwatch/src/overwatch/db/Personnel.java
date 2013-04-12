@@ -83,15 +83,43 @@ public class Personnel
 	 * @return succeeded
 	 */
 	public static boolean delete( Integer personNo )
-	{
-		// TODO personnel delete check
-		
+	{		
 		int rowMods = Database.update( 
 			"delete from Personnel " +
 			"where PersonNo = " + personNo + ";"
 		);
 		
 		return (rowMods == 1);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Checks if the person is used in any of the other tables.
+	 * If so, deleting them will cause major problems.
+	 * @return
+	 */
+	public static boolean isInSquadOrVehicle( Integer personNo )
+	{
+		long count = Database.querySingle( Long.class,
+			"select count(val)                       " +
+			"from (                                  " +
+			"    select commander as val from Squads " +
+			"    union                               " +
+			"    select personNo from SquadTroops    " +
+			"    union                               " +
+			"    select pilot from Vehicles          " +
+//			"    union                               " +
+//			"    select sentBy from Messages         " +
+//			"    union                               " +
+//			"    select sentTo from Messages         " +
+			") as ut                                 " +
+			"where ut.val = " + personNo + ";"
+		);
+		
+		return (count > 0L);
 	}
 	
 	

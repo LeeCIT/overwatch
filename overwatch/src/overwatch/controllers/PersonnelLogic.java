@@ -111,8 +111,66 @@ public class PersonnelLogic extends TabController
 	private void doDelete()
 	{
 		Integer personNo = tab.getSelectedItem();
+		
+		if ( ! doDeletableCheck( personNo ))
+			return;		
+		
 		Personnel.delete( personNo );
 		populateList();
+	}
+	
+	
+	
+	
+	
+	private boolean doDeletableCheck( Integer personNo )
+	{
+		if (Personnel.isInSquadOrVehicle( personNo ))
+		{
+			String name = Personnel.getLoginName( personNo );
+			
+			String vehicle = Database.querySingle( String.class,
+				"select v.name   " +
+				"from Vehicles v " +
+				"where pilot =   " + personNo + ";"
+			);
+			
+			String squadCom = Database.querySingle( String.class,
+				"select name       " +
+				"from Squads       " +
+				"where commander = " + personNo + ";"
+			);
+			
+			String squad = Database.querySingle( String.class,
+				"select s.name                 " +
+				"from Squads s, SquadTroops st " +
+				"where st.squadNo  = s.squadNo " +
+				"  and st.personNo = " + personNo + ";"
+			);
+			
+			
+			
+			String reasons = "";
+			
+			if (vehicle != null)
+				reasons += "They are assigned as the pilot of vehicle '" + vehicle + "'.\n";
+			
+			if (squadCom != null)
+				reasons += "They are assigned as commander of squad '" + squadCom + "'.\n";
+			
+			if (squad != null)
+				reasons += "They are assigned as a trooper in squad '" + squad + "'.\n";
+			
+			
+			Gui.showErrorDialogue(
+				"Cannot Delete",
+				"Can't delete '" +name + "'.\n\n" + reasons
+			);
+			
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	
