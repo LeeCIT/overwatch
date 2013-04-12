@@ -339,6 +339,10 @@ public class Database
 				rowsModified = st.executeUpdate( sql );
 				st.close();
 			}
+			catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException ex) {
+				throw new DatabaseIntegrityException( ex );
+			}
+			
 			catch (Exception ex) {
 				throw new DatabaseException( ex );
 			}
