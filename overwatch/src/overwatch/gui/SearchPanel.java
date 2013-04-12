@@ -189,6 +189,7 @@ public class SearchPanel<T> extends JPanel
 	{
 		if (item == null) {
 			searchList.clearSelection();
+			return false;
 		}
 		
 		doSearchClear();
