@@ -5,8 +5,6 @@ package overwatch.db;
 
 import java.math.BigInteger;
 import java.sql.Connection;
-import overwatch.security.HashSaltPair;
-import overwatch.security.LoginCrypto;
 import overwatch.util.Util;
 
 
