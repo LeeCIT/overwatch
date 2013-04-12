@@ -7,6 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import overwatch.gui.NameRefPair;
+import overwatch.gui.NameRefPairList;
 
 
 
@@ -295,6 +297,24 @@ public class EnhancedResultSet implements Iterable<Object[]>
 		return (-1 != getColumnIndexInternal(name));
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Create an ArrayList<NameRefPair<T>> from two columns, one which is cast to refType, one which is a string type.
+	 * @param refColumn
+	 * @param refType
+	 * @param nameColumn
+	 * @return ArrayList<NameRefPair<T>>
+	 */
+	public <T> ArrayList<NameRefPair<T>> getNameRefPairArrayList( String refColumn, Class<? extends T[]> refType, String nameColumn )
+	{
+		T[]      keys  = getColumnAs( refColumn,  refType        );
+		String[] names = getColumnAs( nameColumn, String[].class );
+		
+		return new NameRefPairList<T>( keys, names );
+	}
 		
 	
 	
