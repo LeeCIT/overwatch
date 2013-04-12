@@ -41,15 +41,28 @@ public class BackgroundMonitor
 	/**
 	 * Create and begin monitoring immediately in a separate thread.
 	 * There are no default BackgroundCheck objects, you must add some.
+	 * Checks are performed in-order every 1000ms.
 	 */
-	public BackgroundMonitor()
+	public BackgroundMonitor() {
+		this( 1000 );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * As before, but you specify the interval between checking in milliseconds.
+	 * @param interval milliseconds to wait before repeating all checks
+	 */
+	public BackgroundMonitor( int interval )
 	{
 		synchronized (monitors) {
 			monitors.add( this );
 		}
 		
 		checks = new Vector<BackgroundCheck>();
-		thread = createThread();
+		thread = createThread( interval );
 		thread.start();
 	}
 	
@@ -116,11 +129,11 @@ public class BackgroundMonitor
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
 	
-	private Thread createThread()
+	private Thread createThread( final int interval )
 	{
 		Thread t = new Thread( new Runnable() {
 			public void run() {
-				doChecks();				
+				doChecks( interval );				
 			}
 		});
 		
@@ -133,7 +146,7 @@ public class BackgroundMonitor
 	
 	
 	
-	private void doChecks()
+	private void doChecks( int interval )
 	{
 		while ( ! threadTerminate)
 		{
@@ -144,7 +157,7 @@ public class BackgroundMonitor
 			}
 			
 			
-			try { Thread.sleep( 1000 );
+			try { Thread.sleep( interval );
 			} catch (InterruptedException ex) {
 				ex.printStackTrace();
 			}
