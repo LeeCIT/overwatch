@@ -27,7 +27,7 @@ import overwatch.util.DateSys;
  * Controls saving, loading, security checking etc.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -135,10 +135,9 @@ public class OrderLogic extends TabController
 		EnhancedResultSet ers = Orders.getMessageContents( orderNo );
 		
 		if (ers.isEmpty()) {
-			showDeletedError( "message" );
+			showDeletedError( "order" );
 			return;
 		}
-		
 		
 		String sentBy   = Personnel.getLoginName(  ers.getElemAs( "sentBy",   Integer.class   )           );
 		String sentTo   = Personnel.getLoginName(  ers.getElemAs( "sentTo",   Integer.class   )           );
@@ -179,7 +178,9 @@ public class OrderLogic extends TabController
 		tab.addOrdersInSelectListener( new ListSelectionListener() {
 			public void valueChanged( ListSelectionEvent e ) {
 				tab.ordersOut.setSelectedItem( null );
-				populateMessagePanel( tab.ordersIn.getSelectedItem() );
+				Integer orderNo = tab.ordersIn.getSelectedItem();
+				Orders.markAsRead( orderNo );
+				populateMessagePanel( orderNo );
 			}
 		});
 		
@@ -207,7 +208,7 @@ public class OrderLogic extends TabController
 		
 		tab.addMarkAsDoneListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				doMarkAsDone();
+				doMarkAsDone( tab.ordersIn.getSelectedItem() );
 			}
 		});
 	}
