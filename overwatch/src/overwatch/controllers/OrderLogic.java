@@ -75,20 +75,9 @@ public class OrderLogic extends TabController
 	public void respondToTabSelect() {	
 		populatePanels();
 	}
+
 	
 	
-	
-	
-	
-	/**
-	 * Reload the displayed data without interfering with anything.
-	 */
-	public void refresh()
-	{
-		enableSearchPanelEvents = false;
-			populateSearchPanels();		
-		enableSearchPanelEvents = true;
-	}
 	
 	
 	
@@ -112,7 +101,7 @@ public class OrderLogic extends TabController
 	
 	private void doMarkAsDone( Integer orderNo ) {
 		Orders.markAsDone( orderNo );
-		refresh();
+		refreshSearchPanels();
 	}
 	
 	
@@ -138,6 +127,25 @@ public class OrderLogic extends TabController
 		tab.ordersOut.setSearchableItems(
 			Orders.getOrdersAndSubjectsSentBy( LoginManager.getUser() )
 		);
+	}
+	
+	
+	
+	
+	
+	private void refreshSearchPanels()
+	{
+		enableSearchPanelEvents = false;
+		
+			Integer inSel  = tab.ordersIn .getSelectedItem();
+			Integer outSel = tab.ordersOut.getSelectedItem();
+			
+			populateSearchPanels();
+			
+			if (inSel  != null) tab.ordersIn .setSelectedItem( inSel  );
+			if (outSel != null) tab.ordersOut.setSelectedItem( outSel );
+			
+		enableSearchPanelEvents = true;
 	}
 	
 	
@@ -175,11 +183,11 @@ public class OrderLogic extends TabController
 	
 	private void createBackgroundMonitor()
 	{
-		BackgroundMonitor bgm = new BackgroundMonitor( 1000 );
+		BackgroundMonitor bgm = new BackgroundMonitor( 10000 );
 		
 		bgm.addBackgroundCheck( new BackgroundCheck() {
 			public void onCheck() {
-				refresh();
+				refreshSearchPanels();
 			}
 		});
 	}
