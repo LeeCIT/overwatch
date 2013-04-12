@@ -4,6 +4,7 @@
 
 package overwatch.gui.tabs;
 
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -42,8 +43,8 @@ public class OrderTab extends JPanel
 		buttMarkAsDone = new JButton( "Mark as done" );
 		buttCreateNew  = new JButton( "Create order..." );
 		
-		messagePanel.setEditable( false );
-		buttMarkAsDone.setEnabled( false );
+		messagePanel  .setEditable( false );
+		buttMarkAsDone.setEnabled ( false );
 		
 		String searchMigParams = "wmin 192px, wmax 192px, height 100%";
 		
@@ -60,23 +61,59 @@ public class OrderTab extends JPanel
 	
 	
 	
+	public void addOrdersInSelectListener( ListSelectionListener lsl ) {
+		ordersIn.addListSelectionListener( lsl );
+	}
+	
+	
+	public void addOrdersOutSelectListener( ListSelectionListener lsl ) {
+		ordersOut.addListSelectionListener( lsl );
+	}	
+	
+	public void addMarkAsDoneListener( ActionListener al ) {
+		buttMarkAsDone.addActionListener( al );
+	}
+	
+	public void addCreateOrderListener( ActionListener al ) {
+		buttCreateNew.addActionListener( al );
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Internals
+	/////////////////////////////////////////////////////////////////////////
+	
 	private void setupActions()
 	{
+		ordersIn.addListSelectionListener( new ListSelectionListener() {
+			public void valueChanged( ListSelectionEvent e ) {
+				buttMarkAsDone.setEnabled( false );				
+			}
+		});		
+		
+				
 		ordersIn.addListSelectionListener( new ListSelectionListener() {
 			public void valueChanged( ListSelectionEvent e ) {
 				buttMarkAsDone.setEnabled( (null != ordersIn.getSelectedItem()) );				
 			}
 		});		
 	}
-
-
-
-
 	
-
-
-
-
+	
+	
+	
+	
+	
+	
+	
+	
 	///////////////////////////////////////////////////////////////////////////
 	// Test
 	/////////////////////////////////////////////////////////////////////////
