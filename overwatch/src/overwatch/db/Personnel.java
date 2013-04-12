@@ -108,6 +108,8 @@ public class Personnel
 			"from (                                  " +
 			"    select commander as val from Squads " +
 			"    union                               " +
+			"    select personNo from SquadTroops    " +
+			"    union                               " +
 			"    select pilot from Vehicles          " +
 			"    union                               " +
 			"    select sentBy from Messages         " +
