@@ -153,10 +153,50 @@ public class Database
 		    "from " + table + ";"
 		);
 		
-		T[]      keys  = ers.getColumnAs( keyColumn,  keyType        );
-		String[] names = ers.getColumnAs( nameColumn, String[].class );
+		return ers.getNameRefPairArrayList( keyColumn, keyType, nameColumn );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Get an ArrayList of NameRefPairs from a table, based on two columns.
+	 * Intended for use with the GUI's SearchPanel functions.
+	 * @param table	Table to query.
+	 * @param keyColumn Name of column to key on (e.g. personNo)
+	 * @param nameColumn Name of column with associated names.  Must be a varchar/char type column.
+	 * @param keyType Type of key.  Usually Integer[].
+	 * @param orderBy SQL for orderBy clause.  A comma-separated list of columns from the table, optionally with "desc" keyword. 
+	 * @return ArrayList<NameRefPair<T>>
+	 */
+	public static <T> ArrayList<NameRefPair<T>> queryKeyNamePairsOrdered( String table, String keyColumn, String nameColumn, String orderBy, Class<? extends T[]> keyType )
+	{
+		EnhancedResultSet ers = query(
+			"select   " + keyColumn + ", " + nameColumn + " " +
+		    "from     " + table     + " " +
+		    "order by " + orderBy   + " ;"
+		);
 		
-		return new NameRefPairList<T>( keys, names );
+		return ers.getNameRefPairArrayList( keyColumn, keyType, nameColumn );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Get an ArrayList of NameRefPairs from a table, based on two columns.
+	 * Intended for use with the GUI's SearchPanel functions.
+	 * @param query	Query to run
+	 * @param keyColumn Name of column to key on (e.g. personNo)
+	 * @param nameColumn Name of column with associated names.  Must be a varchar/char type column.
+	 * @param keyType Type of key.  Usually Integer[].
+	 * @param orderBy SQL for orderBy clause.  A comma-separated list of columns from the table, optionally with "desc" keyword. 
+	 * @return ArrayList<NameRefPair<T>>
+	 */
+	public static <T> ArrayList<NameRefPair<T>> queryKeyNamePairsGeneral( String query, String keyColumn, String nameColumn, Class<? extends T[]> keyType ) {
+		return query(query).getNameRefPairArrayList( keyColumn, keyType, nameColumn );
 	}
 	
 	
@@ -334,6 +374,10 @@ public class Database
 	public static void unlock( Connection conn ) {
 		Database.update( conn, "unlock tables;" );
 	}
+	
+	
+	
+	
 	
 	
 	
