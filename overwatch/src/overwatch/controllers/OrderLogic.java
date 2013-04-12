@@ -6,8 +6,15 @@ package overwatch.controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import overwatch.core.Gui;
+import overwatch.db.Database;
+import overwatch.db.EnhancedResultSet;
+import overwatch.db.Orders;
+import overwatch.db.Personnel;
 import overwatch.gui.tabs.OrderTab;
+import overwatch.security.LoginManager;
 
 
 
@@ -57,7 +64,7 @@ public class OrderLogic extends TabController
 	
 	
 	public void respondToTabSelect() {	
-		populateLists();
+		populatePanels();
 	}
 	
 	
@@ -93,9 +100,17 @@ public class OrderLogic extends TabController
 	
 	
 	
-	private void populateLists()
+	private void populatePanels()
 	{
+		populateMessagePanel( null );
 		
+		tab.ordersIn.setSearchableItems(
+			Orders.getOrdersAndSubjectsSentTo( LoginManager.getUser() )
+		);
+		
+		tab.ordersIn.setSearchableItems(
+			Orders.getOrdersAndSubjectsSentBy( LoginManager.getUser() )
+		);
 	}
 	
 	
@@ -104,7 +119,38 @@ public class OrderLogic extends TabController
 	
 	private void populateMessagePanel( Integer orderNo )
 	{
+		if (orderNo == null) {
+			tab.messagePanel.clearAll();
+			return;
+		}
 		
+		EnhancedResultSet ers = Database.query(
+			"select sentDate,                " +
+			"       subject,                 " +
+			"       body,                    " +
+			"       sentBy,                  " +
+			"       sentTo                   " +
+			"                                " +
+			"from Orders   o,                " +
+			"     Messages m                 " +
+			"                                " +
+			"where o.messageNo = m.messageNo " +
+			"  and o.orderNo   = " + orderNo  + ";"
+		);
+		
+		if (ers.isEmpty()) {
+			showDeletedError( "message" );
+			return;
+		}
+		
+		
+		String sentBy  = Personnel.getLoginName(  ers.getElemAs( "sentBy", Integer.class )  );
+		String sentTo  = Personnel.getLoginName(  ers.getElemAs( "sentTo", Integer.class )  );
+		
+		tab.messagePanel.sentBy .field.setText( sentBy );
+		tab.messagePanel.sentTo .field.setText( sentTo );
+		tab.messagePanel.subject.field.setText( ers.getElemAs( "subject",String.class ) );
+		tab.messagePanel.body         .setText( ers.getElemAs( "body",   String.class ) );
 	}
 	
 	
@@ -132,7 +178,18 @@ public class OrderLogic extends TabController
 	
 	private void setupSelectActions()
 	{
+		tab.addOrdersInSelectListener( new ListSelectionListener() {
+			public void valueChanged( ListSelectionEvent e ) {
+				populateMessagePanel( tab.ordersIn.getSelectedItem() );
+			}
+		});
 		
+		
+		tab.addOrdersOutSelectListener( new ListSelectionListener() {
+			public void valueChanged( ListSelectionEvent e ) {
+				populateMessagePanel( tab.ordersOut.getSelectedItem() );
+			}
+		});
 	}
 	
 	
