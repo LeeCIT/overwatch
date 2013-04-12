@@ -3,8 +3,11 @@
 
 package overwatch.gui;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import overwatch.core.Gui;
 import net.miginfocom.swing.MigLayout;
 
@@ -25,11 +28,11 @@ import net.miginfocom.swing.MigLayout;
 
 public class MessagePanel extends JPanel
 {
-	public final LabelFieldPair      sentBy;
-	public final LabelFieldPair      sentTo;
-	public final LabelFieldPair      date;
-	public final LabelFieldPair      subject;
-	public final ScrollableTextPanel body;
+	public final LabelFieldPair            sentBy;
+	public final LabelFieldEllipsisTriplet sentTo;
+	public final LabelFieldPair            date;
+	public final LabelFieldPair            subject;
+	public final ScrollableTextPanel       body;
 	
 	
 	
@@ -39,16 +42,11 @@ public class MessagePanel extends JPanel
 	{
 		super( new MigLayout( "", "[][grow]", "[][][][][grow,fill]" ) );
 		
-		sentBy  = new LabelFieldPair     ( "From:"    );
-		sentTo  = new LabelFieldPair     ( "To:"      );
-		subject = new LabelFieldPair     ( "Subject:" );
-		date    = new LabelFieldPair     ( "Date:"    );
+		sentBy  = GuiUtil.addLabelledField            ( this, "From:"    );
+		sentTo  = GuiUtil.addLabelledFieldWithEllipsis( this, "To:"      );
+		subject = GuiUtil.addLabelledField            ( this, "Subject:" );
+		date    = GuiUtil.addLabelledField            ( this, "Date:"    );
 		body    = new ScrollableTextPanel( "Message"  );
-		
-		addLabelFieldPair( sentBy  );
-		addLabelFieldPair( sentTo  );
-		addLabelFieldPair( date    );
-		addLabelFieldPair( subject );
 		add( body, "spanx 2, grow" );
 	}
 	
@@ -63,6 +61,7 @@ public class MessagePanel extends JPanel
 	public void setEditable( boolean editable ) {
 		sentBy .field.setEditable( editable );
 		sentTo .field.setEditable( editable );
+		sentTo .button.setEnabled( editable );
 		subject.field.setEditable( editable );
 		date   .field.setEditable( editable );
 		body         .setEditable( editable );
@@ -85,20 +84,6 @@ public class MessagePanel extends JPanel
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	///////////////////////////////////////////////////////////////////////////
-	// Internals
-	/////////////////////////////////////////////////////////////////////////
-	
-	private void addLabelFieldPair( LabelFieldPair lfp ) {
-		add( lfp.label, "alignx right" );
-		add( lfp.field, "growx, wrap" );
-	}
 	
 	
 	
