@@ -51,8 +51,6 @@ public class OrderTab extends JPanel
 		add( ordersOut,      searchMigParams + ", wrap" );
 		add( buttMarkAsDone, "growx" );
 		add( buttCreateNew,  "skip 1, growx" );
-		
-		setupActions();
 	}	
 	
 	
@@ -74,34 +72,6 @@ public class OrderTab extends JPanel
 	
 	public void addCreateOrderListener( ActionListener al ) {
 		buttCreateNew.addActionListener( al );
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	///////////////////////////////////////////////////////////////////////////
-	// Internals
-	/////////////////////////////////////////////////////////////////////////
-	
-	private void setupActions()
-	{
-		ordersIn.addListSelectionListener( new ListSelectionListener() {
-			public void valueChanged( ListSelectionEvent e ) {
-				buttMarkAsDone.setEnabled( false );				
-			}
-		});		
-		
-				
-		ordersIn.addListSelectionListener( new ListSelectionListener() {
-			public void valueChanged( ListSelectionEvent e ) {
-				buttMarkAsDone.setEnabled( (null != ordersIn.getSelectedItem()) );				
-			}
-		});		
 	}
 	
 	
