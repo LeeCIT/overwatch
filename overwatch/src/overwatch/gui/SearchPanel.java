@@ -181,14 +181,20 @@ public class SearchPanel<T> extends JPanel
 	
 	/**
 	 * Sets the selected item.
+	 * If null, any selected item is de-selected.
 	 * @param item Referenced object
+	 * @return whether it existed
 	 */
 	public boolean setSelectedItem( T item ) 
 	{
+		if (item == null) {
+			searchList.clearSelection();
+		}
+		
 		doSearchClear();
 		
 		for (int i=0; i<getSearchableItemCount(); i++) {
-			if (item.equals(searchableItems.get( i ).ref)) {
+			if (searchableItems.get( i ).ref.equals(item)) {
 				setSelectedIndex( i );
 				return true;
 			}
