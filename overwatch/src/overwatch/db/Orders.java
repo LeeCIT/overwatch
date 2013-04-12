@@ -5,6 +5,7 @@ package overwatch.db;
 
 import java.util.ArrayList;
 import overwatch.gui.NameRefPair;
+import overwatch.gui.NameRefPairList;
 
 
 
@@ -40,8 +41,9 @@ public class Orders
 	
 	/**
 	 * Get orders sent to this person
+	 * Note: the string part is for display only
 	 * @param personNo
-	 * @return
+	 * @return ArrayList<NameRefPair<Integer>>
 	 */
 	public static ArrayList<NameRefPair<Integer>> getOrdersAndSubjectsSentTo( Integer personNo ) {
 		return getOrdersAndSubjects( "sentTo", personNo );
@@ -53,8 +55,9 @@ public class Orders
 	
 	/**
 	 * Get orders sent by this person
+	 * Note: the string part is for display only
 	 * @param personNo
-	 * @return
+	 * @return ArrayList<NameRefPair<Integer>>
 	 */
 	public static ArrayList<NameRefPair<Integer>> getOrdersAndSubjectsSentBy( Integer personNo ) {
 		return getOrdersAndSubjects( "sentBy", personNo );
@@ -106,7 +109,8 @@ public class Orders
 	
 	
 	
-		
+	
+	
 	
 	
 	
@@ -118,18 +122,41 @@ public class Orders
 	private static ArrayList<NameRefPair<Integer>> getOrdersAndSubjects( String sentByOrTo, Integer personNo )
 	{
 		EnhancedResultSet ers = Database.query(
-			"select orderNo, subject           " +
-			"                                  " +
-			"from Orders   o,                  " +
-			"     Messages m                   " +
-			"                                  " +
-			"where o.messageNo = m.messageNo   " +
+			"select orderNo, subject, isDone, isRead " +
+			"                                        " +
+			"from Orders   o,                        " +
+			"     Messages m                         " +
+			"                                        " +
+			"where o.messageNo = m.messageNo         " +
 			"  and m." + sentByOrTo + " = " + personNo +
 			"                                  " +
-			"order by o.isRead, o.isDone desc; "
+			"order by o.isRead, o.isDone, sentDate; "
 		);
 		
-		return ers.getNameRefPairArrayList( "orderNo", Integer[].class, "subject" );
+		Integer[] orderNo = ers.getColumnAs( "orderNo", Integer[].class );
+		String [] subject = ers.getColumnAs( "subject", String [].class );
+		Boolean[] isDone  = ers.getColumnAs( "isDone",  Boolean[].class );
+		Boolean[] isRead  = ers.getColumnAs( "isRead",  Boolean[].class );
+		String [] display = new String[ subject.length ];
+		
+		for (int i=0; i<orderNo.length; i++)
+		{
+			String  pre = "";
+			boolean forSender = sentByOrTo.equals( "sentBy" );
+			
+			if ( ! isRead[i]) {
+				pre = (!forSender)  ?  "[New]"  :  "[Unread]";
+			} else {
+				if ( ! isDone[i])
+					 pre = (!forSender)  ?  "[Todo]"  :  "[Not done]";
+			    else pre = "[Done]";
+			}
+			
+			display[i] = new String( pre + " " + subject[i] );
+			System.out.println( display[i] );
+		}
+		
+		return new NameRefPairList<Integer>( orderNo, display );
 	}
 	
 }
