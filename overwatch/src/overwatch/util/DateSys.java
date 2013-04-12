@@ -14,7 +14,8 @@ import java.util.Date;
 /**
  * Provides a simple means of manipulating dates.
  * 
- * @author Lee Coakley
+ * @author  Lee Coakley
+ * @version 2
  */
 
 
@@ -23,7 +24,7 @@ import java.util.Date;
 
 public class DateSys
 {
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat( "dd/MM/yyyy" );
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat( "dd/MM/yyyy H:m" );
 	
 	
 	
