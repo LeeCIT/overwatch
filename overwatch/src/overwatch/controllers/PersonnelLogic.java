@@ -9,7 +9,6 @@ import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
 import overwatch.db.Ranks;
-import overwatch.db.Vehicles;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.PickListener;
 import overwatch.gui.RankPicker;
