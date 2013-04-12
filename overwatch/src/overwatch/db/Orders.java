@@ -95,6 +95,7 @@ public class Orders
 	
 	/**
 	 * Mark an order as done.
+	 * Implicitly marks it as read as well.
 	 * @param orderNo
 	 * @return succeeded
 	 */
@@ -103,6 +104,25 @@ public class Orders
 		return 0 != Database.update(
 			"update Orders     " +
 			"set isDone = true " +
+			"set isRead = true " +
+			"where orderNo =   " + orderNo + ";"
+		);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Mark an order as read.
+	 * @param orderNo
+	 * @return succeeded
+	 */
+	public static boolean markAsRead( Integer orderNo )
+	{
+		return 0 != Database.update(
+			"update Orders     " +
+			"set isRead = true " +
 			"where orderNo =   " + orderNo + ";"
 		);
 	}
