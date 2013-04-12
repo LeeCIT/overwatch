@@ -5,6 +5,7 @@ package overwatch.gui;
 
 import overwatch.core.Gui;
 import overwatch.db.Personnel;
+import overwatch.util.Util;
 import java.util.ArrayList;
 import java.awt.event.*;
 import javax.swing.*;
@@ -127,7 +128,7 @@ public class AssignPanel<T> extends JPanel
 	public void setListItems( ArrayList<NameRefPair<T>> items ) {
 		
 		listItems = (ArrayList<NameRefPair<T>>) items.clone();
-		resetDisplayedItems();
+		refreshDisplayedItems();
 	}
 	
 	
@@ -177,7 +178,7 @@ public class AssignPanel<T> extends JPanel
 			return;
 		
 		listItems.add( new NameRefPair<T>(item, displayAs) );
-		resetDisplayedItems();
+		refreshDisplayedItems();
 	}
 	
 	
@@ -192,9 +193,8 @@ public class AssignPanel<T> extends JPanel
 	{
 		ArrayList<T> items = new ArrayList<T>();
 		
-		for (NameRefPair<T> pair: listItems) {
+		for (NameRefPair<T> pair: listItems)
 			items.add( pair.ref );
-		}
 		
 		return items;
 	}
@@ -211,18 +211,41 @@ public class AssignPanel<T> extends JPanel
 	 */
 	public boolean removeItem( T item )
 	{
-		boolean wasRemoved = false;
-		
-		for (NameRefPair<T> pair: listItems) {
-			if( pair.ref.equals(item)) {
-				listItems.remove( pair );
-				wasRemoved = true;
-				break;
-			}
-		}
-		
-		resetDisplayedItems();
+		boolean wasRemoved = listItems.remove( new NameRefPair<T>(item,"") );
+		refreshDisplayedItems();
 		return wasRemoved;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Remove items from the list.
+	 * Items given which are not present in the list are simply ignored.
+	 * @param items
+	 */
+	public void removeItems( T[] items )
+	{
+		ArrayList<NameRefPair<T>> remList = new NameRefPairList<T>( items );
+		listItems.removeAll( remList );
+		refreshDisplayedItems();
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Remove items from the list which are NOT in the given array.
+	 * Items not present are ignored.
+	 * @param items
+	 */
+	public void removeItemsNotIn( T[] items )
+	{
+		ArrayList<NameRefPair<T>> remList = new NameRefPairList<T>( items );
+		listItems.retainAll( remList );
+		refreshDisplayedItems();
 	}
 	
 	
@@ -235,7 +258,7 @@ public class AssignPanel<T> extends JPanel
 	public void clearItems()
 	{
 		listItems.clear();
-		resetDisplayedItems();
+		refreshDisplayedItems();
 	}
 	
 	
@@ -350,7 +373,7 @@ public class AssignPanel<T> extends JPanel
 	
 	
 	
-	private void resetDisplayedItems() {
+	private void refreshDisplayedItems() {
 		setDisplayedItems( listItems );
 	}
 	
