@@ -14,7 +14,10 @@ import overwatch.core.Gui;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Orders;
 import overwatch.db.Personnel;
+import overwatch.gui.SearchPanel;
 import overwatch.gui.tabs.OrderTab;
+import overwatch.security.BackgroundCheck;
+import overwatch.security.BackgroundMonitor;
 import overwatch.security.LoginManager;
 import overwatch.util.DateSys;
 
@@ -38,6 +41,7 @@ public class OrderLogic extends TabController
 {
 	private final OrderTab tab;
 	
+	private boolean enableSearchPanelEvents;
 	
 	
 	
@@ -50,7 +54,10 @@ public class OrderLogic extends TabController
 	{
 		this.tab = tab;
 		
+		enableSearchPanelEvents = true;
+		
 		attachEvents();
+		createBackgroundMonitor();
 	}
 	
 	
@@ -73,8 +80,14 @@ public class OrderLogic extends TabController
 	
 	
 	
-	public void refresh() {
-		
+	/**
+	 * Reload the displayed data without interfering with anything.
+	 */
+	public void refresh()
+	{
+		enableSearchPanelEvents = false;
+			populateSearchPanels();		
+		enableSearchPanelEvents = true;
 	}
 	
 	
@@ -85,13 +98,11 @@ public class OrderLogic extends TabController
 	
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
-	/////////////////////////////////////////////////////////////////////////
-	
-	
+	/////////////////////////////////////////////////////////////////////////	
 	
 	private void doCreateOrder()
 	{
-		// TODO
+		// TODO make JDialog with MessagePanel in it
 		System.out.println( "create" );
 	}
 	
@@ -111,7 +122,15 @@ public class OrderLogic extends TabController
 	private void populatePanels()
 	{
 		populateMessagePanel( null );
-		
+		populateSearchPanels();
+	}
+	
+	
+	
+	
+	
+	private void populateSearchPanels()
+	{
 		tab.ordersIn.setSearchableItems(
 			Orders.getOrdersAndSubjectsSentTo( LoginManager.getUser() )
 		);
@@ -154,6 +173,21 @@ public class OrderLogic extends TabController
 	
 	
 	
+	private void createBackgroundMonitor()
+	{
+		BackgroundMonitor bgm = new BackgroundMonitor( 1000 );
+		
+		bgm.addBackgroundCheck( new BackgroundCheck() {
+			public void onCheck() {
+				refresh();
+			}
+		});
+	}
+	
+	
+	
+	
+	
 	private void attachEvents()
 	{
 		setupTabChangeActions();
@@ -175,17 +209,20 @@ public class OrderLogic extends TabController
 	
 	private void setupSelectActions()
 	{
+		final SearchPanel<Integer> IN  = tab.ordersIn;
+		final SearchPanel<Integer> OUT = tab.ordersOut; 
+		
 		// Incoming
 		tab.addOrdersInSelectListener( new ListSelectionListener() {
 			public void valueChanged( ListSelectionEvent e )
 			{
-				Integer selected = tab.ordersIn.getSelectedItem();
-				boolean notNull   = (null != selected);
-				tab.buttMarkAsDone.setEnabled( notNull );
+				if ( ! enableSearchPanelEvents)
+					return;
 				
-				if (notNull) {
-					Orders.markAsRead( selected );
-					tab.ordersOut.setSelectedItem( selected );
+				if (IN.hasSelectedItem()) {
+					Integer orderNo = IN.getSelectedItem();
+					populateMessagePanel( orderNo );
+					tab.buttMarkAsDone.setEnabled( orderNo != null );
 				}
 			}
 		});
@@ -195,12 +232,11 @@ public class OrderLogic extends TabController
 		tab.addOrdersOutSelectListener( new ListSelectionListener() {
 			public void valueChanged( ListSelectionEvent e ) 
 			{
-				Integer selected = tab.ordersOut.getSelectedItem();
-				boolean notNull   = (null != selected);
+				if ( ! enableSearchPanelEvents)
+					return;
 				
-				if (notNull) {
-					tab.ordersOut.setSelectedItem( selected );
-				}
+				if (OUT.hasSelectedItem())
+					populateMessagePanel( OUT.getSelectedItem() );
 			}
 		});
 	}
