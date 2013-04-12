@@ -103,8 +103,8 @@ public class Orders
 	{
 		return 0 != Database.update(
 			"update Orders     " +
-			"set isDone = true " +
-			"set isRead = true " +
+			"set isDone = true," +
+			"    isRead = true " +
 			"where orderNo =   " + orderNo + ";"
 		);
 	}
