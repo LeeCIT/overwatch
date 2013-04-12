@@ -65,7 +65,7 @@ public class MessagePanel extends JPanel
 		sentTo .field.setEditable( editable );
 		subject.field.setEditable( editable );
 		date   .field.setEditable( editable );
-		body   .setEditable( editable );
+		body         .setEditable( editable );
 	}
 	
 	
