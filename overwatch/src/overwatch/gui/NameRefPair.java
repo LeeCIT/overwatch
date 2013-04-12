@@ -41,6 +41,9 @@ public class NameRefPair<T>
 	
 	public boolean equals( Object other )
 	{
+		if (other == null)
+			return false;
+		
 		if (this.getClass() != other.getClass()) 
 			return false;
 		
