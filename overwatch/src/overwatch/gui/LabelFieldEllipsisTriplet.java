@@ -15,7 +15,7 @@ import javax.swing.JTextField;
  * Immutable struct for GenericPanel return values.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -37,5 +37,16 @@ public class LabelFieldEllipsisTriplet
 		this.label  = label;
 		this.field  = field;
 		this.button = button;
+	}
+	
+	
+	
+	
+	
+	public LabelFieldEllipsisTriplet( String labelText )
+	{
+		this.label  = new JLabel( labelText );
+		this.field  = new CheckedField();
+		this.button = new JButton( "..." );
 	}
 }
