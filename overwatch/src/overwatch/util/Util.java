@@ -3,6 +3,8 @@
 
 package overwatch.util;
 
+import java.util.ArrayList;
+
 
 
 
@@ -62,4 +64,74 @@ public class Util
 		
 		return bld.toString();
 	}
+	
+	
+	
+	
+	
+	public static <T> ArrayList<T> arrayToArrayList( T[] array )
+	{
+		ArrayList<T> list = new ArrayList<T>( array.length );
+		
+		for (T el: array)
+			list.add( el );
+			
+		return list;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
