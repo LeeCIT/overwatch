@@ -17,7 +17,7 @@ import overwatch.security.LoginManager;
 
 /**
  * The alpha and omega of the program.
- * Creates the core classes, delegates control, and waits to shutdown.  
+ * Creates the core classes, delegates control, and waits to shut down.  
  * 
  * @author  Lee Coakley
  * @version 3

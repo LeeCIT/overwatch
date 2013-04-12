@@ -173,7 +173,6 @@ public class Orders
 			}
 			
 			display[i] = new String( pre + " " + subject[i] );
-			System.out.println( display[i] );
 		}
 		
 		return new NameRefPairList<Integer>( orderNo, display );
