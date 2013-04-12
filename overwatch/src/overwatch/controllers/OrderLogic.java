@@ -46,6 +46,7 @@ public class OrderLogic extends TabController
 	
 	
 	
+	
 	/**
 	 * Plug the GUI tab into the controller.
 	 * @param tab
@@ -53,7 +54,6 @@ public class OrderLogic extends TabController
 	public OrderLogic( OrderTab tab )
 	{
 		this.tab = tab;
-		
 		enableSearchPanelEvents = true;
 		
 		attachEvents();
@@ -170,8 +170,8 @@ public class OrderLogic extends TabController
 		String sentTo   = Personnel.getLoginName(  ers.getElemAs( "sentTo",   Integer.class   )           );
 		Date   sentDate = new Date(                ers.getElemAs( "sentDate", Timestamp.class ).getTime() );
 		
-		tab.messagePanel.sentBy .field.setText( (sentBy != null) ? sentBy : "<deleted user>" );
-		tab.messagePanel.sentTo .field.setText( (sentTo != null) ? sentTo : "<deleted user>" );
+		tab.messagePanel.sentBy .field.setText( (sentBy != null)  ?  sentBy  :  "<deleted user>" );
+		tab.messagePanel.sentTo .field.setText( (sentTo != null)  ?  sentTo  :  "<deleted user>" );
 		tab.messagePanel.date   .field.setText( DateSys.format( sentDate ) );
 		tab.messagePanel.subject.field.setText( ers.getElemAs( "subject",  String.class ) );
 		tab.messagePanel.body         .setText( ers.getElemAs( "body",     String.class ) );
@@ -229,10 +229,15 @@ public class OrderLogic extends TabController
 				if ( ! enableSearchPanelEvents)
 					return;
 				
-				if (IN.hasSelectedItem()) {
-					Integer orderNo = IN.getSelectedItem();
+				Integer orderNo = IN.getSelectedItem();
+				tab.buttMarkAsDone.setEnabled( orderNo != null );
+				
+				clearSelectionWithoutEvent( OUT );
+				
+				if (orderNo != null) {
+					Orders.markAsRead( orderNo );
+					refreshSearchPanels();
 					populateMessagePanel( orderNo );
-					tab.buttMarkAsDone.setEnabled( orderNo != null );
 				}
 			}
 		});
@@ -245,10 +250,27 @@ public class OrderLogic extends TabController
 				if ( ! enableSearchPanelEvents)
 					return;
 				
+				tab.buttMarkAsDone.setEnabled( false );
+				
+				clearSelectionWithoutEvent( IN );
+				
 				if (OUT.hasSelectedItem())
 					populateMessagePanel( OUT.getSelectedItem() );
 			}
 		});
+	}
+	
+	
+	
+	
+	
+	private void clearSelectionWithoutEvent( SearchPanel<Integer> panel )
+	{
+		boolean lastVal = enableSearchPanelEvents;
+		
+		enableSearchPanelEvents = false;
+		panel.setSelectedItem( null );
+		enableSearchPanelEvents = lastVal;
 	}
 	
 	
