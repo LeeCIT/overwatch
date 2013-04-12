@@ -90,7 +90,23 @@ public class Orders
 	
 	
 	
+	/**
+	 * Mark an order as done.
+	 * @param orderNo
+	 * @return succeeded
+	 */
+	public static boolean markAsDone( Integer orderNo )
+	{
+		return 0 != Database.update(
+			"update Orders     " +
+			"set isDone = true " +
+			"where orderNo =   " + orderNo + ";"
+		);
+	}
 	
+	
+	
+		
 	
 	
 	
