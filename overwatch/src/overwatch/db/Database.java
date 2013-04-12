@@ -26,7 +26,7 @@ import overwatch.gui.NameRefPair;
 
 public class Database
 {
-	private static final ConnectionPool connPool = new ConnectionPool( 4, true );
+	private static final ConnectionPool connPool = new ConnectionPool( 3, true );
 	
 	
 	

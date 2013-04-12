@@ -215,7 +215,8 @@ public class ConnectionPool
 		Thread t = new Thread( new Runnable() {
 			public void run() 
 			{
-				while (threadLoopController) 
+				
+				while (threadLoopController)
 				{
 					manageConnections();
 					
@@ -228,6 +229,7 @@ public class ConnectionPool
 						ex.printStackTrace();	
 					}
 				}
+				
 			}
 		});
 		
