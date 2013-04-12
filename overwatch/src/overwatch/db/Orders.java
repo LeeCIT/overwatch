@@ -149,8 +149,8 @@ public class Orders
 			"                                        " +
 			"where o.messageNo = m.messageNo         " +
 			"  and m." + sentByOrTo + " = " + personNo +
-			"                                  " +
-			"order by o.isRead, o.isDone, sentDate; "
+			"                                        " +
+			"order by sentDate;                      "
 		);
 		
 		Integer[] orderNo = ers.getColumnAs( "orderNo", Integer[].class );
