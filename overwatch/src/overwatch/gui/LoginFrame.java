@@ -19,7 +19,7 @@ import net.miginfocom.swing.MigLayout;
  * User login GUI.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  * @see     LoginListener
  */
 

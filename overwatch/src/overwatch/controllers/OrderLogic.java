@@ -175,20 +175,32 @@ public class OrderLogic extends TabController
 	
 	private void setupSelectActions()
 	{
+		// Incoming
 		tab.addOrdersInSelectListener( new ListSelectionListener() {
-			public void valueChanged( ListSelectionEvent e ) {
-				tab.ordersOut.setSelectedItem( null );
-				Integer orderNo = tab.ordersIn.getSelectedItem();
-				Orders.markAsRead( orderNo );
-				populateMessagePanel( orderNo );
+			public void valueChanged( ListSelectionEvent e )
+			{
+				Integer selected = tab.ordersIn.getSelectedItem();
+				boolean notNull   = (null != selected);
+				tab.buttMarkAsDone.setEnabled( notNull );
+				
+				if (notNull) {
+					Orders.markAsRead( selected );
+					tab.ordersOut.setSelectedItem( selected );
+				}
 			}
 		});
 		
 		
+		// Outgoing
 		tab.addOrdersOutSelectListener( new ListSelectionListener() {
-			public void valueChanged( ListSelectionEvent e ) {
-				tab.ordersIn.setSelectedItem( null );
-				populateMessagePanel( tab.ordersOut.getSelectedItem() );
+			public void valueChanged( ListSelectionEvent e ) 
+			{
+				Integer selected = tab.ordersOut.getSelectedItem();
+				boolean notNull   = (null != selected);
+				
+				if (notNull) {
+					tab.ordersOut.setSelectedItem( selected );
+				}
 			}
 		});
 	}

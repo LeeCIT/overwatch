@@ -18,7 +18,7 @@ import javax.swing.event.*;
  * Core GUI class.
  * 
  * @author  Lee Coakley
- * @version 3
+ * @version 4
  */
 
 
