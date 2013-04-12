@@ -20,10 +20,10 @@ public class Controller
 	{
 		new PersonnelLogic( gui.personnelTab ).respondToTabSelect();
 		new RankLogic     ( gui.rankTab      );
+		new SquadLogic	  ( gui.squadTab	 );
+		new OrderLogic    ( gui.orderTab     );
 		new VehicleLogic  ( gui.vehicleTab   );
 		new SupplyLogic   ( gui.supplyTab    );
-		new SquadLogic	  ( gui.squadTab	 );
-		// TODO: insert other controllers here
 	}
 	
 }
