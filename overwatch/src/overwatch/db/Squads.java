@@ -102,29 +102,29 @@ public class Squads
 	
 	
 	
+	
+	/**
+	 * Create a new squad
+	 * @return squadNo
+	 */
 	public static Integer create()
 	{
-		Common.createWithUnique( "Squads", "DEFAULT", "'new Squad <?>'", "null" );
-		
-		return Database.querySingle( Integer.class,
-			"select max(squadNo)" +
-			"from Squads;"
+		return Common.createWithUniqueLockingAutoInc(
+			"Squads",
+			"DEFAULT",
+			"'new Squad <?>'",
+			"null"
 		);
 	}
 	
 	
 	
 	
-	public static boolean exists( Integer squadNo )
-	{
-		EnhancedResultSet ers = Database.query(
-			"select squadNo  " +
-		    "from Squads     " +
-		    "where squadNo = " + squadNo + ";"
-		);
-		
-		return ! ers.isEmpty();
+	
+	public static boolean exists( Integer squadNo ) {
+		return Database.queryExists( "Squads", "squadNo", squadNo.toString() );
 	}
+	
 	
 	
 	
@@ -141,6 +141,7 @@ public class Squads
 		
 		return ers.getElemAs("name", String.class);
 	}
+	
 	
 	
 	
@@ -169,13 +170,6 @@ public class Squads
 		
 		return new NameRefPairList<Integer>();
 	}
-	
-	
-	 
-	 
-	
-	
-	
 	
 
 }
