@@ -35,8 +35,8 @@ public class OrderTab extends JPanel
 	{
 		super( new MigLayout( "", "[][grow,fill][]", "[grow,fill][]" ) );
 		
-		ordersIn       = new SearchPanel<Integer>( "Orders Received \u2193" );
-		ordersOut      = new SearchPanel<Integer>( "Orders Sent \u2191" );
+		ordersIn       = new SearchPanel<Integer>( "Orders You Received \u2193" );
+		ordersOut      = new SearchPanel<Integer>( "Orders You Gave \u2191" );
 		messagePanel   = new MessagePanel();
 		buttMarkAsDone = new JButton( "Mark as done" );
 		buttCreateNew  = new JButton( "Create order..." );

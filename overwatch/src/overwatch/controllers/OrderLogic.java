@@ -108,7 +108,7 @@ public class OrderLogic extends TabController
 			Orders.getOrdersAndSubjectsSentTo( LoginManager.getUser() )
 		);
 		
-		tab.ordersIn.setSearchableItems(
+		tab.ordersOut.setSearchableItems(
 			Orders.getOrdersAndSubjectsSentBy( LoginManager.getUser() )
 		);
 	}
