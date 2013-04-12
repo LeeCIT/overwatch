@@ -23,6 +23,25 @@ public class Ranks
 {
 	
 	/**
+	 * Creates a new Rank
+	 * Locks the table.
+	 * @return rankNo
+	 */
+	public static Integer create()
+	{	
+		return Common.createWithUniqueLockingAutoInc(
+			"Ranks",
+			"DEFAULT",
+			"'new Rank <?>'",
+			"0"
+		);	
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Check if a rank exists.
 	 * @param rankNo
 	 * @return exists
@@ -37,6 +56,12 @@ public class Ranks
 		
 		return ! ers.isEmpty();
 	}
+	
+	
+	
+	
+	
+	// TODO Ranks.delete
 	
 	
 	
@@ -84,24 +109,6 @@ public class Ranks
 		else return ers.getElemAs( "rankNo", Integer.class ); 
 	}
 	
-	
-	
-	
-	
-	/**
-	 * Creates a new Rank
-	 * Locks the table.
-	 * @return rankNo
-	 */
-	public static Integer create()
-	{	
-		return Common.createWithUniqueLockingAutoInc(
-			"Ranks",
-			"DEFAULT",
-			"'new Rank <?>'",
-			"0"
-		);	
-	}
 }
 
 

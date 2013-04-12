@@ -25,6 +25,38 @@ import overwatch.gui.NameRefPairList;
 public class Squads
 {
 	
+	/**
+	 * Create a new squad
+	 * @return squadNo
+	 */
+	public static Integer create()
+	{
+		return Common.createWithUniqueLockingAutoInc(
+			"Squads",
+			"DEFAULT",
+			"'new Squad <?>'",
+			"null"
+		);
+	}
+	
+	
+	
+	
+	
+	public static boolean exists( Integer squadNo ) {
+		return Database.queryExists( "Squads", "squadNo", squadNo.toString() );
+	}
+	
+	
+	
+	
+	
+	// TODO delete
+	
+		
+	
+	
+	
 	public static NameRefPairList<Integer> getTroops( int squadNo )
 	{
 		EnhancedResultSet ers = Database.query(
@@ -97,32 +129,6 @@ public class Squads
 		}
 		
 		return new NameRefPairList<Integer>();
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Create a new squad
-	 * @return squadNo
-	 */
-	public static Integer create()
-	{
-		return Common.createWithUniqueLockingAutoInc(
-			"Squads",
-			"DEFAULT",
-			"'new Squad <?>'",
-			"null"
-		);
-	}
-	
-	
-	
-	
-	
-	public static boolean exists( Integer squadNo ) {
-		return Database.queryExists( "Squads", "squadNo", squadNo.toString() );
 	}
 	
 	

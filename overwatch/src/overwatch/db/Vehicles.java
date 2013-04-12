@@ -20,27 +20,7 @@ package overwatch.db;
 
 public class Vehicles
 {
-	
-	/**
-	 * Check if a vehicle exists.
-	 * @param personNo
-	 * @return name or null
-	 */
-	public static boolean exists( Integer vehicleNo )
-	{
-		EnhancedResultSet ers = Database.query(
-			"select vehicleNo  " +
-		    "from Vehicles     " +
-		    "where vehicleNo = " + vehicleNo + ";"
-		);
-		
-		return ! ers.isEmpty();
-	}
-	
-	
-	
-	
-	
+
 	/**
 	 * Create a new vehicle.
 	 * Locks the table!
@@ -61,14 +41,31 @@ public class Vehicles
 	
 	
 	/**
+	 * Check if a vehicle exists.
+	 * @param personNo
+	 * @return exists
+	 */
+	public static boolean exists( Integer vehicleNo )
+	{
+		EnhancedResultSet ers = Database.query(
+			"select vehicleNo  " +
+		    "from Vehicles     " +
+		    "where vehicleNo = " + vehicleNo + ";"
+		);
+		
+		return ! ers.isEmpty();
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Delete a vehicle.
 	 * @param vehicleNo
 	 */
 	public static void delete( Integer vehicleNo )
-	{
-		// TODO: check if vehicle is in use in a squad, and throw an exception or show a warning message if so
-		// TODO: create Squads.usesVehicle( squadNo, vehicleNo )
-		
+	{		
 		Database.update( 
 			"delete from Vehicles " +
 			"where vehicleNo =    " + vehicleNo + ";"

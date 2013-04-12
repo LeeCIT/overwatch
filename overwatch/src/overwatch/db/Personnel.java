@@ -24,27 +24,7 @@ import overwatch.util.Util;
 
 public class Personnel
 {
-	
-	/**
-	 * Check if a person exists.
-	 * @param personNo
-	 * @return name or null
-	 */
-	public static boolean exists( Integer personNo )
-	{
-		EnhancedResultSet ers = Database.query(
-			"select personNo  " +
-		    "from Personnel   " +
-		    "where personNo = " + personNo + ";"
-		);
 		
-		return ! ers.isEmpty();
-	}
-	
-	
-	
-	
-	
 	/**
 	 * Create a new Personnel entry in the DB.
 	 * For the sake of convenience, 1234 is the default password.
@@ -66,6 +46,26 @@ public class Personnel
 			"'" + hsp.hash + "'",
 			"'" + hsp.salt + "'"
 		);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Check if a person exists.
+	 * @param personNo
+	 * @return name or null
+	 */
+	public static boolean exists( Integer personNo )
+	{
+		EnhancedResultSet ers = Database.query(
+			"select personNo  " +
+		    "from Personnel   " +
+		    "where personNo = " + personNo + ";"
+		);
+		
+		return ! ers.isEmpty();
 	}
 	
 	

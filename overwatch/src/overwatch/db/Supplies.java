@@ -21,6 +21,25 @@ package overwatch.db;
 
 public class Supplies
 {
+	
+	/**
+	 * Create a new supply
+	 * @return supplyNo
+	 */
+	public static Integer create()
+	{
+		return Common.createWithUniqueLockingAutoInc(
+			"Supplies",
+			"DEFAULT",
+			"'new Supply <?>'",
+			"0"
+		);
+	}
+	
+	
+	
+	
+	
 	/**
 	 * Check if supply exists.
 	 * @param number
@@ -36,23 +55,5 @@ public class Supplies
 		);
 		
 		return (number.length != 0);
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Create a new supply
-	 * @return supplyNo
-	 */
-	public static Integer create()
-	{
-		return Common.createWithUniqueLockingAutoInc(
-			"Supplies",
-			"DEFAULT",
-			"'new Supply <?>'",
-			"0"
-		);
 	}
 }
