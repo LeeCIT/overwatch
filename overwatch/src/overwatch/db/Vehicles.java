@@ -41,13 +41,18 @@ public class Vehicles
 	
 	
 	
+	/**
+	 * Create a new vehicle.
+	 * Locks the table!
+	 * @return vehicleNo
+	 */
 	public static Integer create()
 	{
-		Common.createWithUnique( "Vehicles", "DEFAULT", "'new vehicle <?>'", "NULL" );
-		
-		return Database.querySingle( Integer.class,
-			"select max(vehicleNo)" +
-			"from Vehicles;"
+		return Common.createWithUniqueLockingAutoInc(
+			"Vehicles",
+			"DEFAULT",
+			"'new vehicle <?>'",
+			"NULL"
 		);
 	}
 	
@@ -55,6 +60,10 @@ public class Vehicles
 	
 	
 	
+	/**
+	 * Delete a vehicle.
+	 * @param vehicleNo
+	 */
 	public static void delete( Integer vehicleNo )
 	{
 		// TODO: check if vehicle is in use in a squad, and throw an exception or show a warning message if so
