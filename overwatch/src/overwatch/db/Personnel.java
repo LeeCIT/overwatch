@@ -117,7 +117,7 @@ public class Personnel
 			"where ut.val = " + personNo + ";"
 		);
 		
-		return (count == 0L);
+		return (count > 0L);
 	}
 	
 	

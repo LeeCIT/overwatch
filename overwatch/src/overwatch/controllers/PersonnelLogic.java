@@ -111,10 +111,33 @@ public class PersonnelLogic extends TabController
 	private void doDelete()
 	{
 		Integer personNo = tab.getSelectedItem();
+		
+		if (doDeletableCheck( personNo ))
+			return;		
+		
 		Personnel.delete( personNo );
 		populateList();
 	}
 	
+	
+	
+	
+	
+	private boolean doDeletableCheck( Integer personNo )
+	{
+		if (Personnel.isInSquadOrVehicleOrMessage( personNo )) {
+			String name = Personnel.getLoginName( personNo );
+			Gui.showErrorDialogue(
+				"Cannot Delete",
+				name + " can't be deleted: they are either: currently under orders," +
+						"an active member of a squad," +
+						"or assigned as a vehicle's pilot."
+			);
+			return false;
+		} else {
+			return true;
+		}
+	}
 	
 	
 	
