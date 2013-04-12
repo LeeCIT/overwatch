@@ -63,6 +63,7 @@ public class Gui extends JFrame
 		add( tabPane );
 		
 		setDefaultCloseOperation( DO_NOTHING_ON_CLOSE );
+		setIconImage( new ImageIcon("images/ico16px.png").getImage() );
 	}
 	
 	

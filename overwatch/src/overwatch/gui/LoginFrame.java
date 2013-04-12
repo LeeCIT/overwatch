@@ -44,7 +44,8 @@ public class LoginFrame extends JFrame
 	public LoginFrame()
 	{
 		super( "Overwatch - Login" );	
-		setLayout( new MigLayout( "", "[][]", "[][][]" ) );
+		setLayout( new MigLayout( "", "128px[][]128px", "128px[][][]128px" ) );
+		setIconImage( new ImageIcon("images/ico16px.png").getImage() );
 		
 		loginListeners = new ArrayList<LoginListener>();
 		
@@ -99,7 +100,6 @@ public class LoginFrame extends JFrame
 		add( loginButton, "skip 1, alignx right" );
 		
 		
-		
 		loginButton.setEnabled( false );
 	}
 	
@@ -109,12 +109,9 @@ public class LoginFrame extends JFrame
 	
 	private void setupActions()
 	{
-		KeyListener commonFieldListener = new KeyListener() {
+		KeyListener commonFieldListener = new KeyAdapter() {
 			public void keyReleased( KeyEvent e ) { onKeyRelease( e ); }
-			public void keyPressed ( KeyEvent e ) {}
-			public void keyTyped   ( KeyEvent e ) {}
 		};
-		
 		
 		nameField.addKeyListener( commonFieldListener );
 		passField.addKeyListener( commonFieldListener );
