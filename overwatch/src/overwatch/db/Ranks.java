@@ -85,18 +85,22 @@ public class Ranks
 	}
 	
 	
+	
+	
+	
 	/**
 	 * Creates a new Rank
-	 * @return 
+	 * Locks the table.
+	 * @return rankNo
 	 */
 	public static Integer create()
 	{	
-		Common.createWithUnique( "Ranks", "DEFAULT", "'new Rank <?>'", "0" );
-		
-		return Database.querySingle( Integer.class,
-			"SELECT max(rankNo)" +
-			"FROM Ranks;"
-		);		
+		return Common.createWithUniqueLockingAutoInc(
+			"Ranks",
+			"DEFAULT",
+			"'new Rank <?>'",
+			"0"
+		);	
 	}
 }
 
