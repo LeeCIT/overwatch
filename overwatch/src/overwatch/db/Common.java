@@ -39,39 +39,6 @@ public class Common
 	
 	/**
 	 * Unique creator for ranks, personnel etc
-	 * @param table Table to apply the insert to
-	 * @param values Values you would put in the SQL insert values() part.  The string "<?>" will be replaced with a random unique string.
-	 * @throws DatabaseException Thrown if it fails.
-	 */
-	public static void createWithUnique( String table, String...values )
-	{
-		DatabaseException lastEx = null;
-		int maxRetries = 5;
-		
-		String pre  = "insert into " + table + " ";
-		String vals = "values(" + Util.concatWithCommas(values) + ");";
-		String cmd  = pre + vals;
-		
-		for (int r=0; r<maxRetries; r++) {
-			try {
-				Database.update(  cmd.replaceAll("\\<\\?\\>",randomNamePart())  );
-				return;
-			}
-			catch (DatabaseException ex) {
-				ex.printStackTrace(); // TODO remove debug statement
-				lastEx = ex;
-			}
-		}
-		
-		throw new DatabaseException( "createWithUnique failed after " + maxRetries + " attempts.", lastEx );		
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Unique creator for ranks, personnel etc
 	 * WARNING: This locks/unlocks the database table
 	 * @param table Table to insert into
 	 * @param select What to select after inserting.  For auto_increment columns use "LAST_INSERT_ID()".
