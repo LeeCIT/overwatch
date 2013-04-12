@@ -124,19 +124,7 @@ public class OrderLogic extends TabController
 			return;
 		}
 		
-		EnhancedResultSet ers = Database.query(
-			"select sentDate,                " +
-			"       subject,                 " +
-			"       body,                    " +
-			"       sentBy,                  " +
-			"       sentTo                   " +
-			"                                " +
-			"from Orders   o,                " +
-			"     Messages m                 " +
-			"                                " +
-			"where o.messageNo = m.messageNo " +
-			"  and o.orderNo   = " + orderNo  + ";"
-		);
+		EnhancedResultSet ers = Orders.getMessageContents( orderNo );
 		
 		if (ers.isEmpty()) {
 			showDeletedError( "message" );

@@ -64,6 +64,31 @@ public class Orders
 	
 	
 	
+	/**
+	 * Get message contents for a given order.
+	 * @param orderNo
+	 * @return EnhancedResultSet
+	 */
+	public static EnhancedResultSet getMessageContents( Integer orderNo )
+	{
+		return Database.query(
+			"select sentDate,                " +
+			"       subject,                 " +
+			"       body,                    " +
+			"       sentBy,                  " +
+			"       sentTo                   " +
+			"                                " +
+			"from Orders   o,                " +
+			"     Messages m                 " +
+			"                                " +
+			"where o.messageNo = m.messageNo " +
+			"  and o.orderNo   = " + orderNo  + ";"
+		);
+	}
+	
+	
+	
+	
 	
 	
 	
@@ -90,6 +115,7 @@ public class Orders
 		
 		return ers.getNameRefPairArrayList( "orderNo", Integer[].class, "subject" );
 	}
+	
 }
 
 
