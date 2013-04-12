@@ -79,6 +79,7 @@ public class BackgroundMonitor
 		for (;;) {
 			try {
 				threadTerminate = true;
+				thread.interrupt(); // Stop sleeping
 				thread.join();
 				monitors.remove( this );
 				return;
@@ -159,7 +160,7 @@ public class BackgroundMonitor
 			
 			try { Thread.sleep( interval );
 			} catch (InterruptedException ex) {
-				ex.printStackTrace();
+				// Nothing to do: just exit the thread.
 			}
 		}
 	}
@@ -179,33 +180,18 @@ public class BackgroundMonitor
 	public static void main( String[] args )
 	{
 		BackgroundCheck userLoggedin = new BackgroundCheck() {
-			public void onCheck() {
-				if (LoginManager.hasUser()) {
-					int user = 1;//LoginManager.getCurrentUser();
-					
-					
-					java.sql.Connection conn = Database.getConnection();
-					System.out.println( "" + new Date().getTime() + ": conn get " + conn );
-					
-					//System.out.println( "Checking that " + user + " still exists..." );
-					
-//					if (Database.queryInts( "select personNo from Personnel where personNo = " + user + ";").length == 0)
-//					{
-//						Gui.showErrorDialogue(
-//							"Forced Logout",
-//							"Your account has been deleted."
-//						);
-//						System.exit(0);
-//					}
-					
-					try { Thread.sleep( (int) (Math.random()*3000.0) ); }
-					catch ( InterruptedException e ) {
-						e.printStackTrace();
-					}
-					
-					System.out.println( "" + new Date().getTime() + ": conn ret " + conn );
-					Database.returnConnection( conn );
+			public void onCheck() 
+			{					
+				java.sql.Connection conn = Database.getConnection();
+				System.out.println( "" + new Date().getTime() + ": conn get " + conn );
+				
+				try { Thread.sleep( (int) (Math.random()*3000.0) ); }
+				catch ( InterruptedException e ) {
+					e.printStackTrace();
 				}
+				
+				System.out.println( "" + new Date().getTime() + ": conn ret " + conn );
+				Database.returnConnection( conn );
 			}
 		};
 		
