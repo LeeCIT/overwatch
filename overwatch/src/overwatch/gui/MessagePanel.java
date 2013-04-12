@@ -72,6 +72,22 @@ public class MessagePanel extends JPanel
 	
 	
 	
+	/**
+	 * Clear all fields.
+	 */
+	public void clearAll() {
+		sentBy .field.setText( "" );
+		sentTo .field.setText( "" );
+		subject.field.setText( "" );
+		date   .field.setText( "" );
+		body         .setText( "" );
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
