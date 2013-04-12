@@ -43,16 +43,16 @@ public class Supplies
 	
 	
 	/**
-	 * Adds a new supply to the database
-	 * @return The max ID
+	 * Create a new supply
+	 * @return supplyNo
 	 */
-	public static int create()
-	{		
-		Common.createWithUnique( "Supplies", "DEFAULT", "'new Supply <?>'", "0" );
-		
-		return Database.querySingle( Integer.class,
-			"SELECT max(supplyNo)" +
-			"FROM Supplies;"
-			);	
+	public static Integer create()
+	{
+		return Common.createWithUniqueLockingAutoInc(
+			"Supplies",
+			"DEFAULT",
+			"'new Supply <?>'",
+			"0"
+		);
 	}
 }
