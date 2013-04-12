@@ -46,6 +46,17 @@ public class NameRefPairList<T> extends ArrayList<NameRefPair<T>>
 	
 	
 	
+	public NameRefPairList( T[] refs )
+	{
+		for (int i=0; i<refs.length; i++) {
+			addPair( refs[i], refs[i].toString() );
+		}
+	}
+	
+	
+	
+	
+	
 	public void addPair( T ref, String name ) {
 		this.add( new NameRefPair<T>( ref, name ));
 	}
