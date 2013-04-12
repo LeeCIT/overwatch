@@ -170,8 +170,8 @@ public class OrderLogic extends TabController
 		String sentTo   = Personnel.getLoginName(  ers.getElemAs( "sentTo",   Integer.class   )           );
 		Date   sentDate = new Date(                ers.getElemAs( "sentDate", Timestamp.class ).getTime() );
 		
-		tab.messagePanel.sentBy .field.setText( sentBy );
-		tab.messagePanel.sentTo .field.setText( sentTo );
+		tab.messagePanel.sentBy .field.setText( (sentBy != null) ? sentBy : "<deleted user>" );
+		tab.messagePanel.sentTo .field.setText( (sentTo != null) ? sentTo : "<deleted user>" );
 		tab.messagePanel.date   .field.setText( DateSys.format( sentDate ) );
 		tab.messagePanel.subject.field.setText( ers.getElemAs( "subject",  String.class ) );
 		tab.messagePanel.body         .setText( ers.getElemAs( "body",     String.class ) );
@@ -186,8 +186,10 @@ public class OrderLogic extends TabController
 		BackgroundMonitor bgm = new BackgroundMonitor( 10000 );
 		
 		bgm.addBackgroundCheck( new BackgroundCheck() {
-			public void onCheck() {
-				refreshSearchPanels();
+			public void onCheck()
+			{
+				// TODO check for messages created in the last 10 seconds
+				//refreshSearchPanels();
 			}
 		});
 	}
@@ -220,10 +222,10 @@ public class OrderLogic extends TabController
 		final SearchPanel<Integer> IN  = tab.ordersIn;
 		final SearchPanel<Integer> OUT = tab.ordersOut; 
 		
-		// Incoming
+		// IN
 		tab.addOrdersInSelectListener( new ListSelectionListener() {
 			public void valueChanged( ListSelectionEvent e )
-			{
+			{				
 				if ( ! enableSearchPanelEvents)
 					return;
 				
@@ -236,10 +238,10 @@ public class OrderLogic extends TabController
 		});
 		
 		
-		// Outgoing
+		// OUT
 		tab.addOrdersOutSelectListener( new ListSelectionListener() {
 			public void valueChanged( ListSelectionEvent e ) 
-			{
+			{				
 				if ( ! enableSearchPanelEvents)
 					return;
 				
