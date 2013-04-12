@@ -42,6 +42,6 @@ public class LabelFieldPair
 	public LabelFieldPair( String labelText )
 	{
 		this.label = new JLabel( labelText );
-		this.field = new CheckedField( GenericPanel.defaultFieldWidth );
+		this.field = new CheckedField( GuiUtil.defaultFieldWidth );
 	}
 }
