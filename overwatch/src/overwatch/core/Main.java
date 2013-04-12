@@ -41,8 +41,8 @@ public class Main
 	public static void main( String[] args ) throws InterruptedException
 	{
 		Gui.setNativeStyle();
-		//createLoginFrame(); 
-		createMainGui(); //TODO DEBUG ONLY
+		createLoginFrame();
+		//createMainGui(); //TODO DEBUG ONLY
 		createAndRunShutdownLatchThread();
 	}
 	
@@ -117,7 +117,8 @@ public class Main
 			{
 				final LoginFrame frame = new LoginFrame();
 				frame.pack();
-				frame.setVisible( true );		
+				frame.setLocationByPlatform( true );
+				frame.setVisible( true );
 				
 				frame.addLoginListener( new LoginListener() {
 					public void onLoginAttempt( String user, String pass )
@@ -148,6 +149,8 @@ public class Main
 				final Gui gui = new Gui();
 				Controller.attachLogicControllers( gui );
 				gui.pack();
+				gui.setLocationByPlatform( true );
+				gui.setVisible(true);
 				
 				gui.addWindowListener( new WindowAdapter() {
 					public void windowClosing( WindowEvent e ) {
