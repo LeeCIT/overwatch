@@ -54,7 +54,7 @@ public class GenericPanel<T> extends JPanel
 	 */
 	public GenericPanel( String searchLabelText )
 	{
-		super( new MigLayout( "debug", "[][grow,fill]", "[grow,fill][][grow,fill]" ) );
+		super( new MigLayout( "", "[][grow,fill]", "[grow,fill][][grow,fill]" ) );
 		
 		this.searchPanel = new SearchPanel<T>( searchLabelText );
 		this.mainPanel   = new JPanel( new MigLayout("","[][]") );
