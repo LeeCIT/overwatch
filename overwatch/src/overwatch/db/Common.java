@@ -5,6 +5,8 @@ package overwatch.db;
 
 import java.math.BigInteger;
 import java.sql.Connection;
+import overwatch.security.HashSaltPair;
+import overwatch.security.LoginCrypto;
 import overwatch.util.Util;
 
 
@@ -72,7 +74,7 @@ public class Common
 	
 	/**
 	 * Unique creator for ranks, personnel etc
-	 * WARNING: This locks the database table.
+	 * WARNING: This locks/unlocks the database table
 	 * @param table Table to insert into
 	 * @param select What to select after inserting.  For auto_increment columns use "LAST_INSERT_ID()".
 	 * @param values Values you would put in the SQL insert values() part.  The string "<?>" will be replaced with a random unique string.
@@ -125,6 +127,35 @@ public class Common
 	    	finally { Database.returnConnection( conn ); }
 	    }
 	} 
+	
+	
+	
+	
+	
+	/**
+	 * Unique creator for ranks, personnel etc
+	 * WARNING: This locks/unlocks the database table
+	 * @param table Table to insert into
+	 * @param values Values you would put in the SQL insert values() part.  The string "<?>" will be replaced with a random unique string.
+	 * @throws DatabaseException Thrown if it fails.
+	 * @return Integer
+	 */
+	public static Integer createWithUniqueLockingAutoInc( String table, String...values )
+	{		
+		EnhancedResultSet ers = 
+		Common.createWithUniqueLockingSelect(
+			table,
+			"LAST_INSERT_ID()",
+			values
+		);
+		
+		return ers.getElemAs(0,BigInteger.class).intValue();
+	}
+	
+	
+	
+	
+	
 	
 	
 	
