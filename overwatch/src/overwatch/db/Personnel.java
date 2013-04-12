@@ -101,7 +101,7 @@ public class Personnel
 	 * If so, deleting them will cause major problems.
 	 * @return
 	 */
-	public static boolean isInSquadOrVehicleOrMessage( Integer personNo )
+	public static boolean isInSquadOrVehicle( Integer personNo )
 	{
 		long count = Database.querySingle( Long.class,
 			"select count(val)                       " +
@@ -111,10 +111,10 @@ public class Personnel
 			"    select personNo from SquadTroops    " +
 			"    union                               " +
 			"    select pilot from Vehicles          " +
-			"    union                               " +
-			"    select sentBy from Messages         " +
-			"    union                               " +
-			"    select sentTo from Messages         " +
+//			"    union                               " +
+//			"    select sentBy from Messages         " +
+//			"    union                               " +
+//			"    select sentTo from Messages         " +
 			") as ut                                 " +
 			"where ut.val = " + personNo + ";"
 		);
