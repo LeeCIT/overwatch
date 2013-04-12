@@ -19,8 +19,9 @@ import overwatch.util.Validator;
 /**
  * RankTab logic
  * 
- * @author john
- * @Version 6
+ * @author  John Murphy
+ * @author  Lee Coakley
+ * @version 7
  */
 
 
@@ -76,7 +77,7 @@ public class RankLogic extends TabController
 			Integer rankLevel = rankTab.securityLevel.field.getTextAsInt();
 			
 			if ( ! Ranks.exists(rankNo)) {
-				Gui.showErrorDialogue( "Failed to save", "The rank no longer exists." );
+				showDeletedError( "rank" );
 				populateTabList(); // Reload
 				return;
 			}
@@ -91,11 +92,9 @@ public class RankLogic extends TabController
 			populateTabList();
 			rankTab.setSelectedItem(rankNo);
 		}
-		catch(DatabaseException exception)
-		{
+		catch (DatabaseIntegrityException ex) {
 			Integer rankNo = rankTab.getSelectedItem();
-
-			Gui.showErrorDialogue("Already exists", "Rank already exists, please rename the rank");
+			Gui.showErrorDialogue("Rank Already Exists", "A rank with that name already exists. Choose a different name.");
 			populateTabList();
 			rankTab.setSelectedItem(rankNo);
 		}
@@ -127,7 +126,7 @@ public class RankLogic extends TabController
 		);
 		
 		if(mods <= 0) {
-			Gui.showErrorDialogue("Rank deleted", "Rank deleted by someone else");
+			showDeletedError( "rank" );
 		}
 		
 		populateTabList();
