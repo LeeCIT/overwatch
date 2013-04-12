@@ -55,9 +55,8 @@ public class Personnel
 	{
 		HashSaltPair hsp = LoginCrypto.generateHashSaltPair( "1234" );
 		
-		EnhancedResultSet ers = Common.createWithUniqueLockingSelect(
+		return Common.createWithUniqueLockingAutoInc(
 			"Personnel",
-			"LAST_INSERT_ID()",
 			"DEFAULT",
 			"'new person'",
 			"0",
@@ -68,8 +67,6 @@ public class Personnel
 			"'" + hsp.hash + "'",
 			"'" + hsp.salt + "'"
 		);
-		
-		return ers.getElemAs(0,BigInteger.class).intValue();
 	}
 	
 	
