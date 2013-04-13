@@ -6,6 +6,7 @@ package overwatch.core;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import overwatch.db.Database;
+import overwatch.db.Personnel;
 import overwatch.gui.LoginFrame;
 import overwatch.gui.LoginListener;
 import overwatch.security.BackgroundMonitor;
@@ -151,7 +152,8 @@ public class Main
 				gui.pack();
 				gui.setSize( 860, 512 );
 				gui.setLocationByPlatform( true );
-				gui.setVisible(true);
+				gui.setTitleDescription( Personnel.getLoginName( LoginManager.getUser() ) );
+				gui.setVisible( true );
 				
 				gui.addWindowListener( new WindowAdapter() {
 					public void windowClosing( WindowEvent e ) {
