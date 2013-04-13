@@ -100,10 +100,7 @@ public class VehicleLogic extends TabController
 		);
 		
 		if (mods <= 0) {
-			Gui.showErrorDialogue(
-				"Vehicle Deleted",
-				"The vehicle has been deleted by someone else!"
-			);
+			showDeletedError( "vehicle" );
 		}
 		
 		populateList();
