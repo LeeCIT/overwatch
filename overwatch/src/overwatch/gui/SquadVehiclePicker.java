@@ -3,8 +3,8 @@
 
 package overwatch.gui;
 
+import java.awt.Component;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 
 
 
@@ -14,7 +14,7 @@ import javax.swing.JFrame;
  * Create a dialogue for picking squad supplies.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -24,10 +24,10 @@ import javax.swing.JFrame;
 public class SquadVehiclePicker extends SearchPicker<Integer>
 {
 	
-	public SquadVehiclePicker( JFrame frame, PickListener<Integer> listenerToCall, ArrayList<NameRefPair<Integer>> pickables )
+	public SquadVehiclePicker( Component relativeTo, PickListener<Integer> listenerToCall, ArrayList<NameRefPair<Integer>> pickables )
 	{
 		super( 
-			frame,
+			relativeTo,
 			"Choose Vehicle",
 			"Vehicles",
 			pickables

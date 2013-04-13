@@ -3,8 +3,8 @@
 
 package overwatch.gui;
 
+import java.awt.Component;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 
 
 
@@ -14,7 +14,7 @@ import javax.swing.JFrame;
  * Create a dialogue for picking squad troops.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -24,10 +24,10 @@ import javax.swing.JFrame;
 public class SquadTroopPicker extends SearchPicker<Integer>
 {
 	
-	public SquadTroopPicker( JFrame frame, PickListener<Integer> listenerToCall, ArrayList<NameRefPair<Integer>> pickables )
+	public SquadTroopPicker( Component relativeTo, PickListener<Integer> listenerToCall, ArrayList<NameRefPair<Integer>> pickables )
 	{
 		super( 
-			frame, 
+			relativeTo, 
 			"Choose Trooper",
 			"Troopers",
 			pickables

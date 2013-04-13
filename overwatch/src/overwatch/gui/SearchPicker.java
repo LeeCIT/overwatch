@@ -4,6 +4,7 @@
 package overwatch.gui;
 
 import java.util.ArrayList;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -26,7 +27,7 @@ import net.miginfocom.swing.MigLayout;
  * If cancelled or closed, the same happens except the reference is null.
  * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  * @see 	SearchPanel
  */
 
@@ -47,9 +48,9 @@ public class SearchPicker<T> extends JDialog
 	
 	
 	
-	public SearchPicker( JFrame frame, String title, String label, ArrayList<NameRefPair<T>> searchables )
+	public SearchPicker( Component relativeTo, String title, String label, ArrayList<NameRefPair<T>> searchables )
 	{
-		super( frame, title );
+		super( Gui.getCurrentInstance(), title );
 		
 		setLayout(  new MigLayout( "", "[grow]", "[grow,fill][]" )  );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
@@ -62,7 +63,7 @@ public class SearchPicker<T> extends JDialog
 		setupActions();
 		
 		setSize( 240, 384 ); // Golden ratio
-		setLocationRelativeTo( frame );
+		setLocationRelativeTo( relativeTo );
 		setVisible( true );
 	}
 	

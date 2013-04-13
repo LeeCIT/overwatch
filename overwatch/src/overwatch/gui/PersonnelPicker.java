@@ -3,7 +3,7 @@
 
 package overwatch.gui;
 
-import javax.swing.JFrame;
+import java.awt.Component;
 import overwatch.db.Database;
 
 
@@ -15,7 +15,7 @@ import overwatch.db.Database;
  * The PickListener should be pre-created in the relevant tab class.
  * 
  * @author  Lee Coakley
- * @version 1
+ * @version 2
  */
 
 
@@ -25,10 +25,10 @@ import overwatch.db.Database;
 public class PersonnelPicker extends SearchPicker<Integer>
 {
 	
-	public PersonnelPicker( JFrame frame, PickListener<Integer> listenerToCall )
+	public PersonnelPicker( Component relativeTo, PickListener<Integer> listenerToCall )
 	{
 		super( 
-			frame, 
+			relativeTo, 
 			"Choose Person",
 			"Personnel",
 			Database.queryKeyNamePairs( "Personnel", "personNo", "loginName", Integer[].class )
