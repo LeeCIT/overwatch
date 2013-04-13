@@ -29,6 +29,7 @@ import javax.swing.text.Document;
 
 public class CheckedField extends JTextField
 {
+	private String  lastSetText;
 	private boolean isModifiedByUser;
 	private ArrayList<CheckedFieldValidator> validators;
 	private Color initialBgCol; 
@@ -89,6 +90,7 @@ public class CheckedField extends JTextField
 	public void setText( String text ) {
 		super.setText( text );
 		
+		lastSetText      = text;
 		isModifiedByUser = false;
 		
 		if (isEnabled() && isEditable())
@@ -114,7 +116,8 @@ public class CheckedField extends JTextField
 	
 	/**
 	 * Returns true if the field was modified since setText was last used.
-	 * @return
+	 * Note: It doesn't count as modified if the text was changed, but is now exactly the same.
+	 * @return boolean
 	 */
 	public boolean isModifiedByUser() {
 		return isModifiedByUser;
@@ -130,6 +133,7 @@ public class CheckedField extends JTextField
 	/////////////////////////////////////////////////////////////////////////
 	
 	private void commonConstructor() {
+		lastSetText  = getText();
 		validators   = new ArrayList<CheckedFieldValidator>();
 		initialBgCol = getBackground();
 		
@@ -143,12 +147,11 @@ public class CheckedField extends JTextField
 	private void setupActions()
 	{
 		this.addKeyListener( new KeyAdapter() {
-			public void keyReleased( KeyEvent e ) { doVisualValidityFeedback(); }
-		});
-		
-		
-		this.addKeyListener( new KeyAdapter() {
-			public void keyPressed( KeyEvent e ) { isModifiedByUser = true; }
+			public void keyReleased( KeyEvent e )
+			{
+				isModifiedByUser = ! (getText().equals( lastSetText ));				
+				doVisualValidityFeedback();
+			}
 		});
 	}
 	
