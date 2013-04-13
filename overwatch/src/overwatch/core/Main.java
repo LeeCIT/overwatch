@@ -62,7 +62,7 @@ public class Main
 	
 	
 	
-		
+	
 	
 	
 	
@@ -149,6 +149,7 @@ public class Main
 				final Gui gui = new Gui();
 				Controller.attachLogicControllers( gui );
 				gui.pack();
+				gui.setSize( 860, 512 );
 				gui.setLocationByPlatform( true );
 				gui.setVisible(true);
 				
