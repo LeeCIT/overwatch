@@ -116,6 +116,14 @@ public class AssignPanel<T> extends JPanel
 	
 	
 	
+	public final JButton getAddButton() {
+		return buttAdd;
+	}
+	
+	
+	
+	
+	
 	
 	
 	
