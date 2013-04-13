@@ -43,6 +43,7 @@ public class OrderTabCreateDialog extends JDialog
 		
 		message.sentBy.field.setEditable( false );
 		message.sentBy.field.setText( "You" );
+		message.date  .field.setEditable( false );
 		message.date  .field.setText( "Now" );
 		
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
