@@ -18,7 +18,6 @@ import overwatch.util.Validator;
 import java.math.BigDecimal;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 

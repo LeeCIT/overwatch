@@ -8,13 +8,11 @@ import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Supplies;
-import overwatch.db.Vehicles;
 import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.tabs.SupplyTab;
 import overwatch.util.Validator;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
