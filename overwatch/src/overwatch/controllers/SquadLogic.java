@@ -19,6 +19,7 @@ import overwatch.db.Squads;
 import overwatch.gui.NameRefPairList;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
+import overwatch.gui.SquadSupplyPicker;
 import overwatch.gui.SquadTroopPicker;
 import overwatch.gui.SquadVehiclePicker;
 import overwatch.gui.tabs.SquadTab;
@@ -365,7 +366,7 @@ public class SquadLogic extends TabController
 		
 		tab.assignSupplies.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SquadVehiclePicker( tab.assignSupplies.getAddButton(), supplyPickListener, new NameRefPairList<Integer>() );
+				new SquadSupplyPicker( tab.assignSupplies.getAddButton(), supplyPickListener, new NameRefPairList<Integer>() );
 				// TODO make pickable list
 			}
 		});
