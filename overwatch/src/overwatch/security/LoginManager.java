@@ -90,7 +90,7 @@ public class LoginManager
 	 */
 	public static boolean doLogin( String user, String pass )
 	{
-		Integer personNo = Personnel.getNumberFromLogin( user );
+		Integer personNo = Personnel.getNumber( user );
 		
 		if (isPassValid( personNo, pass )) {
 			currentUser = personNo;
@@ -191,7 +191,7 @@ public class LoginManager
 	public static void main( String[] args )
 	{	
 			
-		int personNo = Personnel.getNumberFromLogin( "yea.boi" );
+		int personNo = Personnel.getNumber( "yea.boi" );
 		Personnel.setPass( personNo, "1234" );
 		
 		

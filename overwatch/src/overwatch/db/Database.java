@@ -62,7 +62,7 @@ public class Database
 	 * @return Connection
 	 * @see ConnectionPool
 	 */
-	public static Connection getConnection() {
+	public static Connection getConnection() {		
 		return connPool.getConnection();
 	}
 	
@@ -179,7 +179,7 @@ public class Database
 	
 	
 	/**
-	 * Get an ArrayList of NameRefPairs from a table, based on two columns.
+	 * Get an ArrayList of NameRefPairs from a table.
 	 * Intended for use with the GUI's SearchPanel functions.
 	 * @param query	Query to run
 	 * @param keyColumn Name of column to key on (e.g. personNo)

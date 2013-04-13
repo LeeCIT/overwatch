@@ -123,26 +123,6 @@ public class Personnel
 	
 	
 	/**
-	 * Find the personNo related to a loginName, if any.
-	 * @param loginName
-	 * @return personNo if a valid login, null otherwise.
-	 */
-	public static Integer getNumberFromLogin( String loginName )
-	{
-		Integer[] numbers = Database.queryInts(
-			"select personNo   " +
-			"from Personnel    " +
-			"where loginName = '" + loginName + "';"
-		);
-		
-		return Util.firstOrElse( numbers, null );
-	}
-	
-	
-	
-	
-	
-	/**
 	 * Find the login hash and salt for a person, if they exist.
 	 * @param personNo
 	 * @return HashSaltPair, or null if there is no such person.
@@ -244,7 +224,7 @@ public class Personnel
 		EnhancedResultSet ers = Database.query(
 			"select personNo  " +
 		    "from Personnel   " +
-		    "where loginName = '" + loginName + "';"
+		    "where loginName = '" + loginName + "');"
 		);
 		
 		if (ers.isEmpty())

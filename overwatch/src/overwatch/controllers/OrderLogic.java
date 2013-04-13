@@ -224,7 +224,7 @@ public class OrderLogic extends TabController<OrderTab>
 					subject,
 					body,
 					LoginManager.getCurrentUser(),
-					Personnel.getNumberFromLogin( sendTo )
+					Personnel.getNumber( sendTo )
 				);
 				
 				refreshSearchPanels();
