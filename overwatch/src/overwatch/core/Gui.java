@@ -71,6 +71,16 @@ public class Gui extends JFrame
 	
 	
 	/**
+	 * Set the part of the title after "Overwatch - "
+	 */
+	public void setTitleDescription( String desc ) {
+		setTitle( "Overwatch - " + desc );
+	}
+	
+	
+	
+	
+	/**
 	 * Get a reference to the most recently created Gui instance.
 	 */
 	public static Gui getCurrentInstance() {
