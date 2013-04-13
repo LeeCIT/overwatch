@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JButton;
@@ -125,14 +126,10 @@ public class SearchPicker<T> extends JDialog
 		
 		
 		
-		this.addWindowListener( new WindowListener() {
-			public void windowOpened     ( WindowEvent e ) {}
-			public void windowIconified  ( WindowEvent e ) {}
-			public void windowDeiconified( WindowEvent e ) {}
-			public void windowDeactivated( WindowEvent e ) { onClose(); }
-			public void windowClosing    ( WindowEvent e ) {}
-			public void windowClosed     ( WindowEvent e ) {}
-			public void windowActivated  ( WindowEvent e ) {}
+		this.addWindowListener( new WindowAdapter() {
+			public void windowDeactivated( WindowEvent e ) {
+				onClose();
+			}
 		});
 		
 		
@@ -141,7 +138,7 @@ public class SearchPicker<T> extends JDialog
 			public void valueChanged( ListSelectionEvent e ) {
 				buttOkay.setEnabled( searchPanel.hasSelectedItem() );
 			}
-		});		
+		});
 	}
 	
 	
