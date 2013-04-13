@@ -44,12 +44,12 @@ public class AssignPanel<T> extends JPanel
 	
 	private AssignPanel()
 	{
-		super(  new MigLayout("filly", "[192px]", "[][fill,grow][]")  );
+		super(  new MigLayout( "filly", "[192px]", "[][fill,grow][]" )  );
 	}
 	
 	
 	
-
+	
 	
 	public AssignPanel( String labelText, ArrayList<NameRefPair<T>> pickables )
 	{

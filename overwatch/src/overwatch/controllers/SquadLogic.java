@@ -285,9 +285,10 @@ public class SquadLogic extends TabController
 		final PickListener<Integer> pickListener = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
 				if (picked != null)
-					tab.commander.field.setText(Personnel.getLoginName(picked)) ;		
+					tab.commander.field.setText( Personnel.getLoginName(picked) );
 			}
 		};
+		
 		
 		tab.commander.button.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
