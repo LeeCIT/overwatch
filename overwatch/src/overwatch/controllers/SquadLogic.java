@@ -45,7 +45,6 @@ public class SquadLogic extends TabController
 	{
 		this.tab = tab;
 		attachEvents();
-		setupTabChangeActions();
 	}
 	
 	
@@ -74,46 +73,7 @@ public class SquadLogic extends TabController
 	
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
-	/////////////////////////////////////////////////////////////////////////
-	
-	
-	
-	private void attachEvents(){
-		setUpButtonActions();
-		setupListSelectActions();
-		setupPickActions();
-		setupTroopsAssign();
-		setupVehiclesAssign();
-	}
-	
-	
-	
-	
-	
-	private void setUpButtonActions(){
-		
-		tab.addNewListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doCreate();
-			}
-		});
-		
-		tab.addSaveListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doSave( tab.getSelectedItem() );
-			}
-		});
-		
-		tab.addDeleteListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				delete( tab.getSelectedItem() );
-			}
-		});
-	}
-	
-	
-	
-	
+	/////////////////////////////////////////////////////////////////////////	
 	
 	private void doCreate()
 	{
@@ -175,18 +135,6 @@ public class SquadLogic extends TabController
 		}
 		
 		populateSquadsList();
-	}
-	
-	
-	
-	
-	
-	private void setupListSelectActions(){
-		tab.addSearchPanelListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				populateFieldsAndPanels(tab.getSelectedItem());
-			}
-		});
 	}
 	
 	
@@ -269,9 +217,65 @@ public class SquadLogic extends TabController
 	
 	
 	
+	
+	
+	private void attachEvents(){
+		setUpButtonActions();
+		setupListSelectActions();
+		setupPickActions();
+		setupTroopAssignActions();
+		setupVehicleAssignActions();
+		setupTabChangeActions();
+	}
+	
+	
+	
+	
+	
+	private void setUpButtonActions(){
+		
+		tab.addNewListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				doCreate();
+			}
+		});
+		
+		
+		tab.addSaveListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				doSave( tab.getSelectedItem() );
+			}
+		});
+		
+		
+		tab.addDeleteListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				delete( tab.getSelectedItem() );
+			}
+		});
+	}
+	
+	
+	
+	
+	
+	private void setupListSelectActions()
+	{
+		tab.addSearchPanelListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				populateFieldsAndPanels(tab.getSelectedItem());
+			}
+		});
+	}
+	
+	
+	
+	
+	
 	private void setupTabChangeActions() {
 		Gui.getCurrentInstance().addTabSelectNotify(this);
 	}
+	
 	
 	
 	
@@ -296,7 +300,8 @@ public class SquadLogic extends TabController
 	
 	
 	
-	private void setupTroopsAssign()
+	
+	private void setupTroopAssignActions()
 	{
 		final PickListener<Integer> pickListener = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
@@ -317,7 +322,8 @@ public class SquadLogic extends TabController
 	
 	
 	
-	private void setupVehiclesAssign()
+	
+	private void setupVehicleAssignActions()
 	{
 		final PickListener<Integer> vehiclePick = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
@@ -327,20 +333,11 @@ public class SquadLogic extends TabController
 		};
 		
 		
-		
 		tab.assignVehicles.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new PersonnelPicker(null, vehiclePick);//Should be a VehiclePicker
 			}
 		});
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
