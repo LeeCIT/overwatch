@@ -109,6 +109,24 @@ public class Ranks
 		else return ers.getElemAs( "rankNo", Integer.class ); 
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Get privLevel for a rank, or null of it doesn't exist.
+	 * @param rankNo
+	 * @return
+	 */
+	public static Integer getLevel( Integer rankNo )
+	{
+		return Database.querySingle( Integer.class,
+			"select privilegeLevel " +
+		    "from Ranks            " +
+		    "where rankNo =        " + rankNo + ";"
+		); 
+	}
+	
 }
 
 
