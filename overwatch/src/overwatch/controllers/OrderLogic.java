@@ -191,6 +191,7 @@ public class OrderLogic extends TabController<OrderTab>
 	private void createOrderCreator()
 	{
 		// TODO: if lowest rank, you can't order anyone, so give a smartass message
+		// TODO: prevent sending orders to higher or equal ranked people
 		
 		final OrderTabCreateDialog o = new OrderTabCreateDialog( tab.buttCreateNew );
 		
