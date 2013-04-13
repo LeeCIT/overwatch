@@ -98,7 +98,7 @@ public class PersonnelLogic extends TabController
 	
 	
 	
-	private void doSave()
+	private void doSave( Integer personNo )
 	{
 		// TODO Personnel save
 		// TODO change gui title if self
@@ -109,10 +109,8 @@ public class PersonnelLogic extends TabController
 	
 	
 	
-	private void doDelete()
+	private void doDelete( Integer personNo )
 	{
-		Integer personNo = tab.getSelectedItem();
-		
 		if ( ! doDeletableCheck( personNo ))
 			return;		
 		
@@ -126,7 +124,7 @@ public class PersonnelLogic extends TabController
 	
 	private boolean doDeletableCheck( Integer personNo )
 	{
-		if (LoginManager.getUser().equals(personNo)) {
+		if (LoginManager.currentuser().equals(personNo)) {
 			Gui.showErrorDialogue(
 				"Cannot Delete Self",
 				"You can't delete yourself.  You've got so much to live for!"
@@ -317,14 +315,14 @@ public class PersonnelLogic extends TabController
 		
 		tab.addSaveListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				doSave();				
+				doSave( tab.getSelectedItem() );				
 			}
 		});
 		
 		
 		tab.addDeleteListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				doDelete();
+				doDelete( tab.getSelectedItem() );
 			}
 		});
 	}

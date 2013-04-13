@@ -121,11 +121,11 @@ public class OrderLogic extends TabController
 	private void populateSearchPanels()
 	{
 		tab.ordersIn.setSearchableItems(
-			Orders.getOrdersAndSubjectsSentTo( LoginManager.getUser() )
+			Orders.getOrdersAndSubjectsSentTo( LoginManager.currentuser() )
 		);
 		
 		tab.ordersOut.setSearchableItems(
-			Orders.getOrdersAndSubjectsSentBy( LoginManager.getUser() )
+			Orders.getOrdersAndSubjectsSentBy( LoginManager.currentuser() )
 		);
 	}
 	

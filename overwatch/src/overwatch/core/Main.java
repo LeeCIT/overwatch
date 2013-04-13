@@ -152,7 +152,7 @@ public class Main
 				gui.pack();
 				gui.setSize( 860, 512 );
 				gui.setLocationRelativeTo( creatorFrame );
-				gui.setTitleDescription( Personnel.getLoginName( LoginManager.getUser() ) );
+				gui.setTitleDescription( Personnel.getLoginName( LoginManager.currentuser() ) );
 				gui.setVisible( true );
 				
 				creatorFrame.dispose();
