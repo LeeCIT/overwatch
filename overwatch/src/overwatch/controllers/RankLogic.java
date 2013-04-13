@@ -30,7 +30,7 @@ import overwatch.util.Validator;
 
 public class RankLogic extends TabController
 {
-	private final RankTab rankTab;
+	private final RankTab tab;
 		
 	
 	
@@ -38,7 +38,7 @@ public class RankLogic extends TabController
 	
 	public RankLogic(RankTab rt)
 	{
-		this.rankTab = rt;
+		this.tab = rt;
 		attachEvents();
 	}
 	
@@ -51,7 +51,7 @@ public class RankLogic extends TabController
 	
 
 	public JPanel getTab() {
-		return rankTab;
+		return tab;
 	}
 	
 	
@@ -70,11 +70,17 @@ public class RankLogic extends TabController
 	
 	private void doSave()
 	{
+		Integer rankNo = tab.getSelectedItem();
+		
+		if ( ! tab.areAllFieldsValid()) {
+			showFieldValidationError();
+			return;
+		}
+		
 		try
 		{
-			Integer rankNo    = rankTab.getSelectedItem();
-			String  rankName  = rankTab.name.      field.getText();
-			Integer rankLevel = rankTab.securityLevel.field.getTextAsInt();
+			String rankName  = tab.name.         field.getText();
+			String rankLevel = tab.securityLevel.field.getText();
 			
 			if ( ! Ranks.exists(rankNo)) {
 				showDeletedError( "rank" );
@@ -90,14 +96,17 @@ public class RankLogic extends TabController
 			);
 			
 			populateTabList();
-			rankTab.setSelectedItem(rankNo);
+			tab.setSelectedItem(rankNo);
 		}
 		catch (DatabaseIntegrityException ex) {
-			Integer rankNo = rankTab.getSelectedItem();
-			Gui.showErrorDialogue("Rank Already Exists", "A rank with that name already exists. Choose a different name.");
-			populateTabList();
-			rankTab.setSelectedItem(rankNo);
+			Gui.showErrorDialogue(
+				"Rank Already Exists",
+				"A rank with that name already exists. Choose a different name."
+			);
 		}
+		
+		populateTabList();
+		tab.setSelectedItem(rankNo);
 	}
 	
 	
@@ -109,7 +118,7 @@ public class RankLogic extends TabController
 		Integer rankNo = Ranks.create();
 				
 		populateTabList();
-		rankTab.setSelectedItem( rankNo );
+		tab.setSelectedItem( rankNo );
 	}
 	
 	
@@ -118,7 +127,7 @@ public class RankLogic extends TabController
 	
 	private void doDelete()
 	{
-		Integer rankNum = rankTab.getSelectedItem();
+		Integer rankNum = tab.getSelectedItem();
 		int mods = Database.update(
 			"DELETE         " +
 			"FROM Ranks     " +
@@ -139,7 +148,7 @@ public class RankLogic extends TabController
 	private void populateTabList()
 	{
 		populateFields( null );
-		rankTab.setSearchableItems(
+		tab.setSearchableItems(
 			Database.queryKeyNamePairs( "Ranks", "rankNo", "name", Integer[].class )
 		);
 	}
@@ -152,12 +161,12 @@ public class RankLogic extends TabController
 	{
 		if (rankNo == null)
 		{
-			rankTab.setEnableFieldsAndButtons(false);
-			rankTab.clearFields();
+			tab.setEnableFieldsAndButtons(false);
+			tab.clearFields();
 			return;
 		}
 		
-		rankTab.setEnableFieldsAndButtons(true);
+		tab.setEnableFieldsAndButtons(true);
 		
 		EnhancedResultSet ers = Database.query(
 		    "SELECT rankNo, name, privilegeLevel " +
@@ -166,9 +175,9 @@ public class RankLogic extends TabController
 		
 		if(!ers.isEmpty())
 		{
-			rankTab.number       .field.setText("" + ers.getElemAs( "rankNo",         Integer.class ));
-			rankTab.name         .field.setText(     ers.getElemAs( "name",           String .class ));
-			rankTab.securityLevel.field.setText("" + ers.getElemAs( "privilegeLevel", Integer.class ));		
+			tab.number       .field.setText("" + ers.getElemAs( "rankNo",         Integer.class ));
+			tab.name         .field.setText(     ers.getElemAs( "name",           String .class ));
+			tab.securityLevel.field.setText("" + ers.getElemAs( "privilegeLevel", Integer.class ));		
 		}
 		else{
 			Gui.showErrorDialogue("No longer exists", "The selected rank no longer exists");
@@ -203,20 +212,20 @@ public class RankLogic extends TabController
 	
 	private void setupFieldValidators()
 	{
-		rankTab.addNameValidator(new CheckedFieldValidator() {
+		tab.addNameValidator(new CheckedFieldValidator() {
 			public boolean check(String text)
 			{
 				if ( ! DatabaseConstraints.isValidName( text ))
 					return false;
 				
-				boolean edited  = rankTab.name.field.isModifiedByUser();
+				boolean edited  = tab.name.field.isModifiedByUser();
 				boolean badEdit = (edited && Database.queryUnique( "Ranks", "name", "'"+text+"'" ));
 				return ! badEdit;
 			}
 		});
 		
 		
-		rankTab.addPrivilegesValidator(new CheckedFieldValidator() {
+		tab.addPrivilegesValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {
 				return Validator.isInt( text );
 			}
@@ -229,9 +238,9 @@ public class RankLogic extends TabController
 	
 	private void setupListSelectActions()
 	{
-		rankTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
+		tab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				populateFields(rankTab.getSelectedItem());
+				populateFields(tab.getSelectedItem());
 			}
 		});
 		
@@ -244,19 +253,19 @@ public class RankLogic extends TabController
 	private void setupButtonActions()
 	{
 		
-		rankTab.addNewListener(new ActionListener() {			
+		tab.addNewListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
 				doNew();				
 			}
 		});	
 	
-		rankTab.addDeleteListener(new ActionListener() {
+		tab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				doDelete();
 			}
 		});		
 	
-		rankTab.addSaveListener(new ActionListener() {
+		tab.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				doSave();
 			}
