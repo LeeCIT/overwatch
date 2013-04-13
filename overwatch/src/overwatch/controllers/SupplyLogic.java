@@ -34,36 +34,16 @@ import javax.swing.event.ListSelectionListener;
 
 
 
-public class SupplyLogic extends TabController
+public class SupplyLogic extends TabController<SupplyTab>
 {
 	
-	private final SupplyTab supplyTab;
-	
-	
-	
-	
-	
-	public SupplyLogic(SupplyTab st)
-	{
-		this.supplyTab = st;
-		attachEvents();
-		setupTabChangeActions();
+	public SupplyLogic( SupplyTab tab ){
+		super( tab );
 	}
-	
-	
-	
 	
 	
 	public void respondToTabSelect() {
 		populateTabList();
-	}
-
-	
-	
-	
-
-	public JPanel getTab() {
-		return supplyTab;
 	}
 	
 	
@@ -82,9 +62,9 @@ public class SupplyLogic extends TabController
 	
 	private void doSave()
 	{
-		Integer supplyNo    = supplyTab.getSelectedItem();
-		String  supplyName  = supplyTab.name  .field.getText();
-		Integer supplyCount = supplyTab.amount.field.getTextAsInt();
+		Integer supplyNo    = tab.getSelectedItem();
+		String  supplyName  = tab.name  .field.getText();
+		Integer supplyCount = tab.amount.field.getTextAsInt();
 		
 		if ( ! Supplies.exists(supplyNo)) {
 			Gui.showErrorDialogue( "Failed to save", "The supply no longer exists." );
@@ -100,7 +80,7 @@ public class SupplyLogic extends TabController
 		);
 		
 		populateTabList();
-		supplyTab.setSelectedItem( supplyNo );
+		tab.setSelectedItem( supplyNo );
 	}
 	
 	
@@ -112,7 +92,7 @@ public class SupplyLogic extends TabController
 		Integer supplyNo = Supplies.create();
 		
 		populateTabList();
-		supplyTab.setSelectedItem( supplyNo );
+		tab.setSelectedItem( supplyNo );
 	}
 	
 	
@@ -121,7 +101,7 @@ public class SupplyLogic extends TabController
 	
 	private void delete()
 	{
-		Integer supplyNo = supplyTab.getSelectedItem();
+		Integer supplyNo = tab.getSelectedItem();
 		
 		Database.update(
 			"DELETE           " +
@@ -140,7 +120,7 @@ public class SupplyLogic extends TabController
 	{
 		populateFields( null );
 		
-		supplyTab.setSearchableItems(
+		tab.setSearchableItems(
 			Database.queryKeyNamePairs( "Supplies", "supplyNo", "name", Integer[].class )
 		);
 	}
@@ -153,12 +133,12 @@ public class SupplyLogic extends TabController
 	{
 		if(supplyNo == null)
 		{
-			supplyTab.setEnableFieldsAndButtons( false );
-			supplyTab.clearFields();
+			tab.setEnableFieldsAndButtons( false );
+			tab.clearFields();
 			return;
 		}
 		else {
-			supplyTab.setEnableFieldsAndButtons( true );
+			tab.setEnableFieldsAndButtons( true );
 		}
 		
 		EnhancedResultSet ers = Database.query(
@@ -168,9 +148,9 @@ public class SupplyLogic extends TabController
 		);
 		
 		if ( ! ers.isEmpty()) {
-			supplyTab.number.field.setText( "" + ers.getElemAs( "supplyNo", Integer.class ));
-			supplyTab.name  .field.setText(      ers.getElemAs( "name",     String .class ));
-			supplyTab.amount.field.setText( "" + ers.getElemAs( "count",    Integer.class ));
+			tab.number.field.setText( "" + ers.getElemAs( "supplyNo", Integer.class ));
+			tab.name  .field.setText(      ers.getElemAs( "name",     String .class ));
+			tab.amount.field.setText( "" + ers.getElemAs( "count",    Integer.class ));
 		} else {
 			showDeletedError( "supply" );
 			populateTabList();
@@ -181,11 +161,11 @@ public class SupplyLogic extends TabController
 	
 	
 	
-	private void attachEvents()
-	{
+	protected void attachEvents() {
 		setupButtonActions();
 		setupListSelectActions();
 		setupFieldValidators();
+		setupTabChangeActions();
 	}
 	
 	
@@ -202,19 +182,19 @@ public class SupplyLogic extends TabController
 	
 	private void setupButtonActions()
 	{
-		supplyTab.addNewListener(new ActionListener() {
+		tab.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				createNew();
 			}
 		});
 	
-		supplyTab.addDeleteListener(new ActionListener() {
+		tab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				delete();				
 			}
 		});
 	
-		supplyTab.addSaveListener(new ActionListener() {
+		tab.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				doSave();				
 			}
@@ -227,9 +207,9 @@ public class SupplyLogic extends TabController
 	
 	private void setupListSelectActions()
 	{
-		supplyTab.addSearchPanelListSelectionListener(new ListSelectionListener() {
+		tab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				populateFields(supplyTab.getSelectedItem());
+				populateFields(tab.getSelectedItem());
 			}
 		});
 	}
@@ -240,14 +220,14 @@ public class SupplyLogic extends TabController
 	
 	private void setupFieldValidators()
 	{
-		supplyTab.addTypeValidator(new CheckedFieldValidator() {
+		tab.addTypeValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {
 				return DatabaseConstraints.isValidName(text);
 			}
 		});
 		
 		
-		supplyTab.addAmountValidator(new CheckedFieldValidator() {
+		tab.addAmountValidator(new CheckedFieldValidator() {
 			public boolean check(String text) {
 				return Validator.isPositiveInt( text );
 			}

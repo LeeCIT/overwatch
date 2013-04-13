@@ -5,7 +5,6 @@ package overwatch.controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -40,34 +39,16 @@ import overwatch.gui.tabs.SquadTab;
 
 
 
-public class SquadLogic extends TabController
+public class SquadLogic extends TabController<SquadTab>
 {
-	private final SquadTab tab;
-	
-	
-	
-	
-	
-	public SquadLogic(SquadTab tab)
-	{
-		this.tab = tab;
-		attachEvents();
+
+	public SquadLogic( SquadTab tab ) {
+		super( tab );
 	}
-	
-	
-	
 	
 	
 	public void respondToTabSelect(){
 		populateSquadsList();
-	}
-	
-	
-	
-	
-	
-	public JPanel getTab(){
-		return tab;
 	}
 	
 	
@@ -224,7 +205,7 @@ public class SquadLogic extends TabController
 	
 	
 	
-	private void attachEvents(){
+	protected void attachEvents(){
 		setUpButtonActions();
 		setupListSelectActions();
 		setupPickActions();

@@ -28,30 +28,16 @@ import overwatch.util.Validator;
 
 
 
-public class RankLogic extends TabController
-{
-	private final RankTab tab;
-		
+public class RankLogic extends TabController<RankTab>
+{	
 	
-	
-	
-	
-	public RankLogic(RankTab rt)
-	{
-		this.tab = rt;
-		attachEvents();
+	public RankLogic( RankTab tab ) {
+		super( tab );
 	}
 	
-		
 	
 	public void respondToTabSelect() {
 		populateTabList();
-	}
-	
-	
-
-	public JPanel getTab() {
-		return tab;
 	}
 	
 	
@@ -189,7 +175,7 @@ public class RankLogic extends TabController
 	
 	
 	
-	private void attachEvents() {
+	protected void attachEvents() {
 		setupTabChangeActions();
 		setupButtonActions();
 		setupListSelectActions();

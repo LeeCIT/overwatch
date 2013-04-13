@@ -38,36 +38,13 @@ import javax.swing.event.ListSelectionListener;
 
 
 
-public class PersonnelLogic extends TabController
-{
-	private final PersonnelTab tab;
+public class PersonnelLogic extends TabController<PersonnelTab>
+{	
 	
-	
-	
-	
-	
-	/**
-	 * Plug the GUI tab into the controller.
-	 * @param tab
-	 */
-	public PersonnelLogic( PersonnelTab tab )
-	{
-		this.tab = tab;
-		
-		attachEvents();
+	public PersonnelLogic( PersonnelTab tab ) {
+		super( tab );
 	}
-	
-	
-	
-	
-	
-	public JPanel getTab() {
-		return tab;
-	}
-	
-	
-	
-	
+
 	
 	public void respondToTabSelect() {	
 		populateList();
@@ -353,7 +330,7 @@ public class PersonnelLogic extends TabController
 	
 	
 	
-	private void attachEvents()
+	protected void attachEvents()
 	{
 		setupTabChangeActions();
 		setupSelectActions   ();
@@ -367,7 +344,7 @@ public class PersonnelLogic extends TabController
 	
 	
 	private void setupTabChangeActions() {
-		Gui.getCurrentInstance().addTabSelectNotify( this );	
+		Gui.getCurrentInstance().addTabSelectNotify( this );
 	}
 	
 	

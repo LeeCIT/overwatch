@@ -37,10 +37,8 @@ import overwatch.util.DateSys;
 
 
 
-public class OrderLogic extends TabController
+public class OrderLogic extends TabController<OrderTab>
 {
-	private final OrderTab tab;
-	
 	private boolean enableSearchPanelEvents;
 	
 	
@@ -53,19 +51,9 @@ public class OrderLogic extends TabController
 	 */
 	public OrderLogic( OrderTab tab )
 	{
-		this.tab = tab;
+		super( tab );
 		enableSearchPanelEvents = true;
-		
-		attachEvents();
 		createBackgroundMonitor();
-	}
-	
-	
-	
-	
-	
-	public JPanel getTab() {
-		return tab;
 	}
 	
 	
@@ -198,8 +186,7 @@ public class OrderLogic extends TabController
 	
 	
 	
-	private void attachEvents()
-	{
+	protected void attachEvents() {
 		setupTabChangeActions();
 		setupSelectActions   ();
 		setupButtonActions   ();

@@ -4,6 +4,7 @@
 package overwatch.controllers;
 
 import java.awt.Component;
+import javax.swing.JPanel;
 import overwatch.core.Gui;
 
 
@@ -23,17 +24,27 @@ import overwatch.core.Gui;
 
 
 
-public abstract class TabController
+public abstract class TabController<T extends Component>
 {
-	public abstract void      respondToTabSelect();
-	public abstract Component getTab();
+	protected final T tab;
 	
 	
+	public TabController( T tab ) {
+		this.tab = tab;
+		attachEvents();
+	}
 	
 	
+	public T getTab() {
+		return tab;
+	}
 	
-	public void showDeletedError( String itemName )
-	{
+	
+	public    abstract void respondToTabSelect();
+	protected abstract void attachEvents();
+	
+	
+	public void showDeletedError( String itemName ) {
 		Gui.showErrorDialogue(
 			"Deleted By Other User",
 			"The " + itemName + " has been deleted by another user!"
@@ -41,14 +52,10 @@ public abstract class TabController
 	}
 	
 	
-	
-	
-	
-	public void showFieldValidationError()
-	{
+	public void showFieldValidationError() {
 		Gui.showErrorDialogue(
-				"Invalid Fields",
-				"Some of the fields contian invalid inputs.  All must be valid before saving."
-			);
+			"Invalid Fields",
+			"Some of the fields contian invalid inputs.  All must be valid before saving."
+		);
 	}
 }

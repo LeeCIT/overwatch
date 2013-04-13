@@ -28,34 +28,16 @@ import javax.swing.event.ListSelectionListener;
 
 
 
-public class VehicleLogic extends TabController
-{
-	private final VehicleTab tab;
+public class VehicleLogic extends TabController<VehicleTab>
+{	
 	
-	
-	
-	
-	
-	public VehicleLogic( VehicleTab vt )
-	{
-		this.tab = vt;
-		attachEvents();
+	public VehicleLogic( VehicleTab tab ) {
+		super( tab );
 	}
-	
-	
-	
 	
 	
 	public void respondToTabSelect() {
 		populateList();
-	}
-
-	
-		
-	
-
-	public JPanel getTab() {
-		return tab;
 	}
 	
 	
@@ -181,8 +163,7 @@ public class VehicleLogic extends TabController
 	
 	
 	
-	private void attachEvents()
-	{
+	protected void attachEvents() {
 		setupTabChangeActions();
 		setupButtonActions();
 		setupSelectActions();
