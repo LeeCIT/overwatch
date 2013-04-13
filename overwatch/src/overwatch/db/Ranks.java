@@ -68,6 +68,20 @@ public class Ranks
 	
 	
 	/**
+	 * Check if a rank is one of the four hardcoded into the database.
+	 * These can't be edited.
+	 * @param rankNo
+	 * @return boolean
+	 */
+	public static boolean isHardcoded( Integer rankNo ) {
+		return (rankNo <= 4);
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Get a rank's name.
 	 * Returns null if no such rank exists.
 	 * @param rankNo
@@ -107,6 +121,24 @@ public class Ranks
 		if (ers.isEmpty())
 			 return null;
 		else return ers.getElemAs( "rankNo", Integer.class ); 
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Get privLevel for a rank, or null of it doesn't exist.
+	 * @param rankNo
+	 * @return
+	 */
+	public static Integer getLevel( Integer rankNo )
+	{
+		return Database.querySingle( Integer.class,
+			"select privilegeLevel " +
+		    "from Ranks            " +
+		    "where rankNo =        " + rankNo + ";"
+		); 
 	}
 	
 }

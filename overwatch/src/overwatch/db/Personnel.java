@@ -147,7 +147,7 @@ public class Personnel
 	 * @param personNo
 	 * @return HashSaltPair, or null if there is no such person.
 	 */
-	public static HashSaltPair getHashSaltPair( int personNo )
+	public static HashSaltPair getHashSaltPair( Integer personNo )
 	{
 		EnhancedResultSet ers = Database.query(
 			"select loginHash, loginSalt " +
@@ -169,7 +169,7 @@ public class Personnel
 	 * @param personNo
 	 * @return level, or null if no such person exists.
 	 */
-	public static Integer getPrivilegeLevel( int personNo )
+	public static Integer getPrivilegeLevel( Integer personNo )
 	{
 		Integer[] numbers = Database.queryInts(
 			"select r.privilegeLevel     " +
@@ -192,7 +192,7 @@ public class Personnel
 	 * @param pass
 	 * @return Whether the change was successful
 	 */
-	public static boolean setPass( int personNo, String pass )
+	public static boolean setPass( Integer personNo, String pass )
 	{
 		HashSaltPair pair = LoginCrypto.generateHashSaltPair( pass );
 		

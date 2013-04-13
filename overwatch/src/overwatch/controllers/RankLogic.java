@@ -159,27 +159,27 @@ public class RankLogic extends TabController
 	
 	private void populateFields(Integer rankNo)
 	{
-		if (rankNo == null)
-		{
+		if (rankNo == null) {
 			tab.setEnableFieldsAndButtons(false);
 			tab.clearFields();
 			return;
 		}
 		
-		tab.setEnableFieldsAndButtons(true);
+		
+		tab.setEnableFieldsAndButtons( ! Ranks.isHardcoded(rankNo) );
+		
 		
 		EnhancedResultSet ers = Database.query(
 		    "SELECT rankNo, name, privilegeLevel " +
 		    "FROM Ranks     " +
 		    "WHERE rankNo = " + rankNo);
 		
-		if(!ers.isEmpty())
-		{
+		if ( ! ers.isEmpty()) {
 			tab.number       .field.setText("" + ers.getElemAs( "rankNo",         Integer.class ));
 			tab.name         .field.setText(     ers.getElemAs( "name",           String .class ));
 			tab.securityLevel.field.setText("" + ers.getElemAs( "privilegeLevel", Integer.class ));		
 		}
-		else{
+		else {
 			Gui.showErrorDialogue("No longer exists", "The selected rank no longer exists");
 			populateTabList();
 		}
