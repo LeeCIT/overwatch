@@ -40,7 +40,7 @@ public class OrderTabCreateDialog extends JDialog
 	{
 		super( Gui.getCurrentInstance(), "Overwatch - Create Order" );
 		
-		setLayout( new MigLayout( "debug", "[grow,fill]", "[grow,fill][]" ) );
+		setLayout( new MigLayout( "", "[grow,fill]", "[grow,fill][]" ) );
 
 		this.message = new MessagePanel();
 		this.send    = new JButton( "Send" );

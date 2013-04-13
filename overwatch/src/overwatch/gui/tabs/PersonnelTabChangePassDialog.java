@@ -39,7 +39,7 @@ public class PersonnelTabChangePassDialog extends JDialog
 	{
 		super( Gui.getCurrentInstance(), "Overwatch - Change Login Password" );
 		
-		setLayout( new MigLayout( "debug", "[][grow]", "[][][]" ) );
+		setLayout( new MigLayout( "", "[][grow]", "[][][]" ) );
 		setIconImage( new ImageIcon("images/ico16px.png").getImage() );
 
 		passOldLabel  = new JLabel( "Old pass:"     );
