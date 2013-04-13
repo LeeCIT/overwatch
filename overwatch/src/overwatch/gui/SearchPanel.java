@@ -108,7 +108,7 @@ public class SearchPanel<T> extends JPanel
 	 */
 	public void setSearchableItems( ArrayList<NameRefPair<T>> items ) {		
 		searchableItems = (ArrayList<NameRefPair<T>>) items.clone();
-		resetDisplayedItems();
+		refreshDisplayedItems();
 	}
 	
 	
@@ -252,6 +252,53 @@ public class SearchPanel<T> extends JPanel
 	
 	
 	
+	/**
+	 * Remove item from the list.
+	 * @param item
+	 * @return Whether it was actually there
+	 */
+	public boolean removeItem( T item )
+	{
+		boolean wasRemoved = searchableItems.remove( new NameRefPair<T>(item,"") );
+		refreshDisplayedItems();
+		return wasRemoved;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Remove items from the list.
+	 * Items given which are not present in the list are simply ignored.
+	 * @param items
+	 */
+	public void removeItems( T[] items )
+	{
+		ArrayList<NameRefPair<T>> remList = new NameRefPairList<T>( items );
+		searchableItems.removeAll( remList );
+		refreshDisplayedItems();
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Remove items from the list which are NOT in the given array.
+	 * Items not present are ignored.
+	 * @param items
+	 */
+	public void removeItemsNotIn( T[] items )
+	{
+		ArrayList<NameRefPair<T>> remList = new NameRefPairList<T>( items );
+		searchableItems.retainAll( remList );
+		refreshDisplayedItems();
+	}
+	
+	
+	
+	
 	
 	
 	
@@ -319,7 +366,7 @@ public class SearchPanel<T> extends JPanel
 		String userStr = searchField.getText();
 		
 		if (userStr.isEmpty()) {
-			resetDisplayedItems();
+			refreshDisplayedItems();
 		}
 		else 
 		{
@@ -357,7 +404,7 @@ public class SearchPanel<T> extends JPanel
 	
 	private void doSearchClear() {
 		searchField.setText( "" );
-		resetDisplayedItems();
+		refreshDisplayedItems();
 	}
 	
 	
@@ -372,7 +419,7 @@ public class SearchPanel<T> extends JPanel
 	
 	
 	
-	private void resetDisplayedItems() {
+	private void refreshDisplayedItems() {
 		setDisplayedItems( searchableItems );
 	}
 	
@@ -411,6 +458,13 @@ public class SearchPanel<T> extends JPanel
 		
 		String[] searchables = { "Test", "Another test", "yes another" };
 		SearchPanel<String> sp = new SearchPanel<String>( "Test", searchables );
+		
+		
+		//sp.removeItem( "Test" );
+		
+		String[] rem = { "Another test", "yes another" };
+		sp.removeItemsNotIn( rem );
+		
 		
 		frame.add( sp );
 		frame.setVisible( true );
