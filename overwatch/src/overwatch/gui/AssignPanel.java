@@ -347,9 +347,11 @@ public class AssignPanel<T> extends JPanel
 	private void setupActions()
 	{
 		list.addKeyListener( new KeyAdapter() {
-			public void keyTyped( KeyEvent e ) {
-				if (e.getKeyCode() == KeyEvent.VK_DELETE)
-					removeItem( getSelectedItem() );
+			public void keyTyped( KeyEvent e )
+			{
+				if (e.getKeyCode() == KeyEvent.VK_DELETE) 
+					if ( ! list.isSelectionEmpty() )
+						removeItem( getSelectedItem() );
 			}
 		});
 		
