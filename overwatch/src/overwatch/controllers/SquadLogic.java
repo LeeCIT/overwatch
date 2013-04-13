@@ -100,7 +100,7 @@ public class SquadLogic extends TabController
 		
 		tab.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				doSave();
+				doSave( tab.getSelectedItem() );
 			}
 		});
 		
@@ -115,41 +115,36 @@ public class SquadLogic extends TabController
 	
 	
 	
-	private void doSave()
+	private void doSave( Integer squadNo )
 	{
-		try
-		{
-			Integer squadNo   	 = tab.getSelectedItem();
-			String  squadName 	 = tab.name.     field.getText();
-			String commanderName = tab.commander.field.getText();
-			Integer commanderNo	 = Personnel.getNumber(commanderName);
-			
-						
-			if ( ! Squads.exists(squadNo)) {
-				showDeletedError( "Squad" );
-				populateSquadsList();
-				return;
-			}
-			
-			Database.update(
-				"UPDATE Squads "          +
-				"SET name           = '"  + squadName  + "'," +
-				"    commander = " 		  + commanderNo + " "  +
-				"WHERE squadNo = " 		  + squadNo + " ;"
-			);
-			
-			
+		String  squadName 	  = tab.name.     field.getText();
+		String  commanderName = tab.commander.field.getText();
+		Integer commanderNo	  = Personnel.getNumber( commanderName );
+		
+					
+		if ( ! Squads.exists(squadNo)) {
+			showDeletedError( "squad" );
 			populateSquadsList();
-			tab.setSelectedItem(squadNo);
+			return;
 		}
-		catch(DatabaseException exception)
-		{
-			Integer squadNo = tab.getSelectedItem();
-
-			showDeletedError("Squad was already deleted");
+		
+		
+		int modRows = Database.update(
+			"UPDATE Squads "          +
+			"SET name           = '"  + squadName  + "'," +
+			"    commander = " 		  + commanderNo + " "  +
+			"WHERE squadNo = " 		  + squadNo + " ;"
+		);
+		
+		if (modRows <= 0) {
+			showDeletedError( "squad" );
 			populateSquadsList();
-			tab.setSelectedItem(squadNo);
+			return;
 		}
+		
+		
+		populateSquadsList();
+		tab.setSelectedItem(squadNo);
 	}
 	
 	
