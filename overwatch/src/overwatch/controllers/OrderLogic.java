@@ -227,6 +227,8 @@ public class OrderLogic extends TabController<OrderTab>
 					Personnel.getNumberFromLogin( sendTo )
 				);
 				
+				refreshSearchPanels();
+				
 				o.dispose();
 			}
 		});
