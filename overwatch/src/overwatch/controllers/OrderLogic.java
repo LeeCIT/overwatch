@@ -213,6 +213,8 @@ public class OrderLogic extends TabController<OrderTab>
 					return;
 				}
 				
+				o.send.setEnabled( false );
+				
 				String subject = o.message.subject.field.getText();
 				String sendTo  = o.message.sentTo .field.getText();
 				String body    = o.message.body         .getText();
@@ -222,7 +224,9 @@ public class OrderLogic extends TabController<OrderTab>
 					body,
 					LoginManager.getCurrentUser(),
 					Personnel.getNumberFromLogin( sendTo )
-				);				
+				);
+				
+				o.dispose();
 			}
 		});
 		
