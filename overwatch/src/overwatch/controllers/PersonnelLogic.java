@@ -13,6 +13,7 @@ import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.PickListener;
 import overwatch.gui.RankPicker;
 import overwatch.gui.tabs.PersonnelTab;
+import overwatch.security.LoginManager;
 import overwatch.util.Validator;
 import java.math.BigDecimal;
 import java.awt.event.ActionEvent;
@@ -100,6 +101,7 @@ public class PersonnelLogic extends TabController
 	private void doSave()
 	{
 		// TODO Personnel save
+		// TODO change gui title if self
 		System.out.println( "save" );
 	}
 	
@@ -124,6 +126,15 @@ public class PersonnelLogic extends TabController
 	
 	private boolean doDeletableCheck( Integer personNo )
 	{
+		if (LoginManager.getUser().equals(personNo)) {
+			Gui.showErrorDialogue(
+				"Cannot Delete Self",
+				"You can't delete yourself.  You've got so much to live for!"
+			);
+			return false;
+		}
+		
+		
 		if (Personnel.isInSquadOrVehicle( personNo ))
 		{
 			String name = Personnel.getLoginName( personNo );
@@ -167,9 +178,10 @@ public class PersonnelLogic extends TabController
 			);
 			
 			return false;
-		} else {
-			return true;
 		}
+		
+
+		return true;
 	}
 	
 	
