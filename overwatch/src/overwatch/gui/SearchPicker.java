@@ -75,11 +75,27 @@ public class SearchPicker<T> extends JDialog
 	public void addPickListener( PickListener<T> pl ) {
 		pickListeners.add( pl );
 	}
+
 	
 	
 	
 	
+	public boolean removeItem( T item ) {
+		return searchPanel.removeItem( item );
+	}
 	
+	
+	public void removeItems( T[] items ) {
+		searchPanel.removeItems( items );
+	}
+	
+	
+	public void removeItemsNotIn( T[] items ) {
+		searchPanel.removeItemsNotIn( items );
+	}
+	
+	
+		
 	
 	
 	
