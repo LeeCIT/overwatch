@@ -234,6 +234,15 @@ public class OrderLogic extends TabController<OrderTab>
 		});
 		
 		
+		
+		o.addCancelButtonListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				o.dispose();
+			}
+		});
+		
+		
+		
 		o.addValidatorSend( new CheckedFieldValidator() {
 			public boolean check( String text ) {
 				return DatabaseConstraints.isValidName( text )

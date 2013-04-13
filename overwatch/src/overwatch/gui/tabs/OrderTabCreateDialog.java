@@ -74,6 +74,7 @@ public class OrderTabCreateDialog extends JDialog
 	// Buttons
 	public void addSendEllipsisListener( ActionListener a ) { message.sentTo.button.addActionListener(a);  }
 	public void addSendButtonListener  ( ActionListener a ) { send                 .addActionListener(a);  }
+	public void addCancelButtonListener( ActionListener a ) { cancel               .addActionListener(a);  }
 	
 	
 	
