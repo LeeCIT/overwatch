@@ -92,7 +92,7 @@ public class Ranks
 	
 	/**
 	 * Get a person's number based on their name.
-	 * Returns null if no such person exists.
+	 * Returns null if no such rank exists.
 	 * @param name
 	 * @return rankNo or null
 	 */
