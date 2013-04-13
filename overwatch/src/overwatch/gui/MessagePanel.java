@@ -19,7 +19,7 @@ import net.miginfocom.swing.MigLayout;
  * Panel with a ScrollableTextPanel and subject/to/from fields.
  * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -44,8 +44,8 @@ public class MessagePanel extends JPanel
 		
 		sentBy  = GuiUtil.addLabelledField            ( this, "From:"    );
 		sentTo  = GuiUtil.addLabelledFieldWithEllipsis( this, "To:"      );
+		date    = GuiUtil.addLabelledField            ( this, "Date:"    );		
 		subject = GuiUtil.addLabelledField            ( this, "Subject:" );
-		date    = GuiUtil.addLabelledField            ( this, "Date:"    );
 		body    = new ScrollableTextPanel( "Message"  );
 		add( body, "spanx 2, grow" );
 	}
