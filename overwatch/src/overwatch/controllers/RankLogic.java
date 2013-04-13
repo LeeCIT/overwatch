@@ -77,8 +77,7 @@ public class RankLogic extends TabController
 			return;
 		}
 		
-		try
-		{
+		try {
 			String rankName  = tab.name.         field.getText();
 			String rankLevel = tab.securityLevel.field.getText();
 			
@@ -172,7 +171,8 @@ public class RankLogic extends TabController
 		EnhancedResultSet ers = Database.query(
 		    "SELECT rankNo, name, privilegeLevel " +
 		    "FROM Ranks     " +
-		    "WHERE rankNo = " + rankNo);
+		    "WHERE rankNo = " + rankNo
+		);
 		
 		if ( ! ers.isEmpty()) {
 			tab.number       .field.setText("" + ers.getElemAs( "rankNo",         Integer.class ));
@@ -183,8 +183,6 @@ public class RankLogic extends TabController
 			Gui.showErrorDialogue("No longer exists", "The selected rank no longer exists");
 			populateTabList();
 		}
-
-		
 	}
 	
 	

@@ -44,7 +44,7 @@ public class SquadLogic extends TabController
 	public SquadLogic(SquadTab tab)
 	{
 		this.tab = tab;
-		attatchEvents();
+		attachEvents();
 		setupTabChangeActions();
 	}
 	
@@ -78,7 +78,7 @@ public class SquadLogic extends TabController
 	
 	
 	
-	private void attatchEvents(){
+	private void attachEvents(){
 		setUpButtonActions();
 		setupListSelectActions();
 		setupPickActions();
