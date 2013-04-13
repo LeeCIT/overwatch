@@ -250,7 +250,7 @@ public class VehicleLogic extends TabController
 			}
 		});
 		
-				
+		
 		tab.addPilotValidator( new CheckedFieldValidator() {
 			public boolean check( String text ){
 				return text.isEmpty()
@@ -268,16 +268,46 @@ public class VehicleLogic extends TabController
 		final PickListener<Integer> pickListener = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
 				if (picked != null)
-					tab.pilot.field.setText(Personnel.getLoginName(picked)) ;		
+					tab.pilot.field.setText( Personnel.getLoginName(picked) ) ;		
 			}
 		};
 		
+		
 		tab.pilot.button.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				new PersonnelPicker( Gui.getCurrentInstance(), pickListener );
+				new PersonnelPicker( tab.pilot.button, pickListener );
 			}
 		});
 		
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
