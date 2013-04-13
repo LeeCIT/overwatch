@@ -16,6 +16,15 @@ import overwatch.gui.MessagePanel;
 
 
 
+/**
+ * Creates a new order dialogue.  It's not modal.
+ * 
+ * @author lsnk
+ *
+ */
+
+
+
 
 public class OrderTabCreateDialog extends JDialog
 {
@@ -42,12 +51,12 @@ public class OrderTabCreateDialog extends JDialog
 		add( cancel,  "grow 0" );
 		
 		message.sentBy.field.setEditable( false );
-		message.sentBy.field.setText( "You" );
+		message.sentBy.field.setText( "<You>" );
 		message.date  .field.setEditable( false );
-		message.date  .field.setText( "Now" );
+		message.date  .field.setText( "<Now>" );
 		
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-		setModalityType( ModalityType.APPLICATION_MODAL );
+		setModalityType( ModalityType.MODELESS );
 		
 		setSize( 400, 640 );
 		setLocationRelativeTo( relativeTo );

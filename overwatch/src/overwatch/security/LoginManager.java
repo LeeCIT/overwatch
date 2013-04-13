@@ -37,7 +37,7 @@ public class LoginManager
 	 * @return boolean
 	 */
 	public static boolean hasLoggedInUser() {
-		return (currentuser() != null);
+		return (currentUser() != null);
 	}
 	
 	
@@ -48,7 +48,7 @@ public class LoginManager
 	 * Get the person currently logged in.
 	 * @return personNo
 	 */
-	public static Integer currentuser() {
+	public static Integer currentUser() {
 		return currentUser;
 	}
 	
@@ -74,7 +74,7 @@ public class LoginManager
 	 * @return integer security level
 	 */
 	public static Integer currentSecurityLevel() {	
-		return Personnel.getPrivilegeLevel( currentuser() );
+		return Personnel.getPrivilegeLevel( currentUser() );
 	}
 	
 	
@@ -148,7 +148,7 @@ public class LoginManager
 		monitor.addBackgroundCheck( new BackgroundCheck() {
 			public void onCheck()
 			{
-				if ( ! Personnel.exists( LoginManager.currentuser() )) {
+				if ( ! Personnel.exists( LoginManager.currentUser() )) {
 					Gui.showErrorDialogue( "Account Deleted", "Your account has been deleted!" );
 					Main.shutdown();
 				}
@@ -184,7 +184,7 @@ public class LoginManager
 		
 		
 		if (loginSuccess) {
-			System.out.println( "logged in as #" + LoginManager.currentuser() );
+			System.out.println( "logged in as #" + LoginManager.currentUser() );
 		} else {
 			System.out.println( "Invalid login details!" );
 		}

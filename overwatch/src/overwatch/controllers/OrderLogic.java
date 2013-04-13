@@ -10,11 +10,14 @@ import java.util.Date;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import overwatch.core.Gui;
+import overwatch.db.DatabaseConstraints;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Orders;
 import overwatch.db.Personnel;
+import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.SearchPanel;
 import overwatch.gui.tabs.OrderTab;
+import overwatch.gui.tabs.OrderTabCreateDialog;
 import overwatch.security.BackgroundCheck;
 import overwatch.security.BackgroundMonitor;
 import overwatch.security.LoginManager;
@@ -29,7 +32,7 @@ import overwatch.util.DateSys;
  * Controls saving, loading, security checking etc.
  * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -76,10 +79,8 @@ public class OrderLogic extends TabController<OrderTab>
 	// Internals
 	/////////////////////////////////////////////////////////////////////////	
 	
-	private void doCreateOrder()
-	{
-		// TODO make JDialog with MessagePanel in it
-		System.out.println( "create" );
+	private void doCreateOrder() {
+		createOrderCreator();
 	}
 	
 	
@@ -108,11 +109,11 @@ public class OrderLogic extends TabController<OrderTab>
 	private void populateSearchPanels()
 	{
 		tab.ordersIn.setSearchableItems(
-			Orders.getOrdersAndSubjectsSentTo( LoginManager.currentuser() )
+			Orders.getOrdersAndSubjectsSentTo( LoginManager.currentUser() )
 		);
 		
 		tab.ordersOut.setSearchableItems(
-			Orders.getOrdersAndSubjectsSentBy( LoginManager.currentuser() )
+			Orders.getOrdersAndSubjectsSentBy( LoginManager.currentUser() )
 		);
 	}
 	
@@ -177,6 +178,55 @@ public class OrderLogic extends TabController<OrderTab>
 			{
 				// TODO check for messages created in the last 10 seconds
 				//refreshSearchPanels();
+			}
+		});
+	}
+	
+	
+	
+	
+	
+	private void createOrderCreator()
+	{
+		final OrderTabCreateDialog o = new OrderTabCreateDialog( tab.buttCreateNew );
+		
+		
+		o.addSendButtonListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e )
+			{
+				int messageLen = o.message.body.getText().length();
+				if (messageLen > 32768) {
+					Gui.showErrorDialogue(
+						"Message Too Long",
+						"Maximum message length is 32768 characters.  You have " + messageLen + "."
+					);
+				}
+				
+				String subject = o.message.subject.field.getText();
+				String sendTo  = o.message.sentTo .field.getText();
+				String body    = o.message.body         .getText();
+				
+				Orders.create(
+					subject,
+					body,
+					LoginManager.currentUser(),
+					Personnel.getNumberFromLogin( sendTo )
+				);				
+			}
+		});
+		
+		
+		o.addValidatorSend( new CheckedFieldValidator() {
+			public boolean check( String text ) {
+				return DatabaseConstraints.isValidName( text )
+				    && DatabaseConstraints.personExists( text );
+			}
+		});
+		
+		
+		o.addValidatorSubject( new CheckedFieldValidator() {
+			public boolean check( String text ) {
+				return DatabaseConstraints.isValidName( text );
 			}
 		});
 	}
