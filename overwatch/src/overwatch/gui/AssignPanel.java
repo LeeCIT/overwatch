@@ -5,7 +5,6 @@ package overwatch.gui;
 
 import overwatch.core.Gui;
 import overwatch.db.Personnel;
-import overwatch.util.Util;
 import java.util.ArrayList;
 import java.awt.event.*;
 import javax.swing.*;
