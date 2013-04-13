@@ -5,6 +5,7 @@ package overwatch.controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -15,8 +16,11 @@ import overwatch.db.DatabaseException;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
 import overwatch.db.Squads;
+import overwatch.gui.NameRefPairList;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
+import overwatch.gui.SquadTroopPicker;
+import overwatch.gui.SquadVehiclePicker;
 import overwatch.gui.tabs.SquadTab;
 
 
@@ -225,6 +229,7 @@ public class SquadLogic extends TabController
 		setupPickActions();
 		setupTroopAssignActions();
 		setupVehicleAssignActions();
+		setupSupplyAssignActions();
 		setupTabChangeActions();
 	}
 	
@@ -292,7 +297,7 @@ public class SquadLogic extends TabController
 		
 		tab.commander.button.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				new PersonnelPicker( Gui.getCurrentInstance(), pickListener );
+				new PersonnelPicker( tab.commander.button, pickListener );
 			}
 		});
 		
@@ -315,7 +320,8 @@ public class SquadLogic extends TabController
 		
 		tab.assignTroops.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new PersonnelPicker(null, pickListener);
+				new SquadTroopPicker( tab.assignTroops.getAddButton(), pickListener, new NameRefPairList<Integer>() );
+				// TODO make pickable list
 			}
 		});
 	}
@@ -329,16 +335,60 @@ public class SquadLogic extends TabController
 		final PickListener<Integer> vehiclePick = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
 				if (picked != null)
-					tab.assignVehicles.addItem(picked,Squads.getAllVehiclesNotInSquads()) ;		
+					tab.assignVehicles.addItem( picked, Squads.getAllVehiclesNotInSquads() );
+					// TODO this code doesn't make ANY sense.
 			}
 		};
 		
 		
 		tab.assignVehicles.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new PersonnelPicker(null, vehiclePick);//Should be a VehiclePicker
+				new SquadVehiclePicker( tab.assignVehicles.getAddButton(), vehiclePick, new NameRefPairList<Integer>() );
+				// TODO make pickable list
+			}
+		});
+	}
+	
+	
+	
+	
+	private void setupSupplyAssignActions()
+	{
+		final PickListener<Integer> supplyPickListener = new PickListener<Integer>() {
+			public void onPick( Integer picked ) {
+				if (picked != null)
+					tab.assignSupplies.addItem( picked, Squads.getAllVehiclesNotInSquads() );
+					// TODO this code doesn't make ANY sense.
+			}
+		};
+		
+		
+		tab.assignSupplies.addAddButtonListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new SquadVehiclePicker( tab.assignSupplies.getAddButton(), supplyPickListener, new NameRefPairList<Integer>() );
+				// TODO make pickable list
 			}
 		});
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
