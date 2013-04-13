@@ -4,7 +4,6 @@
 package overwatch.controllers;
 
 import java.awt.Component;
-import javax.swing.JPanel;
 import overwatch.core.Gui;
 
 
