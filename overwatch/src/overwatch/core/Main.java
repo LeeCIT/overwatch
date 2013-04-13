@@ -5,6 +5,7 @@ package overwatch.core;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
 import overwatch.db.Database;
 import overwatch.db.Personnel;
 import overwatch.gui.LoginFrame;
@@ -125,8 +126,7 @@ public class Main
 					public void onLoginAttempt( String user, String pass )
 					{
 						if (LoginManager.doLogin( user, pass )) {
-							createMainGui();
-							frame.dispose();
+							createMainGui( frame );
 						} else {
 							Gui.showErrorDialogue( "Invalid Login", "Incorrect login details." );
 						}
@@ -142,7 +142,7 @@ public class Main
 	
 	
 	
-	private static void createMainGui()
+	private static void createMainGui( final JFrame creatorFrame  )
 	{
 		Thread thread = new Thread( new Runnable() {
 			public void run()
@@ -151,9 +151,11 @@ public class Main
 				Controller.attachLogicControllers( gui );
 				gui.pack();
 				gui.setSize( 860, 512 );
-				gui.setLocationByPlatform( true );
+				gui.setLocationRelativeTo( creatorFrame );
 				gui.setTitleDescription( Personnel.getLoginName( LoginManager.getUser() ) );
 				gui.setVisible( true );
+				
+				creatorFrame.dispose();
 				
 				gui.addWindowListener( new WindowAdapter() {
 					public void windowClosing( WindowEvent e ) {
