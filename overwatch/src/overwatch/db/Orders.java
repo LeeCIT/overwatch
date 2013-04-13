@@ -165,7 +165,7 @@ public class Orders
 			boolean forSender = sentByOrTo.equals( "sentBy" );
 			
 			if ( ! isRead[i]) {
-				pre = (!forSender)  ?  "[New]"  :  "[Unread]";
+				pre = (!forSender)  ?  "[*New]"  :  "[Not read]";
 			} else {
 				if ( ! isDone[i])
 					 pre = (!forSender)  ?  "[Todo]"  :  "[Not done]";
