@@ -16,7 +16,7 @@ import overwatch.db.Personnel;
  * Manages the user login process.
  * 
  * @author  Lee Coakley
- * @version 3
+ * @version 4
  */
 
 
@@ -36,8 +36,8 @@ public class LoginManager
 	 * Check whether there is someone logged in right now.
 	 * @return boolean
 	 */
-	public static boolean hasUser() {
-		return (getUser() != null);
+	public static boolean hasLoggedInUser() {
+		return (currentuser() != null);
 	}
 	
 	
@@ -48,8 +48,21 @@ public class LoginManager
 	 * Get the person currently logged in.
 	 * @return personNo
 	 */
-	public static Integer getUser() {
+	public static Integer currentuser() {
 		return currentUser;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Check if a person is the currently logged in user.
+	 * @param personNo
+	 * @return boolean
+	 */
+	public static boolean isCurrentUser( Integer personNo ) {
+		return personNo.equals( currentUser );
 	}
 	
 	
@@ -60,8 +73,8 @@ public class LoginManager
 	 * Get security level for the current user from the database.
 	 * @return integer security level
 	 */
-	public static Integer getSecurityLevel() {	
-		return Personnel.getPrivilegeLevel( getUser() );
+	public static Integer currentSecurityLevel() {	
+		return Personnel.getPrivilegeLevel( currentuser() );
 	}
 	
 	
@@ -70,7 +83,7 @@ public class LoginManager
 	
 	/**
 	 * Logs in a user.  If this function succeeds, the current user is set and
-	 * a background monitor is run.
+	 * a background monitor is run to ensure they continue to exist.
 	 * @param user
 	 * @param pass
 	 * @return whether it succeeded
@@ -135,7 +148,7 @@ public class LoginManager
 		monitor.addBackgroundCheck( new BackgroundCheck() {
 			public void onCheck()
 			{
-				if ( ! Personnel.exists( LoginManager.getUser() )) {
+				if ( ! Personnel.exists( LoginManager.currentuser() )) {
 					Gui.showErrorDialogue( "Account Deleted", "Your account has been deleted!" );
 					Main.shutdown();
 				}
@@ -171,7 +184,7 @@ public class LoginManager
 		
 		
 		if (loginSuccess) {
-			System.out.println( "logged in as #" + LoginManager.getUser() );
+			System.out.println( "logged in as #" + LoginManager.currentuser() );
 		} else {
 			System.out.println( "Invalid login details!" );
 		}

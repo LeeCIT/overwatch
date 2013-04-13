@@ -39,4 +39,16 @@ public abstract class TabController
 			"The " + itemName + " has been deleted by another user!"
 		);
 	}
+	
+	
+	
+	
+	
+	public void showFieldValidationError()
+	{
+		Gui.showErrorDialogue(
+				"Invalid Fields",
+				"Some of the fields contian invalid inputs.  All must be valid before saving."
+			);
+	}
 }

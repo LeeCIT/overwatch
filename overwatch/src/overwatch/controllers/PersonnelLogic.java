@@ -98,21 +98,72 @@ public class PersonnelLogic extends TabController
 	
 	
 	
-	private void doSave()
+	private void doSave( Integer personNo )
 	{
-		// TODO Personnel save
-		// TODO change gui title if self
-		System.out.println( "save" );
+		if ( ! tab.areAllFieldsValid()) {
+			showFieldValidationError();
+			return;
+		}
+		
+		String name      = tab.name     .field.getText();
+		String age       = tab.age      .field.getText();
+		String sex       = tab.sex      .field.getText();
+		String salary    = tab.salary   .field.getText();
+		String rankName  = tab.rank     .field.getText();
+		String loginName = tab.loginName.field.getText();
+		
+		if ( ! Personnel.exists(personNo)) {
+			showDeletedError( "person" );
+			populateList(); // Reload
+			return;
+		}
+		
+		
+		// Fetch rank key
+		Integer rankNo = Ranks.getNumber( rankName );
+		
+		if (rankNo == null) {
+			showDeletedError( "rank '" + rankName + "'" );
+			return;
+		}
+		
+		
+		// Commit changes
+		int modRows = Database.update(
+			"update Personnel "      +
+			"set name           = '" + name       + "', " +
+			"    age            =  " + age       + ",  " +
+			"    sex            = '" + sex       + "', " +
+			"    salary         =  " + salary    + ",  " +
+			"    rankNo         =  " + rankNo    + ",  " +
+			"    loginName      = '" + loginName + "'  " +
+			"where personNo =      " + personNo  + " ;"
+		);
+		
+		
+		// Check if that actually worked
+		if (modRows <= 0) {
+			showDeletedError( "person" );
+			populateList();
+			return;
+		}
+		
+		
+		// Update title bar
+		if (LoginManager.isCurrentUser( personNo ))
+			Gui.getCurrentInstance().setTitleDescription( loginName );
+		
+		
+		populateList();
+		tab.setSelectedItem( personNo );
 	}
 	
 	
 	
 	
 	
-	private void doDelete()
+	private void doDelete( Integer personNo )
 	{
-		Integer personNo = tab.getSelectedItem();
-		
 		if ( ! doDeletableCheck( personNo ))
 			return;		
 		
@@ -126,7 +177,7 @@ public class PersonnelLogic extends TabController
 	
 	private boolean doDeletableCheck( Integer personNo )
 	{
-		if (LoginManager.getUser().equals(personNo)) {
+		if (LoginManager.currentuser().equals(personNo)) {
 			Gui.showErrorDialogue(
 				"Cannot Delete Self",
 				"You can't delete yourself.  You've got so much to live for!"
@@ -317,14 +368,14 @@ public class PersonnelLogic extends TabController
 		
 		tab.addSaveListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				doSave();				
+				doSave( tab.getSelectedItem() );				
 			}
 		});
 		
 		
 		tab.addDeleteListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				doDelete();
+				doDelete( tab.getSelectedItem() );
 			}
 		});
 	}

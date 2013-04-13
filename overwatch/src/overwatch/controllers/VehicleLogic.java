@@ -83,10 +83,7 @@ public class VehicleLogic extends TabController
 	private void doSave()
 	{
 		if ( ! tab.areAllFieldsValid()) {
-			Gui.showErrorDialogue(
-				"Invalid Fields",
-				"Can't save: some fields contain invalid data."
-			);
+			showFieldValidationError();
 			return;
 		}
 		
@@ -103,10 +100,7 @@ public class VehicleLogic extends TabController
 		);
 		
 		if (mods <= 0) {
-			Gui.showErrorDialogue(
-				"Vehicle Deleted",
-				"The vehicle has been deleted by someone else!"
-			);
+			showDeletedError( "vehicle" );
 		}
 		
 		populateList();
