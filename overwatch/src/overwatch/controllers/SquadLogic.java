@@ -24,9 +24,11 @@ import overwatch.gui.tabs.SquadTab;
 
 
 /**
- * The squadTabLogic
+ * Implements squad tab logic
+ * 
  * @author  John Murphy
- * @version 2
+ * @author  Lee Coakley
+ * @version 3
  */
 
 
@@ -154,14 +156,12 @@ public class SquadLogic extends TabController
 	
 	
 	private void populateAssignPanels( int squadNo ) {
-		// TODO not concurrency safe
-		try
-		{		
+		try {		
 			tab.assignTroops  .setListItems( Squads.getTroops  ( squadNo ));
 			tab.assignVehicles.setListItems( Squads.getVehicles( squadNo ));
 			tab.assignSupplies.setListItems( Squads.getSupplies( squadNo ));
 		}
-		catch (DatabaseException de) {
+		catch (DatabaseException ex) {
 			showDeletedError("Squads");
 		}
 	}
