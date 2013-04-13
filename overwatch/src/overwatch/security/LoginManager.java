@@ -37,7 +37,7 @@ public class LoginManager
 	 * @return boolean
 	 */
 	public static boolean hasLoggedInUser() {
-		return (currentUser() != null);
+		return (getCurrentUser() != null);
 	}
 	
 	
@@ -48,7 +48,7 @@ public class LoginManager
 	 * Get the person currently logged in.
 	 * @return personNo
 	 */
-	public static Integer currentUser() {
+	public static Integer getCurrentUser() {
 		return currentUser;
 	}
 	
@@ -73,8 +73,8 @@ public class LoginManager
 	 * Get security level for the current user from the database.
 	 * @return integer security level
 	 */
-	public static Integer currentSecurityLevel() {	
-		return Personnel.getPrivilegeLevel( currentUser() );
+	public static Integer getCurrentSecurityLevel() {	
+		return Personnel.getPrivilegeLevel( getCurrentUser() );
 	}
 	
 	
@@ -90,7 +90,29 @@ public class LoginManager
 	 */
 	public static boolean doLogin( String user, String pass )
 	{
-		Integer personNo     = Personnel.getNumberFromLogin( user );
+		Integer personNo = Personnel.getNumberFromLogin( user );
+		
+		if (isPassValid( personNo, pass )) {
+			currentUser = personNo;
+			setupMonitor();
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Check if a password matches that of a particular person.
+	 * @param personNo
+	 * @param pass
+	 * @return
+	 */
+	public static boolean isPassValid( Integer personNo, String pass )
+	{
 		boolean personExists = (personNo > 0);
 		
 		if (personExists) {
@@ -98,8 +120,6 @@ public class LoginManager
 			
 			if (hsp != null)
 			if (LoginCrypto.isPassValid( pass, hsp )) {
-				currentUser  = personNo;
-				setupMonitor();
 				return true;
 			}
 		}
@@ -148,7 +168,7 @@ public class LoginManager
 		monitor.addBackgroundCheck( new BackgroundCheck() {
 			public void onCheck()
 			{
-				if ( ! Personnel.exists( LoginManager.currentUser() )) {
+				if ( ! Personnel.exists( LoginManager.getCurrentUser() )) {
 					Gui.showErrorDialogue( "Account Deleted", "Your account has been deleted!" );
 					Main.shutdown();
 				}
@@ -184,7 +204,7 @@ public class LoginManager
 		
 		
 		if (loginSuccess) {
-			System.out.println( "logged in as #" + LoginManager.currentUser() );
+			System.out.println( "logged in as #" + LoginManager.getCurrentUser() );
 		} else {
 			System.out.println( "Invalid login details!" );
 		}

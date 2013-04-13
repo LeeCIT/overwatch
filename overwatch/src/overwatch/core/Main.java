@@ -125,11 +125,9 @@ public class Main
 				frame.addLoginListener( new LoginListener() {
 					public void onLoginAttempt( String user, String pass )
 					{
-						if (LoginManager.doLogin( user, pass )) {
-							createMainGui( frame );
-						} else {
-							Gui.showErrorDialogue( "Invalid Login", "Incorrect login details." );
-						}
+						if (LoginManager.doLogin( user, pass ))
+						     createMainGui( frame );
+						else Gui.showErrorDialogue( "Invalid Login", "Incorrect login details." );
 					}
 				});
 			}
@@ -152,7 +150,7 @@ public class Main
 				gui.pack();
 				gui.setSize( 860, 512 );
 				gui.setLocationRelativeTo( creatorFrame );
-				gui.setTitleDescription( Personnel.getLoginName( LoginManager.currentUser() ) );
+				gui.setTitleDescription( Personnel.getLoginName( LoginManager.getCurrentUser() ) );
 				gui.setVisible( true );
 				
 				creatorFrame.dispose();

@@ -111,11 +111,11 @@ public class OrderLogic extends TabController<OrderTab>
 	private void populateSearchPanels()
 	{
 		tab.ordersIn.setSearchableItems(
-			Orders.getOrdersAndSubjectsSentTo( LoginManager.currentUser() )
+			Orders.getOrdersAndSubjectsSentTo( LoginManager.getCurrentUser() )
 		);
 		
 		tab.ordersOut.setSearchableItems(
-			Orders.getOrdersAndSubjectsSentBy( LoginManager.currentUser() )
+			Orders.getOrdersAndSubjectsSentBy( LoginManager.getCurrentUser() )
 		);
 	}
 	
@@ -220,7 +220,7 @@ public class OrderLogic extends TabController<OrderTab>
 				Orders.create(
 					subject,
 					body,
-					LoginManager.currentUser(),
+					LoginManager.getCurrentUser(),
 					Personnel.getNumberFromLogin( sendTo )
 				);				
 			}

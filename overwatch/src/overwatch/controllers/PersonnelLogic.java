@@ -146,7 +146,7 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 	private boolean doRankModifySecurityChecks( Integer proposedRank )
 	{
 		Integer personNo     = tab.getSelectedItem();
-		Integer currentLevel = LoginManager.currentSecurityLevel();
+		Integer currentLevel = LoginManager.getCurrentSecurityLevel();
 		Integer personLevel  = Personnel.getPrivilegeLevel( personNo );
 		Integer newLevel     = Ranks.getLevel( proposedRank );
 		boolean isSelf       = LoginManager.isCurrentUser( personNo );

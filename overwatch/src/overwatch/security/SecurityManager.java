@@ -42,6 +42,6 @@ public class SecurityManager
 	
 	
 	private static int current() {
-		return LoginManager.currentSecurityLevel();
+		return LoginManager.getCurrentSecurityLevel();
 	}
 }
