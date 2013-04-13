@@ -15,6 +15,8 @@ import overwatch.db.EnhancedResultSet;
 import overwatch.db.Orders;
 import overwatch.db.Personnel;
 import overwatch.gui.CheckedFieldValidator;
+import overwatch.gui.PersonnelPicker;
+import overwatch.gui.PickListener;
 import overwatch.gui.SearchPanel;
 import overwatch.gui.tabs.OrderTab;
 import overwatch.gui.tabs.OrderTabCreateDialog;
@@ -188,6 +190,8 @@ public class OrderLogic extends TabController<OrderTab>
 	
 	private void createOrderCreator()
 	{
+		// TODO: if lowest rank, you can't order anyone, so give a smartass message
+		
 		final OrderTabCreateDialog o = new OrderTabCreateDialog( tab.buttCreateNew );
 		
 		
@@ -200,6 +204,13 @@ public class OrderLogic extends TabController<OrderTab>
 						"Message Too Long",
 						"Maximum message length is 32768 characters.  You have " + messageLen + "."
 					);
+					return;
+				}
+				
+				if ( ! o.message.subject.field.isInputValid()
+				||   ! o.message.sentTo .field.isInputValid()) {
+					showFieldValidationError();
+					return;
 				}
 				
 				String subject = o.message.subject.field.getText();
@@ -227,6 +238,23 @@ public class OrderLogic extends TabController<OrderTab>
 		o.addValidatorSubject( new CheckedFieldValidator() {
 			public boolean check( String text ) {
 				return DatabaseConstraints.isValidName( text );
+			}
+		});
+		
+		
+		
+		final PickListener<Integer> pickListen = new PickListener<Integer>() {
+			public void onPick( Integer picked ) {
+				o.message.sentTo.field.setText(
+					Personnel.getLoginName(picked)
+				);				
+			}
+		};
+		
+		
+		o.addSendEllipsisListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				new PersonnelPicker( o.message.sentTo.button, pickListen );				
 			}
 		});
 	}
