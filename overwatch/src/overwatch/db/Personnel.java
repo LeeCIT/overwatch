@@ -15,7 +15,7 @@ import overwatch.util.Util;
  * Get/set various aspects of personnel information from the database.
  * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -125,9 +125,9 @@ public class Personnel
 	/**
 	 * Find the personNo related to a loginName, if any.
 	 * @param loginName
-	 * @return personNo if a valid login, -1 otherwise.
+	 * @return personNo if a valid login, null otherwise.
 	 */
-	public static int getNumberFromLogin( String loginName )
+	public static Integer getNumberFromLogin( String loginName )
 	{
 		Integer[] numbers = Database.queryInts(
 			"select personNo   " +
@@ -135,7 +135,7 @@ public class Personnel
 			"where loginName = '" + loginName + "';"
 		);
 		
-		return Util.firstOrElse( numbers, -1 );
+		return Util.firstOrElse( numbers, null );
 	}
 	
 	
@@ -167,9 +167,9 @@ public class Personnel
 	/**
 	 * Get a person's privilegeLevel.  This is determined by their rank.
 	 * @param personNo
-	 * @return level, or -1 if no such person exists.
+	 * @return level, or null if no such person exists.
 	 */
-	public static int getPrivilegeLevel( int personNo )
+	public static Integer getPrivilegeLevel( int personNo )
 	{
 		Integer[] numbers = Database.queryInts(
 			"select r.privilegeLevel     " +
@@ -179,7 +179,7 @@ public class Personnel
 			"  and p.personNo = " + personNo + ";"
 		);
 		
-		return Util.firstOrElse( numbers, -1 );
+		return Util.firstOrElse( numbers, null );
 	}
 	
 	
