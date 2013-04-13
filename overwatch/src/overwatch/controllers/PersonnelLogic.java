@@ -100,9 +100,62 @@ public class PersonnelLogic extends TabController
 	
 	private void doSave( Integer personNo )
 	{
-		// TODO Personnel save
-		// TODO change gui title if self
-		System.out.println( "save" );
+		if ( ! tab.areAllFieldsValid()) {
+			showFieldValidationError();
+			return;
+		}
+		
+		String name      = tab.name     .field.getText();
+		String age       = tab.age      .field.getText();
+		String sex       = tab.sex      .field.getText();
+		String salary    = tab.salary   .field.getText();
+		String rankName  = tab.rank     .field.getText();
+		String loginName = tab.loginName.field.getText();
+		
+		if ( ! Personnel.exists(personNo)) {
+			showDeletedError( "person" );
+			populateList(); // Reload
+			return;
+		}
+		
+		
+		// Fetch rank key
+		Integer rankNo = Ranks.getNumber( rankName );
+		
+		if (rankNo == null) {
+			showDeletedError( "rank '" + rankName + "'" );
+			return;
+		}
+		
+		
+		// Commit changes
+		int modRows = Database.update(
+			"update Personnel "      +
+			"set name           = '" + name       + "', " +
+			"    age            =  " + age       + ",  " +
+			"    sex            = '" + sex       + "', " +
+			"    salary         =  " + salary    + ",  " +
+			"    rankNo         =  " + rankNo    + ",  " +
+			"    loginName      = '" + loginName + "'  " +
+			"where personNo =      " + personNo  + " ;"
+		);
+		
+		
+		// Check if that actually worked
+		if (modRows <= 0) {
+			showDeletedError( "person" );
+			populateList();
+			return;
+		}
+		
+		
+		// Update title bar
+		if (LoginManager.isCurrentUser( personNo ))
+			Gui.getCurrentInstance().setTitleDescription( loginName );
+		
+		
+		populateList();
+		tab.setSelectedItem( personNo );
 	}
 	
 	
