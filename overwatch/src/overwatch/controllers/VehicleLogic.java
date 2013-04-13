@@ -83,10 +83,7 @@ public class VehicleLogic extends TabController
 	private void doSave()
 	{
 		if ( ! tab.areAllFieldsValid()) {
-			Gui.showErrorDialogue(
-				"Invalid Fields",
-				"Can't save: some fields contain invalid data."
-			);
+			showFieldValidationError();
 			return;
 		}
 		
