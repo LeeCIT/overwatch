@@ -25,9 +25,8 @@ import overwatch.db.Personnel;
 
 public class LoginManager
 {
-	private static final int               NONE = -1;
-	private static       int               currentUser;
-	private static       BackgroundMonitor monitor;
+	private static Integer           currentUser;
+	private static BackgroundMonitor monitor;
 	
 	
 	
@@ -38,7 +37,7 @@ public class LoginManager
 	 * @return boolean
 	 */
 	public static boolean hasUser() {
-		return (currentUser != NONE);
+		return (getUser() != null);
 	}
 	
 	
@@ -49,8 +48,7 @@ public class LoginManager
 	 * Get the person currently logged in.
 	 * @return personNo
 	 */
-	public static int getUser() {
-		checkUser();
+	public static Integer getUser() {
 		return currentUser;
 	}
 	
@@ -62,8 +60,7 @@ public class LoginManager
 	 * Get security level for the current user from the database.
 	 * @return integer security level
 	 */
-	public static int getSecurityLevel() {
-		checkUser();		
+	public static Integer getSecurityLevel() {	
 		return Personnel.getPrivilegeLevel( getUser() );
 	}
 	
@@ -80,7 +77,7 @@ public class LoginManager
 	 */
 	public static boolean doLogin( String user, String pass )
 	{
-		int     personNo     = Personnel.getNumberFromLogin( user );
+		Integer personNo     = Personnel.getNumberFromLogin( user );
 		boolean personExists = (personNo > 0);
 		
 		if (personExists) {
@@ -150,17 +147,6 @@ public class LoginManager
 	
 	
 	
-	private static void checkUser()
-	{
-		if ( ! hasUser()) {
-			throw new RuntimeException( "No user logged in!" );
-		}
-	}
-	
-	
-	
-	
-	
 	
 	
 	
@@ -172,7 +158,7 @@ public class LoginManager
 	public static void main( String[] args )
 	{	
 			
-		int personNo = Personnel.getNumberFromLogin( "testGuy" );
+		int personNo = Personnel.getNumberFromLogin( "yea.boi" );
 		Personnel.setPass( personNo, "1234" );
 		
 		
