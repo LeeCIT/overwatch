@@ -94,7 +94,7 @@ public class SquadLogic extends TabController
 		
 		tab.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createNew();
+				doCreate();
 			}
 		});
 		
@@ -106,9 +106,20 @@ public class SquadLogic extends TabController
 		
 		tab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				delete();	
+				delete( tab.getSelectedItem() );
 			}
 		});
+	}
+	
+	
+	
+	
+	
+	private void doCreate()
+	{
+		Integer squadNo = Squads.create();
+		populateSquadsList();
+		populateFieldsAndPanels(squadNo);
 	}
 	
 	
@@ -151,22 +162,10 @@ public class SquadLogic extends TabController
 	
 	
 	
-	private void createNew()
+	private void delete( Integer squadNo )
 	{
-		Integer squadNo = Squads.create();
-		populateSquadsList();
-		populateFieldsAndPanels(squadNo);
-	}
-	
-	
-	
-	
-	
-	private void delete()
-	{
-		Integer squadNo = tab.getSelectedItem();
 		int mods = Database.update(
-			"DELETE         " +
+			"DELETE          " +
 			"FROM Squads     " +
 			"WHERE squadNo = " + squadNo + ";"
 		);
