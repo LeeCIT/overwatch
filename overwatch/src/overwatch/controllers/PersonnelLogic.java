@@ -128,6 +128,11 @@ public class PersonnelLogic extends TabController
 		}
 		
 		
+		if ( ! doRankModifySecurityChecks(rankNo)) {
+			return;
+		}
+		
+		
 		// Commit changes
 		int modRows = Database.update(
 			"update Personnel "      +
@@ -162,6 +167,51 @@ public class PersonnelLogic extends TabController
 	
 	
 	
+	private boolean doRankModifySecurityChecks( Integer proposedRank )
+	{
+		Integer personNo     = tab.getSelectedItem();
+		Integer currentLevel = LoginManager.currentSecurityLevel();
+		Integer personLevel  = Personnel.getPrivilegeLevel( personNo );
+		Integer newLevel     = Ranks.getLevel( proposedRank );
+		boolean isSelf       = LoginManager.isCurrentUser( personNo );
+		boolean isModified   = tab.rank.field.isModifiedByUser();
+		
+		// Self-modify not allowed
+		if (isSelf && isModified) {
+			Gui.showErrorDialogue(
+				"Cannot Modify Own Rank",
+				"You can't change your own rank.  Only your superiors may promote or demote you."
+			);
+			return false;
+		}
+		
+		
+		// User is equal/greater
+		if (personLevel >= currentLevel) {
+			Gui.showErrorDialogue(
+				"Cannot Modify Rank",
+				"You can't modify the rank of someone who is of equal or greater rank than you."
+			);
+			return false;
+		}
+		
+		
+		// Greater than allowed for your level
+		if (newLevel >= currentLevel) {
+			Gui.showErrorDialogue(
+				"Cannot Modify Rank",
+				"You can't promote someone to a rank equal to or greater than your own."
+			);
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
+	
+	
+	
 	private void doDelete( Integer personNo )
 	{
 		if ( ! doDeletableCheck( personNo ))
@@ -177,7 +227,7 @@ public class PersonnelLogic extends TabController
 	
 	private boolean doDeletableCheck( Integer personNo )
 	{
-		if (LoginManager.currentuser().equals(personNo)) {
+		if (LoginManager.isCurrentUser( personNo )) {
 			Gui.showErrorDialogue(
 				"Cannot Delete Self",
 				"You can't delete yourself.  You've got so much to live for!"
