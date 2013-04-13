@@ -24,7 +24,16 @@ import overwatch.db.Personnel;
 public class SecurityManager
 {
 	
-	public static boolean isGreaterOrEqualRankComparedTo( Integer personNo ) {	
+
+	public static boolean canEdit( Integer personNo ) {
+		return isGreaterRankThan( personNo );
+	}
+	
+	
+	
+	
+	
+	public static boolean isGreaterRankThan( Integer personNo ) {	
 		return current() > Personnel.getPrivilegeLevel( personNo );
 	}
 	
@@ -33,6 +42,6 @@ public class SecurityManager
 	
 	
 	private static int current() {
-		return LoginManager.getSecurityLevel();
+		return LoginManager.currentSecurityLevel();
 	}
 }
