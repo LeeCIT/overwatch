@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -211,6 +210,8 @@ public class EnhancedPreparedStatement
 	
 	
 	
+	
+	
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////	
@@ -239,6 +240,8 @@ public class EnhancedPreparedStatement
 			params.get( name ).add( i++ );
 		}
 	}
+	
+	
 	
 	
 	
