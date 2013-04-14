@@ -309,11 +309,7 @@ public class SquadLogic extends TabController<SquadTab>
 				
 				SquadTroopPicker p = new SquadTroopPicker( tab.assignTroops.getAddButton(), pickListener, nrp );	
 				
-				for(int i=0; i<listOfTroops.size(); i++){
-					p.removeItem(listOfTroops.get(i));
-				}
-				
-				//p.removeItems(overwatch.util.Util.arrayListToArray(listOfTroops));  Did not work due to not being able to convert it to a integer
+				p.removeItems(listOfTroops.toArray(new Integer[listOfTroops.size()])); 
 				p.setVisible(true);				
 			}
 		});
@@ -340,9 +336,7 @@ public class SquadLogic extends TabController<SquadTab>
 				
 				SquadVehiclePicker vp = new SquadVehiclePicker( tab.assignVehicles.getAddButton(), vehiclePick, nrp );		
 				
-				for(int i=0; i<listOfVehicles.size(); i++){
-					vp.removeItem(listOfVehicles.get(i));
-				}	
+				vp.removeItems(listOfVehicles.toArray(new Integer[listOfVehicles.size()])); 
 				
 				vp.setVisible(true);
 			}
@@ -367,11 +361,9 @@ public class SquadLogic extends TabController<SquadTab>
 				NameRefPairList<Integer> nrp 		= Supplies.getAllSupplys();
 				ArrayList<Integer> listOfSupplies	= tab.assignSupplies.getItems();
 				
-				SquadSupplyPicker ss = new SquadSupplyPicker( tab.assignSupplies.getAddButton(), supplyPickListener, Supplies.getAllSupplys() );
+				SquadSupplyPicker ss = new SquadSupplyPicker( tab.assignSupplies.getAddButton(), supplyPickListener, nrp );
 				
-				for(int i=0; i<listOfSupplies.size(); i++){
-					ss.removeItem(listOfSupplies.get(i));
-				}
+				ss.removeItems(listOfSupplies.toArray(new Integer[listOfSupplies.size()]));
 				
 				ss.setVisible(true);				
 			}
