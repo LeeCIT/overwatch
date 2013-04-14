@@ -301,8 +301,7 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.assignTroops.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SquadTroopPicker( tab.assignTroops.getAddButton(), pickListener, new NameRefPairList<Integer>() );
-				// TODO make pickable list
+				new SquadTroopPicker( tab.assignTroops.getAddButton(), pickListener, Squads.getTroopsNotInSquads() );
 			}
 		});
 	}
