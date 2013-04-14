@@ -14,6 +14,7 @@ import overwatch.db.DatabaseException;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
 import overwatch.db.Squads;
+import overwatch.db.Vehicles;
 import overwatch.gui.NameRefPairList;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
@@ -315,16 +316,14 @@ public class SquadLogic extends TabController<SquadTab>
 		final PickListener<Integer> vehiclePick = new PickListener<Integer>() {
 			public void onPick( Integer picked ) {
 				if (picked != null)
-					tab.assignVehicles.addItem( picked, Squads.getAllVehiclesNotInSquads() );
-					// TODO this code doesn't make ANY sense.
+					tab.assignVehicles.addItem( picked, Vehicles.getVehicleType(picked) );
 			}
 		};
 		
 		
 		tab.assignVehicles.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SquadVehiclePicker( tab.assignVehicles.getAddButton(), vehiclePick, new NameRefPairList<Integer>() );
-				// TODO make pickable list
+				new SquadVehiclePicker( tab.assignVehicles.getAddButton(), vehiclePick, Vehicles.getAllVehiclesNotInSquads() );
 			}
 		});
 	}
