@@ -40,7 +40,7 @@ public class Main
 	/**
 	 * ENTRYPOINT: The program begins here.
 	 */
-	public static void main( String[] args ) throws InterruptedException
+	public static void main( String[] args )
 	{
 		Gui.setNativeStyle();
 		createLoginFrame();
