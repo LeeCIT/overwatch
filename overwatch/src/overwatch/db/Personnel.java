@@ -224,7 +224,7 @@ public class Personnel
 		EnhancedResultSet ers = Database.query(
 			"select personNo  " +
 		    "from Personnel   " +
-		    "where loginName = '" + loginName + "');"
+		    "where loginName = '" + loginName + "';"
 		);
 		
 		if (ers.isEmpty())
