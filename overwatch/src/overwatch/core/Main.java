@@ -127,7 +127,7 @@ public class Main
 					{
 						if (LoginManager.doLogin( user, pass ))
 						     createMainGui( frame );
-						else Gui.showErrorDialogue( "Invalid Login", "Incorrect login details." );
+						else Gui.showError( "Invalid Login", "Incorrect login details." );
 					}
 				});
 			}

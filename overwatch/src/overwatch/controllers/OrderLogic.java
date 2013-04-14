@@ -201,7 +201,7 @@ public class OrderLogic extends TabController<OrderTab>
 			{
 				int messageLen = o.message.body.getText().length();
 				if (messageLen > 32768) {
-					Gui.showErrorDialogue(
+					Gui.showError(
 						"Message Too Long",
 						"Maximum message length is 32768 characters.  You have " + messageLen + "."
 					);

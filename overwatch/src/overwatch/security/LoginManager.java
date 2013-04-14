@@ -169,7 +169,7 @@ public class LoginManager
 			public void onCheck()
 			{
 				if ( ! Personnel.exists( LoginManager.getCurrentUser() )) {
-					Gui.showErrorDialogue( "Account Deleted", "Your account has been deleted!" );
+					Gui.showError( "Account Deleted", "Your account has been deleted!" );
 					Main.shutdown();
 				}
 			}

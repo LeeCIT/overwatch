@@ -65,7 +65,7 @@ public class SupplyLogic extends TabController<SupplyTab>
 		Integer supplyCount = tab.amount.field.getTextAsInt();
 		
 		if ( ! Supplies.exists(supplyNo)) {
-			Gui.showErrorDialogue( "Failed to save", "The supply no longer exists." );
+			Gui.showError( "Failed to save", "The supply no longer exists." );
 			populateTabList(); // Reload
 			return;
 		}

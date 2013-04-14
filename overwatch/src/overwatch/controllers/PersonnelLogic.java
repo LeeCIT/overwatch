@@ -13,6 +13,7 @@ import overwatch.gui.CheckedFieldValidator;
 import overwatch.gui.PickListener;
 import overwatch.gui.RankPicker;
 import overwatch.gui.tabs.PersonnelTab;
+import overwatch.gui.tabs.PersonnelTabChangePassDialog;
 import overwatch.security.LoginManager;
 import overwatch.util.Validator;
 import java.math.BigDecimal;
@@ -30,7 +31,7 @@ import javax.swing.event.ListSelectionListener;
  * Controls saving, loading, security checking etc.
  * 
  * @author  Lee Coakley
- * @version 5
+ * @version 6
  */
 
 
@@ -154,7 +155,7 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 		
 		// Self-modify not allowed
 		if (isSelf && isModified) {
-			Gui.showErrorDialogue(
+			Gui.showError(
 				"Cannot Modify Own Rank",
 				"You can't change your own rank.  Only your superiors may promote or demote you."
 			);
@@ -164,7 +165,7 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 		
 		// User is equal/greater
 		if (personLevel >= currentLevel) {
-			Gui.showErrorDialogue(
+			Gui.showError(
 				"Cannot Modify Rank",
 				"You can't modify the rank of someone who is of equal or greater rank than you."
 			);
@@ -174,7 +175,7 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 		
 		// Greater than allowed for your level
 		if (newLevel >= currentLevel) {
-			Gui.showErrorDialogue(
+			Gui.showError(
 				"Cannot Modify Rank",
 				"You can't promote someone to a rank equal to or greater than your own."
 			);
@@ -204,7 +205,7 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 	private boolean doDeletableCheck( Integer personNo )
 	{
 		if (LoginManager.isCurrentUser( personNo )) {
-			Gui.showErrorDialogue(
+			Gui.showError(
 				"Cannot Delete Self",
 				"You can't delete yourself.  You've got so much to live for!"
 			);
@@ -249,7 +250,7 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 				reasons += "They are assigned as a trooper in squad '" + squad + "'.\n";
 			
 			
-			Gui.showErrorDialogue(
+			Gui.showError(
 				"Cannot Delete",
 				"Can't delete '" +name + "'.\n\n" + reasons
 			);
@@ -259,6 +260,45 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 		
 
 		return true;
+	}
+	
+	
+	
+	
+	
+	private void doPassChange( final Integer personNo )
+	{
+		final PersonnelTabChangePassDialog p = new PersonnelTabChangePassDialog( tab.passChange );
+		
+		p.addOkButtonListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e )
+			{
+				String passCur = new String( p.passOld .getPassword() );
+				String passNew = new String( p.passNew .getPassword() );
+				String passCon = new String( p.passConf.getPassword() );
+				
+				if ( ! LoginManager.isPassValid( personNo, passCur )) {
+					Gui.showError( "Wrong Password", "Wrong password!" );
+					return;
+				}
+				
+				if ( ! passNew.equals( passCon )) {
+					Gui.showError( "Password Mismatch", "The entered passwords do not match." );
+					return;
+				}
+				
+				
+				
+				p.dispose();
+			}
+		});
+		
+		
+		p.addCancelButtonListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				p.dispose();
+			}
+		});
 	}
 	
 	
@@ -402,6 +442,13 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 		tab.addDeleteListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				doDelete( tab.getSelectedItem() );
+			}
+		});
+		
+		
+		tab.addPassChangeListener( new ActionListener() {
+			public void actionPerformed( ActionEvent e ) {
+				doPassChange( tab.getSelectedItem() );
 			}
 		});
 	}

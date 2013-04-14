@@ -44,7 +44,7 @@ public abstract class TabController<T extends Component>
 	
 	
 	public void showDeletedError( String itemName ) {
-		Gui.showErrorDialogue(
+		Gui.showError(
 			"Deleted By Other User",
 			"The " + itemName + " has been deleted by another user!"
 		);
@@ -52,7 +52,7 @@ public abstract class TabController<T extends Component>
 	
 	
 	public void showFieldValidationError() {
-		Gui.showErrorDialogue(
+		Gui.showError(
 			"Invalid Fields",
 			"Some of the fields contian invalid inputs.  All must be valid before saving."
 		);

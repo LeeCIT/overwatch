@@ -83,7 +83,7 @@ public class RankLogic extends TabController<RankTab>
 			tab.setSelectedItem(rankNo);
 		}
 		catch (DatabaseIntegrityException ex) {
-			Gui.showErrorDialogue(
+			Gui.showError(
 				"Rank Already Exists",
 				"A rank with that name already exists. Choose a different name."
 			);
@@ -165,7 +165,7 @@ public class RankLogic extends TabController<RankTab>
 			tab.securityLevel.field.setText("" + ers.getElemAs( "privilegeLevel", Integer.class ));		
 		}
 		else {
-			Gui.showErrorDialogue("No longer exists", "The selected rank no longer exists");
+			Gui.showError("No longer exists", "The selected rank no longer exists");
 			populateTabList();
 		}
 	}

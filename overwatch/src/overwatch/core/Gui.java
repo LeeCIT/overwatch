@@ -198,11 +198,24 @@ public class Gui extends JFrame
 	
 	
 	/**
+	 * Show a modal message dialogue.
+	 * @param title
+	 * @param message
+	 */
+	public static void showMessage( String title, String message ) {
+		JOptionPane.showMessageDialog( Gui.currentInstance, message, title, JOptionPane.INFORMATION_MESSAGE );
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Show a modal warning dialogue.
 	 * @param title
 	 * @param message
 	 */
-	public static void showWarningDialogue( String title, String message ) {
+	public static void showWarning( String title, String message ) {
 		JOptionPane.showMessageDialog( Gui.currentInstance, message, title, JOptionPane.WARNING_MESSAGE );
 	}
 	
@@ -215,7 +228,7 @@ public class Gui extends JFrame
 	 * @param title
 	 * @param message
 	 */
-	public static void showErrorDialogue( String title, String message ) {
+	public static void showError( String title, String message ) {
 		JOptionPane.showMessageDialog( Gui.currentInstance, message, title, JOptionPane.ERROR_MESSAGE );
 	}
 }
