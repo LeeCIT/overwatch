@@ -3,6 +3,8 @@
 
 package overwatch.db;
 
+import overwatch.gui.NameRefPairList;
+
 
 
 
@@ -70,6 +72,49 @@ public class Vehicles
 			"delete from Vehicles " +
 			"where vehicleNo =    " + vehicleNo + ";"
 		);
+	}
+	
+	
+	
+	
+	/**
+	 * Get vehicle type
+	 * @return The vehicle type
+	 */
+	public static String getVehicleType(int vehicleNo)
+	{
+		EnhancedResultSet ers = Database.query(
+			"SELECT name " 			+
+			"FROM Vehicles "		+
+			"WHERE vehicleNo = " 	+ vehicleNo
+		);
+		
+		
+		if (ers.isEmpty())
+			 return null;
+		else return ers.getElemAs( "name", String.class ); 
+	}
+	
+	
+	
+	
+	public static NameRefPairList<Integer> getAllVehiclesNotInSquads()
+	{
+		EnhancedResultSet ers = Database.query(
+			"SELECT vehicleNo, name "	+
+			"FROM Vehicles "			+
+			"WHERE vehicleNo NOT IN "  	+
+			"( 		SELECT vehicleNo " 	+
+			"		FROM SquadVehicles);"
+		);
+		
+		if ( ! ers.isEmpty()) {
+			Integer[] keys  = ers.getColumnAs( "vehicleNo",  Integer[].class  );
+			String [] names = ers.getColumnAs( "name", String [].class  );
+			return new NameRefPairList<Integer>( keys, names );
+		}
+		
+		return new NameRefPairList<Integer>();
 	}
 	
 }
