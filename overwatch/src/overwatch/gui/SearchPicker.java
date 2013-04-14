@@ -65,7 +65,6 @@ public class SearchPicker<T> extends JDialog
 		
 		setSize( 240, 384 ); // Golden ratio
 		setLocationRelativeTo( relativeTo );
-		setVisible( true );
 	}
 	
 	

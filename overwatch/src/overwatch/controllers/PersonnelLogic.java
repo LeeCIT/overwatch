@@ -408,7 +408,8 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 		
 		tab.rank.button.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				new RankPicker( tab.rank.button, rankPickListener );
+				RankPicker r = new RankPicker( tab.rank.button, rankPickListener );
+				r.setVisible( true );
 			}
 		});
 	}

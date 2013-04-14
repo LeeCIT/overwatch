@@ -270,7 +270,8 @@ public class OrderLogic extends TabController<OrderTab>
 		
 		o.addSendEllipsisListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				new PersonnelPicker( o.message.sentTo.button, pickListen );				
+				PersonnelPicker p = new PersonnelPicker( o.message.sentTo.button, pickListen );
+				p.setVisible( true );
 			}
 		});
 	}
