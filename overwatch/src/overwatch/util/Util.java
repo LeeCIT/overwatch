@@ -78,6 +78,14 @@ public class Util
 			
 		return list;
 	}
+	
+	
+	
+	
+	
+	public static <T> T[] arrayListToArray( ArrayList<T> list ) {
+		return list.toArray( (T[]) new Object[ list.size() ] );
+	}
 }
 
 
