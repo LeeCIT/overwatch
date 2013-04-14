@@ -303,7 +303,7 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.assignTroops.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SquadTroopPicker( tab.assignTroops.getAddButton(), pickListener, Squads.getTroopsNotInSquads() );
+				new SquadTroopPicker( tab.assignTroops.getAddButton(), pickListener, Squads.getTroopsNotInSquads() ).setVisible(true);
 			}
 		});
 	}
@@ -324,7 +324,8 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.assignVehicles.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SquadVehiclePicker( tab.assignVehicles.getAddButton(), vehiclePick, Vehicles.getAllVehiclesNotInSquads() );
+				new SquadVehiclePicker( tab.assignVehicles.getAddButton(), vehiclePick, Vehicles.getAllVehiclesNotInSquads() ).setVisible(true);
+				
 			}
 		});
 	}
@@ -344,7 +345,7 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.assignSupplies.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SquadSupplyPicker( tab.assignSupplies.getAddButton(), supplyPickListener, Supplies.getAllSupplys() );
+				new SquadSupplyPicker( tab.assignSupplies.getAddButton(), supplyPickListener, Supplies.getAllSupplys() ).setVisible(true);
 			}
 		});
 	}
