@@ -335,8 +335,8 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.assignVehicles.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NameRefPairList<Integer> nrp = Vehicles.getAllVehiclesNotInSquads();
-				ArrayList<Integer> listOfVehicles = tab.assignVehicles.getItems();
+				NameRefPairList<Integer> nrp 		= Vehicles.getAllVehiclesNotInSquads();
+				ArrayList<Integer> listOfVehicles 	= tab.assignVehicles.getItems();
 				
 				SquadVehiclePicker vp = new SquadVehiclePicker( tab.assignVehicles.getAddButton(), vehiclePick, nrp );		
 				
@@ -364,7 +364,16 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.assignSupplies.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SquadSupplyPicker( tab.assignSupplies.getAddButton(), supplyPickListener, Supplies.getAllSupplys() ).setVisible(true);
+				NameRefPairList<Integer> nrp 		= Supplies.getAllSupplys();
+				ArrayList<Integer> listOfSupplies	= tab.assignSupplies.getItems();
+				
+				SquadSupplyPicker ss = new SquadSupplyPicker( tab.assignSupplies.getAddButton(), supplyPickListener, Supplies.getAllSupplys() );
+				
+				for(int i=0; i<listOfSupplies.size(); i++){
+					ss.removeItem(listOfSupplies.get(i));
+				}
+				
+				ss.setVisible(true);				
 			}
 		});
 	}
