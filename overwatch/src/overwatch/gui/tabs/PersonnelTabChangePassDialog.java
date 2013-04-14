@@ -71,8 +71,11 @@ public class PersonnelTabChangePassDialog extends JDialog
 	
 	
 	
+	
+	
 	// Buttons
-	public void addOkayButtonListener  ( ActionListener a ) { okay.addActionListener(a);  }
+	public void addOkButtonListener    ( ActionListener a ) { okay  .addActionListener(a);  }
+	public void addCancelButtonListener( ActionListener a ) { cancel.addActionListener(a);  }
 	
 	
 	
