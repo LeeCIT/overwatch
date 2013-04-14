@@ -162,7 +162,7 @@ public class Squads
 				"SELECT p.personNo, p.name " +
 				"FROM Personnel p, Ranks r " +
 				"wHERE p.rankNo = r.rankNo " +
-				"AND r.name = Trooper "	 	 +
+				"AND r.name = 'Trooper' "	 	 +
 				"AND personNo NOT IN "		 +
 				"(   SELECT personNo "		 +		
 				"    FROM SquadTroops);"	 
