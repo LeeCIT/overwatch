@@ -315,6 +315,23 @@ public class EnhancedResultSet implements Iterable<Object[]>
 		
 		return new NameRefPairList<T>( keys, names );
 	}
+	
+	
+	
+	
+	
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append( Arrays.toString( getColumnNames() ) );
+		
+		for (Object[] row: this) {
+			sb.append( "\n" + Arrays.toString( row ) );
+		}
+		
+		return sb.toString();
+	}
 		
 	
 	
