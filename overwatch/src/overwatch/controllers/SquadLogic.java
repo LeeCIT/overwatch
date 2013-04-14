@@ -5,9 +5,10 @@ package overwatch.controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.DatabaseException;
@@ -303,7 +304,18 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.assignTroops.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SquadTroopPicker( tab.assignTroops.getAddButton(), pickListener, Squads.getTroopsNotInSquads() ).setVisible(true);
+				NameRefPairList<Integer> nrp 	= Squads.getTroopsNotInSquads();
+				ArrayList<Integer> listOfTroops = tab.assignTroops.getItems();	
+				
+				SquadTroopPicker p = new SquadTroopPicker( tab.assignTroops.getAddButton(), pickListener, nrp );	
+				
+				for(int i=0; i<listOfTroops.size(); i++)
+				{
+					p.removeItem(listOfTroops.get(i));
+				}
+				
+				//p.removeItems(overwatch.util.Util.arrayListToArray(listOfTroops));  Did not work due to not being able to convert it to a integer
+				p.setVisible(true);				
 			}
 		});
 	}
@@ -324,8 +336,7 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.assignVehicles.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SquadVehiclePicker( tab.assignVehicles.getAddButton(), vehiclePick, Vehicles.getAllVehiclesNotInSquads() ).setVisible(true);
-				
+				new SquadVehiclePicker( tab.assignVehicles.getAddButton(), vehiclePick, Vehicles.getAllVehiclesNotInSquads() ).setVisible(true);				
 			}
 		});
 	}
