@@ -159,7 +159,7 @@ public class Squads
 	public static NameRefPairList<Integer> getTroopsNotInSquads()
 	{
 		EnhancedResultSet ers = Database.query(
-				"SELECT p.personNo, p.name " +
+				"SELECT p.personNo, p.loginName " +
 				"FROM Personnel p, Ranks r " +
 				"wHERE p.rankNo = r.rankNo " +
 				"AND r.name = 'Trooper' "	 	 +
@@ -170,7 +170,7 @@ public class Squads
 		
 		if ( ! ers.isEmpty()) {
 			Integer[] keys  = ers.getColumnAs( "personNo",  Integer[].class  );
-			String [] names = ers.getColumnAs( "name", String [].class  );
+			String [] names = ers.getColumnAs( "loginName", String [].class  );
 			return new NameRefPairList<Integer>( keys, names );
 		}
 		
