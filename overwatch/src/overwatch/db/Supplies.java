@@ -3,6 +3,8 @@
 
 package overwatch.db;
 
+import overwatch.gui.NameRefPairList;
+
 
 
 
@@ -56,4 +58,54 @@ public class Supplies
 		
 		return (number.length != 0);
 	}
+	
+	
+	
+	
+	/**
+	 * Gets the name of the supply
+	 * @return The name of the supply
+	 */
+	public static String getSupplyName(int supplyNo)
+	{
+		EnhancedResultSet ers = Database.query(
+				"SELECT name "		+
+				"FROM Supplies " 	+
+				"WHERE supplyNo = " + supplyNo + " ;"
+				
+		);
+		
+		if (ers.isEmpty())
+			 return null;
+		else return ers.getElemAs( "name", String.class ); 
+	}
+	
+	
+	
+
+	/**
+	 * Gets all the supplies for the picker
+	 * @return the supplies
+	 */
+	public static NameRefPairList<Integer> getAllSupplys()
+	{
+		EnhancedResultSet ers = Database.query(
+				"SELECT supplyNo, name " +
+				"FROM Supplies "
+			);
+		
+		if ( ! ers.isEmpty()) {
+			Integer[] keys  = ers.getColumnAs( "supplyNo",  Integer[].class  );
+			String [] names = ers.getColumnAs( "name", String [].class  );
+			return new NameRefPairList<Integer>( keys, names );
+		}
+		
+		return new NameRefPairList<Integer>();
+	}
+	
+	
+	
+	
+	
+	
 }
