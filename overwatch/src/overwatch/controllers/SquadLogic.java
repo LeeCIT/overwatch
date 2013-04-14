@@ -309,8 +309,7 @@ public class SquadLogic extends TabController<SquadTab>
 				
 				SquadTroopPicker p = new SquadTroopPicker( tab.assignTroops.getAddButton(), pickListener, nrp );	
 				
-				for(int i=0; i<listOfTroops.size(); i++)
-				{
+				for(int i=0; i<listOfTroops.size(); i++){
 					p.removeItem(listOfTroops.get(i));
 				}
 				
@@ -336,7 +335,16 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.assignVehicles.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SquadVehiclePicker( tab.assignVehicles.getAddButton(), vehiclePick, Vehicles.getAllVehiclesNotInSquads() ).setVisible(true);				
+				NameRefPairList<Integer> nrp = Vehicles.getAllVehiclesNotInSquads();
+				ArrayList<Integer> listOfVehicles = tab.assignVehicles.getItems();
+				
+				SquadVehiclePicker vp = new SquadVehiclePicker( tab.assignVehicles.getAddButton(), vehiclePick, nrp );		
+				
+				for(int i=0; i<listOfVehicles.size(); i++){
+					vp.removeItem(listOfVehicles.get(i));
+				}	
+				
+				vp.setVisible(true);
 			}
 		});
 	}
