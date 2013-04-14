@@ -277,10 +277,12 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 				String passNew = new String( p.passNew .getPassword() );
 				String passCon = new String( p.passConf.getPassword() );
 				
+				
 				if ( ! LoginManager.isPassValid( personNo, passCur )) {
 					Gui.showError( "Wrong Password", "Wrong password!" );
 					return;
 				}
+				
 				
 				if ( ! passNew.equals( passCon )) {
 					Gui.showError( "Password Mismatch", "The entered passwords do not match." );
@@ -288,6 +290,8 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 				}
 				
 				
+				Personnel.setPass( personNo, passNew );
+				Gui.showMessage( "Password Changed", "The password has been changed." );
 				
 				p.dispose();
 			}
@@ -299,6 +303,9 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 				p.dispose();
 			}
 		});
+		
+		
+		p.setVisible( true );
 	}
 	
 	

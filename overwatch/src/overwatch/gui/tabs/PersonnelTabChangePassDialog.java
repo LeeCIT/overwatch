@@ -66,7 +66,6 @@ public class PersonnelTabChangePassDialog extends JDialog
 		pack();
 		setSize( 256, getSize().height );
 		setLocationRelativeTo( relativeTo );
-		setVisible( true );
 	}
 	
 	
