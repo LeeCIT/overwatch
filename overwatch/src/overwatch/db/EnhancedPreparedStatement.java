@@ -56,7 +56,7 @@ public class EnhancedPreparedStatement
 		
 		try {
 			 conn = Database.getConnection();
-			 ps   = conn.prepareStatement( psSql );
+			 ps   = conn.prepareStatement( psSql, PreparedStatement.RETURN_GENERATED_KEYS );
 		}
 		catch (SQLException ex) {
 			throw new RuntimeException( ex );
@@ -208,6 +208,44 @@ public class EnhancedPreparedStatement
 	
 	
 	
+	/**
+	 * Close the internal PreparedStatement.
+	 * After calling this, the object can no longer be used.
+	 */
+	public void close() {
+		
+		try {
+			ps.close();
+		}
+		catch (Exception ex) {
+			throw new DatabaseException( ex );
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Get auto-generated primary key from an insert statement, if there is one.
+	 * @param param
+	 */
+	public Integer getGeneratedKey()
+	{
+		try {
+			ResultSet rs = ps.getGeneratedKeys();
+				EnhancedResultSet ers = new EnhancedResultSet( rs );
+			rs.close();
+			
+			return (int) (long) ers.getElemAs( 0, Long.class );
+		}
+		catch (SQLException ex) {
+			throw new DatabaseException( ex );
+		}
+	}
+	
+	
+	
 	
 	
 	
@@ -280,6 +318,7 @@ public class EnhancedPreparedStatement
 		psUpdate.set( "pilot", (Integer) null );
 		
 		System.out.println( psUpdate.update() + " rows modified." );
+		System.out.println( psUpdate.getGeneratedKey() + " was the primary key generated." );
 	}
 }
 
