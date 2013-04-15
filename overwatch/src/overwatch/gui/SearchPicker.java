@@ -209,6 +209,8 @@ public class SearchPicker<T> extends JDialog
 				System.out.println( "Pick event: " + picked );
 			}
 		});
+		
+		sp.setVisible( true );
 	}
 }
 

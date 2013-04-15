@@ -52,11 +52,10 @@ public class EnhancedPreparedStatement
 		generateParamIndexMappings( sql );
 		
 		String     psSql = sql.replaceAll( "<<\\w+>>", "?" );
-		Connection conn  = null;
+		Connection conn  = Database.getConnection();
 		
 		try {
-			 conn = Database.getConnection();
-			 ps   = conn.prepareStatement( psSql, PreparedStatement.RETURN_GENERATED_KEYS );
+			 ps = conn.prepareStatement( psSql, PreparedStatement.RETURN_GENERATED_KEYS );
 		}
 		catch (SQLException ex) {
 			throw new RuntimeException( ex );
