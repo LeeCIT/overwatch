@@ -5,6 +5,7 @@ package overwatch.core;
 
 import overwatch.controllers.TabController;
 import overwatch.gui.DialogueAnswer;
+import overwatch.gui.IconLoader;
 import overwatch.gui.tabs.*;
 import java.awt.Component;
 import javax.swing.*;
@@ -63,7 +64,7 @@ public class Gui extends JFrame
 		add( tabPane );
 		
 		setDefaultCloseOperation( DO_NOTHING_ON_CLOSE );
-		setIconImage( new ImageIcon("images/ico16px.png").getImage() );
+		setIconImages( IconLoader.getIcons() );
 	}
 	
 	

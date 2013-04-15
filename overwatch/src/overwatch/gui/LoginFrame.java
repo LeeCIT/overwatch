@@ -45,7 +45,7 @@ public class LoginFrame extends JFrame
 	{
 		super( "Overwatch - Login" );	
 		setLayout( new MigLayout( "", "128px[][]128px", "128px[][][]128px" ) );
-		setIconImage( new ImageIcon("images/ico16px.png").getImage() );
+		setIconImages( IconLoader.getIcons() );
 		
 		loginListeners = new ArrayList<LoginListener>();
 		
