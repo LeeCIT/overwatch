@@ -3,6 +3,7 @@
 
 package overwatch.core;
 
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
@@ -140,15 +141,18 @@ public class Main
 	
 	
 	
-	private static void createMainGui( final JFrame creatorFrame  )
+	private static void createMainGui( final JFrame creatorFrame )
 	{
 		Thread thread = new Thread( new Runnable() {
 			public void run()
 			{
+				Dimension size = new Dimension( 860, 512 );
+				
 				final Gui gui = new Gui();
 				Controller.attachLogicControllers( gui );
 				gui.pack();
-				gui.setSize( 860, 512 );
+				gui.setSize( size );
+				gui.setMinimumSize( size );
 				gui.setLocationRelativeTo( creatorFrame );
 				gui.setTitleDescription( Personnel.getLoginName( LoginManager.getCurrentUser() ) );
 				gui.setVisible( true );
