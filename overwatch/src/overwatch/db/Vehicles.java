@@ -81,6 +81,36 @@ public class Vehicles
 		);
 	}
 	
+	
+	
+	
+	
+	public static EnhancedResultSet getInfo( Integer vehicleNo )
+	{
+		return Database.query(
+			"SELECT vehicleNo, " +
+			"       name,      " +
+			"		pilot      " +
+		    "FROM Vehicles     " +
+		    "WHERE vehicleNo = " + vehicleNo + ";"
+		);
+	}
+	
+	
+	
+	
+	
+	public static String getPilotName( Integer vehicleNo )
+	{
+		return Database.querySingle( String.class,
+			"select loginName            " +
+			"from Personnel p,           " +
+			"     Vehicles  v            " +
+			"where p.personNo  = v.pilot " +
+			"and   v.vehicleNo = " + vehicleNo + ";"
+		);
+	}
+	
 }
 
 
