@@ -44,27 +44,41 @@ public class EnhancedPreparedStatement
 	
 	/**
 	 * Create a new parameterised SQL query or update.
+	 * Don't forget to return the connection to the database after.
+	 * @param conn Connection to create PreparedStatement on.  Needed if you want to lock/transact.
 	 * @param sql SQL with parameters.
 	 */
-	public EnhancedPreparedStatement( String sql )
+	public EnhancedPreparedStatement( Connection conn, String sql )
 	{
 		params = new Hashtable< String, ArrayList<Integer> >();
 		generateParamIndexMappings( sql );
 		
-		String     psSql = sql.replaceAll( "<<\\w+>>", "?" );
-		Connection conn  = Database.getConnection();
+		String psSql = sql.replaceAll( "<<\\w+>>", "?" );
 		
 		try {
 			 ps = conn.prepareStatement( psSql, PreparedStatement.RETURN_GENERATED_KEYS );
 		}
 		catch (SQLException ex) {
-			throw new RuntimeException( ex );
-		}
-		finally {
-			Database.returnConnection( conn );
+			throw new DatabaseException( ex );
 		}
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Create a new parameterised SQL query or update.
+	 * Automatically acquires/releases the connection during construction.
+	 * @param sql SQL with parameters.
+	 */
+	public EnhancedPreparedStatement( String sql )
+	{
+		Connection conn = Database.getConnection();
+		
+		try     { commonConstruct( conn, sql ); }
+		finally { Database.returnConnection( conn ); }
+	}
 	
 	
 	
@@ -209,7 +223,7 @@ public class EnhancedPreparedStatement
 	
 	/**
 	 * Close the internal PreparedStatement.
-	 * After calling this, the object can no longer be used.
+	 * After calling this the object can no longer be used.
 	 */
 	public void close() {
 		
@@ -249,9 +263,30 @@ public class EnhancedPreparedStatement
 	
 	
 	
+	
+	
 	///////////////////////////////////////////////////////////////////////////
 	// Internals
 	/////////////////////////////////////////////////////////////////////////	
+	
+	private void commonConstruct( Connection conn, String sql )
+	{
+		params = new Hashtable< String, ArrayList<Integer> >();
+		generateParamIndexMappings( sql );
+		
+		String psSql = sql.replaceAll( "<<\\w+>>", "?" );
+		
+		try {
+			 ps = conn.prepareStatement( psSql, PreparedStatement.RETURN_GENERATED_KEYS );
+		}
+		catch (SQLException ex) {
+			throw new DatabaseException( ex );
+		}
+	}
+	
+	
+	
+	
 	
 	private void checkParam( String param ) {
 		if ( ! params.containsKey( param ))			
