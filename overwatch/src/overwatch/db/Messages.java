@@ -12,12 +12,11 @@ public class Messages
 
 	/**
 	 * Create a new message.
-	 * The returned integer is guaranteed to be the messageNo for the given message.
 	 * @param subject
 	 * @param body
 	 * @param sentBy
 	 * @param sentTo
-	 * @return
+	 * @return messageNo
 	 */
 	public static Integer create( String subject, String body, Integer sentBy, Integer sentTo )
 	{
@@ -43,7 +42,6 @@ public class Messages
 			return eps.getGeneratedKey();
 		}
 		finally {
-			System.out.println( "finally" );
 			eps.close();
 		}
 	}
