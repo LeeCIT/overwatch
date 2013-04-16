@@ -6,12 +6,13 @@ package overwatch.gui.tabs;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import overwatch.core.Gui;
 import overwatch.gui.CheckedFieldValidator;
+import overwatch.gui.IconLoader;
 import overwatch.gui.MessagePanel;
+
 
 
 
@@ -19,14 +20,15 @@ import overwatch.gui.MessagePanel;
 /**
  * Creates a new order dialogue.  It's not modal.
  * 
- * @author lsnk
- *
+ * @author  Lee Coakley
+ * @version 1
  */
 
 
 
 
-public class OrderTabCreateDialog extends JDialog
+
+public class OrderTabCreateDialog extends JFrame
 {
 	public final MessagePanel message;
 	public final JButton      send;
@@ -38,9 +40,10 @@ public class OrderTabCreateDialog extends JDialog
 	
 	public OrderTabCreateDialog( Component relativeTo )
 	{
-		super( Gui.getCurrentInstance(), "Overwatch - Create Order" );
+		super( "Overwatch - Create Order" );
 		
 		setLayout( new MigLayout( "", "[grow,fill]", "[grow,fill][]" ) );
+		setIconImages( IconLoader.getIcons() );
 
 		this.message = new MessagePanel();
 		this.send    = new JButton( "Send" );
@@ -56,7 +59,6 @@ public class OrderTabCreateDialog extends JDialog
 		message.date  .field.setText( "<Now>" );
 		
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-		setModalityType( ModalityType.MODELESS );
 		
 		setSize( 400, 640 );
 		setLocationRelativeTo( relativeTo );
