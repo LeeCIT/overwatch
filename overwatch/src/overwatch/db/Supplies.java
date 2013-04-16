@@ -28,12 +28,22 @@ public class Supplies
 	 */
 	public static Integer create()
 	{
-		return Common.createWithUniqueLockingAutoInc(
-			"Supplies",
-			"DEFAULT",
-			"'new Supply <?>'",
-			"0"
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+		  	"insert into Supplies " +
+		  	"values( default,     " +
+		  	"		 <<name>>,    " +
+		  	"		 0            " +
+		  	");"
 		);
+		
+		try {
+			eps.set( "name", "supply " + Common.randomNamePart() );
+			eps.update();			
+			return eps.getGeneratedKey();
+		}
+		finally {
+			eps.close();
+		}
 	}
 	
 	
