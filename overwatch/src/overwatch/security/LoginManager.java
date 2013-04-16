@@ -109,11 +109,11 @@ public class LoginManager
 	 * Check if a password matches that of a particular person.
 	 * @param personNo
 	 * @param pass
-	 * @return
+	 * @return boolean
 	 */
 	public static boolean isPassValid( Integer personNo, String pass )
 	{
-		boolean personExists = (personNo > 0);
+		boolean personExists = (personNo != null);
 		
 		if (personExists) {
 			HashSaltPair hsp = Personnel.getHashSaltPair( personNo );
