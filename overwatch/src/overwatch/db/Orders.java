@@ -31,7 +31,7 @@ public class Orders
 		  	"values( default,   " +
 		  	"		 <<msg>>,   " +
 		  	"		 false,     " +
-		  	"		 false,     " +
+		  	"		 false      " +
 		  	");"
 		);
 		
