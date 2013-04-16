@@ -29,6 +29,8 @@ public class DatabaseConstraints
 	
 	
 	
+	
+	
 	/**
 	 * Check if a name is valid.
 	 * Applies to names, logins, ranks, subjects, squadnames, etc
@@ -73,19 +75,25 @@ public class DatabaseConstraints
 	/**
 	 * Check if a rank exists with the given name.
 	 * Note: Ranks are case sensitive and start with a capital letter.
-	 * @param rankName
-	 * @return exists
+	 * @param name
+	 * @return boolean
 	 */
-	public static boolean rankExists( String rankName )
+	public static boolean rankExists( String name )
 	{
-		Integer[] ranks = Database.queryInts(
-			"select rankNo " +
-			"from Ranks " +
-			"where name = '" + rankName + "' " +
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+			"select rankNo         " +
+			"from Ranks            " +
+			"where name = <<name>> " +
 			"limit 1;"
 		);
 		
-		return (ranks.length != 0);
+		try {
+					 eps.set( "name", name );
+			return ! eps.query().isEmpty();
+		}
+		finally {
+			eps.close();
+		}
 	}
 	
 	
@@ -93,20 +101,26 @@ public class DatabaseConstraints
 	
 	
 	/**
-	 * Checks if the personnel still exists
+	 * Checks if a person exists.
 	 * @param name
-	 * @return Exists
+	 * @return boolean
 	 */
 	public static boolean personExists( String loginName )
 	{
-		Integer[] personnelName = Database.queryInts(
-			"SELECT personNo " +
-			"from Personnel  " +
-			"where loginName = '" + loginName + "' " +
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+			"select personNo         " +
+			"from Personnel          " +
+			"where loginName = <<n>> " +
 			"limit 1;"
 		);
-	
-		return (personnelName.length != 0);
+		
+		try {
+					 eps.set( "n", loginName );
+			return ! eps.query().isEmpty();
+		}
+		finally {
+			eps.close();
+		}
 	}
 	
 
