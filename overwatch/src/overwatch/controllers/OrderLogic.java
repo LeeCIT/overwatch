@@ -114,6 +114,7 @@ public class OrderLogic extends TabController<OrderTab>
 			Orders.getOrdersAndSubjectsSentTo( LoginManager.getCurrentUser() )
 		);
 		
+		
 		tab.ordersOut.setSearchableItems(
 			Orders.getOrdersAndSubjectsSentBy( LoginManager.getCurrentUser() )
 		);
@@ -156,8 +157,8 @@ public class OrderLogic extends TabController<OrderTab>
 			return;
 		}
 		
-		String sentBy   = Personnel.getLoginName(  ers.getElemAs( "sentBy",   Integer.class   )           );
-		String sentTo   = Personnel.getLoginName(  ers.getElemAs( "sentTo",   Integer.class   )           );
+		String sentBy   = Personnel.getLoginName(  ers.getElemAs( "sentBy",   Integer  .class )           );
+		String sentTo   = Personnel.getLoginName(  ers.getElemAs( "sentTo",   Integer  .class )           );
 		Date   sentDate = new Date(                ers.getElemAs( "sentDate", Timestamp.class ).getTime() );
 		
 		tab.messagePanel.sentBy .field.setText( (sentBy != null)  ?  sentBy  :  "<deleted user>" );
