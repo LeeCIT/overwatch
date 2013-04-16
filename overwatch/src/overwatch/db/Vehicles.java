@@ -11,7 +11,7 @@ package overwatch.db;
  * Database <-> Vehicle interactions
  * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -23,17 +23,26 @@ public class Vehicles
 
 	/**
 	 * Create a new vehicle.
-	 * Locks the table!
 	 * @return vehicleNo
 	 */
 	public static Integer create()
 	{
-		return Common.createWithUniqueLockingAutoInc(
-			"Vehicles",
-			"DEFAULT",
-			"'new vehicle <?>'",
-			"NULL"
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+		  	"insert into Vehicles " +
+		  	"values( default,     " +
+		  	"		 <<name>>,    " +
+		  	"		 null         " +
+		  	");"
 		);
+		
+		try {
+			eps.set( "name", "vehicle " + Common.randomNamePart() );
+			eps.update();			
+			return eps.getGeneratedKey();
+		}
+		finally {
+			eps.close();
+		}
 	}
 	
 	
