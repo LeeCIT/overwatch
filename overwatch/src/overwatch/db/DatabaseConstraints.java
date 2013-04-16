@@ -24,8 +24,6 @@ import overwatch.util.Validator;
 public class DatabaseConstraints
 {
 	public static final int maxLengthName = 128;
-	public static final int maxLengthSex  = 1;
-
 	
 	
 	
@@ -51,7 +49,7 @@ public class DatabaseConstraints
 	 * @return validity
 	 */
 	public static boolean isValidSex( String str ) {
-		return Validator.isLengthRange( str, 1, maxLengthSex );
+		return str.matches( "\\w" );
 	}
 	
 	
