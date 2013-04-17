@@ -24,8 +24,8 @@ import overwatch.util.Validator;
 public class DatabaseConstraints
 {
 	public static final int maxLengthName = 128;
-	public static final int maxLengthSex  = 1;
-
+	
+	
 	
 	
 	
@@ -49,7 +49,7 @@ public class DatabaseConstraints
 	 * @return validity
 	 */
 	public static boolean isValidSex( String str ) {
-		return Validator.isLengthRange( str, 1, maxLengthSex );
+		return str.matches( "\\w" );
 	}
 	
 	
@@ -73,19 +73,25 @@ public class DatabaseConstraints
 	/**
 	 * Check if a rank exists with the given name.
 	 * Note: Ranks are case sensitive and start with a capital letter.
-	 * @param rankName
-	 * @return exists
+	 * @param name
+	 * @return boolean
 	 */
-	public static boolean rankExists( String rankName )
+	public static boolean rankExists( String name )
 	{
-		Integer[] ranks = Database.queryInts(
-			"select rankNo " +
-			"from Ranks " +
-			"where name = '" + rankName + "' " +
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+			"select rankNo         " +
+			"from Ranks            " +
+			"where name = <<name>> " +
 			"limit 1;"
 		);
 		
-		return (ranks.length != 0);
+		try {
+					 eps.set( "name", name );
+			return ! eps.query().isEmpty();
+		}
+		finally {
+			eps.close();
+		}
 	}
 	
 	
@@ -93,20 +99,26 @@ public class DatabaseConstraints
 	
 	
 	/**
-	 * Checks if the personnel still exists
+	 * Checks if a person exists.
 	 * @param name
-	 * @return Exists
+	 * @return boolean
 	 */
 	public static boolean personExists( String loginName )
 	{
-		Integer[] personnelName = Database.queryInts(
-			"SELECT personNo " +
-			"from Personnel  " +
-			"where loginName = '" + loginName + "' " +
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+			"select personNo         " +
+			"from Personnel          " +
+			"where loginName = <<n>> " +
 			"limit 1;"
 		);
-	
-		return (personnelName.length != 0);
+		
+		try {
+					 eps.set( "n", loginName );
+			return ! eps.query().isEmpty();
+		}
+		finally {
+			eps.close();
+		}
 	}
 	
 

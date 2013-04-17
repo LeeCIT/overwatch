@@ -9,7 +9,6 @@ import overwatch.gui.*;
 import overwatch.gui.tabs.VehicleTab;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -116,7 +115,7 @@ public class VehicleLogic extends TabController<VehicleTab>
 	
 	
 	
-	private void populateFields(Integer vehicleNo)
+	private void populateFields( Integer vehicleNo )
 	{
 		if (vehicleNo == null)
 		{
@@ -126,32 +125,20 @@ public class VehicleLogic extends TabController<VehicleTab>
 		}
 		
 		
-		tab.setEnableFieldsAndButtons(true);
+		tab.setEnableFieldsAndButtons( true );
 		
-		EnhancedResultSet ers = Database.query(
-			"SELECT vehicleNo, " +
-			"       name,      " +
-			"		pilot      " +
-		    "FROM Vehicles     " +
-		    "WHERE vehicleNo = " + vehicleNo + ";"
-		);
-		
+		EnhancedResultSet ers = Vehicles.getInfo( vehicleNo );
 		
 		if (ers.isEmpty()) {
 			showDeletedError( "vehicle" );
 			return;
 		}
 		
-		
 		Integer pilot = ers.getElemAs( "pilot", Integer.class );
 		
 		String pilotName = "";
 		if (pilot != null) {
-			pilotName = Database.querySingle( String.class,
-				"select loginName " +
-				"from Personnel   " +
-				"where personNo = " + pilot + ";"
-			);
+			pilotName = Vehicles.getPilotName( vehicleNo );
 		}
 		
 		tab.number.field.setText( "" + ers.getElemAs( "vehicleNo",  Integer.class ));

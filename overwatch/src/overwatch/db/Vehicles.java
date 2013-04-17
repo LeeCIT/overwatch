@@ -13,7 +13,8 @@ import overwatch.gui.NameRefPairList;
  * Database <-> Vehicle interactions
  * 
  * @author  Lee Coakley
- * @version 2
+ * @author  John Murphy
+ * @version 4
  */
 
 
@@ -25,17 +26,26 @@ public class Vehicles
 
 	/**
 	 * Create a new vehicle.
-	 * Locks the table!
 	 * @return vehicleNo
 	 */
 	public static Integer create()
 	{
-		return Common.createWithUniqueLockingAutoInc(
-			"Vehicles",
-			"DEFAULT",
-			"'new vehicle <?>'",
-			"NULL"
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+		  	"insert into Vehicles " +
+		  	"values( default,     " +
+		  	"		 <<name>>,    " +
+		  	"		 null         " +
+		  	");"
 		);
+		
+		try {
+			eps.set( "name", "vehicle " + Common.randomNamePart() );
+			eps.update();			
+			return eps.getGeneratedKey();
+		}
+		finally {
+			eps.close();
+		}
 	}
 	
 	
@@ -77,6 +87,7 @@ public class Vehicles
 	
 	
 	
+	
 	/**
 	 * Get vehicle type
 	 * @return The vehicle type
@@ -98,6 +109,8 @@ public class Vehicles
 	
 	
 	
+	
+	// TODO, probably better placed in Squads, as it's relevant only to that class.
 	public static NameRefPairList<Integer> getAllVehiclesNotInSquads()
 	{
 		EnhancedResultSet ers = Database.query(
@@ -115,6 +128,47 @@ public class Vehicles
 		}
 		
 		return new NameRefPairList<Integer>();
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Get vehicleNo, name, pilot from Vehicles.
+	 * @param vehicleNo
+	 * @return EnhancedResultSet
+	 */
+	public static EnhancedResultSet getInfo( Integer vehicleNo )
+	{
+		return Database.query(
+			"SELECT vehicleNo, " +
+			"       name,      " +
+			"		pilot      " +
+		    "FROM Vehicles     " +
+		    "WHERE vehicleNo = " + vehicleNo + ";"
+		);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Get the name of a vehicle's pilot.
+	 * If there is none the result will be null.
+	 * @param vehicleNo
+	 * @return
+	 */
+	public static String getPilotName( Integer vehicleNo )
+	{
+		return Database.querySingle( String.class,
+			"select loginName            " +
+			"from Personnel p,           " +
+			"     Vehicles  v            " +
+			"where p.personNo  = v.pilot " +
+			"and   v.vehicleNo = " + vehicleNo + ";"
+		);
 	}
 	
 }
