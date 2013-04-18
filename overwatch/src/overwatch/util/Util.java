@@ -3,6 +3,7 @@
 
 package overwatch.util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 
@@ -77,6 +78,36 @@ public class Util
 			list.add( el );
 			
 		return list;
+	}
+	
+	
+	
+	
+	
+	public static BigDecimal toBigDecimal( String str )
+	{
+		try {
+			BigDecimal bd = new BigDecimal( str );
+			return bd;
+		}
+		catch (NumberFormatException ex) {
+			throw new RuntimeException( ex );
+		}
+	}
+	
+	
+	
+	
+	
+	public static Integer toInt( String str )
+	{
+		try {
+			Integer i = new Integer( str );
+			return i;
+		}
+		catch (NumberFormatException ex) {
+			throw new RuntimeException( ex );
+		}
 	}
 }
 
