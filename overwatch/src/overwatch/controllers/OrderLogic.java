@@ -174,13 +174,13 @@ public class OrderLogic extends TabController<OrderTab>
 	
 	private void createBackgroundMonitor()
 	{
-		BackgroundMonitor bgm = new BackgroundMonitor( 10000 );
+		BackgroundMonitor bgm = new BackgroundMonitor( 3000 );
 		
 		bgm.addBackgroundCheck( new BackgroundCheck() {
 			public void onCheck()
 			{
-				// TODO check for messages created in the last 10 seconds
-				//refreshSearchPanels();
+				// TODO check for messages created in the last 3 seconds
+				refreshSearchPanels();
 			}
 		});
 	}
