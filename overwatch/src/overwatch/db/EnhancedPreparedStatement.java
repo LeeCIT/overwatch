@@ -290,7 +290,7 @@ public class EnhancedPreparedStatement
 	
 	private void checkParam( String param ) {
 		if ( ! params.containsKey( param ))			
-			throw new RuntimeException( "Param doesn't exist.  Valid params are: " + params.keySet() );
+			throw new RuntimeException( "Param '" + param + "' doesn't exist.  Valid params are: " + params.keySet() );
 	}
 	
 	
