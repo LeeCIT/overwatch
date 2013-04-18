@@ -3,6 +3,7 @@
 
 package overwatch.db;
 
+import java.math.BigDecimal;
 import overwatch.security.HashSaltPair;
 import overwatch.security.LoginCrypto;
 import overwatch.util.Util;
@@ -72,9 +73,40 @@ public class Personnel
 	
 	
 	
+	public static boolean save( Integer personNo, String name, int age, String sex, BigDecimal salary, Integer rankNo, String loginName )
+	{
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+			"update Personnel "      +
+			"set name      = <<name>>,   " +
+			"    age       = <<age>>,    " +
+			"    sex       = <<sex>>,    " +
+			"    salary    = <<salary>>, " +
+			"    rankNo    = <<rank>,    " +
+			"    loginName = <<rankNo>>  " +
+			"where personNo = <<personNo>>;"
+		);
+		
+		try {
+			eps.set( "name",      name      );
+			eps.set( "age",       age       );
+			eps.set( "sex",       sex       );
+			eps.set( "salary",    salary    );
+			eps.set( "rankNo",    rankNo    );
+			eps.set( "loginName", loginName );
+			return (0 != eps.update());
+		}
+		finally {
+			eps.close();
+		}
+	}
+	
+	
+	
+	
+	
 	/**
 	 * Delete a person.
-	 * Note that this is UNLIKELY to succeed given how many dependencies on Personnel there are.
+	 * Not to be called lightly, since many other tables have dependencies on it.
 	 * @param personNo
 	 * @return succeeded
 	 */
