@@ -15,6 +15,7 @@ import overwatch.gui.RankPicker;
 import overwatch.gui.tabs.PersonnelTab;
 import overwatch.gui.tabs.PersonnelTabChangePassDialog;
 import overwatch.security.LoginManager;
+import overwatch.util.Util;
 import overwatch.util.Validator;
 import java.math.BigDecimal;
 import java.awt.event.ActionEvent;
@@ -82,12 +83,14 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 			return;
 		}
 		
-		String name      = tab.name     .field.getText();
-		String age       = tab.age      .field.getText();
-		String sex       = tab.sex      .field.getText();
-		String salary    = tab.salary   .field.getText();
-		String rankName  = tab.rank     .field.getText();
-		String loginName = tab.loginName.field.getText();
+		String     name      = tab.name     .field.getText();
+		Integer    age       = tab.age      .field.getTextAsInt();
+		String     sex       = tab.sex      .field.getText();
+		BigDecimal salary    = Util.toBigDecimal( tab.salary.field.getText() );
+		String     rankName  = tab.rank     .field.getText();
+		String     loginName = tab.loginName.field.getText();
+		
+		
 		
 		if ( ! Personnel.exists(personNo)) {
 			showDeletedError( "person" );
@@ -111,20 +114,11 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 		
 		
 		// Commit changes
-		int modRows = Database.update(
-			"update Personnel "      +
-			"set name           = '" + name       + "', " +
-			"    age            =  " + age       + ",  " +
-			"    sex            = '" + sex       + "', " +
-			"    salary         =  " + salary    + ",  " +
-			"    rankNo         =  " + rankNo    + ",  " +
-			"    loginName      = '" + loginName + "'  " +
-			"where personNo =      " + personNo  + " ;"
-		);
+		boolean modified = Personnel.save( personNo, name, age, sex, salary, rankNo, loginName );
 		
 		
 		// Check if that actually worked
-		if (modRows <= 0) {
+		if ( ! modified) {
 			showDeletedError( "person" );
 			populateList();
 			return;
@@ -146,12 +140,19 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 	
 	private boolean doRankModifySecurityChecks( Integer proposedRank )
 	{
+		boolean isModified = tab.rank.field.isModifiedByUser();
+		
+		if (! isModified) {
+			return true;
+		}
+		
+		
 		Integer personNo     = tab.getSelectedItem();
 		Integer currentLevel = LoginManager.getCurrentSecurityLevel();
 		Integer personLevel  = Personnel.getPrivilegeLevel( personNo );
 		Integer newLevel     = Ranks.getLevel( proposedRank );
 		boolean isSelf       = LoginManager.isCurrentUser( personNo );
-		boolean isModified   = tab.rank.field.isModifiedByUser();
+		
 		
 		// Self-modify not allowed
 		if (isSelf && isModified) {

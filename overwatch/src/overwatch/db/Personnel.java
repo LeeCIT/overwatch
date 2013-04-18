@@ -76,13 +76,13 @@ public class Personnel
 	public static boolean save( Integer personNo, String name, int age, String sex, BigDecimal salary, Integer rankNo, String loginName )
 	{
 		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
-			"update Personnel "      +
-			"set name      = <<name>>,   " +
-			"    age       = <<age>>,    " +
-			"    sex       = <<sex>>,    " +
-			"    salary    = <<salary>>, " +
-			"    rankNo    = <<rank>,    " +
-			"    loginName = <<rankNo>>  " +
+			"update Personnel              " +
+			"set name      = <<name>>,     " +
+			"    age       = <<age>>,      " +
+			"    sex       = <<sex>>,      " +
+			"    salary    = <<salary>>,   " +
+			"    rankNo    = <<rankNo>>,   " +
+			"    loginName = <<loginName>> " +
 			"where personNo = <<personNo>>;"
 		);
 		
@@ -93,6 +93,7 @@ public class Personnel
 			eps.set( "salary",    salary    );
 			eps.set( "rankNo",    rankNo    );
 			eps.set( "loginName", loginName );
+			eps.set( "personNo",  personNo  );
 			return (0 != eps.update());
 		}
 		finally {
