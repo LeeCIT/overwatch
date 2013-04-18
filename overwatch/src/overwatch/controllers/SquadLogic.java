@@ -34,7 +34,7 @@ import overwatch.gui.tabs.SquadTab;
  * 
  * @author  John Murphy
  * @author  Lee Coakley
- * @version 3
+ * @version 4
  */
 
 
@@ -81,6 +81,9 @@ public class SquadLogic extends TabController<SquadTab>
 		String  squadName 	  = tab.name.     field.getText();
 		String  commanderName = tab.commander.field.getText();
 		Integer commanderNo	  = Personnel.getNumber( commanderName );
+		ArrayList<Integer> troops 	= tab.assignTroops.getItems();
+		ArrayList<Integer> vehicles = tab.assignVehicles.getItems();
+		ArrayList<Integer> supplies = tab.assignSupplies.getItems();
 		
 					
 		if ( ! Squads.exists(squadNo)) {
@@ -89,20 +92,21 @@ public class SquadLogic extends TabController<SquadTab>
 			return;
 		}
 		
-		
 		int modRows = Database.update(
-			"UPDATE Squads "          +
-			"SET name           = '"  + squadName  + "'," +
-			"    commander = " 		  + commanderNo + " "  +
-			"WHERE squadNo = " 		  + squadNo + " ;"
-		);
+				"UPDATE Squads "          +
+				"SET name           = '"  + squadName  + "'," +
+				"    commander = " 		  + commanderNo + " "  +
+				"WHERE squadNo = " 		  + squadNo + " ;"
+			);
 		
+		Squads.saveSquadDetails(squadNo, troops, vehicles, supplies);
+			
 		if (modRows <= 0) {
 			showDeletedError( "squad" );
 			populateSquadsList();
 			return;
 		}
-		
+			
 		
 		populateSquadsList();
 		tab.setSelectedItem(squadNo);
@@ -114,11 +118,7 @@ public class SquadLogic extends TabController<SquadTab>
 	
 	private void delete( Integer squadNo )
 	{
-		int mods = Database.update(
-			"DELETE          " +
-			"FROM Squads     " +
-			"WHERE squadNo = " + squadNo + ";"
-		);
+		int mods = Squads.deleteSquad(squadNo);		
 		
 		if(mods <= 0) {
 			showDeletedError("squad");
@@ -188,11 +188,7 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		String commanderName = "";
 		if (commander != null) {
-			commanderName = Database.querySingle( String.class,
-				"select loginName " +
-				"from Personnel   " +
-				"where personNo = " + commander + ";"
-			);
+			commanderName = Squads.getCommander(commander);
 		}
 		
 		tab.number   .field.setText( "" + ers.getElemAs( "squadNo",    Integer.class ));

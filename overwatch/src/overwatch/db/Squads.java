@@ -3,6 +3,7 @@
 
 package overwatch.db;
 
+import java.util.ArrayList;
 import overwatch.gui.NameRefPairList;
 
 
@@ -13,7 +14,7 @@ import overwatch.gui.NameRefPairList;
  * 
  * @author John Murphy
  * @author Lee Coakley
- * @version 2
+ * @version 3
  * 
  * TODO comment your public functions
  */
@@ -49,13 +50,7 @@ public class Squads
 	
 	
 	
-	
-	
-	// TODO delete
-	
 		
-	
-	
 	
 	public static NameRefPairList<Integer> getTroops( int squadNo )
 	{
@@ -176,6 +171,103 @@ public class Squads
 		
 		return new NameRefPairList<Integer>();
 	}
+	
+	
+	
+	
+	/**
+	 * Gets the commander name using the personNo
+	 * @return
+	 */
+	public static String getCommander(int personNo)
+	{
+		String commanderName = Database.querySingle( String.class,
+				"select loginName " +
+				"from Personnel   " +
+				"where personNo = " + personNo + ";"
+			);
+		
+		return commanderName;
+	}
+	
+	
+	
+	/**
+	 * Save the sub panels of the squad
+	 */
+	public static void saveSquadDetails(int squadNo, ArrayList<Integer> troops, ArrayList<Integer> vehicles, ArrayList<Integer> supplies)
+	{
+		removeSquadDetails(squadNo);
+					
+		
+		for(int i=0; i<troops.size(); i++)
+		{
+			Database.update(	
+				"INSERT into SquadTroops VALUES( " + squadNo + ", " + troops.get(i) + " );"
+			);
+		}
+		
+		for(int i=0; i<vehicles.size(); i++)
+		{
+			Database.update(
+				"INSERT into SquadVehicles VALUES(" + squadNo + ", " + vehicles.get(i) + "); "
+			);
+		}
+		
+		for(int i=0; i<supplies.size(); i++)
+		{
+			Database.update(
+				"INSERT into SquadSupplies VALUES(" + squadNo + ", " + supplies.get(i) + ");" 
+			);
+		}
+						
+	}
+	
+	
+	
+	
+	/**
+	 * Delete the squad selected
+	 */
+	public static int deleteSquad(int squadNo)
+	{
+		int mods = Database.update(
+				"DELETE          " +
+				"FROM Squads     " +
+				"WHERE squadNo = " + squadNo + ";"
+		);
+		
+		//Removes everything from the subpanel
+		removeSquadDetails(squadNo);
+		
+		return mods;
+	}
+	
+	
+	
+	
+	/**
+	 * Remove everything from the squad
+	 */
+	public static void removeSquadDetails(int squadNo)
+	{
+		Database.update(
+				"DELETE FROM SquadTroops WHERE squadNo = " + squadNo + " ;"
+		);
+		
+		//Delete the vehicles in the squad
+		Database.update(
+				"DELETE FROM SquadVehicles WHERE squadNo = " + squadNo + " ;"
+		);
+		
+		// Delete the supplies
+		Database.update(
+				"DELETE FROM SquadSupplies WHERE squadNo = " + squadNo + " ;"
+		);													
+	}
+		
+		
+		
 	
 
 }
