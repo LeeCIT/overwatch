@@ -178,6 +178,30 @@ public class Squads
 	
 	
 	/**
+	 * Get commanders not assignd to squads
+	 */
+	public static NameRefPairList<Integer> getCommandersNotInsquads()
+	{
+		EnhancedResultSet ers = Database.query(
+				"SELECT p.personNo, p.loginName " +
+				"FROM Personnel p, Ranks r " +
+				"wHERE p.rankNo = r.rankNo " +
+				"AND r.name = 'Commander'; "	 
+			);
+		
+		if ( ! ers.isEmpty()) {
+			Integer[] keys  = ers.getColumnAs( "personNo",  Integer[].class  );
+			String [] names = ers.getColumnAs( "loginName", String [].class  );
+			return new NameRefPairList<Integer>( keys, names );
+		}
+		
+		return new NameRefPairList<Integer>();
+	}
+	
+	
+	
+	
+	/**
 	 * Gets the commander name using the personNo
 	 * @return
 	 */
@@ -191,6 +215,10 @@ public class Squads
 		
 		return commanderName;
 	}
+	
+	
+	
+	
 	
 	public static boolean saveBasicSquadInfo(String squadName, int commanderNo, int squadNo)
 	{		

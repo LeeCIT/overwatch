@@ -18,6 +18,7 @@ import overwatch.db.Personnel;
 import overwatch.db.Squads;
 import overwatch.db.Supplies;
 import overwatch.db.Vehicles;
+import overwatch.gui.CommanderPicker;
 import overwatch.gui.NameRefPairList;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
@@ -351,7 +352,9 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.commander.button.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				new PersonnelPicker( tab.commander.button, pickListener );
+				NameRefPairList<Integer> nrp = Squads.getCommandersNotInsquads();
+				CommanderPicker pick = new CommanderPicker( tab.commander.button, pickListener, nrp );
+				pick.setVisible(true);
 			}
 		});
 		
