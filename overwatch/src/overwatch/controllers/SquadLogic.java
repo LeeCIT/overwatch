@@ -153,10 +153,10 @@ public class SquadLogic extends TabController<SquadTab>
 	
 	private void populateAssignPanels( int squadNo ) {
 		try {		
-			tab.assignTroops  .setListItems( Squads.getTroops  ( squadNo ));
-			tab.assignVehicles.setListItems( Squads.getVehicles( squadNo ));
-			tab.assignSupplies.setListItems( Squads.getSupplies( squadNo ));
-			setAssignPanelButtonsToEnabled();
+				tab.assignTroops  .setListItems( Squads.getTroops  ( squadNo ));
+				tab.assignVehicles.setListItems( Squads.getVehicles( squadNo ));
+				tab.assignSupplies.setListItems( Squads.getSupplies( squadNo ));
+				setAddButtonToEnabled();
 			}
 		catch (DatabaseException ex) {
 			showDeletedError("Squads");
@@ -268,6 +268,18 @@ public class SquadLogic extends TabController<SquadTab>
 		tab.assignTroops.setButtonsToEnabled();
 		tab.assignVehicles.setButtonsToEnabled();
 		tab.assignSupplies.setButtonsToEnabled();	
+	}
+	
+	
+	
+	/**
+	 *	Enables the add button on the sub panels
+	 */
+	private void setAddButtonToEnabled()
+	{
+		tab.assignTroops	.setAddButtonsToEnabled();
+		tab.assignVehicles	.setAddButtonsToEnabled();
+		tab.assignSupplies	.setAddButtonsToEnabled();
 	}
 	
 	
