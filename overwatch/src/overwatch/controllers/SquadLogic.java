@@ -18,7 +18,6 @@ import overwatch.db.Personnel;
 import overwatch.db.Squads;
 import overwatch.db.Supplies;
 import overwatch.db.Vehicles;
-import overwatch.gui.AssignPanel;
 import overwatch.gui.NameRefPairList;
 import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
@@ -157,9 +156,8 @@ public class SquadLogic extends TabController<SquadTab>
 			tab.assignTroops  .setListItems( Squads.getTroops  ( squadNo ));
 			tab.assignVehicles.setListItems( Squads.getVehicles( squadNo ));
 			tab.assignSupplies.setListItems( Squads.getSupplies( squadNo ));
-			tab.assignTroops.setButtonsToEnabled();
-			tab.assignVehicles.setButtonsToEnabled();
-			tab.assignSupplies.setButtonsToEnabled();		}
+			setAssignPanelButtonsToEnabled();
+			}
 		catch (DatabaseException ex) {
 			showDeletedError("Squads");
 		}
@@ -174,6 +172,7 @@ public class SquadLogic extends TabController<SquadTab>
 		if(squadNo == null) {
 			tab.setEnableFieldsAndButtons( false );
 			tab.clearFields();
+			setAssignPanelButtonsToDisabled();			
 			return;
 		}
 		
@@ -254,6 +253,26 @@ public class SquadLogic extends TabController<SquadTab>
 	
 	
 	
+	private void setAssignPanelButtonsToDisabled()
+	{
+		tab.assignTroops.setButtonsToDisable();
+		tab.assignVehicles.setButtonsToDisable();
+		tab.assignSupplies.setButtonsToDisable();
+	}
+	
+	
+	
+	
+	private void setAssignPanelButtonsToEnabled()
+	{
+		tab.assignTroops.setButtonsToEnabled();
+		tab.assignVehicles.setButtonsToEnabled();
+		tab.assignSupplies.setButtonsToEnabled();	
+	}
+	
+	
+	
+	
 	
 	private void setupListSelectActions()
 	{
@@ -269,9 +288,7 @@ public class SquadLogic extends TabController<SquadTab>
 	
 	
 	private void setupTabChangeActions() {
-		tab.assignTroops.setButtonsToDisable();
-		tab.assignVehicles.setButtonsToDisable();
-		tab.assignSupplies.setButtonsToDisable();
+		setAssignPanelButtonsToDisabled();
 		Gui.getCurrentInstance().addTabSelectNotify(this);
 	}
 	
