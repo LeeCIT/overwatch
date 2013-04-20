@@ -156,7 +156,7 @@ public class SquadLogic extends TabController<SquadTab>
 				tab.assignTroops  .setListItems( Squads.getTroops  ( squadNo ));
 				tab.assignVehicles.setListItems( Squads.getVehicles( squadNo ));
 				tab.assignSupplies.setListItems( Squads.getSupplies( squadNo ));
-				setAddButtonToEnabled();
+				setAddButton(true);
 			}
 		catch (DatabaseException ex) {
 			showDeletedError("Squads");
@@ -172,7 +172,7 @@ public class SquadLogic extends TabController<SquadTab>
 		if(squadNo == null) {
 			tab.setEnableFieldsAndButtons( false );
 			tab.clearFields();
-			setAssignPanelButtonsToDisabled();			
+			setAssignPanelButtons(false);			
 			return;
 		}
 		
@@ -221,6 +221,7 @@ public class SquadLogic extends TabController<SquadTab>
 		setupVehicleAssignActions();
 		setupSupplyAssignActions();
 		setupTabChangeActions();
+		setUpSubPanelSelections();
 	}
 	
 	
@@ -253,33 +254,62 @@ public class SquadLogic extends TabController<SquadTab>
 	
 	
 	
-	private void setAssignPanelButtonsToDisabled()
+	private void setUpSubPanelSelections()
 	{
-		tab.assignTroops.setButtonsToDisable();
-		tab.assignVehicles.setButtonsToDisable();
-		tab.assignSupplies.setButtonsToDisable();
+		tab.assignTroops.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				tab.assignTroops.setRemoveButton(true);
+			}
+		});
+		
+		tab.assignVehicles.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				tab.assignVehicles.setRemoveButton(true);		
+			}
+		});
+		
+		tab.assignSupplies.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				tab.assignSupplies.setRemoveButton(true);				
+			}
+		});
 	}
 	
 	
 	
 	
-	private void setAssignPanelButtonsToEnabled()
+	private void setAssignPanelButtons(boolean option)
 	{
-		tab.assignTroops.setButtonsToEnabled();
-		tab.assignVehicles.setButtonsToEnabled();
-		tab.assignSupplies.setButtonsToEnabled();	
+		tab.assignTroops  .setButtons(option);
+		tab.assignVehicles.setButtons(option);
+		tab.assignSupplies.setButtons(option);
 	}
+	
+	
 	
 	
 	
 	/**
 	 *	Enables the add button on the sub panels
 	 */
-	private void setAddButtonToEnabled()
+	private void setAddButton(boolean option)
 	{
-		tab.assignTroops	.setAddButtonsToEnabled();
-		tab.assignVehicles	.setAddButtonsToEnabled();
-		tab.assignSupplies	.setAddButtonsToEnabled();
+		tab.assignTroops	.setAddButton(option);
+		tab.assignVehicles	.setAddButton(option);
+		tab.assignSupplies	.setAddButton(option);
+	}
+	
+	
+	
+	
+	/**
+	 * Enables the remove buttons
+	 */
+	private void setRemoveButton(boolean option)
+	{
+		tab.assignTroops	.setRemoveButton(option);
+		tab.assignVehicles	.setRemoveButton(option);
+		tab.assignSupplies	.setRemoveButton(option);
 	}
 	
 	
@@ -291,6 +321,7 @@ public class SquadLogic extends TabController<SquadTab>
 		tab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				populateFieldsAndPanels(tab.getSelectedItem());
+				setRemoveButton(false);
 			}
 		});
 	}
@@ -300,7 +331,7 @@ public class SquadLogic extends TabController<SquadTab>
 	
 	
 	private void setupTabChangeActions() {
-		setAssignPanelButtonsToDisabled();
+		setAssignPanelButtons(false);
 		Gui.getCurrentInstance().addTabSelectNotify(this);
 	}
 	
