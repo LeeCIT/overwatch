@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionListener;
 import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.DatabaseException;
+import overwatch.db.EnhancedPreparedStatement;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
 import overwatch.db.Squads;
@@ -84,6 +85,7 @@ public class SquadLogic extends TabController<SquadTab>
 		ArrayList<Integer> troops 	= tab.assignTroops.getItems();
 		ArrayList<Integer> vehicles = tab.assignVehicles.getItems();
 		ArrayList<Integer> supplies = tab.assignSupplies.getItems();
+		boolean didSave;
 		
 					
 		if ( ! Squads.exists(squadNo)) {
@@ -92,21 +94,27 @@ public class SquadLogic extends TabController<SquadTab>
 			return;
 		}
 		
-		int modRows = Database.update(
-				"UPDATE Squads "          +
-				"SET name           = '"  + squadName  + "'," +
-				"    commander = " 		  + commanderNo + " "  +
-				"WHERE squadNo = " 		  + squadNo + " ;"
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+				"UPDATE Squads "          				+
+				"SET name 		= <<squadName>>," 		+
+				"    commander 	= <<commanderNo>> "  	+
+				"WHERE squadNo 	= <<squadNo>>;"
 			);
 		
-		Squads.saveSquadDetails(squadNo, troops, vehicles, supplies);
-			
-		if (modRows <= 0) {
-			showDeletedError( "squad" );
-			populateSquadsList();
-			return;
+		try {
+			eps.set( "squadName", squadName );
+			eps.set( "commanderNo", commanderNo );
+			eps.set( "squadNo", squadNo );
+			eps.update();
+			didSave = (0 != eps.update());
 		}
-			
+		finally {
+			eps.close();
+		}
+		
+		
+		Squads.saveSquadDetails(squadNo, troops, vehicles, supplies, didSave);
+		
 		
 		populateSquadsList();
 		tab.setSelectedItem(squadNo);

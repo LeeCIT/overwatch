@@ -4,6 +4,8 @@
 package overwatch.db;
 
 import java.util.ArrayList;
+
+import overwatch.core.Gui;
 import overwatch.gui.NameRefPairList;
 
 
@@ -190,36 +192,63 @@ public class Squads
 		return commanderName;
 	}
 	
+	public static boolean saveBasicSquadInfo(String squadName, int commanderNo, int squadNo)
+	{		
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+				"UPDATE Squads "          				+
+				"SET name 		= <<squadName>>," 		+
+				"    commander 	= <<commanderNo>> "  	+
+				"WHERE squadNo 	= <<squadNo>>;"
+			);
+		
+		try {
+			eps.set( "squadName", squadName );
+			eps.set( "commanderNo", commanderNo );
+			eps.set( "squadNo", squadNo );
+			eps.update();
+			return (0 != eps.update());
+		}
+		finally {
+			eps.close();
+		}
+	}
+	
 	
 	
 	/**
 	 * Save the sub panels of the squad
 	 */
-	public static void saveSquadDetails(int squadNo, ArrayList<Integer> troops, ArrayList<Integer> vehicles, ArrayList<Integer> supplies)
-	{
-		removeSquadDetails(squadNo);
-					
-		
-		for(int i=0; i<troops.size(); i++)
+	public static void saveSquadDetails(int squadNo, ArrayList<Integer> troops, ArrayList<Integer> vehicles, ArrayList<Integer> supplies, boolean didSave)
+										
+	{		
+		if(didSave)
 		{
-			Database.update(	
-				"INSERT into SquadTroops VALUES( " + squadNo + ", " + troops.get(i) + " );"
-			);
+			for(int i=0; i<troops.size(); i++)
+			{
+				Database.update(	
+					"INSERT into SquadTroops VALUES( " + squadNo + ", " + troops.get(i) + " );"
+				);
+			}
+			
+			for(int i=0; i<vehicles.size(); i++)
+			{
+				Database.update(
+					"INSERT into SquadVehicles VALUES(" + squadNo + ", " + vehicles.get(i) + "); "
+				);
+			}
+			
+			for(int i=0; i<supplies.size(); i++)
+			{
+				Database.update(
+					"INSERT into SquadSupplies VALUES(" + squadNo + ", " + supplies.get(i) + ");" 
+				);
+			}
+		}
+		else
+		{
+			Gui.showError("Squads", "Someone may of already deleted the squads");
 		}
 		
-		for(int i=0; i<vehicles.size(); i++)
-		{
-			Database.update(
-				"INSERT into SquadVehicles VALUES(" + squadNo + ", " + vehicles.get(i) + "); "
-			);
-		}
-		
-		for(int i=0; i<supplies.size(); i++)
-		{
-			Database.update(
-				"INSERT into SquadSupplies VALUES(" + squadNo + ", " + supplies.get(i) + ");" 
-			);
-		}
 						
 	}
 	
