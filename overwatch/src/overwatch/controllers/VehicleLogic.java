@@ -242,6 +242,7 @@ public class VehicleLogic extends TabController<VehicleTab>
 		tab.pilot.button.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				PersonnelPicker p = new PersonnelPicker( tab.pilot.button, pickListener );
+				p.removeItemsNotIn( Vehicles.getPersonnelNotAssignedToVehicles() );
 				p.setVisible( true );
 			}
 		});
