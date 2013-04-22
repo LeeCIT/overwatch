@@ -73,6 +73,37 @@ public class Vehicles
 	
 	
 	/**
+	 * Update an existing vehicle's info.
+	 * @param vehicleNo
+	 * @param name
+	 * @param pilotNo
+	 * @return boolean whether it succeeded
+	 */
+	public static boolean save( Integer vehicleNo, String name, Integer pilotNo )
+	{
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+		  	"update Vehicles           " +
+		  	"set name  = <<name>>,     " +
+		  	"	 pilot = <<pilot>>     " +
+		  	"where vehicleNo = <<num>>;"
+		);
+		
+		try {
+			eps.set( "num",   vehicleNo );
+			eps.set( "name",  name      );
+			eps.set( "pilot", pilotNo   );
+			return (0 != eps.update());
+		}
+		finally {
+			eps.close();
+		}
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Delete a vehicle.
 	 * @param vehicleNo
 	 */
