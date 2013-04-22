@@ -189,7 +189,7 @@ public class Vehicles
 	 * Get the name of a vehicle's pilot.
 	 * If there is none the result will be null.
 	 * @param vehicleNo
-	 * @return
+	 * @return String
 	 */
 	public static String getPilotName( Integer vehicleNo )
 	{
@@ -199,6 +199,27 @@ public class Vehicles
 			"     Vehicles  v            " +
 			"where p.personNo  = v.pilot " +
 			"and   v.vehicleNo = " + vehicleNo + ";"
+		);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Find all personnel who are not assigned to a vehicle.
+	 * @return Integer[]
+	 */
+	public static Integer[] getPersonnelNotAssignedToVehicles()
+	{
+		return Database.queryInts(
+			"SELECT personNo             " +
+			"FROM Personnel              " +
+			"WHERE personNo NOT IN (     " +
+			"	SELECT pilot             " +
+			"	FROM Vehicles            " +
+			"    WHERE pilot IS NOT NULL " +
+			");                          "
 		);
 	}
 	
