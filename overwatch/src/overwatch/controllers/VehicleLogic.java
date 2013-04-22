@@ -69,19 +69,17 @@ public class VehicleLogic extends TabController<VehicleTab>
 		}
 		
 		Integer vehicleNo   = tab.getSelectedItem();
-		String  vehicleType = tab.name .field.getText();
+		String  vehicleName = tab.name .field.getText();
 		String  pilotName   = tab.pilot.field.getText();
 		Integer pilotNo     = Personnel.getNumber( pilotName );
 		
-		int mods = Database.update(
-			"update Vehicles   " +
-			"set name     =   '" + vehicleType + "', " +
-			"    pilot    =    " + pilotNo     + " "   +
-			"where vehicleNo = " + vehicleNo   + ";" 
-		);
-		
-		if (mods <= 0) {
-			showDeletedError( "vehicle" );
+		try {
+			if ( ! Vehicles.save(vehicleNo, vehicleName, pilotNo) ) {
+				showDeletedError( "vehicle" );
+			}
+		}
+		catch (DatabaseIntegrityException ex) {
+			Gui.showError( "Cannot Save", "The pilot '" + pilotName + "' has been assigned to another vehicle." );
 		}
 		
 		populateList();
