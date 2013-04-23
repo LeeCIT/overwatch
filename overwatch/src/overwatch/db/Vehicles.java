@@ -107,9 +107,9 @@ public class Vehicles
 	 * Delete a vehicle.
 	 * @param vehicleNo
 	 */
-	public static void delete( Integer vehicleNo )
+	public static boolean delete( Integer vehicleNo )
 	{		
-		Database.update( 
+		return 0 != Database.update( 
 			"delete from Vehicles " +
 			"where vehicleNo =    " + vehicleNo + ";"
 		);
