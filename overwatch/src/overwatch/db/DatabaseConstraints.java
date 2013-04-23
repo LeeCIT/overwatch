@@ -49,7 +49,7 @@ public class DatabaseConstraints
 	 * @return validity
 	 */
 	public static boolean isValidSex( String str ) {
-		return str.matches( "\\w" );
+		return str.matches( "." );
 	}
 	
 	
