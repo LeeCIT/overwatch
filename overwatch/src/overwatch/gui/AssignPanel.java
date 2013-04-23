@@ -341,10 +341,19 @@ public class AssignPanel<T> extends JPanel
 		scrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
 		scrollPane.setVerticalScrollBarPolicy  ( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS      );
 		
-		add( label,       "wrap, growy 0" );
-		add( scrollPane,  "wrap, grow, hmin 72px" );
-		add( buttAdd, 	  "split 2, right"  );
-		add( buttRemove,  "split 2, right" );
+		add( label,      "wrap, growy 0" );
+		add( scrollPane, "wrap, grow, hmin 72px" );
+		add( buttAdd, 	 "split 2, right"  );
+		add( buttRemove, "split 2, right" );
+		
+
+		addListSelectionListener( new ListSelectionListener() {
+			public void valueChanged( ListSelectionEvent e ) {
+				if (AssignPanel.this.isEnabled()) {
+					buttRemove.setEnabled( getSelectedItem() != null );
+				}
+			}
+		});
 	}
 	
 	
