@@ -245,9 +245,13 @@ public class Squads
 	
 	
 	/**
-	 * Save the sub panels of the squad
+	 * Save squad assignments
+	 * @param squadNo
+	 * @param troops
+	 * @param vehicles
+	 * @param supplies
 	 */
-	public static void saveSquadDetails( Integer squadNo, ArrayList<Integer> troops, ArrayList<Integer> vehicles, ArrayList<Integer> supplies )
+	public static void saveSquadAssignments( Integer squadNo, ArrayList<Integer> troops, ArrayList<Integer> vehicles, ArrayList<Integer> supplies )
 	{		
 		for (Integer trooper: troops) {
 			Database.update(	
