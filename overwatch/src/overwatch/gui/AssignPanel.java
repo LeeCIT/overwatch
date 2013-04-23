@@ -296,31 +296,6 @@ public class AssignPanel<T> extends JPanel
 	// Internals
 	/////////////////////////////////////////////////////////////////////////
 	
-	public void setButtons(boolean option)
-	{
-		buttRemove.setEnabled(option);
-		buttAdd	  .setEnabled(option);
-	}
-	
-	
-	
-	
-	public void setAddButton(boolean option)
-	{
-		buttAdd.setEnabled(option);
-	}
-	
-	
-	
-	
-	public void setRemoveButton(boolean option)
-	{
-		buttRemove.setEnabled(option);
-	}
-	
-	
-	
-	
 	private T getSelectedItem()
 	{
 		if (this.hasSelectedItem()) {
