@@ -3,6 +3,7 @@
 
 package overwatch.db;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 import overwatch.core.Gui;
@@ -48,6 +49,108 @@ public class Squads
 	
 	public static boolean exists( Integer squadNo ) {
 		return Database.queryExists( "Squads", "squadNo", squadNo.toString() );
+	}
+	
+	
+	
+	
+	
+	public static void save( Integer squadNo, String squadName, Integer commanderNo,
+							ArrayList<Integer> troops, ArrayList<Integer> vehicles,	ArrayList<Integer> supplies )
+	{
+		Connection conn = Database.getConnection();
+		
+		try {
+			Database.lock( conn,
+				"Squads",
+				"SquadTroops",
+				"SquadVehicles",
+				"SquadSupplies"
+			);
+			
+			try {
+				int rowMods = 0;
+				
+				EnhancedPreparedStatement eps = new EnhancedPreparedStatement( conn,
+					"UPDATE Squads                   " +
+					"SET name 	   = <<squadName>>,  " +
+					"    commander = <<commanderNo>> " +
+					"WHERE squadNo = <<squadNo>>;"
+				);
+				
+				try {
+					eps.set( "squadName",   squadName   );
+					eps.set( "commanderNo", commanderNo );
+					eps.set( "squadNo",     squadNo     );
+					rowMods = eps.update();
+				}
+				finally {
+					eps.close();
+				}
+				
+				if (rowMods == 0)
+					throw new DatabaseException( "Squad #" + squadNo + " no longer exists." );
+				
+				// Clear assignments
+				Database.update( conn, "DELETE FROM SquadTroops   WHERE squadNo = " + squadNo + " ;" );
+				Database.update( conn, "DELETE FROM SquadVehicles WHERE squadNo = " + squadNo + " ;" );			
+				Database.update( conn, "DELETE FROM SquadSupplies WHERE squadNo = " + squadNo + " ;" );
+				
+				// Insert new assignments
+				for (Integer trooper: troops)   Database.update( conn, "INSERT into SquadTroops   VALUES(" + squadNo + ", " + trooper + ");" );
+				for (Integer vehicle: vehicles) Database.update( conn, "INSERT into SquadVehicles VALUES(" + squadNo + ", " + vehicle + ");" );				
+				for (Integer supply:  supplies) Database.update( conn, "INSERT into SquadSupplies VALUES(" + squadNo + ", " + supply  + ");" );
+			}
+			finally {
+				Database.unlock( conn );
+			}
+		}
+		finally {
+			Database.returnConnection( conn );
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Delete the squad selected
+	 */
+	public static int delete( Integer squadNo )
+	{
+		int mods = Database.update(
+				"DELETE          " +
+				"FROM Squads     " +
+				"WHERE squadNo = " + squadNo + ";"
+		);
+		
+		//Removes everything from the subpanel
+		deleteAssignments(squadNo);
+		
+		return mods;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Remove everything from the squad
+	 */
+	public static void deleteAssignments( Integer squadNo )
+	{
+		Database.update(
+			"DELETE FROM SquadTroops WHERE squadNo = " + squadNo + " ;"
+		);
+		
+		Database.update(
+			"DELETE FROM SquadVehicles WHERE squadNo = " + squadNo + " ;"
+		);
+		
+		Database.update(
+			"DELETE FROM SquadSupplies WHERE squadNo = " + squadNo + " ;"
+		);
 	}
 	
 	
@@ -198,109 +301,6 @@ public class Squads
 		
 		return new NameRefPairList<Integer>();
 	}
-	
-	
-	
-	
-	
-	public static boolean saveBasicSquadInfo( String squadName, Integer commanderNo, Integer squadNo )
-	{		
-		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
-			"UPDATE Squads                   " +
-			"SET name 	   = <<squadName>>,  " +
-			"    commander = <<commanderNo>> " +
-			"WHERE squadNo = <<squadNo>>;"
-		);
-		
-		try {
-			eps.set( "squadName",   squadName   );
-			eps.set( "commanderNo", commanderNo );
-			eps.set( "squadNo",     squadNo     );
-			return (0 != eps.update());
-		}
-		finally {
-			eps.close();
-		}
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Save squad assignments
-	 * @param squadNo
-	 * @param troops
-	 * @param vehicles
-	 * @param supplies
-	 */
-	public static void saveSquadAssignments( Integer squadNo, ArrayList<Integer> troops, ArrayList<Integer> vehicles, ArrayList<Integer> supplies )
-	{		
-		for (Integer trooper: troops) {
-			Database.update(	
-				"INSERT into SquadTroops VALUES( " + squadNo + ", " + trooper + " );"
-			);
-		}
-		
-		for (Integer vehicle: vehicles) {
-			Database.update( "INSERT into SquadVehicles VALUES(" + squadNo + ", " + vehicle + "); "
-			);
-		}
-		
-		for (Integer supply: supplies) {
-			Database.update(
-				"INSERT into SquadSupplies VALUES(" + squadNo + ", " + supply + ");" 
-			);
-		}
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Delete the squad selected
-	 */
-	public static int deleteSquad( Integer squadNo )
-	{
-		int mods = Database.update(
-				"DELETE          " +
-				"FROM Squads     " +
-				"WHERE squadNo = " + squadNo + ";"
-		);
-		
-		//Removes everything from the subpanel
-		removeSquadAssignments(squadNo);
-		
-		return mods;
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Remove everything from the squad
-	 */
-	public static void removeSquadAssignments( Integer squadNo )
-	{
-		Database.update(
-				"DELETE FROM SquadTroops WHERE squadNo = " + squadNo + " ;"
-		);
-		
-		//Delete the vehicles in the squad
-		Database.update(
-				"DELETE FROM SquadVehicles WHERE squadNo = " + squadNo + " ;"
-		);
-		
-		// Delete the supplies
-		Database.update(
-				"DELETE FROM SquadSupplies WHERE squadNo = " + squadNo + " ;"
-		);													
-	}
-		
-		
-		
-	
 
+	
 }
