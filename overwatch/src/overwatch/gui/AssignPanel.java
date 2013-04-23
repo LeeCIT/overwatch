@@ -193,10 +193,28 @@ public class AssignPanel<T> extends JPanel
 	
 	
 	/**
+	 * Get an array of all the items currently in the panel's list.
+	 * @return ArrayList
+	 */
+	public T[] getItemsAsArray()
+	{
+		T[] items =  (T[]) new Object[ listItems.size() ];
+		
+		for (int i=0; i<items.length; i++)
+			items[i] = listItems.get(i).ref;
+	
+		return items;
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Get an ArrayList of all the items currently in the panel's list.
 	 * @return ArrayList
 	 */
-	public ArrayList<T> getItems()
+	public ArrayList<T> getItemsAsList()
 	{
 		ArrayList<T> items = new ArrayList<T>();
 		
