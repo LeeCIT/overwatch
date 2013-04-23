@@ -117,8 +117,9 @@ public class VehicleLogic extends TabController<VehicleTab>
 	{
 		if (vehicleNo == null)
 		{
-			tab.setEnableFieldsAndButtons(false);
+			tab.setEnableFieldsAndButtons( false );
 			tab.clearFields();
+			tab.setEnableNewButton( true );
 			return;
 		}
 		

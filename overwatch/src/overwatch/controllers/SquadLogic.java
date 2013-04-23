@@ -162,6 +162,7 @@ public class SquadLogic extends TabController<SquadTab>
 			tab.assignTroops  .setEnabled( false );
 			tab.assignVehicles.setEnabled( false );
 			tab.assignSupplies.setEnabled( false );
+			tab.setEnableNewButton( true );
 			return;
 		}
 		

@@ -130,8 +130,9 @@ public class RankLogic extends TabController<RankTab>
 	private void populateFields(Integer rankNo)
 	{
 		if (rankNo == null) {
-			tab.setEnableFieldsAndButtons(false);
+			tab.setEnableFieldsAndButtons( false );
 			tab.clearFields();
+			tab.setEnableNewButton( true );
 			return;
 		}
 		

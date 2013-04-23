@@ -339,6 +339,7 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 		if (personNo == null) {
 			tab.setEnableFieldsAndButtons( false );
 			tab.clearFields();
+			tab.setEnableNewButton( true );
 			return;
 		}
 		

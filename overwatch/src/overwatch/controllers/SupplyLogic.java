@@ -122,6 +122,7 @@ public class SupplyLogic extends TabController<SupplyTab>
 		{
 			tab.setEnableFieldsAndButtons( false );
 			tab.clearFields();
+			tab.setEnableNewButton( true );
 			return;
 		}
 		else {
