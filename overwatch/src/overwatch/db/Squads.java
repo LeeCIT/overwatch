@@ -202,24 +202,6 @@ public class Squads
 	
 	
 	
-	/**
-	 * Gets the commander name using the personNo
-	 * @return
-	 */
-	public static String getCommander( Integer personNo )
-	{
-		String commanderName = Database.querySingle( String.class,
-			"select loginName " +
-			"from Personnel   " +
-			"where personNo = " + personNo + ";"
-		);
-		
-		return commanderName;
-	}
-	
-	
-	
-	
 	
 	public static boolean saveBasicSquadInfo( String squadName, Integer commanderNo, Integer squadNo )
 	{		
