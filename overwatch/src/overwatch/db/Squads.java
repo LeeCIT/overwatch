@@ -16,7 +16,7 @@ import overwatch.gui.NameRefPairList;
  * 
  * @author John Murphy
  * @author Lee Coakley
- * @version 3
+ * @version 4
  * 
  * TODO comment your public functions
  */
@@ -156,14 +156,15 @@ public class Squads
 	public static NameRefPairList<Integer> getTroopsNotInSquads()
 	{
 		EnhancedResultSet ers = Database.query(
-				"SELECT p.personNo, p.loginName " +
-				"FROM Personnel p, Ranks r " +
-				"wHERE p.rankNo = r.rankNo " +
-				"AND r.name = 'Trooper' "	 	 +
-				"AND personNo NOT IN "		 +
-				"(   SELECT personNo "		 +		
-				"    FROM SquadTroops);"	 
-			);
+			"SELECT p.personNo, p.loginName " +
+			"FROM Personnel p, Ranks r      " +
+			"wHERE p.rankNo = r.rankNo      " +
+			"AND r.name = 'Trooper'         " +
+			"AND personNo NOT IN (          " +
+			"    SELECT personNo            " +		
+			"    FROM SquadTroops           " +
+			");                             "	 
+		);
 		
 		if ( ! ers.isEmpty()) {
 			Integer[] keys  = ers.getColumnAs( "personNo",  Integer[].class  );
@@ -183,11 +184,11 @@ public class Squads
 	public static NameRefPairList<Integer> getCommandersNotInsquads()
 	{
 		EnhancedResultSet ers = Database.query(
-				"SELECT p.personNo, p.loginName " +
-				"FROM Personnel p, Ranks r " +
-				"wHERE p.rankNo = r.rankNo " +
-				"AND r.name = 'Commander'; "	 
-			);
+			"SELECT p.personNo, p.loginName " +
+			"FROM Personnel p, Ranks r      " +
+			"wHERE p.rankNo = r.rankNo      " +
+			"AND r.name = 'Commander';      "	 
+		);
 		
 		if ( ! ers.isEmpty()) {
 			Integer[] keys  = ers.getColumnAs( "personNo",  Integer[].class  );
@@ -205,13 +206,13 @@ public class Squads
 	 * Gets the commander name using the personNo
 	 * @return
 	 */
-	public static String getCommander(int personNo)
+	public static String getCommander( Integer personNo )
 	{
 		String commanderName = Database.querySingle( String.class,
-				"select loginName " +
-				"from Personnel   " +
-				"where personNo = " + personNo + ";"
-			);
+			"select loginName " +
+			"from Personnel   " +
+			"where personNo = " + personNo + ";"
+		);
 		
 		return commanderName;
 	}
@@ -278,7 +279,7 @@ public class Squads
 	/**
 	 * Delete the squad selected
 	 */
-	public static int deleteSquad(int squadNo)
+	public static int deleteSquad( Integer squadNo )
 	{
 		int mods = Database.update(
 				"DELETE          " +
@@ -287,7 +288,7 @@ public class Squads
 		);
 		
 		//Removes everything from the subpanel
-		removeSquadDetails(squadNo);
+		removeSquadAssignments(squadNo);
 		
 		return mods;
 	}
@@ -299,7 +300,7 @@ public class Squads
 	/**
 	 * Remove everything from the squad
 	 */
-	public static void removeSquadDetails(int squadNo)
+	public static void removeSquadAssignments( Integer squadNo )
 	{
 		Database.update(
 				"DELETE FROM SquadTroops WHERE squadNo = " + squadNo + " ;"
