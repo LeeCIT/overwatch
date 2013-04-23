@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionListener;
 import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.DatabaseException;
+import overwatch.db.DatabaseIntegrityException;
 import overwatch.db.EnhancedPreparedStatement;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
@@ -83,51 +84,39 @@ public class SquadLogic extends TabController<SquadTab>
 		String  squadName 	  = tab.name.     field.getText();
 		String  commanderName = tab.commander.field.getText();
 		Integer commanderNo	  = Personnel.getNumber( commanderName );
-		ArrayList<Integer> troops 	= tab.assignTroops.getItems();
+		
+		ArrayList<Integer> troops 	= tab.assignTroops  .getItems();
 		ArrayList<Integer> vehicles = tab.assignVehicles.getItems();
 		ArrayList<Integer> supplies = tab.assignSupplies.getItems();
-		boolean didSave;
+							
 		
-					
 		if ( ! Squads.exists(squadNo)) {
 			showDeletedError( "squad" );
 			populateSquadsList();
 			return;
 		}
 		
-		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
-				"UPDATE Squads "          				+
-				"SET name 		= <<squadName>>," 		+
-				"    commander 	= <<commanderNo>> "  	+
-				"WHERE squadNo 	= <<squadNo>>;"
-			);
-		
 		try {
-			eps.set( "squadName", squadName );
-			eps.set( "commanderNo", commanderNo );
-			eps.set( "squadNo", squadNo );
-			eps.update();
-			didSave = (0 != eps.update());
+			Squads.save( squadNo, squadName, commanderNo, troops, vehicles, supplies );
 		}
-		finally {
-			eps.close();
+		catch (DatabaseIntegrityException ex) {
+			Gui.showError( "Commander Already Assigned", "Commander " + commanderName + " has already been assigned to a squad." );
 		}
-		
-		
-		Squads.saveSquadDetails(squadNo, troops, vehicles, supplies, didSave);
-		
+		catch (DatabaseException ex) {
+			showDeletedError( "squad" );
+		}
 		
 		populateSquadsList();
-		tab.setSelectedItem(squadNo);
+		tab.setSelectedItem( squadNo );
 	}
 	
 	
 	
 	
 	
-	private void delete( Integer squadNo )
+	private void doDelete( Integer squadNo )
 	{
-		int mods = Squads.deleteSquad(squadNo);		
+		int mods = Squads.delete(squadNo);		
 		
 		if(mods <= 0) {
 			showDeletedError("squad");
@@ -144,7 +133,7 @@ public class SquadLogic extends TabController<SquadTab>
 		populateFieldsAndPanels(null);
 		
 		tab.setSearchableItems(
-		Database.queryKeyNamePairs("Squads", "squadNo", "name", Integer[].class)
+			Database.queryKeyNamePairs( "Squads", "squadNo", "name", Integer[].class )
 		);
 	}
 	
@@ -154,13 +143,12 @@ public class SquadLogic extends TabController<SquadTab>
 	
 	private void populateAssignPanels( int squadNo ) {
 		try {		
-				tab.assignTroops  .setListItems( Squads.getTroops  ( squadNo ));
-				tab.assignVehicles.setListItems( Squads.getVehicles( squadNo ));
-				tab.assignSupplies.setListItems( Squads.getSupplies( squadNo ));
-				setAddButton(true);
-			}
+			tab.assignTroops  .setListItems( Squads.getTroops  ( squadNo ));
+			tab.assignVehicles.setListItems( Squads.getVehicles( squadNo ));
+			tab.assignSupplies.setListItems( Squads.getSupplies( squadNo ));
+		}
 		catch (DatabaseException ex) {
-			showDeletedError("Squads");
+			showDeletedError( "squad" );
 		}
 	}
 	
@@ -173,12 +161,17 @@ public class SquadLogic extends TabController<SquadTab>
 		if(squadNo == null) {
 			tab.setEnableFieldsAndButtons( false );
 			tab.clearFields();
-			setAssignPanelButtons(false);			
+			tab.assignTroops  .setEnabled( false );
+			tab.assignVehicles.setEnabled( false );
+			tab.assignSupplies.setEnabled( false );
 			return;
 		}
 		
 		
 		tab.setEnableFieldsAndButtons( true );
+		tab.assignTroops  .setEnabled( true );
+		tab.assignVehicles.setEnabled( true );
+		tab.assignSupplies.setEnabled( true );
 		
 		EnhancedResultSet ers = Database.query(
 			"SELECT squadNo,  " +
@@ -195,11 +188,11 @@ public class SquadLogic extends TabController<SquadTab>
 		}
 		
 		
-		Integer commander = ers.getElemAs( "commander", Integer.class );
+		Integer commanderNo = ers.getElemAs( "commander", Integer.class );
 		
 		String commanderName = "";
-		if (commander != null) {
-			commanderName = Squads.getCommander(commander);
+		if (commanderNo != null) {
+			commanderName = Personnel.getLoginName( commanderNo );
 		}
 		
 		tab.number   .field.setText( "" + ers.getElemAs( "squadNo",    Integer.class ));
@@ -222,7 +215,6 @@ public class SquadLogic extends TabController<SquadTab>
 		setupVehicleAssignActions();
 		setupSupplyAssignActions();
 		setupTabChangeActions();
-		setUpSubPanelSelections();
 	}
 	
 	
@@ -247,70 +239,9 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.addDeleteListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				delete( tab.getSelectedItem() );
+				doDelete( tab.getSelectedItem() );
 			}
 		});
-	}
-	
-	
-	
-	
-	private void setUpSubPanelSelections()
-	{
-		tab.assignTroops.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				tab.assignTroops.setRemoveButton(true);
-			}
-		});
-		
-		tab.assignVehicles.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				tab.assignVehicles.setRemoveButton(true);		
-			}
-		});
-		
-		tab.assignSupplies.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				tab.assignSupplies.setRemoveButton(true);				
-			}
-		});
-	}
-	
-	
-	
-	
-	private void setAssignPanelButtons(boolean option)
-	{
-		tab.assignTroops  .setButtons(option);
-		tab.assignVehicles.setButtons(option);
-		tab.assignSupplies.setButtons(option);
-	}
-	
-	
-	
-	
-	
-	/**
-	 *	Enables the add button on the sub panels
-	 */
-	private void setAddButton(boolean option)
-	{
-		tab.assignTroops	.setAddButton(option);
-		tab.assignVehicles	.setAddButton(option);
-		tab.assignSupplies	.setAddButton(option);
-	}
-	
-	
-	
-	
-	/**
-	 * Enables the remove buttons
-	 */
-	private void setRemoveButton(boolean option)
-	{
-		tab.assignTroops	.setRemoveButton(option);
-		tab.assignVehicles	.setRemoveButton(option);
-		tab.assignSupplies	.setRemoveButton(option);
 	}
 	
 	
@@ -322,7 +253,6 @@ public class SquadLogic extends TabController<SquadTab>
 		tab.addSearchPanelListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				populateFieldsAndPanels(tab.getSelectedItem());
-				setRemoveButton(false);
 			}
 		});
 	}
@@ -332,7 +262,6 @@ public class SquadLogic extends TabController<SquadTab>
 	
 	
 	private void setupTabChangeActions() {
-		setAssignPanelButtons(false);
 		Gui.getCurrentInstance().addTabSelectNotify(this);
 	}
 	
