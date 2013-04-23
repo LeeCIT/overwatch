@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import overwatch.core.Gui;
+import overwatch.gui.NameRefPair;
 import overwatch.gui.NameRefPairList;
 
 
@@ -281,25 +282,26 @@ public class Squads
 	
 	
 	
+	
 	/**
-	 * Get commanders not assignd to squads
+	 * Get commanders not assigned to squads
 	 */
-	public static NameRefPairList<Integer> getCommandersNotInsquads()
+	public static ArrayList<NameRefPair<Integer>> getCommandersNotInsquads()
 	{
-		EnhancedResultSet ers = Database.query(
-			"SELECT p.personNo, p.loginName " +
-			"FROM Personnel p, Ranks r      " +
-			"wHERE p.rankNo = r.rankNo      " +
-			"AND r.name = 'Commander';      "	 
-		);
+		String query = 
+			" SELECT p.personNo,                  " +
+			"        p.loginName                  " +
+			" FROM Personnel p,                   " +
+			"      Ranks r                        " +
+			" WHERE p.rankNo = r.rankNo           " +
+			"   and r.name   = 'Commander'        " +
+			"   and p.personNo NOT IN (           " +
+			"         SELECT Commander            " +
+			"         FROM Squads                 " +
+			"         WHERE Commander IS NOT NULL " +
+			"     );                              ";
 		
-		if ( ! ers.isEmpty()) {
-			Integer[] keys  = ers.getColumnAs( "personNo",  Integer[].class  );
-			String [] names = ers.getColumnAs( "loginName", String [].class  );
-			return new NameRefPairList<Integer>( keys, names );
-		}
-		
-		return new NameRefPairList<Integer>();
+		return Database.queryKeyNamePairsGeneral( query, "personNo", "loginName", Integer[].class );
 	}
 
 	

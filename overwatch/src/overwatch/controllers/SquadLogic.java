@@ -6,7 +6,6 @@ package overwatch.controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import overwatch.core.Gui;
@@ -19,6 +18,7 @@ import overwatch.db.Squads;
 import overwatch.db.Supplies;
 import overwatch.db.Vehicles;
 import overwatch.gui.CommanderPicker;
+import overwatch.gui.NameRefPair;
 import overwatch.gui.NameRefPairList;
 import overwatch.gui.PickListener;
 import overwatch.gui.SquadSupplyPicker;
@@ -206,7 +206,7 @@ public class SquadLogic extends TabController<SquadTab>
 	
 	
 	protected void attachEvents(){
-		setUpButtonActions();
+		setupButtonActions();
 		setupListSelectActions();
 		setupPickActions();
 		setupTroopAssignActions();
@@ -219,7 +219,7 @@ public class SquadLogic extends TabController<SquadTab>
 	
 	
 	
-	private void setUpButtonActions(){
+	private void setupButtonActions(){
 		
 		tab.addNewListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -279,7 +279,7 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.commander.button.addActionListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
-				NameRefPairList<Integer> nrp = Squads.getCommandersNotInsquads();
+				ArrayList<NameRefPair<Integer>> nrp = Squads.getCommandersNotInsquads();
 				CommanderPicker pick = new CommanderPicker( tab.commander.button, pickListener, nrp );
 				pick.setVisible(true);
 			}
