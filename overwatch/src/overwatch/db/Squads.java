@@ -220,20 +220,19 @@ public class Squads
 	
 	
 	
-	public static boolean saveBasicSquadInfo(String squadName, int commanderNo, int squadNo)
+	public static boolean saveBasicSquadInfo( String squadName, Integer commanderNo, Integer squadNo )
 	{		
 		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
-				"UPDATE Squads "          				+
-				"SET name 		= <<squadName>>," 		+
-				"    commander 	= <<commanderNo>> "  	+
-				"WHERE squadNo 	= <<squadNo>>;"
-			);
+			"UPDATE Squads                   " +
+			"SET name 	   = <<squadName>>,  " +
+			"    commander = <<commanderNo>> " +
+			"WHERE squadNo = <<squadNo>>;"
+		);
 		
 		try {
-			eps.set( "squadName", squadName );
+			eps.set( "squadName",   squadName   );
 			eps.set( "commanderNo", commanderNo );
-			eps.set( "squadNo", squadNo );
-			eps.update();
+			eps.set( "squadNo",     squadNo     );
 			return (0 != eps.update());
 		}
 		finally {
@@ -243,42 +242,31 @@ public class Squads
 	
 	
 	
+	
+	
 	/**
 	 * Save the sub panels of the squad
 	 */
-	public static void saveSquadDetails(int squadNo, ArrayList<Integer> troops, ArrayList<Integer> vehicles, ArrayList<Integer> supplies, boolean didSave)
-										
+	public static void saveSquadDetails( Integer squadNo, ArrayList<Integer> troops, ArrayList<Integer> vehicles, ArrayList<Integer> supplies )
 	{		
-		if(didSave)
-		{
-			for(int i=0; i<troops.size(); i++)
-			{
-				Database.update(	
-					"INSERT into SquadTroops VALUES( " + squadNo + ", " + troops.get(i) + " );"
-				);
-			}
-			
-			for(int i=0; i<vehicles.size(); i++)
-			{
-				Database.update(
-					"INSERT into SquadVehicles VALUES(" + squadNo + ", " + vehicles.get(i) + "); "
-				);
-			}
-			
-			for(int i=0; i<supplies.size(); i++)
-			{
-				Database.update(
-					"INSERT into SquadSupplies VALUES(" + squadNo + ", " + supplies.get(i) + ");" 
-				);
-			}
-		}
-		else
-		{
-			Gui.showError("Squads", "Someone may of already deleted the squads");
+		for (Integer trooper: troops) {
+			Database.update(	
+				"INSERT into SquadTroops VALUES( " + squadNo + ", " + trooper + " );"
+			);
 		}
 		
-						
+		for (Integer vehicle: vehicles) {
+			Database.update( "INSERT into SquadVehicles VALUES(" + squadNo + ", " + vehicle + "); "
+			);
+		}
+		
+		for (Integer supply: supplies) {
+			Database.update(
+				"INSERT into SquadSupplies VALUES(" + squadNo + ", " + supply + ");" 
+			);
+		}
 	}
+	
 	
 	
 	
@@ -299,6 +287,7 @@ public class Squads
 		
 		return mods;
 	}
+	
 	
 	
 	
