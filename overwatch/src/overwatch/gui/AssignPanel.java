@@ -5,6 +5,7 @@ package overwatch.gui;
 
 import overwatch.core.Gui;
 import overwatch.db.Personnel;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.awt.event.*;
 import javax.swing.*;
@@ -194,11 +195,12 @@ public class AssignPanel<T> extends JPanel
 	
 	/**
 	 * Get an array of all the items currently in the panel's list.
+	 * @param type Type T.  Java's crappy generics mean you have to specify this twice.
 	 * @return ArrayList
 	 */
-	public T[] getItemsAsArray()
+	public T[] getItemsAsArray( Class<? extends T> type )
 	{
-		T[] items =  (T[]) new Object[ listItems.size() ];
+		T[] items = (T[]) Array.newInstance( type, listItems.size() );
 		
 		for (int i=0; i<items.length; i++)
 			items[i] = listItems.get(i).ref;

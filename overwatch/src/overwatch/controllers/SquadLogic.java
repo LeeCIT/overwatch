@@ -83,9 +83,9 @@ public class SquadLogic extends TabController<SquadTab>
 		String  commanderName = tab.commander.field.getText();
 		Integer commanderNo	  = Personnel.getNumber( commanderName );
 		
-		ArrayList<Integer> troops 	= tab.assignTroops  .getItems();
-		ArrayList<Integer> vehicles = tab.assignVehicles.getItems();
-		ArrayList<Integer> supplies = tab.assignSupplies.getItems();
+		Integer[] troops   = tab.assignTroops  .getItemsAsArray( Integer.class );
+		Integer[] vehicles = tab.assignVehicles.getItemsAsArray( Integer.class );
+		Integer[] supplies = tab.assignSupplies.getItemsAsArray( Integer.class );
 							
 		
 		if ( ! Squads.exists(squadNo)) {
@@ -304,13 +304,14 @@ public class SquadLogic extends TabController<SquadTab>
 		tab.assignTroops.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				NameRefPairList<Integer> nrp 	= Squads.getTroopsNotInSquads();
-				ArrayList<Integer> listOfTroops = tab.assignTroops.getItems();	
+				SquadTroopPicker p = new SquadTroopPicker(
+					tab.assignTroops.getAddButton(),
+					pickListener,
+					Squads.getTroopsNotInSquads()
+				);	
 				
-				SquadTroopPicker p = new SquadTroopPicker( tab.assignTroops.getAddButton(), pickListener, nrp );	
-				
-				p.removeItems(listOfTroops.toArray(new Integer[listOfTroops.size()])); 
-				p.setVisible(true);				
+				p.removeItems( tab.assignTroops.getItemsAsArray(Integer.class) ); 
+				p.setVisible( true );				
 			}
 		});
 	}
@@ -331,13 +332,14 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.assignVehicles.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
-			{
-				NameRefPairList<Integer> nrp 		= Vehicles.getAllVehiclesNotInSquads();
-				ArrayList<Integer> listOfVehicles 	= tab.assignVehicles.getItems();
-				
-				SquadVehiclePicker vp = new SquadVehiclePicker( tab.assignVehicles.getAddButton(), vehiclePick, nrp );		
-				vp.removeItems(listOfVehicles.toArray(new Integer[listOfVehicles.size()])); 
-				vp.setVisible(true);
+			{		
+				SquadVehiclePicker vp = new SquadVehiclePicker(
+					tab.assignVehicles.getAddButton(),
+					vehiclePick,
+					Vehicles.getAllVehiclesNotInSquads()
+				);	
+				vp.removeItems( tab.assignVehicles.getItemsAsArray(Integer.class) ); 
+				vp.setVisible( true );
 			}
 		});
 	}
@@ -357,13 +359,14 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		tab.assignSupplies.addAddButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
-			{
-				NameRefPairList<Integer> nrp 		= Supplies.getAllSupplys();
-				ArrayList<Integer> listOfSupplies	= tab.assignSupplies.getItems();
-				
-				SquadSupplyPicker ss = new SquadSupplyPicker( tab.assignSupplies.getAddButton(), supplyPickListener, nrp );
-				ss.removeItems(listOfSupplies.toArray(new Integer[listOfSupplies.size()]));
-				ss.setVisible(true);				
+			{			
+				SquadSupplyPicker ss = new SquadSupplyPicker(
+					tab.assignSupplies.getAddButton(),
+					supplyPickListener,
+					Supplies.getAll()
+				);
+				ss.removeItems( tab.assignSupplies.getItemsAsArray(Integer.class) );
+				ss.setVisible( true );				
 			}
 		});
 	}

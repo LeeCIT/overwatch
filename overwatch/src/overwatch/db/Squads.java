@@ -56,7 +56,7 @@ public class Squads
 	
 	
 	public static void save( Integer squadNo, String squadName, Integer commanderNo,
-							ArrayList<Integer> troops, ArrayList<Integer> vehicles,	ArrayList<Integer> supplies )
+							Integer[] troops, Integer[] vehicles, Integer[] supplies )
 	{
 		Connection conn = Database.getConnection();
 		

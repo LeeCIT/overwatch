@@ -115,7 +115,7 @@ public class Supplies
 	 * Gets all the supplies for the picker
 	 * @return the supplies
 	 */
-	public static NameRefPairList<Integer> getAllSupplys()
+	public static NameRefPairList<Integer> getAll()
 	{
 		EnhancedResultSet ers = Database.query(
 				"SELECT supplyNo, name " +
