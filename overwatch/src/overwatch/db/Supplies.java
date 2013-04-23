@@ -72,6 +72,24 @@ public class Supplies
 	
 	
 	
+	
+	/**
+	 * Delete a supply
+	 * @param supplyNo
+	 */
+	public static void delete( Integer supplyNo )
+	{
+		Database.update(
+			"DELETE           " +
+			"FROM Supplies    " +
+			"WHERE supplyNo = " + supplyNo + ";"
+		);
+	}
+	
+	
+	
+	
+	
 	/**
 	 * Gets the name of the supply
 	 * @return The name of the supply
@@ -82,13 +100,13 @@ public class Supplies
 				"SELECT name "		+
 				"FROM Supplies " 	+
 				"WHERE supplyNo = " + supplyNo + " ;"
-				
 		);
 		
 		if (ers.isEmpty())
 			 return null;
 		else return ers.getElemAs( "name", String.class ); 
 	}
+	
 	
 	
 	
@@ -112,10 +130,81 @@ public class Supplies
 		
 		return new NameRefPairList<Integer>();
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
+	public static boolean save( Integer supplyNo, String supplyName, Integer supplyCount )
+	{
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+		  	"update Supplies          " +
+		  	"set name  = <<name>>,    " +
+		  	"	 count = <<count>>    " +
+		  	"where supplyNo = <<num>>;"
+		);
+		
+		try {
+			eps.set( "num",   supplyNo    );
+			eps.set( "name",  supplyName  );
+			eps.set( "count", supplyCount );
+			return (0 != eps.update());
+		}
+		finally {
+			eps.close();
+		}
+	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

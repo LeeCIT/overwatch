@@ -45,7 +45,6 @@ public class Main
 	{
 		Gui.setNativeStyle();
 		createLoginFrame();
-		//createMainGui(); //TODO DEBUG ONLY
 		createAndRunShutdownLatchThread();
 	}
 	

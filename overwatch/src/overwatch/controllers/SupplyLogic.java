@@ -70,12 +70,7 @@ public class SupplyLogic extends TabController<SupplyTab>
 			return;
 		}
 		
-		Database.update(
-			"UPDATE Supplies  " +
-			"SET name  =     '" + supplyName   + "'," + 
-			"    count =      " + supplyCount  + " "  + 
-			"WHERE supplyNo = " + supplyNo + ";"
-		);
+		Supplies.save( supplyNo, supplyName, supplyCount );
 		
 		populateTabList();
 		tab.setSelectedItem( supplyNo );
@@ -100,13 +95,7 @@ public class SupplyLogic extends TabController<SupplyTab>
 	private void delete()
 	{
 		Integer supplyNo = tab.getSelectedItem();
-		
-		Database.update(
-			"DELETE           " +
-			"FROM Supplies    " +
-			"WHERE supplyNo = " + supplyNo + ";"
-		);
-		
+		Supplies.delete( supplyNo );		
 		populateTabList();
 	}
 	
