@@ -58,7 +58,7 @@ public class Common
 	  	String cmd  = pre + vals;
 	    
 	    try {
-	    	Database.lock( conn, table, "WRITE" );
+	    	Database.lock( conn, table );
 	  		
 	  		for (int r=1; r<=maxRetries; r++) {
 	  			boolean lastAttempt = (r == maxRetries);

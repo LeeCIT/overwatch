@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import overwatch.gui.NameRefPair;
+import overwatch.util.Util;
 
 
 
@@ -347,18 +348,19 @@ public class Database
 	}
 
 	
-		
+	
 	
 	
 	/**
-	 * Prevent read/write access from being made to a table.  They're queued until it's unlocked again.
+	 * Prevent read/write access from being made to tables.  They're queued until it's unlocked again.
 	 * Make damn sure to unlock() after!
 	 * @param conn
-	 * @param table
-	 * @param mode READ or WRITE.  Write completely locks the table, not only for writing but reading too.
+	 * @param tables
 	 */
-	public static void lock( Connection conn, String table, String mode ) {
-	  Database.update( conn, "lock tables " + table + " " + mode + ";" );
+	public static void lock( Connection conn, String...tables )
+	{
+		String lockList = Util.concatWithCommas(tables).replaceAll( ",", " WRITE," ) + " WRITE";
+		Database.update( conn, "lock tables " + lockList  + ";" );
 	}
 	
 	
@@ -366,7 +368,7 @@ public class Database
 	
 	
 	/**
-	 * Unlock a previously locked table.
+	 * Unlock all locked tables for the given session.
 	 */
 	public static void unlock( Connection conn ) {
 		Database.update( conn, "unlock tables;" );
