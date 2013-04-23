@@ -13,7 +13,6 @@ import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.DatabaseException;
 import overwatch.db.DatabaseIntegrityException;
-import overwatch.db.EnhancedPreparedStatement;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
 import overwatch.db.Squads;
@@ -21,7 +20,6 @@ import overwatch.db.Supplies;
 import overwatch.db.Vehicles;
 import overwatch.gui.CommanderPicker;
 import overwatch.gui.NameRefPairList;
-import overwatch.gui.PersonnelPicker;
 import overwatch.gui.PickListener;
 import overwatch.gui.SquadSupplyPicker;
 import overwatch.gui.SquadTroopPicker;
@@ -303,9 +301,9 @@ public class SquadLogic extends TabController<SquadTab>
 		};
 		
 		
-		
 		tab.assignTroops.addAddButtonListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				NameRefPairList<Integer> nrp 	= Squads.getTroopsNotInSquads();
 				ArrayList<Integer> listOfTroops = tab.assignTroops.getItems();	
 				
@@ -332,14 +330,13 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		
 		tab.assignVehicles.addAddButtonListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				NameRefPairList<Integer> nrp 		= Vehicles.getAllVehiclesNotInSquads();
 				ArrayList<Integer> listOfVehicles 	= tab.assignVehicles.getItems();
 				
 				SquadVehiclePicker vp = new SquadVehiclePicker( tab.assignVehicles.getAddButton(), vehiclePick, nrp );		
-				
 				vp.removeItems(listOfVehicles.toArray(new Integer[listOfVehicles.size()])); 
-				
 				vp.setVisible(true);
 			}
 		});
@@ -359,14 +356,13 @@ public class SquadLogic extends TabController<SquadTab>
 		
 		
 		tab.assignSupplies.addAddButtonListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				NameRefPairList<Integer> nrp 		= Supplies.getAllSupplys();
 				ArrayList<Integer> listOfSupplies	= tab.assignSupplies.getItems();
 				
 				SquadSupplyPicker ss = new SquadSupplyPicker( tab.assignSupplies.getAddButton(), supplyPickListener, nrp );
-				
 				ss.removeItems(listOfSupplies.toArray(new Integer[listOfSupplies.size()]));
-				
 				ss.setVisible(true);				
 			}
 		});
