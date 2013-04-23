@@ -72,12 +72,7 @@ public class RankLogic extends TabController<RankTab>
 				return;
 			}
 			
-			Database.update(
-				"UPDATE Ranks "          +
-				"SET name           = '" + rankName  + "'," +
-				"    privilegeLevel = "  + rankLevel + " "  +
-				"WHERE rankNo = " + rankNo + " ;"
-			);
+			Ranks.save( rankNo, rankName, rankLevel );
 			
 			populateTabList();
 			tab.setSelectedItem(rankNo);
@@ -111,17 +106,8 @@ public class RankLogic extends TabController<RankTab>
 	
 	private void doDelete()
 	{
-		Integer rankNum = tab.getSelectedItem();
-		int mods = Database.update(
-			"DELETE         " +
-			"FROM Ranks     " +
-			"WHERE rankNo = " + rankNum + ";"
-		);
-		
-		if(mods <= 0) {
-			showDeletedError( "rank" );
-		}
-		
+		Integer rankNo = tab.getSelectedItem();
+		Ranks.delete( rankNo );
 		populateTabList();
 	}
 	

@@ -61,7 +61,48 @@ public class Ranks
 	
 	
 	
-	// TODO Ranks.delete
+	/**
+	 * Save a rank
+	 * @param rankNo
+	 * @param rankName
+	 * @param rankLevel
+	 */
+	public static boolean save( Integer rankNo, String rankName, String rankLevel )
+	{
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+		  	"update Ranks                       " +
+		  	"set name           = <<name>>,     " +
+		  	"	 privilegeLevel = <<level>>     " +
+		  	"where vehicleNo = <<num>>;         "
+		);
+		
+		try {
+			eps.set( "num",   rankNo    );
+			eps.set( "name",  rankName  );
+			eps.set( "level", rankLevel );
+			return (0 != eps.update());
+		}
+		finally {
+			eps.close();
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Delete a rank
+	 * @param rankNo
+	 */
+	public static void delete( Integer rankNo )
+	{
+		Database.update(
+			"DELETE         " +
+			"FROM Ranks     " +
+			"WHERE rankNo = " + rankNo + ";"
+		);
+	}
 	
 	
 	
@@ -112,15 +153,23 @@ public class Ranks
 	 */
 	public static Integer getNumber( String name )
 	{
-		EnhancedResultSet ers = Database.query(
-			"select rankNo  " +
-		    "from Ranks     " +
-		    "where name = '" + name + "';"
+		EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+			"select rankNo          " +
+		    "from Ranks             " +
+		    "where name = <<name>>; "
 		);
 		
-		if (ers.isEmpty())
-			 return null;
-		else return ers.getElemAs( "rankNo", Integer.class ); 
+		try {
+			eps.set( "name",  name );
+			EnhancedResultSet ers = eps.query();
+			
+			if (ers.isEmpty())
+				 return null;
+			else return ers.getElemAs( "rankNo", Integer.class );
+		}
+		finally {
+			eps.close();
+		}
 	}
 	
 	
