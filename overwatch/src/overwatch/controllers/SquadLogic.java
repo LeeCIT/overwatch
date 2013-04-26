@@ -114,12 +114,10 @@ public class SquadLogic extends TabController<SquadTab>
 	
 	private void doDelete( Integer squadNo )
 	{
-		int mods = Squads.delete(squadNo);		
+		if ( ! confirmDelete( "squad" ))
+			return;
 		
-		if(mods <= 0) {
-			showDeletedError("squad");
-		}
-		
+		Squads.delete( squadNo );		
 		populateSquadsList();
 	}
 	

@@ -193,7 +193,10 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 	private void doDelete( Integer personNo )
 	{
 		if ( ! doDeletableCheck( personNo ))
-			return;		
+			return;
+	
+		if ( ! confirmDelete( "person" ))
+			return;
 		
 		Personnel.delete( personNo );
 		populateList();

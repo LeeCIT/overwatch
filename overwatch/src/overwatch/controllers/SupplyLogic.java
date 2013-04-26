@@ -99,6 +99,9 @@ public class SupplyLogic extends TabController<SupplyTab>
 	
 	private void delete()
 	{
+		if ( ! confirmDelete( "supply" ))
+			return;
+		
 		Integer supplyNo = tab.getSelectedItem();
 		Supplies.delete( supplyNo );		
 		populateTabList();

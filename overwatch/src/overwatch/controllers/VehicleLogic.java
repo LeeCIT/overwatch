@@ -92,6 +92,9 @@ public class VehicleLogic extends TabController<VehicleTab>
 	
 	private void doDelete()
 	{
+		if ( ! confirmDelete( "vehicle" ))
+			return;
+		
 		Integer vehicleNo = tab.getSelectedItem();
 		Vehicles.delete( vehicleNo );
 		populateList();

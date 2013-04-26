@@ -106,6 +106,9 @@ public class RankLogic extends TabController<RankTab>
 	
 	private void doDelete()
 	{
+		if ( ! confirmDelete( "rank" ))
+			return;
+		
 		Integer rankNo = tab.getSelectedItem();
 		Ranks.delete( rankNo );
 		populateTabList();
