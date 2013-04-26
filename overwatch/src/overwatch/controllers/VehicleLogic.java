@@ -118,8 +118,7 @@ public class VehicleLogic extends TabController<VehicleTab>
 	
 	private void populateFields( Integer vehicleNo )
 	{
-		if (vehicleNo == null)
-		{
+		if (vehicleNo == null) {
 			tab.setEnableFieldsAndButtons( false );
 			tab.clearFields();
 			tab.setEnableNewButton( true );
