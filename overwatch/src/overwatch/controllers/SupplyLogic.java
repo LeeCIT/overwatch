@@ -60,6 +60,11 @@ public class SupplyLogic extends TabController<SupplyTab>
 	
 	private void doSave()
 	{
+		if ( ! tab.areAllFieldsValid()) {
+			showFieldValidationError();
+			return;
+		}
+		
 		Integer supplyNo    = tab.getSelectedItem();
 		String  supplyName  = tab.name  .field.getText();
 		Integer supplyCount = tab.amount.field.getTextAsInt();
