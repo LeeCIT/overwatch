@@ -521,7 +521,6 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 				if ( ! DatabaseConstraints.isValidName( text ) )
 					return false;
 				
-				
 				EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
 					" SELECT loginName            " +
 					" FROM Personnel              " +

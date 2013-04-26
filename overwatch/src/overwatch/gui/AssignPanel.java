@@ -21,7 +21,7 @@ import net.miginfocom.swing.MigLayout;
  * See main() in this file for a usage example. 
  * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -318,11 +318,9 @@ public class AssignPanel<T> extends JPanel
 	
 	private T getSelectedItem()
 	{
-		if (this.hasSelectedItem()) {
-			return list.getSelectedValue().ref;
-		} else {
-			return null;
-		}
+		if (this.hasSelectedItem())
+			 return list.getSelectedValue().ref;
+		else return null;
 	}
 	
 	
@@ -337,8 +335,7 @@ public class AssignPanel<T> extends JPanel
 	
 	
 	
-	private void setup( String labelText, ArrayList<NameRefPair<T>> items )
-	{
+	private void setup( String labelText, ArrayList<NameRefPair<T>> items ) {
 		setupComponents( labelText );
 		setupActions();
 		setListItems( items );
@@ -366,6 +363,8 @@ public class AssignPanel<T> extends JPanel
 		add( buttAdd, 	 "split 2, right"  );
 		add( buttRemove, "split 2, right" );
 		
+		buttRemove.setEnabled( false );
+		
 
 		addListSelectionListener( new ListSelectionListener() {
 			public void valueChanged( ListSelectionEvent e ) {
@@ -386,8 +385,8 @@ public class AssignPanel<T> extends JPanel
 			public void keyTyped( KeyEvent e )
 			{
 				if (e.getKeyCode() == KeyEvent.VK_DELETE) 
-					if ( ! list.isSelectionEmpty() )
-						removeItem( getSelectedItem() );
+				if ( ! list.isSelectionEmpty() )
+					removeItem( getSelectedItem() );
 			}
 		});
 		
