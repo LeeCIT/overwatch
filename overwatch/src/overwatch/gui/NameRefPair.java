@@ -13,7 +13,7 @@ package overwatch.gui;
  * Often you don't want the default toString() to be what is displayed.
  * 
  * @author Lee Coakley
- * @version 2
+ * @version 3
  */
 
 
@@ -47,6 +47,7 @@ public class NameRefPair<T>
 		if (this.getClass() != other.getClass()) 
 			return false;
 		
+		if (ref != null)
 		if (ref.equals( ((NameRefPair<T>)other).ref ))
 			return true;
 		
