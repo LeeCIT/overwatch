@@ -6,6 +6,8 @@ package overwatch.controllers;
 import overwatch.core.Gui;
 import overwatch.db.Database;
 import overwatch.db.DatabaseConstraints;
+import overwatch.db.DatabaseIntegrityException;
+import overwatch.db.EnhancedPreparedStatement;
 import overwatch.db.EnhancedResultSet;
 import overwatch.db.Personnel;
 import overwatch.db.Ranks;
@@ -99,6 +101,7 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 		}
 		
 		
+		
 		// Fetch rank key
 		Integer rankNo = Ranks.getNumber( rankName );
 		
@@ -114,15 +117,20 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 		
 		
 		// Commit changes
-		boolean modified = Personnel.save( personNo, name, age, sex, salary, rankNo, loginName );
-		
-		
-		// Check if that actually worked
-		if ( ! modified) {
-			showDeletedError( "person" );
-			populateList();
+		try {
+			// Check if that actually worked
+			if ( ! Personnel.save( personNo, name, age, sex, salary, rankNo, loginName )) {
+				showDeletedError( "person" );
+				populateList();
+				return;
+			}
+		} catch (DatabaseIntegrityException ex) {
+			Gui.showError( "Non-Unique Login Name", "Login name must be unique." );
 			return;
 		}
+		
+		
+		
 		
 		
 		// Update title bar
@@ -508,8 +516,28 @@ public class PersonnelLogic extends TabController<PersonnelTab>
 		
 		
 		tab.addLoginValidator( new CheckedFieldValidator() {
-			public boolean check( String text ) {
-				return DatabaseConstraints.isValidName( text );
+			public boolean check( String text )
+			{
+				if ( ! DatabaseConstraints.isValidName( text ) )
+					return false;
+				
+				
+				EnhancedPreparedStatement eps = new EnhancedPreparedStatement(
+					" SELECT loginName            " +
+					" FROM Personnel              " +
+					" WHERE loginName = <<login>> " +
+					"   AND personNo != <<user>>  " +
+					" LIMIT 1;                    "
+				);
+				
+				try {
+					eps.set( "login", text );
+					eps.set( "user",  tab.getSelectedItem() );
+					return eps.query().isEmpty();
+				}
+				finally {
+					eps.close();
+				}
 			}
 		});
 	}
