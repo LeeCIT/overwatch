@@ -57,4 +57,9 @@ public abstract class TabController<T extends Component>
 			"Some of the fields contian invalid inputs.  All must be valid before saving."
 		);
 	}
+	
+	
+	public boolean confirmDelete( String item ) {
+		return Gui.askConfirm( "Confirm Delete", "Are you sure you want to delete this " + item + "?" );
+	}
 }
