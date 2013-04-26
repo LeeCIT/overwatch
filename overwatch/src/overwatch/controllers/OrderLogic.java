@@ -215,17 +215,28 @@ public class OrderLogic extends TabController<OrderTab>
 					return;
 				}
 				
-				o.send.setEnabled( false );
-				
 				String subject = o.message.subject.field.getText();
 				String sendTo  = o.message.sentTo .field.getText();
 				String body    = o.message.body         .getText();
 				
+				Integer personSentTo = Personnel.getNumber( sendTo );
+				Integer personSentBy = LoginManager.getCurrentUser();
+				
+				if (personSentBy.equals( personSentTo )) {
+					Gui.showError(
+						"Can't Order Yourself",
+						"You can't send an order to yourself."
+					);
+					return;
+				}
+				
+				o.send.setEnabled( false );
+				
 				Orders.create(
 					subject,
 					body,
-					LoginManager.getCurrentUser(),
-					Personnel.getNumber( sendTo )
+					personSentBy,
+					personSentTo
 				);
 				
 				refreshSearchPanels();
@@ -247,7 +258,8 @@ public class OrderLogic extends TabController<OrderTab>
 		o.addValidatorSend( new CheckedFieldValidator() {
 			public boolean check( String text ) {
 				return DatabaseConstraints.isValidName( text )
-				    && DatabaseConstraints.personExists( text );
+				    && DatabaseConstraints.personExists( text )
+				    && LoginManager.getCurrentUser() != Personnel.getNumber(text);
 			}
 		});
 		
@@ -272,6 +284,7 @@ public class OrderLogic extends TabController<OrderTab>
 		o.addSendEllipsisListener( new ActionListener() {
 			public void actionPerformed( ActionEvent e ) {
 				PersonnelPicker p = new PersonnelPicker( o.message.sentTo.button, pickListen );
+				p.removeItem( LoginManager.getCurrentUser() );
 				p.setVisible( true );
 			}
 		});
