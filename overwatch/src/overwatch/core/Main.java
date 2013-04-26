@@ -122,12 +122,15 @@ public class Main
 				frame.setLocationByPlatform( true );
 				frame.setVisible( true );
 				
-				frame.addLoginListener( new LoginListener() {
-					public void onLoginAttempt( String user, String pass )
-					{
-						if (LoginManager.doLogin( user, pass ))
+				frame.addLoginListener( new LoginListener()
+				{
+					public void onLoginAttempt( String user, String pass ) {
+						if (LoginManager.doLogin( user, pass )) {
+							 frame.loginButton.setEnabled( false );
 						     createMainGui( frame );
-						else Gui.showError( "Invalid Login", "Incorrect login details." );
+						} else {
+							Gui.showError( "Invalid Login", "Incorrect login details." );
+						}
 					}
 				});
 			}

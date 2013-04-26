@@ -19,7 +19,7 @@ import net.miginfocom.swing.MigLayout;
  * User login GUI.
  * 
  * @author  Lee Coakley
- * @version 2
+ * @version 3
  * @see     LoginListener
  */
 
@@ -29,11 +29,11 @@ import net.miginfocom.swing.MigLayout;
 
 public class LoginFrame extends JFrame
 {
-	private JLabel		   nameLabel;
-	private JTextField     nameField;
-	private JLabel         passLabel;
-	private JPasswordField passField;
-	private JButton		   loginButton;
+	public JLabel		  nameLabel;
+	public JTextField     nameField;
+	public JLabel         passLabel;
+	public JPasswordField passField;
+	public JButton		  loginButton;
 	
 	private ArrayList<LoginListener> loginListeners;
 	
@@ -53,6 +53,13 @@ public class LoginFrame extends JFrame
 		setupActions();
 	}
 	
+	
+	
+	
+	
+	public void addLoginButtonListener( ActionListener al ) {
+		loginButton.addActionListener( al );
+	}
 	
 	
 	
@@ -117,7 +124,8 @@ public class LoginFrame extends JFrame
 		passField.addKeyListener( commonFieldListener );
 
 		loginButton.addActionListener( new ActionListener() {
-			public void actionPerformed( ActionEvent e ) {
+			public void actionPerformed( ActionEvent e )
+			{
 				notifyLoginListeners(
 					nameField.getText(),
 					new String(passField.getPassword())
@@ -155,6 +163,7 @@ public class LoginFrame extends JFrame
 		loginButton.setEnabled( canLogin );
 		
 		if (canLogin)
+		if (this.isFocusOwner())
 		if (ke.getKeyCode() == KeyEvent.VK_ENTER)
 			loginButton.doClick();
 	}
