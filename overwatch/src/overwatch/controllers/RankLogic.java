@@ -151,14 +151,13 @@ public class RankLogic extends TabController<RankTab>
 		
 		if (ers.isEmpty()) {
 			showDeletedError( "rank" );
+			populateTabList();
 			return;
 		}
 		
 		tab.number       .field.setText("" + ers.getElemAs( "rankNo",         Integer.class ));
 		tab.name         .field.setText(     ers.getElemAs( "name",           String .class ));
 		tab.securityLevel.field.setText("" + ers.getElemAs( "privilegeLevel", Integer.class ));
-		
-		populateTabList();
 	}
 	
 	
