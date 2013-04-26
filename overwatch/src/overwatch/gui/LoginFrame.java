@@ -163,7 +163,6 @@ public class LoginFrame extends JFrame
 		loginButton.setEnabled( canLogin );
 		
 		if (canLogin)
-		if (this.isFocusOwner())
 		if (ke.getKeyCode() == KeyEvent.VK_ENTER)
 			loginButton.doClick();
 	}
