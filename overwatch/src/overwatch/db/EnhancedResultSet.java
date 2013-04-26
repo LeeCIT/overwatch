@@ -376,7 +376,7 @@ public class EnhancedResultSet implements Iterable<Object[]>
 	
 	
 	
-	private void populateRowData( ResultSet set ) throws SQLException
+	private synchronized void populateRowData( ResultSet set ) throws SQLException
 	{
 		rows = new ArrayList< Object[] >();
 		
