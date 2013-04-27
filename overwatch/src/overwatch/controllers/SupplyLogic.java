@@ -25,7 +25,7 @@ import javax.swing.event.ListSelectionListener;
  * 
  * @author  John Murphy
  * @author  Lee Coakley
- * @version 4
+ * @version 5
  */
 
 
@@ -119,23 +119,21 @@ public class SupplyLogic extends TabController<SupplyTab>
 			Database.queryKeyNamePairs( "Supplies", "supplyNo", "name", Integer[].class )
 		);
 	}
+
 	
-		
 	
 	
 	
 	private void populateFields(Integer supplyNo)
 	{
-		if(supplyNo == null)
-		{
+		if(supplyNo == null) {
 			tab.setEnableFieldsAndButtons( false );
 			tab.clearFields();
 			tab.setEnableNewButton( true );
 			return;
 		}
-		else {
-			tab.setEnableFieldsAndButtons( true );
-		}
+		
+		tab.setEnableFieldsAndButtons( true );
 		
 		EnhancedResultSet ers = Database.query(
 			"SELECT supplyNo, name, count " +
@@ -147,6 +145,7 @@ public class SupplyLogic extends TabController<SupplyTab>
 			tab.number.field.setText( "" + ers.getElemAs( "supplyNo", Integer.class ));
 			tab.name  .field.setText(      ers.getElemAs( "name",     String .class ));
 			tab.amount.field.setText( "" + ers.getElemAs( "count",    Integer.class ));
+			tab.used  .field.setText( "" + Supplies.getUsedCount(supplyNo) );
 		} else {
 			showDeletedError( "supply" );
 			populateTabList();

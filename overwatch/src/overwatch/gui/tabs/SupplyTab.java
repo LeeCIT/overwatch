@@ -18,7 +18,7 @@ import overwatch.gui.LabelFieldPair;
  * 
  * @author  John Murphy
  * @author  Lee Coakley
- * @version 5
+ * @version 6
  */
 
 
@@ -30,6 +30,7 @@ public class SupplyTab extends GenericPanelButtoned<Integer>
 	public final LabelFieldPair number;
 	public final LabelFieldPair name;
 	public final LabelFieldPair amount;
+	public final LabelFieldPair used;
 	
 	
 	
@@ -39,11 +40,13 @@ public class SupplyTab extends GenericPanelButtoned<Integer>
 	{
 		super( "Supplies" );	
 		
-		number	= addLabelledField( "Number:" );
-		name	= addLabelledField( "Name:"   );
-		amount  = addLabelledField( "Amount:" );	
+		number = addLabelledField( "Number:" );
+		name   = addLabelledField( "Name:"   );
+		amount = addLabelledField( "Amount:" );
+		used   = addLabelledField( "Used:"   );
 		
-		number.field.setEditable(false);
+		number.field.setEditable( false );
+		used  .field.setEditable( false );
 	}
 	
 	
