@@ -73,7 +73,7 @@ public class Ranks
 		  	"update Ranks                       " +
 		  	"set name           = <<name>>,     " +
 		  	"	 privilegeLevel = <<level>>     " +
-		  	"where vehicleNo = <<num>>;         "
+		  	"where rankNo = <<num>>;            "
 		);
 		
 		try {
