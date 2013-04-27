@@ -91,15 +91,34 @@ public class Supplies
 	
 	
 	/**
+	 * Get number of this supply allocated to whatever
+	 * @param supplyNo
+	 * @return
+	 */
+	public static int getUsedCount( Integer supplyNo )
+	{
+		EnhancedResultSet ers = Database.query(
+			"select count(supplyNo) as used " +
+			"from SquadSupplies             " +
+			"where supplyNo = " + supplyNo + ";"
+		);
+		
+		return (int) (long) ers.getElemAs( "used", Long.class );
+	}
+	
+	
+	
+	
+	/**
 	 * Gets the name of the supply
 	 * @return The name of the supply
 	 */
-	public static String getSupplyName(int supplyNo)
+	public static String getSupplyName( Integer supplyNo )
 	{
 		EnhancedResultSet ers = Database.query(
-				"SELECT name "		+
-				"FROM Supplies " 	+
-				"WHERE supplyNo = " + supplyNo + " ;"
+			"SELECT name "		+
+			"FROM Supplies " 	+
+			"WHERE supplyNo = " + supplyNo + " ;"
 		);
 		
 		if (ers.isEmpty())
