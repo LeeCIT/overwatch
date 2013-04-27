@@ -79,6 +79,9 @@ public class SquadLogic extends TabController<SquadTab>
 	
 	private void doSave( Integer squadNo )
 	{
+		if (squadNo == null)
+			return;
+		
 		String  squadName 	  = tab.name.     field.getText();
 		String  commanderName = tab.commander.field.getText();
 		Integer commanderNo	  = Personnel.getNumber( commanderName );
@@ -105,7 +108,7 @@ public class SquadLogic extends TabController<SquadTab>
 		}
 		
 		populateSquadsList();
-		tab.setSelectedItem( squadNo );
+		tab.setSelectedItem( squadNo==null ? null : squadNo );
 	}
 	
 	
